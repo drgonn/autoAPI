@@ -1,0 +1,267 @@
+import os
+
+
+
+
+def write_goapis(root,ojson):
+    app = ojson.get('app')
+    appdir = os.path.join(root, f'{app}/go/src')
+    host = ojson.get("host")
+    appname = ojson.get("name")
+    for table in ojson.get('databases')[:2]:
+        if not table.get('api'):
+            continue
+        tableclass = table.get('table')
+        tablenames = table.get('table').lower() + 's'
+        tablename = table.get('table').lower()
+        apifile = table.get('table')
+        zh = table.get('zh')
+        apidir = os.path.join(appdir,f'{apifile}.py')
+        docdir = os.path.join(doc,f'{zh}接口.md')
+        w = open(apidir,'w+')
+        im = """package main
+
+"""
+        w.write(im)
+        w.write(f"from app.models import {tableclass}")
+        for parent in table.get('parents'):
+            parentname = parent.get('name')
+            w.write(f",{parentname}")
+#         if table.get('many'):
+#             for many in table.get('many'):
+#                 manyclass = many.get('name')
+#                 w.write(f",{manyclass}")
+#         w.write("\n\n")
+#
+#         for column in table.get('args'):
+#             argname = column.get('name')
+#
+#         w.write(f"@api.route('/{tablename}/<int:id>', methods=['GET'])\n")
+#         w.write(f"def get_{tablename}(id):\n")
+#         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+#         to_what = 'to_json' #if table.get('nodetail') else 'to_detail'
+#
+#         w.write(f"""\n\treturn jsonify({{'ret':True,
+#                     'error_code':0,
+#                     'records':{tablename}.{to_what}(),
+#                     }})""")
+#         w.write(f"\n\n")
+#
+#
+#         w.write(f"@api.route('/{tablename}', methods=['POST'])\n")
+#         w.write(f"def create_{tablename}():\n")
+#         for column in table.get('args'):
+#             if column.get('need'):
+#                 argname = column.get('name')
+#                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
+#             if column.get('postmust'):
+#                 w.write(f"\tif {argname} is None:\n")
+#                 w.write(f"\t\treturn jsonify({{'ret': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
+#         for parent in table.get('parents'):
+#             parentname = parent.get('name')
+#             parenttablename = parentname.lower()
+#             if parent.get('name') == 'User':
+#                 w.write(f"\t{parenttablename} = g.current_user\n ")
+#             elif parent.get('need'):
+#                 index = parent.get('index')
+#                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
+#                 w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
+#                 if parent.get('postmust'):
+#                     w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
+#                     w.write(f"\n\tif {parenttablename} is None:\n")
+#                     w.write(f"""\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+#                     w.write(f"\t\n")
+#         w.write(f"\n\t{tablename} = {tableclass}(")
+#         for column in table.get('args'):
+#             if column.get('need'):
+#                 argname = column.get('name')
+#                 w.write(f"{argname}={argname},")
+#         for parent in table.get('parents'):
+#             parentname = parent.get('name')
+#             parenttablename = parentname.lower()
+#             if parent.get('need'):
+#                 w.write(f"{parenttablename}_id={parenttablename}.id,")
+#         if table.get('appfilter'):
+#             w.write(f"app_id=g.app.id,")
+#         w.write(f")\n")
+#
+#         if table.get("many"):
+#             for many in table.get('many'):
+#                 manyclass = many.get('name')
+#                 manyname = many.get('name').lower()
+#                 w.write(f"\n\t{manyname}Ids = request.json.get('{manyname}Ids') or []\n")
+#                 w.write(f"\tfor {manyname}Id in {manyname}Ids:\n")
+#                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
+#                 w.write(f"\t\tif {manyname} is None:\n")
+#                 w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+#                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
+#                 w.write(f"\t\n")
+#
+#         w.write(f"\n\tdb.session.add({tablename})\n")
+#         w.write(f"\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
+#         w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
+#         w.write(f"\t\treturn jsonify({{'ret': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
+#         w.write(f"""\n\treturn jsonify({{'ret':True,
+#                     'error_code':0,
+#                     }})""")
+#         w.write(f"\n\n")
+#
+#
+#
+#         w.write(f"@api.route('/{tablename}/<int:id>', methods=['PUT'])\n")
+#         w.write(f"def modify_{tablename}(id):\n")
+#         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+#         for column in table.get('args'):
+#             if column.get('putneed'):
+#                 argname = column.get('name')
+#                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
+#         for parent in table.get('parents'):
+#             parentname = parent.get('name')
+#             parenttablename = parentname.lower()
+#             if parent.get('putneed'):
+#                 index = parent.get('index')
+#                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
+#                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
+#                 w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+#                 w.write(f"\tif {parenttablename} is None:\n")
+#                 w.write(f"""\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+#                 w.write(f"\t\n")
+#
+#         for column in table.get('args'):
+#             if column.get('putneed'):
+#                 argname = column.get('name')
+#                 w.write(f"\t{tablename}.{argname} = {argname} or {tablename}.{argname}\n")
+#         for parent in table.get('parents'):
+#             parentname = parent.get('name')
+#             parenttablename = parentname.lower()
+#             if parent.get('putneed'):
+#                 w.write(f"\t{tablename}.{parenttablename}_id = {parenttablename}.id\n")
+#         if table.get("many"):
+#             for many in table.get('many'):
+#                 manyclass = many.get('name')
+#                 manyname = many.get('name').lower()
+#                 w.write(f"\n\t{manyname}Ids = request.json.get('{manyname}Ids') or []\n")
+#                 w.write(f"\toriginalIds = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
+#                 w.write(f"\tnewIds = list(set({manyname}Ids).difference(set(originalIds)))\n")
+#                 w.write(f"\toldIds = list(set(originalIds).difference(set({manyname}Ids)))\n")
+#                 w.write(f"\tfor {manyname}Id in newIds:\n")
+#                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
+#                 w.write(f"\t\tif {manyname} is None:\n")
+#                 w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+#                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
+#                 w.write(f"\tfor {manyname}Id in oldIds:\n")
+#                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
+#                 w.write(f"\t\t{tablename}.{manyname}s.remove({manyname})\n")
+#                 w.write(f"\t\n")
+#
+#         w.write(f"\tdb.session.add({tablename})\n")
+#         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
+#         w.write(f"\t\tlogging.error(f'修改数据库发生错误,已经回退:{{e}}')\n")
+#         w.write(f"""\treturn jsonify({{'ret':True,
+#                     'error_code':0,
+#                     }})""")
+#         w.write(f"\n\n")
+#
+#
+#
+#         w.write(f"@api.route('/{tablename}/<int:id>', methods=['DELETE'])\n")
+#         w.write(f"def delete_{tablename}(id):\n")
+#         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+#
+#         for table in ojson.get('databases'):
+#             if table.get('parents'):
+#                 for parent in  table.get("parents"):
+#                     if parent.get("name") == tableclass:
+#                         w.write(f"\tif {tablename}.{table.get('table').lower()}s.first() is not None:\n")
+#                         w.write(f"\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{tablename}还拥有{table.get('table').lower()}，不能删除'}})\n")
+#
+#         w.write(f"\tdb.session.delete({tablename})\n")
+#         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
+#         w.write(f"\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
+#         w.write(f"""\n\treturn jsonify({{'ret':True,
+#                 'error_code':0,
+#                 }})""")
+#         w.write(f"\n\n")
+#
+#
+#
+#         w.write(f"@api.route('/{tablename}/list', methods=['POST'])\n")
+#         w.write(f"def list_{tablename}():\n")
+#         w.write(f"\torder = request.json.get('order')\n")
+#         w.write(f"\tsortfield = request.json.get('sortfield')\n")
+#         w.write(f"\tpage = int(request.json.get('pageindex', 1))\n")
+#         w.write(f"\tpagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))\n")
+#         w.write(f"\tpagesize = 20 if pagesize < 10 else pagesize\n")
+#
+#         if table.get('userfilter'):
+#             w.write(f"\n\tif is_admin():\n")
+#             if table.get('appfilter'):
+#                 w.write(f"\t\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+#             else:
+#                 w.write(f"\t\ttotal_{tablenames} = {tableclass}.query\n")
+#             w.write(f"\telse:\n")
+#             w.write(f"\t\ttotal_{tablenames} = g.current_user.{tablenames}\n")
+#         else:
+#             if table.get('appfilter'):
+#                 w.write(f"\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+#             else:
+#                 w.write(f"\ttotal_{tablenames} = {tableclass}.query\n")
+#
+#         for parent in table.get('parents'):
+#             parentname = parent.get('name')
+#             parenttablename = parentname.lower()
+#             if parent.get('need'):
+#                 index = parent.get('index')
+#                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
+#                 w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
+#                 w.write(f"\tif {argname} is not None:\n")
+#                 w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+#                 w.write(f"\t\tif {parenttablename} is None:\n")
+#                 w.write(f"""\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
+#                 w.write(f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
+#
+#
+#         for column in table.get('args'):
+#             if column.get('need') or column.get('listneed'):
+#                 argname = column.get('name')
+#                 if column.get('type') =='float':
+#                     pass
+#                 else:
+#                     w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
+#                     w.write(f"\tif {argname} is not None:\n")
+#                     if column.get('like'):
+#                         w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n")
+#                     else:
+#                         w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n")
+#                 w.write(f"\tif sortfield is not None and sortfield == '{argname}':\n")
+#                 w.write(f"\t\tif order:\n")
+#                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
+#                 w.write(f"\t\telse:\n")
+#                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
+#         w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
+#         w.write(f"\tpage = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page\n")
+#         w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pagesize, error_out = False)\n")
+#         w.write(f"\t{tablenames} = pagination.items\n")
+#         w.write(f"""\n\treturn jsonify({{'ret':True,
+#                     'error_code':0,
+#                     'data':{{
+#                         "totalcount": totalcount,
+#                         "pageindex": page,
+#                         "pagesize": pagesize,
+#                         "pagecount": pagination.pages,
+#                         'records':[{tablename}.to_json() for {tablename} in {tablenames}],
+#                     }}}})""")
+#         w.write(f"\n")
+#         w.write(f"\n")
+#         w.close()
+
+def write_goapi_init(root,ojson):
+    appname = ojson.get('app')
+    # initdir = os.path.join(root, f'{appname}/src/app/apiv1/__init__.py')
+    # w = open(initdir, 'w+')
+    # w.write("from flask import Blueprint\napi = Blueprint('api', __name__)\n")
+    # w.write("from app.apiv1 import  auth")
+    # for table in ojson.get('databases'):
+    #     if table.get('api'):
+    #         w.write(f",{table.get('table')}")
+    # w.close()
