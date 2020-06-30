@@ -4,20 +4,28 @@ class Tdb():
     def __init__(self,t):
         if t == "int":
             self.db = "Integer"
+            self.empty = 0
         elif t == "float":
             self.db = "Float"
+            self.empty = 0
         elif t == "str":
             self.db = "String"
+            self.empty = '""'
         elif t == "time":
             self.db = "DateTime"
+            self.empty = '""'
         elif t == "date":
             self.db = "Date"
+            self.empty = '""'
         elif t == "bool":
             self.db = "Boolean"
+            self.empty = 'false'
         elif t == "text":
             self.db = "Text"
+            self.empty = '""'
         else:
             self.db = None
+            self.empty = '""'
 
 class Tdbgo():
     def __init__(self,t):
@@ -38,6 +46,24 @@ class Tdbgo():
         else:
             self.db = None
 
+class Tdbjson():
+    def __init__(self,t):
+        if t == "int":
+            self.db = "int"
+        elif t == "float":
+            self.db = 'float32'
+        elif t == "str":
+            self.db = "string"
+        elif t == "time":
+            self.db = "time.Time"
+        elif t == "date":
+            self.db = "Date"
+        elif t == "bool":
+            self.db = "bool"
+        elif t == "text":
+            self.db = f'string'
+        else:
+            self.db = None
 
 def mkdir(path):
     path=path.strip()

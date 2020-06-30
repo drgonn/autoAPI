@@ -205,11 +205,11 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "safeScore",
+                    "name": "safe_score",
                     "type": "float",
                     "length": "",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -232,7 +232,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "monitAbout",
+                    "name": "monit_about",
                     "type": "text",
                     "length": "",
                     "need": 1,  # 创建时候可以填写的参数
@@ -246,7 +246,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "updateTime",
+                    "name": "update_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -264,7 +264,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -310,7 +310,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -362,7 +362,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -384,7 +384,7 @@ project_json = {
             "repr": "id",
         },  # 桥梁属性值
         {
-            "table": "FileType",
+            "table": "Filetype",
             "api": 1,
             "zh": "文件类型",
             "parents": [
@@ -415,7 +415,6 @@ project_json = {
                     "args": [
                     ],
                 },
-
             ],
             "repr": "name",
         },  # 文件类型
@@ -425,7 +424,7 @@ project_json = {
             "zh": "文件",
             "parents": [
                 {
-                    "name": "FileType",
+                    "name": "Filetype",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -450,11 +449,11 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
+                    "need": 0,  # 创建时候可以填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
                     "mean": "文件名",
                     "args": [
                     ],
@@ -464,7 +463,7 @@ project_json = {
                     "type": "int",
                     # "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -473,7 +472,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "updateTime",
+                    "name": "update_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -491,7 +490,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -532,29 +531,110 @@ project_json = {
                     "args": [
                     ],
                 },
+
+            ],
+            "repr": "name",
+        },  # 产品
+        {
+            "table": "Productimg",
+            "api": 1,
+            "zh": "产品图片",
+            "parents": [
                 {
-                    "name": "img",
+                    "name": "Product",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "产品id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
                     "type": "str",
-                    "length": "128",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "图片名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 产品图片
+        {
+            "table": "Location",
+            "api": 1,
+            "zh": "桥梁位置",
+            "parents": [
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
                     "need": 1,  # 创建时候可以填写的参数
                     "postmust": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "产品图片地址",
+                    "mean": "位置名称",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "latitude",
+                    "type": "float",
+                    # "length": "128",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "纬度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "longitude",
+                    "type": "float",
+                    # "length": "128",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "经度",
                     "args": [
                     ],
                 },
             ],
             "repr": "name",
-        },  # 产品
+        },  # 桥梁位置
         {
             "table": "Device",
             "api": 1,
             "zh": "设备",
             "many":[
                 {
-                    "name": "MonitArg",
+                    "name": "Monitarg",
                 },
             ],
             "parents": [
@@ -577,6 +657,16 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
+                },
+                {
+                    "name": "Location",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "位置id"
                 },
             ],
             "args": [
@@ -606,20 +696,6 @@ project_json = {
                     "args": [
                     ],
                 },
-                {
-                    "name": "position",
-                    "type": "int",
-                    # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "设备位置代号",
-                    "args": [
-                    ],
-                },
-
                 {
                     "name": "exception",
                     "type": "bool",
@@ -653,7 +729,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "updateTime",
+                    "name": "update_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -671,7 +747,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -747,7 +823,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -769,7 +845,7 @@ project_json = {
             "repr": "name",
         },  # 设备日志
         {
-            "table": "MonitGroup",
+            "table": "Monitgroup",
             "api": 1,
             "zh": "监控分组",
             "parents": [
@@ -792,12 +868,12 @@ project_json = {
             "repr": "name",
         },  # 监控分组
         {
-            "table": "MonitType",
+            "table": "Monittype",
             "api": 1,
             "zh": "监控类型",
             "parents": [
                 {
-                    "name": "MonitGroup",
+                    "name": "Monitgroup",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -825,12 +901,12 @@ project_json = {
             "repr": "name",
         },  # 监控类型
         {
-            "table": "MonitArg",
+            "table": "Monitarg",
             "api": 1,
             "zh": "监控参数",
             "parents": [
                 {
-                    "name": "MonitType",
+                    "name": "Monittype",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -858,12 +934,12 @@ project_json = {
             "repr": "name",
         },  # 监控参数
         {
-            "table": "MonitValue",
+            "table": "Monitvalue",
             "api": 1,
             "zh": "监控参数值",
             "parents": [
                 {
-                    "name": "MonitArg",
+                    "name": "Monitarg",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -901,12 +977,12 @@ project_json = {
             "repr": "value",
         },  # 监控参数值
         {
-            "table": "ExceptTrigger",
+            "table": "Excepttrigger",
             "api": 1,
             "zh": "监控参数异常条件",
             "parents": [
                 {
-                    "name": "MonitValue",
+                    "name": "Monitvalue",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -965,7 +1041,7 @@ project_json = {
             "zh": "监控值日志",
             "parents": [
                 {
-                    "name": "MonitValue",
+                    "name": "Monitvalue",
                     "index": "id",
                     "type": "int",
                     "need": 1,  # 创建时候可以填写的参数
@@ -990,7 +1066,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "createTime",
+                    "name": "create_time",
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
@@ -1059,7 +1135,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1092,7 +1168,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1125,7 +1201,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1158,7 +1234,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1191,7 +1267,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1203,7 +1279,7 @@ project_json = {
             "repr": "id",
         },  # 应急抢险队伍管理
         {
-            "table": "EmgReport",
+            "table": "Emgreport",
             "api": 1,
             "zh": "应急报告管理",
             "parents": [
@@ -1224,7 +1300,7 @@ project_json = {
                     "type": "text",
    #                 "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "postmust":0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找

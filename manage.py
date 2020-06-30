@@ -45,8 +45,8 @@ def run(ojson):
 
     godir = os.path.join(root,f'{app}/go/src')
     make_gomodels(godir,ojson)
-    write_api_init(root,ojson)
-    write_apis(root,ojson)
+    write_goapi_init(root,ojson)
+    write_goapis(root,ojson)
 
 
 
