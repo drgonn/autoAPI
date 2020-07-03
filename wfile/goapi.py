@@ -38,6 +38,13 @@ def write_goapis(root,ojson):
         w.write('\t"net/http"\n')
         # w.write('\t"strconv"\n')
         w.write('\t"strings"\n')
+
+        ipt_time = False
+        for column in table.get('args'):
+            if column.get('type') == 'time':
+                ipt_time = True
+        if ipt_time:
+            w.write('\t"time"\n')
         w.write(')\n')
 
 
@@ -100,6 +107,16 @@ def write_goapis(root,ojson):
                 w.write(f'\t\treturn\n')
         w.write('\t}\n')
 
+        for arg in table.get('args'):
+            if arg.get('unique'):
+                aname = arg.get('name')
+                w.write(f'\tvar query{tableclass} {tableclass}\n')
+                w.write(f'\tdb.Where("{aname} = ?", {tablename}.{aname.title()}).First(&query{tableclass})\n')
+                w.write(f'\tif query{tableclass}.ID != 0 {{\n')
+                w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} {aname} 已经存在，不允许重复"}})\n')
+                w.write(f'\t\treturn\n')
+                w.write(f'\t}}\n')
+
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
@@ -120,6 +137,11 @@ def write_goapis(root,ojson):
         for column in table.get('args'):
             if column.get('need'):
                 w.write(f'\t\t{column.get("name").title()} : {tablename}.{column.get("name").title()},\n')
+            if column.get("name") == "create_time":
+                w.write(f'\t\t{column.get("name").title()} : time.Now(),\n')
+            if column.get("name") == "update_time":
+                w.write(f'\t\t{column.get("name").title()} : time.Now(),\n')
+
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
@@ -135,7 +157,7 @@ def write_goapis(root,ojson):
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
         w.write(f'\t\t"ret":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
-        w.write(f'\t\t"id":{tablename}.ID, \n')
+        w.write(f'\t\t"id":db{tableclass}.ID, \n')
         w.write('\t})\n')
         w.write('}\n\n')
 
@@ -200,14 +222,28 @@ def write_goapis(root,ojson):
                 w.write(f'\t\t}}\n')
                 w.write(f'\tdb.Model(&{tablename}).Update("{parentname.lower()}ID",{tablename}.{parentname}ID)\n')
                 w.write(f'\t}}\n')
+
+
+
         for column in table.get('args'):
             if column.get('putneed'):
                 columnname = column.get("name").title()
                 tp = column.get('type')
                 emptyStr = Tdb(tp).empty
                 w.write(f'\tif j{tablename}.{columnname} != {emptyStr} {{\n')
+                if column.get('unique'):
+                    w.write(f'\t\tvar query{tableclass} {tableclass}\n')
+                    w.write(f'\t\tdb.Where("{columnname} = ?", j{tablename}.{columnname}).First(&query{tableclass})\n')
+                    w.write(
+                        f'\t\tif query{tableclass}.ID != 0 && query{tableclass}.{columnname} != {tablename}.{columnname} {{\n')
+                    w.write(
+                        f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} {columnname} 已经存在，不允许重复"}})\n')
+                    w.write(f'\t\t\treturn\n')
+                    w.write(f'\t\t}}\n')
                 w.write(f'\t\tdb.Model(&{tablename}).Update("{columnname}",j{tablename}.{columnname})\n')
                 w.write(f'\t}}\n')
+            if column.get("name") == "update_time":
+                w.write(f'\tdb.Model(&{tablename}).Update("Update_Time",time.Now())\n')
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
         w.write(f'\t\t"ret":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
@@ -297,6 +333,7 @@ def write_goapis(root,ojson):
 
         w.write(f'\tcase {tableclass.lower()}.Pageindex == 0:\n')
         w.write(f'\t\t{tableclass.lower()}.Pageindex = 1\n')
+        w.write(f'\t\tfallthrough\n')
         w.write(f'\tcase {tableclass.lower()}.Pagesize == 0:\n')
         w.write(f'\t\t{tableclass.lower()}.Pagesize = 20\n')
         w.write('\t}\n')
@@ -379,12 +416,14 @@ def write_goapis(root,ojson):
         w.write('\t}\n\n')
 
         w.write(f'\tfor _, item := range item{tableclass}s {{\n')
-        # w.write(f'\tcompleted := false
-        # w.write(f'\tif item.Completed == 1 {
-        # w.write(f'\tcompleted = true
-        # w.write(f'\t	} else {
-        # w.write(f'\t			completed = false
-        # w.write(f'\t		}
+        for parent in table.get('parents'):
+            parentclass = parent.get('name')
+            parentname = parentclass.lower()
+            pname = parent.get('tojson')
+            if pname is not None:
+                w.write(f'\t\tvar {parentname} {parentclass}\n')
+                w.write(f'\t\tdb.First(&{parentname},item.{parentclass}ID)\n')
+
         w.write(f'\t\t_j{tableclass}s = append(_j{tableclass}s, json{tableclass}{{\n')
 
         w.write(f"\t\t\tID : item.ID,\n")
@@ -394,6 +433,9 @@ def write_goapis(root,ojson):
         for parent in table.get('parents'):
             parentname = parent.get('name')
             w.write(f'\t\t\t{parentname}ID : item.{parentname}ID,\n')
+            pname = parent.get('tojson')
+            if pname is not None:
+                w.write(f'\t\t\t{parentname}{pname.title()} : {parentname.lower()}.{pname.title()},\n')
         w.write('\t\t})\n')
         w.write('\t}\n')
 
@@ -431,7 +473,7 @@ def write_goapi_init(root,ojson):
     w.write('\tr.Use(BeforeRequest())\n')
     w.write(f'\tv1 := r.Group("/api/v1/{app}")\n')
     w.write('\t{\n')
-    for table in ojson.get('databases')[:6]:
+    for table in ojson.get('databases'):
         if not table.get('api'):
             continue
         tableclass = table.get('table')
@@ -444,5 +486,5 @@ def write_goapi_init(root,ojson):
         w.write(f'\t\tv1.POST("/{tablename}/list",fetchPage{tableclass})\n')
 
     w.write('\t}\n')
-    w.write('\tr.Run("localhost:8888")\n')
+    w.write('\tr.Run("localhost:20303")\n')
     w.write('}\n')

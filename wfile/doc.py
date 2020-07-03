@@ -88,14 +88,14 @@ def write_docs(root,ojson):
             ptype = parent.get('type')
             postmust = '是' if parent.get('postmust') else '否'
             parenttablename = parentname.lower()
-            argname = f"{parenttablename}{parent.get('index').capitalize()}"
+            argname = f"{parenttablename}_{parent.get('index')}"
             if parent.get('need'):
                 d.write(f"|{argname}|{ptype}|{postmust}|{pmean}|\n")
         if table.get('many'):
             for many in table.get('many'):
                 manyclass = many.get('name')
                 manyname = many.get('name').lower()
-                d.write(f"|{manyname}Ids|List|否|{manyclass}ID列表|\n")
+                d.write(f"|{manyname}_ids|List|否|{manyclass}ID列表|\n")
         d.write("\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
         d.write("```javascript\n{\n\t'ret': true,\n\t'error_code': 0\n}\n```\n")
@@ -120,7 +120,7 @@ def write_docs(root,ojson):
             pmean = parent.get('mean')
             ptype = parent.get('type')
             parenttablename = parentname.lower()
-            argname = f"{parenttablename}{parent.get('index').capitalize()}"
+            argname = f"{parenttablename}_{parent.get('index')}"
             if parent.get('putneed'):
                 d.write(f"|{argname}|{ptype}|否|{pmean}|\n")
         if table.get('many'):
@@ -169,7 +169,7 @@ def write_docs(root,ojson):
             ptype = parent.get('type')
             plistmust = '是' if parent.get('listmust') else '否'
             parenttablename = parentname.lower()
-            argname = f"{parenttablename}{parent.get('index').capitalize()}"
+            argname = f"{parenttablename}_{parent.get('index')}"
             if parent.get('need'):
                 d.write(f"|{argname}|{ptype}|{plistmust}|{pmean}|\n")
         d.write("\n")

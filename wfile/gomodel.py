@@ -14,6 +14,13 @@ def make_gomodels(appdir,app):
     w.write('func init() {\n')
     w.write('\tvar err error\n')
     w.write('\tdb, err = gorm.Open("mysql", "root:781117@/bridge?charset=utf8&parseTime=True&loc=Local")\n')
+
+    w.write('\tdb.SingularTable(true)\n')
+    w.write('\tgorm.DefaultTableNameHandler = func(db * gorm.DB, defaultTableName string) string {\n')
+    w.write('\t\treturn defaultTableName + "s";\n')
+    w.write('\t}\n')
+
+
     w.write('\tif err != nil {\n')
     w.write('\t\tpanic("failed to conect database")\n')
     w.write('\t}\n')
@@ -93,6 +100,9 @@ def make_gomodels(appdir,app):
             parentname = parent.get('name')
             parenttablenames = parentname.lower()
             w.write(f'\t{parentname}ID uint `json:"{parentname.lower()}_id"`\n')
+            pname = parent.get('tojson')
+            if pname is not None:
+                w.write(f'\t{parentname}{pname.title()} string `json:"{parentname.lower()}_{pname}"`\n')
 
         w.write('}\n')
         # for parent in table.get('parents'):

@@ -9,6 +9,8 @@ from wfile.init import make_init
 from wfile.config import write_config
 from wfile.structure import write_deploy,write_model_doc_plant
 from wfile.admin import write_admin
+from wfile.postman import write_postman
+from wfile.xmind import write_xmind
 from wtest import write_test
 from patch  import write_patch
 
@@ -41,6 +43,8 @@ def run(ojson):
 
     write_test(root,ojson)
     # write_patch(root,ojson)
+    write_postman(root,ojson)
+    write_xmind(root,ojson)
 
 
     godir = os.path.join(root,f'{app}/go/src')

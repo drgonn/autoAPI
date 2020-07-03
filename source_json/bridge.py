@@ -2,9 +2,9 @@ project_json = {
     "app":"bridge",                  #文件源，app名
     "dataname":"bridge",                   #数据库名称
     "datapassword":"781117",
-    "host":"http://frp.sealan.tech:20225",                             #文档中的域名地址
+    "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
     "testhost":"frp.sealan.tech",                             #
-    "testport":"20225",                             #
+    "testport":"20303",                             #
     "testprotocol":"http",                             #
     "blues":[
             {
@@ -103,6 +103,7 @@ project_json = {
                     "postmust": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
                     "mean": "省名",
                     "args":[
                     ],
@@ -136,6 +137,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市名",
+                    "unique":1,
                     "args":[
                     ],
                 },
@@ -163,6 +165,7 @@ project_json = {
                     "name":"name",
                     "type":"str",
                     "length":"64",
+                    "unique":1,
                     "need": 1,  # 创建时候可以填写的参数
                     "postmust": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -172,13 +175,69 @@ project_json = {
                     ],
                 },
             ],
-            "repr":"uid",
+            "repr":"name",
         },                  #area
+        {
+            "table":"Bridgetype",
+            "api":1,
+            "zh": "桥梁种类",
+            "parents":[
+            ],
+            "args":[
+                {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    "unique":1,
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁种类名",
+                    "args":[
+                    ],
+                },
+            ],
+            "repr":"name",
+        },                  #桥梁种类
         {
             "table": "Bridge",
             "api": 1,
             "zh": "桥梁",
             "parents": [
+                {
+                    "name": "Bridgetype",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁种类id",
+                    "tojson": "name",    #在json字段当中显示的参数
+                },
+                {
+                    "name": "Province",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "省份id",
+                    "tojson": "name",
+                },
+                {
+                    "name": "City",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "市id",
+                    "tojson": "name",
+                },
                 {
                     "name": "Area",
                     "index": "id",
@@ -188,6 +247,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "行政区id",
+                    "tojson": "name",
                 },
             ],
             "args": [
@@ -201,6 +261,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
                     "mean": "桥梁名",
+                    "unique":1,
                     "args": [
                     ],
                 },
@@ -322,7 +383,7 @@ project_json = {
             "repr": "name",
         },  # 桥梁属性名
         {
-            "table": "PropertyValue",
+            "table": "Propertyvalue",
             "api": 1,
             "zh": "桥梁属性值",
             "parents": [
@@ -769,7 +830,7 @@ project_json = {
             "repr": "name",
         },  # 设备
         {
-            "table": "DeviceLog",
+            "table": "Devicelog",
             "api": 1,
             "zh": "设备日志",
             "parents": [
