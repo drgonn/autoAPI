@@ -5,3 +5,4 @@ __pycache__/
 env/
 ../.idea/
 src/app/static/
+work/

@@ -1,4 +1,4 @@
-from source_json import pay,app,yiyuan,bridge,flask
+from source_json import pay,app,yiyuan,bridge,flask,stock
 
 
 from tools import make_tree
@@ -12,7 +12,6 @@ from wfile.admin import write_admin
 from wfile.postman import write_postman
 from wfile.xmind import write_xmind
 from wtest import write_test
-from patch  import write_patch
 
 from wfile.gomodel import make_gomodels
 from wfile.goapi import write_goapis,write_goapi_init
@@ -21,9 +20,12 @@ import os
 
 # ojson = order.temp_json
 
-def run(ojson):
-    root = os.path.dirname(__file__)
-    root = os.path.join(root,'work')
+def run(ojson,path=False):
+    if not path:
+        root = os.path.dirname(__file__)
+        root = os.path.join(root,'work')
+    else:
+        root = path
     # root = "/mnt/c/Users/dron/OneDrive/work/"
     # res = dict_to_object(ojson)
     # print(res.database[0].table)
@@ -59,9 +61,9 @@ appjson = app.project_json         #执行应用
 
 # run(pjson)
 # run(appjson)
-# yuan = yiyuan.project_json
-# run(yuan)
+stock = stock.project_json
+run(stock,"../stock/backend")
 
-bri = bridge.project_json
-run(bri)
+# bri = bridge.project_json
+# run(bri)
 
