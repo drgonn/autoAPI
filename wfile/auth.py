@@ -1,0 +1,61 @@
+import os
+from tools import Tdb
+
+
+#建立models
+def write_auth(root,ojson):
+    appname = ojson.get('app')
+    initdir = os.path.join(root,f'{appname}/src/app/apiv1/auth.py')
+    w = open(initdir,'w+')
+    
+    auth = ojson.get('auth')
+    if auth is not None:
+
+    w.write('from datetime import datetime')
+    w.write('from flask import g, jsonify,make_response,request, abort, current_app')
+    w.write('from app.models import User, Permission')
+    w.write('from app.apiv1 import api')
+    w.write('from app import db')
+    w.write('from app.tools import certify_token,get_trole,certify_token')
+    w.write('#在所有的访问前做token或密码认证')
+    w.write('@api.before_request')
+    w.write('def before_request():')
+    w.write('\ttoken = request.args.get("token")')
+    w.write('\tif request.endpoint[:8] == "api.test":  # 跳过认证')
+    w.write('\t\treturn')
+    w.write('\tif token:')
+    w.write('\t\tuid = certify_token(token).get("uid")')
+    w.write('\t\tappKey = certify_token(token).get("appKey")')
+    w.write('\t\tuserapp = App.query.filter_by(key=appKey).first() if appKey is not None else None')
+    w.write('\t\tif userapp is None:')
+    w.write('\t\t\treturn jsonify({"ret": False, "error_code": 201001, "errmsg": "缺少app，appKey错误"})')
+    w.write('\t\tif not userapp.activate:')
+    w.write('\t\t\treturn jsonify({"ret": False, "error_code": 201001, "errmsg": "您的服务已经停用，请检查是否是到期"})')
+    w.write('\t\tg.app = userapp')
+    w.write('\t\tif uid:')
+    w.write('\t\t\tg.current_user =  User.query.filter_by(uid=uid).first()')
+    w.write('\t\t\tg.role = get_trole(token)')
+    w.write('\t\t\tg.token_used = True')
+    w.write('\t\telse:')
+    w.write('\t\t\treturn jsonify({"ret": False, "error_code": 201001, "errmsg": "token 失效"})')
+    w.write('\t\tif g.current_user is None:')
+    w.write('\t\t\tuser = User(uid=uid)')
+    w.write('\t\t\tdb.session.add(user)')
+    w.write('\t\t\tdb.session.commit()')
+    w.write('\t\t\tg.current_user = user')
+    w.write('\telse:')
+    w.write('\t\treturn jsonify({"ret": False, "error_code": -4, "errmsg": "tocken 失效"})')
+    w.write('@api.teardown_request')
+    w.write('def teardown_request(exception=None):')
+    w.write('\tdb.session.close()')
+    w.write('')
+    w.write('@api.route("/test", methods=["GET"])')
+    w.write('def test():')
+    w.write('\treturn jsonify({')
+    w.write('\t\t"ret": True,')
+    w.write('\t\t"error_code": 0,')
+    w.write('\t\t"qrurl" : "order test OK"')
+    w.write('\t})')
+
+
+    w.close()

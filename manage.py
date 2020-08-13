@@ -11,6 +11,8 @@ from wfile.structure import write_deploy,write_model_doc_plant
 from wfile.admin import write_admin
 from wfile.postman import write_postman
 from wfile.xmind import write_xmind
+from wfile.init_manage import write_init
+from wfile.auth import write_auth
 from wtest import write_test
 
 from wfile.gomodel import make_gomodels
@@ -47,6 +49,9 @@ def run(ojson,path=False):
     # write_patch(root,ojson)
     write_postman(root,ojson)
     write_xmind(root,ojson)
+    write_init(root,ojson)
+    write_auth(root,ojson)
+
 
 
     godir = os.path.join(root,f'{app}/go/src')
@@ -62,7 +67,8 @@ appjson = app.project_json         #执行应用
 # run(pjson)
 # run(appjson)
 stock = stock.project_json
-run(stock,"../stock/backend")
+# run(stock,"../stock/backend")
+run(stock)
 
 # bri = bridge.project_json
 # run(bri)

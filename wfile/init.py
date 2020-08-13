@@ -8,10 +8,6 @@ def make_init(root,ojson):
     initdir = os.path.join(root,f'{appname}/src/__init__.py')
     w = open(initdir,'w+')
     w.close()
-    initdir = os.path.join(root,f'{appname}/src/app/__init__.py')
-    w = open(initdir,'w+')
-    w.write(app_init)
-    w.close()
 
     initdir = os.path.join(root,f'{appname}/src/app/decorators.py')
     w = open(initdir,'w+')
@@ -61,51 +57,9 @@ def make_init(root,ojson):
     w = open(initdir,'w+')
     w.write(standard)
     w.close()
-    initdir = os.path.join(root,f'{appname}/src/app/apiv1/auth.py')
-    w = open(initdir,'w+')
-    w.write(auth)
-    w.close()
 
 
-app_init = """from flask import Flask
-from config import config
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
-from flask_mail import Mail
-from celery import Celery
-import redis
-from flasgger import Swagger
-from flask_admin import Admin, BaseView, expose
-# from .initRedisData import initData
-import os
-# Initialize SQLAlchemy
-db = SQLAlchemy()
-swagger = Swagger()
-# Initialize Celery
-celery = Celery()
-mail = Mail()
-from app.admin import admin
-# 初始化（指定要操作的数据库）
-def create_app(config_name = 'default'):
-	app = Flask(__name__, static_url_path='')
-	app.config.from_object(config[config_name])
-	config[config_name].init_app(app)
-	mail.init_app(app)
-	# sqlalchemy
-	db.init_app(app)
-	swagger.init_app(app)
-	# flask-cors
-	CORS(app, supports_credentials=True)
-	# Reids Initialize
-	pool = redis.ConnectionPool(host = app.config['REDIS_HOST'], port = app.config['REDIS_PORT'], decode_responses = True)
-	app.sredis = redis.StrictRedis(connection_pool = pool)
-	app.sredisPipe = app.sredis.pipeline(transaction = True)
-	celery.conf.update(app.config)
-	admin.init_app(app)
-	from app.apiv1 import api as api_blueprint
-	app.register_blueprint(api_blueprint, url_prefix='/api/v1/order')
-	return app
-"""
+
 decorators = """
 from functools import wraps
 from flask import abort,g
@@ -399,74 +353,3 @@ class Permission:
     MANAGE_AGENCY =4
     ADMIN = 16
 """
-auth = """
-from datetime import datetime
-from flask import g, jsonify,make_response,request, abort, current_app
-from app.models import User, Permission
-from app.apiv1 import api
-from app import db
-from app.tools import certify_token,get_trole,certify_token
-#在所有的访问前做token或密码认证
-@api.before_request
-def before_request():
-	token = request.args.get('token')
-	if request.endpoint[:8] == "api.test":  # 跳过认证
-		return
-	if token:
-		uid = certify_token(token).get('uid')
-		appKey = certify_token(token).get('appKey')
-		userapp = App.query.filter_by(key=appKey).first() if appKey is not None else None
-		if userapp is None:
-			return jsonify({"ret": False, "error_code": 201001, "errmsg": "缺少app，appKey错误"})
-		if not userapp.activate:
-			return jsonify({"ret": False, "error_code": 201001, "errmsg": "您的服务已经停用，请检查是否是到期"})
-		g.app = userapp
-		if uid:
-			g.current_user =  User.query.filter_by(uid=uid).first()
-			g.role = get_trole(token)
-			g.token_used = True
-		else:
-			return jsonify({"ret": False, "error_code": 201001, "errmsg": "token 失效"})
-		if g.current_user is None:
-			user = User(uid=uid)
-			db.session.add(user)
-			db.session.commit()
-			g.current_user = user
-	else:
-		return jsonify({"ret": False, "error_code": -4, "errmsg": "tocken 失效"})
-@api.teardown_request
-def teardown_request(exception=None):
-	db.session.close()
-
-@api.route('/test', methods=['GET'])
-def test():
-	return jsonify({
-		"ret": True,
-		"error_code": 0,
-		"qrurl" : "order test OK"
-	})
-"""
-confi = """
-"""
-confi = """
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

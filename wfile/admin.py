@@ -1,4 +1,5 @@
 import os
+"""写入flask-admin"""
 def write_admin(root,ojson):
     appname = ojson.get('app')
 

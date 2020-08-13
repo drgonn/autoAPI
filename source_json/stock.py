@@ -6,6 +6,10 @@ project_json = {
     "testhost":"localhost",                             #
     "testport":"8001",                             #
     "testprotocol":"http",                             #
+    "auth":{},                             #
+    "Flask_APScheduler":{             #flask-apscheduler 的定时任务设置
+        "jobs":[],
+    },
     "blues":[
             {
                 "name":"apiv1",
