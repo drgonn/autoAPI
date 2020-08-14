@@ -41,10 +41,6 @@ def make_init(root,ojson):
     w = open(initdir,'w+')
     w.write(private)
     w.close()
-    initdir = os.path.join(root,f'{appname}/src/manage.py')
-    w = open(initdir,'w+')
-    w.write(manage)
-    w.close()
     initdir = os.path.join(root,f'{appname}/src/gunicorn.conf.py')
     w = open(initdir,'w+')
     w.write(gunicorn)
@@ -275,55 +271,6 @@ hxLGvWmZBu/MYYwKz+OYjM1uc7xe3vpV77/98B5Hp6IhN01nwsSP8X/0660CQQC0
 1fOYsZ2dbgciM+jH+l4hAkATg7kgwMONxn0i+AA0hszKgPzxj7Bvk2E9DLeNtryo
 ghCU2TwwHrBWws/Wv1GucTm3idoIYg5kq7F8qKZBMfQ9
 -----END RSA PRIVATE KEY-----
-"""
-manage = """
-#!/usr/bin/env python
-import os
-from flask_script import Manager, Shell
-from flask_migrate import Migrate, MigrateCommand
-from app import create_app, db, celery
-from app.models import  *
-
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-manager = Manager(app)
-migrate = Migrate(app, db)
-app.app_context().push()
-
-def make_shell_context():
-	return dict(app=app,db=db,User=User,App=App,)
-
-manager.add_command("shell", Shell(make_context=make_shell_context))
-manager.add_command("db", MigrateCommand)
-
-@manager.command
-def db_init():
-	db.create_all()
-
-@manager.command 
-def test():
-	import unittest
-	tests = unittest.TestLoader().discover('tests')
-	unittest.TextTestRunner(verbosity=2).run(tests)
-
-@manager.command 
-def init_base():
-	appnames = ['card','qiot']
-	for name in appnames:
-		if App.query.filter_by(name=name).first() is None:
-			app = App(name=name)
-			db.session.add(app)
-	db.session.commit()
-	cardtype=["续费订单"]
-	app =  App.query.filter_by(name='card').first()
-	for tname in cardtype:
-		if OType.query.filter_by(name=name).first() is None:
-			type = OType(name=name,app=app)
-			db.session.add(type)
-	db.session.commit()
-
-
-if __name__ == "__main__":
-	manager.run()
 """
 gunicorn = """
 workers = 5    # 定义同时开启的处理请求的进程数量，根据网站流量适当调整
