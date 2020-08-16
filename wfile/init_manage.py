@@ -53,7 +53,6 @@ def write_init(root,ojson):
     w.write('\tapp.register_blueprint(api_blueprint, url_prefix="/api/v1/order")')
     w.write('\treturn app')
 
-
     w.close()
 
 

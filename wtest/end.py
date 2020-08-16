@@ -2,7 +2,7 @@ import os
 
 def write_end(root,ojson):
     app = ojson.get('app')
-    testdoc = os.path.join(root, f'{app}/jMeter/{app}_test.jmx')
+    testdoc = os.path.join(root, f'{app}/test/{app}_test.jmx')
     w = open(testdoc,'a')
     w.write(end)
 

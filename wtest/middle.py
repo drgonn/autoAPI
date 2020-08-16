@@ -85,7 +85,7 @@ def random_arg(type):
 
 def write_middle(root,ojson):
     app = ojson.get('app')
-    testdoc = os.path.join(root, f'{app}/jMeter/{app}_test.jmx')
+    testdoc = os.path.join(root, f'{app}/test/{app}_test.jmx')
     w = open(testdoc,'a')
     crud = [("创建","POST",'',False),
             ("列表","POST",'/list','$.data.records[-1].id'),

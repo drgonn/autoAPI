@@ -33,7 +33,7 @@ def run(ojson,path=False):
     # print(res.database[0].table)
     app     = ojson.get('app')
     blues   = ojson.get('blues')
-    make_tree(root,app,blues)
+    make_tree(root,app,blues)          #建立文件夹
     appdir = os.path.join(root,f'{app}/src/app')
     make_models(appdir,ojson)
     make_init(root,ojson)

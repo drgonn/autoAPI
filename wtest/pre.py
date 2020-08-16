@@ -2,7 +2,7 @@ import os
 
 def write_pre(root,ojson):
     app = ojson.get('app')
-    testdoc = os.path.join(root, f'{app}/jMeter/{app}_test.jmx')
+    testdoc = os.path.join(root, f'{app}/test/{app}_test.jmx')
     pre = f"""
 <?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="5.0" jmeter="5.2.1">

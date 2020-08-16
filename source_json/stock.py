@@ -1,9 +1,9 @@
 project_json = {
     "app":"stock",                  #文件源，app名
     "dataname":"stock",                   #数据库名称
-    "datapassword":"781117",
+    "datapassword":"7811175yy",
     "host":"http://localhost:8001",                             #文档中的域名地址
-    "testhost":"localhost",                             #
+    "testhost":"localhost",                             #  test开头的都被用在postman当中做测试
     "testport":"8001",                             #
     "testprotocol":"http",                             #
     "auth":None,                             #
@@ -54,9 +54,9 @@ project_json = {
     ],                             #
     "databases":[                   #数据库表
         {
-            "table":"Province",
+            "table":"Stock",
             "api":1,
-            "zh": "省",
+            "zh": "股票",
             "parents":[
             ],
             "args":[

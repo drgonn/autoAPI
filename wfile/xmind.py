@@ -10,7 +10,7 @@ def write_xmind(root,ojson):
     port = ojson.get("testport")                                #
     protocol= ojson.get("testprotocol")                             #
 
-    testdoc = os.path.join(root, f'{app}/jMeter/{app}_xmind.md')
+    testdoc = os.path.join(root, f'{app}/test/{app}_xmind.md')
     w = open(testdoc,'w+')
     w.write(f'# {app}\n\n')
     crud = [("创建","POST",'',False),

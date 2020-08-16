@@ -19,7 +19,7 @@ def write_postman(root,ojson):
         ],
         "protocolProfileBehavior": {}
     }
-    testdoc = os.path.join(root, f'{app}/jMeter/postman_reset.json')
+    testdoc = os.path.join(root, f'{app}/test/postman_reset.json')
     w = open(testdoc,'w+')
     crud = [("创建","POST",'',False),
             ("列表","POST",'/list','$.data.records[-1].id'),
@@ -66,14 +66,14 @@ def write_postman(root,ojson):
                 else:
                     id = False
                     path += p
-                single_api = single_str(zh,typezh,host,port,protocol,path,method,pjsonstr,tablename,id)
+                single_api = single_str(zh,typezh,host,port,protocol,path,method,pjsonstr,tablename,id,app)
                 r["item"].append(single_api)
 
     js = json.dumps(r)
 
     w.write(js)
     w.close()
-def single_str(zh,typezh,host,port,protocol,path,method,pjson,tablename,id):
+def single_str(zh,typezh,host,port,protocol,path,method,pjson,tablename,id,appname):
     # print(zh, path, method, pjson)
     item ={
     "name": zh + typezh,
@@ -99,7 +99,7 @@ def single_str(zh,typezh,host,port,protocol,path,method,pjson,tablename,id):
             "path": [
                 "api",
                 "v1",
-                "bridge",
+                appname,
                 tablename,
             ],
             "query": [

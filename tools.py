@@ -81,7 +81,7 @@ def make_tree(root,app,blues):             #建立所有文件夹
     path = os.path.join(root,app)
     mkdir(path)
     mkdir(os.path.join(path,'doc'))
-    mkdir(os.path.join(path,'jMeter'))
+    mkdir(os.path.join(path,'test'))
     mkdir(os.path.join(path,'src'))
     mkdir(os.path.join(path,'src/app'))
     mkdir(os.path.join(path,'src/app/admin'))

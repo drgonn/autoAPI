@@ -40,7 +40,7 @@ class DevelopmentConfig(Config):
 	SQL_DATABASE = os.environ.get('SQL_DATABASE') or "{dataname}"
 	SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{{SQL_NAME}}:{{SQL_PASSWORD}}@{{SQL_HOST}}/{{SQL_DATABASE}}'
 
-	# SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:781117@127.0.0.1:3306/dcv3qiot"
+	# SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:7811175yy@127.0.0.1:3306/dcv3qiot"
 
 
 
@@ -64,7 +64,7 @@ class TestingConfig(Config):
 	CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 	# Database configuration
 	SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
-		"mysql+pymysql://root:781117@127.0.0.1:3306/test"
+		"mysql+pymysql://root:7811175yy@127.0.0.1:3306/test"
 	WTF_CSRF_ENABLED = False
 	QIOT_URL = os.environ.get('QIOT_URL') or "https://iot.sealan.tech/mina/"
 
