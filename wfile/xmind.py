@@ -41,7 +41,7 @@ def write_xmind(root,ojson):
                             argtype = column.get('type')
                             pjson[argname] = random_arg('int')
                 elif typezh == "列表":
-                    pjson['pageindex'] = 1
+                    pjson['current'] = 1
                     pjson['pagesize'] = 15
                     bean = f"{table.get('table')}_id"
                 elif typezh == "修改":

@@ -74,7 +74,7 @@ def write_goapis(root,ojson):
         # w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
         # to_what = 'to_json' #if table.get('nodetail') else 'to_detail'
         #
-        # w.write(f"""\n\treturn jsonify({{'ret':True,
+        # w.write(f"""\n\treturn jsonify({{'success':True,
         #             'error_code':0,
         #             'records':{tablename}.{to_what}(),
         #             }})""")
@@ -171,15 +171,15 @@ def write_goapis(root,ojson):
 #                 w.write(f"\tfor {manyname}Id in {manyname}Ids:\n")
 #                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
 #                 w.write(f"\t\tif {manyname} is None:\n")
-#                 w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+#                 w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
 #                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
 #                 w.write(f"\t\n")
 #
 #         w.write(f"\n\tdb.session.add({tablename})\n")
 #         w.write(f"\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
 #         w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
-#         w.write(f"\t\treturn jsonify({{'ret': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
-#         w.write(f"""\n\treturn jsonify({{'ret':True,
+#         w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
+#         w.write(f"""\n\treturn jsonify({{'success':True,
 #                     'error_code':0,
 #                     }})""")
 #         w.write(f"\n\n")
@@ -266,7 +266,7 @@ def write_goapis(root,ojson):
 #                 w.write(f"\tfor {manyname}Id in newIds:\n")
 #                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
 #                 w.write(f"\t\tif {manyname} is None:\n")
-#                 w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+#                 w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
 #                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
 #                 w.write(f"\tfor {manyname}Id in oldIds:\n")
 #                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
@@ -304,14 +304,14 @@ def write_goapis(root,ojson):
 
 
         w.write(f'type page{tableclass} struct {{\n')
-        w.write('\tPageindex int `json:"pageindex"`\n')
+        w.write('\tPageindex int `json:"current"`\n')
         w.write('\tPagesize int `json:"pagesize"`\n')
         w.write('\tOrder int `json:"order"`\n')
         w.write('\tSortfield string `json:"sortfield"`\n')
         w.write(f'\tjson{tableclass}\n')
         w.write('\t}\n\n')
         w.write(f'type rpage{tableclass} struct {{\n')
-        w.write('\tPageindex int `json:"pageindex"`\n')
+        w.write('\tPageindex int `json:"current"`\n')
         w.write('\tPagesize int `json:"pagesize"`\n')
         w.write('\tPagecount int `json:"pagecount"`\n')
         w.write('\tTotalcount int `json:"totalcount"`\n')

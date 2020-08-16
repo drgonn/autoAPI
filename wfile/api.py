@@ -53,7 +53,7 @@ from app.tools import is_admin,get_permission
         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
         to_what = 'to_json' #if table.get('nodetail') else 'to_detail'
 
-        w.write(f"""\n\treturn jsonify({{'ret':True,
+        w.write(f"""\n\treturn jsonify({{'success':True,
                     'error_code':0,
                     'records':{tablename}.{to_what}(),
                     }})""")
@@ -68,7 +68,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
             if column.get('postmust'):
                 w.write(f"\tif {argname} is None:\n")
-                w.write(f"\t\treturn jsonify({{'ret': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
+                w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
@@ -81,7 +81,7 @@ from app.tools import is_admin,get_permission
                 if parent.get('postmust'):
                     w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
                     w.write(f"\n\tif {parenttablename} is None:\n")
-                    w.write(f"""\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+                    w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
                     w.write(f"\t\n")
         w.write(f"\n\t{tablename} = {tableclass}(")
         for column in table.get('args'):
@@ -105,15 +105,15 @@ from app.tools import is_admin,get_permission
                 w.write(f"\tfor {manyname}Id in {manyname}Ids:\n")
                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
                 w.write(f"\t\tif {manyname} is None:\n")
-                w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+                w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
                 w.write(f"\t\n")
 
         w.write(f"\n\tdb.session.add({tablename})\n")
         w.write(f"\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"\t\treturn jsonify({{'ret': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
-        w.write(f"""\n\treturn jsonify({{'ret':True,
+        w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
+        w.write(f"""\n\treturn jsonify({{'success':True,
                     'error_code':0,
                     }})""")
         w.write(f"\n\n")
@@ -136,7 +136,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
                 w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
                 w.write(f"\tif {parenttablename} is None:\n")
-                w.write(f"""\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+                w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
                 w.write(f"\t\n")
 
         for column in table.get('args'):
@@ -159,7 +159,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\tfor {manyname}Id in newIds:\n")
                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
                 w.write(f"\t\tif {manyname} is None:\n")
-                w.write(f"\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+                w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
                 w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
                 w.write(f"\tfor {manyname}Id in oldIds:\n")
                 w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}Id)\n")
@@ -169,7 +169,7 @@ from app.tools import is_admin,get_permission
         w.write(f"\tdb.session.add({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'修改数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"""\treturn jsonify({{'ret':True,
+        w.write(f"""\treturn jsonify({{'success':True,
                     'error_code':0,
                     }})""")
         w.write(f"\n\n")
@@ -185,12 +185,12 @@ from app.tools import is_admin,get_permission
                 for parent in  table.get("parents"):
                     if parent.get("name") == tableclass:
                         w.write(f"\tif {tablename}.{table.get('table').lower()}s.first() is not None:\n")
-                        w.write(f"\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{tablename}还拥有{table.get('table').lower()}，不能删除'}})\n")
+                        w.write(f"\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table.get('table').lower()}，不能删除'}})\n")
 
         w.write(f"\tdb.session.delete({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"""\n\treturn jsonify({{'ret':True,
+        w.write(f"""\n\treturn jsonify({{'success':True,
                 'error_code':0,
                 }})""")
         w.write(f"\n\n")
@@ -199,9 +199,10 @@ from app.tools import is_admin,get_permission
 
         w.write(f"@api.route('/{tablename}/list', methods=['POST'])\n")
         w.write(f"def list_{tablename}():\n")
+        w.write(f"\tprint(request.json)\n")
         w.write(f"\torder = request.json.get('order')\n")
-        w.write(f"\tsortfield = request.json.get('sortfield')\n")
-        w.write(f"\tpage = int(request.json.get('pageindex', 1))\n")
+        w.write(f"\tsorter = request.json.get('sorter')\n")
+        w.write(f"\tpage = int(request.json.get('current', 1))\n")
         w.write(f"\tpagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))\n")
         w.write(f"\tpagesize = 20 if pagesize < 10 else pagesize\n")
 
@@ -229,7 +230,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\tif {argname} is not None:\n")
                 w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
                 w.write(f"\t\tif {parenttablename} is None:\n")
-                w.write(f"""\t\t\treturn jsonify({{'ret':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
+                w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
                 w.write(f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
 
 
@@ -245,24 +246,21 @@ from app.tools import is_admin,get_permission
                         w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n")
                     else:
                         w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n")
-                w.write(f"\tif sortfield is not None and sortfield == '{argname}':\n")
-                w.write(f"\t\tif order:\n")
+                w.write(f"\tif sorter:\n")
+                w.write(f"\t\tif sorter.get('{argname}')== 'ascend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
-                w.write(f"\t\telse:\n")
+                w.write(f"\t\tif sorter.get('{argname}')== 'descend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
         w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
         w.write(f"\tpage = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page\n")
         w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pagesize, error_out = False)\n")
         w.write(f"\t{tablenames} = pagination.items\n")
-        w.write(f"""\n\treturn jsonify({{'ret':True,
+        w.write(f"""\n\treturn jsonify({{
+                    'success':True,
                     'error_code':0,
-                    'data':{{
-                        "totalcount": totalcount,
-                        "pageindex": page,
-                        "pagesize": pagesize,
-                        "pagecount": pagination.pages,
-                        'records':[{tablename}.to_json() for {tablename} in {tablenames}],
-                    }}}})""")
+                    'total':totalcount,
+                    'data':[{tablename}.to_json() for {tablename} in {tablenames}]
+                    }})""")
         w.write(f"\n")
         w.write(f"\n")
         w.close()
