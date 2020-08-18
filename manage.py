@@ -33,12 +33,14 @@ def run(ojson,path=False):
     # print(res.database[0].table)
     app     = ojson.get('app')
     blues   = ojson.get('blues')
+
     make_tree(root,app,blues)          #建立文件夹
     appdir = os.path.join(root,f'{app}/src/app')
     make_models(appdir,ojson)
     make_init(root,ojson)
     write_api_init(root,ojson)
     write_apis(root,ojson)
+
     write_docs(root,ojson)
     write_config(root,ojson)
     write_deploy(root,ojson)
