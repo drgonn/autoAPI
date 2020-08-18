@@ -18,7 +18,6 @@ def write_apis(root,ojson):
         apifile = table.get('table')
         zh = table.get('zh')
         apidir = os.path.join(appdir,f'apiv1/{apifile}.py')
-        docdir = os.path.join(doc,f'{zh}接口.md')
         w = open(apidir,'w+')
         im = """from datetime import date,timedelta,datetime
 import logging
@@ -270,8 +269,15 @@ def write_api_init(root,ojson):
     initdir = os.path.join(root, f'{appname}/src/app/apiv1/__init__.py')
     w = open(initdir, 'w+')
     w.write("from flask import Blueprint\napi = Blueprint('api', __name__)\n")
-    w.write("from app.apiv1 import  auth")
-    for table in ojson.get('databases'):
-        if table.get('api'):
-            w.write(f",{table.get('table')}")
+    w.write("from app.apiv1 import auth")
+    # for table in ojson.get('databases'):
+    #     if table.get('api'):
+    #         w.write(f",{table.get('table')}")
+
+    api_dir = os.path.dirname(initdir)
+
+    for  fname in os.listdir(api_dir):
+        if fname.endswith('.py') and fname != '__init__.py' and fname != 'auth.py':
+            print(fname)
+            w.write(f", {fname[:-3]}")
     w.close()

@@ -38,7 +38,6 @@ def run(ojson,path=False):
     appdir = os.path.join(root,f'{app}/src/app')
     make_models(appdir,ojson)
     make_init(root,ojson)
-    write_api_init(root,ojson)
     write_apis(root,ojson)
 
     write_docs(root,ojson)
@@ -61,7 +60,8 @@ def run(ojson,path=False):
     write_goapi_init(root,ojson)
     write_goapis(root,ojson)
 
-
+    #生成文件后做的事情
+    write_api_init(root,ojson)
 
 pjson = pay.project_json         #执行支付系统
 appjson = app.project_json         #执行应用

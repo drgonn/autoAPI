@@ -46,7 +46,7 @@ def write_init(root,ojson):
     w.write('\tapp.sredisPipe = app.sredis.pipeline(transaction = True)\n')
     w.write('\tcelery.conf.update(app.config)\n')
     w.write('\tfrom app.apiv1 import api as api_blueprint\n')
-    w.write('\tapp.register_blueprint(api_blueprint, url_prefix="/api/v1/order")\n')
+    w.write(f'\tapp.register_blueprint(api_blueprint, url_prefix="/api/v1/{appname}")\n')
     w.write('\treturn app\n')
 
     w.close()

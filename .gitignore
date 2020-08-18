@@ -8,4 +8,7 @@ env/
 ../.idea/
 .idea/
 src/app/static/
-work/
+bridge/
+go/
+doc/
+test/

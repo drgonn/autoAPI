@@ -29,12 +29,8 @@ def write_docs(root,ojson):
     for table in ojson.get('databases'):
         if not table.get('api'):
             continue
-        tableclass = table.get('table')
-        tablenames = table.get('table').lower() + 's'
         tablename = table.get('table').lower()
-        apifile = table.get('table')
         zh = table.get('zh')
-        apidir = os.path.join(appdir,f'apiv1/{apifile}.py')
         docdir = os.path.join(doc,f'{zh}接口.md')
         d = open(docdir,'w+')
 

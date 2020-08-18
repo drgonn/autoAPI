@@ -32,5 +32,5 @@ def create_app(config_name = "default"):
 	app.sredisPipe = app.sredis.pipeline(transaction = True)
 	celery.conf.update(app.config)
 	from app.apiv1 import api as api_blueprint
-	app.register_blueprint(api_blueprint, url_prefix="/api/v1/order")
+	app.register_blueprint(api_blueprint, url_prefix="/api/v1/stock")
 	return app
