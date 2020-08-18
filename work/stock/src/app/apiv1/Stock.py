@@ -22,6 +22,8 @@ def get_stock(id):
                     'records':stock.to_json(),
                     })
 
+
+
 @api.route('/stock', methods=['POST'])
 def create_stock():
 	ts_code = request.json.get('ts_code')
