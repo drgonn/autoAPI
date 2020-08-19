@@ -23,6 +23,7 @@ def insert_stock():
 		if Stock.query.filter_by(ts_code=d.ts_code).first() is not None:
 			continue
 		print(df['name'][i])
+
 		s = Stock(
 			id = int(d.ts_code[:6]),
 			ts_code = d.ts_code,
@@ -61,3 +62,5 @@ def get_daily(ts_code,start_date,end_date):
 				   end_date=end_date,
 				   )
 	return df
+
+# 备用行情

@@ -240,6 +240,190 @@ project_json = {
             ],
             "repr":"name",
         },                  #stock
+        {
+            "table":"Day",
+            "api":1,
+            "zh": "日行情",
+            "parents":[
+                {
+                    "name": "Stock",
+                    "index": "id",
+                    "type": "int",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "日数据id",
+                },
+            ],
+            "args":[
+                {
+                    "name": "symbol",
+                    "type": "str",
+                    "length": "16",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "六位代号",
+                    "args": [
+                        {
+                            "name": "unique",
+                            "value": "True",
+                        },
+                        {
+                            "name": "index",
+                            "value": "True",
+                        },
+
+                    ],
+                },
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名称",
+                },
+                {
+                    "name": "area",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "地区",
+                },
+                {
+                    "name": "industry",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "行业",
+                },
+                {
+                    "name": "fullname",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "全名",
+                },
+                {
+                    "name": "enname",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "英文名",
+                },
+                {
+                    "name": "market",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易板块",
+                },
+                {
+                    "name": "exchange",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易所代码",
+                },
+                {
+                    "name": "curr_type",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易货币",
+                },
+                {
+                    "name": "list_status",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "上市状态： L上市 D退市 P暂停上市",
+                },
+                {
+                    "name": "list_date",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "上市日期",
+                },
+                {
+                    "name": "delist_date",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "退市日期",
+                },
+                {
+                    "name": "is_hs",
+                    "type": "str",
+                    "length": "8",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "是否沪深港通标的",
+                },
+                {
+                    "name": "price",
+                    "type": "float",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "现价",
+                },
+            ],
+            "repr":"name",
+        },                  #每日数据
 
     ]
 }
