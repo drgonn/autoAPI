@@ -13,6 +13,7 @@ from app import db
 from app.tools import is_admin,get_permission
 from app.models import Stock
 
+
 @api.route('/stock/<int:id>', methods=['GET'])
 def get_stock(id):
 	stock = Stock.query.get_or_404(id)
@@ -131,6 +132,8 @@ def modify_stock(id):
 @api.route('/stock/<int:id>', methods=['DELETE'])
 def delete_stock(id):
 	stock = Stock.query.get_or_404(id)
+	if stock.days.first() is not None:
+		return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
 	db.session.delete(stock)
 
 	try:
@@ -145,7 +148,7 @@ def delete_stock(id):
 
 @api.route('/stock/list', methods=['POST'])
 def list_stock():
-	print(request.json)
+	# print(request.json)
 	order = request.json.get('order')
 	sorter = request.json.get('sorter')
 	page = int(request.json.get('current', 1))
@@ -153,136 +156,102 @@ def list_stock():
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_stocks = Stock.query
 
-	ts_code = request.json.get('ts_code')
-	if ts_code is not None:
-		total_stocks = total_stocks.filter_by(ts_code=ts_code)
-	if sorter:
-		if sorter.get('ts_code')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.ts_code.asc())
-		if sorter.get('ts_code')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.ts_code.desc())
+	stockId = request.json.get('stockId')
+	if stockId is not None:
+		stock = Stock.query.filter_by(id=stockId).first()
+		if stock is None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})
+		else:
+			total_stocks = total_stocks.filter_by(stock_id=stock.id)
 
-	symbol = request.json.get('symbol')
-	if symbol is not None:
-		total_stocks = total_stocks.filter_by(symbol=symbol)
+	trade_date = request.json.get('trade_date')
+	if trade_date is not None:
+		total_stocks = total_stocks.filter_by(trade_date=trade_date)
 	if sorter:
-		if sorter.get('symbol')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.symbol.asc())
-		if sorter.get('symbol')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.symbol.desc())
-
-	name = request.json.get('name')
-	if name is not None:
-		total_stocks = total_stocks.filter_by(name=name)
+		if sorter.get('trade_date')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.trade_date.asc())
+		if sorter.get('trade_date')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.trade_date.desc())
 	if sorter:
-		if sorter.get('name')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.name.asc())
-		if sorter.get('name')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.name.desc())
-
-	area = request.json.get('area')
-	if area is not None:
-		total_stocks = total_stocks.filter_by(area=area)
+		if sorter.get('close')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.close.asc())
+		if sorter.get('close')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.close.desc())
 	if sorter:
-		if sorter.get('area')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.area.asc())
-		if sorter.get('area')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.area.desc())
-
-	industry = request.json.get('industry')
-	if industry is not None:
-		total_stocks = total_stocks.filter_by(industry=industry)
+		if sorter.get('turnover_rate')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.turnover_rate.asc())
+		if sorter.get('turnover_rate')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.turnover_rate.desc())
 	if sorter:
-		if sorter.get('industry')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.industry.asc())
-		if sorter.get('industry')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.industry.desc())
-
-	fullname = request.json.get('fullname')
-	if fullname is not None:
-		total_stocks = total_stocks.filter_by(fullname=fullname)
+		if sorter.get('turnover_rate_f')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.turnover_rate_f.asc())
+		if sorter.get('turnover_rate_f')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.turnover_rate_f.desc())
 	if sorter:
-		if sorter.get('fullname')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.fullname.asc())
-		if sorter.get('fullname')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.fullname.desc())
-
-	enname = request.json.get('enname')
-	if enname is not None:
-		total_stocks = total_stocks.filter_by(enname=enname)
+		if sorter.get('volume_ratio')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.volume_ratio.asc())
+		if sorter.get('volume_ratio')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.volume_ratio.desc())
 	if sorter:
-		if sorter.get('enname')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.enname.asc())
-		if sorter.get('enname')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.enname.desc())
-
-	market = request.json.get('market')
-	if market is not None:
-		total_stocks = total_stocks.filter_by(market=market)
+		if sorter.get('pe')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.pe.asc())
+		if sorter.get('pe')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.pe.desc())
 	if sorter:
-		if sorter.get('market')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.market.asc())
-		if sorter.get('market')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.market.desc())
-
-	exchange = request.json.get('exchange')
-	if exchange is not None:
-		total_stocks = total_stocks.filter_by(exchange=exchange)
+		if sorter.get('pe_ttm')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.pe_ttm.asc())
+		if sorter.get('pe_ttm')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.pe_ttm.desc())
 	if sorter:
-		if sorter.get('exchange')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.exchange.asc())
-		if sorter.get('exchange')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.exchange.desc())
-
-	curr_type = request.json.get('curr_type')
-	if curr_type is not None:
-		total_stocks = total_stocks.filter_by(curr_type=curr_type)
+		if sorter.get('pb')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.pb.asc())
+		if sorter.get('pb')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.pb.desc())
 	if sorter:
-		if sorter.get('curr_type')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.curr_type.asc())
-		if sorter.get('curr_type')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.curr_type.desc())
-
-	list_status = request.json.get('list_status')
-	if list_status is not None:
-		total_stocks = total_stocks.filter_by(list_status=list_status)
+		if sorter.get('ps')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.ps.asc())
+		if sorter.get('ps')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.ps.desc())
 	if sorter:
-		if sorter.get('list_status')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.list_status.asc())
-		if sorter.get('list_status')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.list_status.desc())
-
-	list_date = request.json.get('list_date')
-	if list_date is not None:
-		total_stocks = total_stocks.filter_by(list_date=list_date)
+		if sorter.get('ps_ttm')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.ps_ttm.asc())
+		if sorter.get('ps_ttm')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.ps_ttm.desc())
 	if sorter:
-		if sorter.get('list_date')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.list_date.asc())
-		if sorter.get('list_date')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.list_date.desc())
-
-	delist_date = request.json.get('delist_date')
-	if delist_date is not None:
-		total_stocks = total_stocks.filter_by(delist_date=delist_date)
+		if sorter.get('dv_ratio')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.dv_ratio.asc())
+		if sorter.get('dv_ratio')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.dv_ratio.desc())
 	if sorter:
-		if sorter.get('delist_date')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.delist_date.asc())
-		if sorter.get('delist_date')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.delist_date.desc())
-
-	is_hs = request.json.get('is_hs')
-	if is_hs is not None:
-		total_stocks = total_stocks.filter_by(is_hs=is_hs)
+		if sorter.get('dv_ttm')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.dv_ttm.asc())
+		if sorter.get('dv_ttm')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.dv_ttm.desc())
 	if sorter:
-		if sorter.get('is_hs')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.is_hs.asc())
-		if sorter.get('is_hs')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.is_hs.desc())
+		if sorter.get('total_share')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.total_share.asc())
+		if sorter.get('total_share')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.total_share.desc())
 	if sorter:
-		if sorter.get('price')== 'ascend':
-			total_stocks = total_stocks.order_by(Stock.price.asc())
-		if sorter.get('price')== 'descend':
-			total_stocks = total_stocks.order_by(Stock.price.desc())
+		if sorter.get('float_share')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.float_share.asc())
+		if sorter.get('float_share')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.float_share.desc())
+	if sorter:
+		if sorter.get('free_share')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.free_share.asc())
+		if sorter.get('free_share')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.free_share.desc())
+	if sorter:
+		if sorter.get('total_mv')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.total_mv.asc())
+		if sorter.get('total_mv')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.total_mv.desc())
+	if sorter:
+		if sorter.get('circ_mv')== 'ascend':
+			total_stocks = total_stocks.order_by(Stock.circ_mv.asc())
+		if sorter.get('circ_mv')== 'descend':
+			total_stocks = total_stocks.order_by(Stock.circ_mv.desc())
 	totalcount = total_stocks.with_entities(func.count(Stock.id)).scalar()
 	page = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page
 	pagination = total_stocks.paginate(page, per_page = pagesize, error_out = False)

@@ -18,11 +18,14 @@ class Stock(db.Model):
 	exchange = db.Column(db.String(64))
 	curr_type = db.Column(db.String(64))
 	list_status = db.Column(db.String(64))
-	list_date = db.Column(db.String(64))
-	delist_date = db.Column(db.String(64))
+	list_date = db.Column(db.Date)
+	delist_date = db.Column(db.Date)
 	is_hs = db.Column(db.String(8))
 	price = db.Column(db.Float)
-	
+
+
+	# 每日指标
+
 	def to_json(self):
 		return{
 			'id':self.id,
@@ -45,3 +48,51 @@ class Stock(db.Model):
 
 	def __repr__(self):
 		return '<Stock %r>' % self.name
+
+class Day(db.Model):
+	__tablename__='days'
+	id = db.Column(db.Integer, primary_key=True)
+	trade_date = db.Column(db.Date)
+	close = db.Column(db.Float)
+	turnover_rate = db.Column(db.Float)
+	turnover_rate_f = db.Column(db.Float)
+	volume_ratio = db.Column(db.Float)
+	pe = db.Column(db.Float)
+	pe_ttm = db.Column(db.Float)
+	pb = db.Column(db.Float)
+	ps = db.Column(db.Float)
+	ps_ttm = db.Column(db.Float)
+	dv_ratio = db.Column(db.Float)
+	dv_ttm = db.Column(db.Float)
+	total_share = db.Column(db.Float)
+	float_share = db.Column(db.Float)
+	free_share = db.Column(db.Float)
+	total_mv = db.Column(db.Float)
+	circ_mv = db.Column(db.Float)
+	stock_id = db.Column(db.Integer, db.ForeignKey('stocks.id'))
+	stock = db.relationship('Stock', backref=db.backref('days', lazy='dynamic'))
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'trade_date':self.trade_date,
+			'close':self.close,
+			'turnover_rate':self.turnover_rate,
+			'turnover_rate_f':self.turnover_rate_f,
+			'volume_ratio':self.volume_ratio,
+			'pe':self.pe,
+			'pe_ttm':self.pe_ttm,
+			'pb':self.pb,
+			'ps':self.ps,
+			'ps_ttm':self.ps_ttm,
+			'dv_ratio':self.dv_ratio,
+			'dv_ttm':self.dv_ttm,
+			'total_share':self.total_share,
+			'float_share':self.float_share,
+			'free_share':self.free_share,
+			'total_mv':self.total_mv,
+			'circ_mv':self.circ_mv,
+		}
+
+	def __repr__(self):
+		return '<Day %r>' % self.name

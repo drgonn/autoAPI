@@ -1,5 +1,6 @@
-import requests
 import re
+
+import requests
 
 
 def get_pai_ming(code):
@@ -13,4 +14,3 @@ def get_pai_ming(code):
     print(type(pm))
     return pm
 
-get_pai_ming('000651')

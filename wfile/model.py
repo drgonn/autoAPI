@@ -28,7 +28,7 @@ def make_models(appdir,app):
             dbtype = Tdb(tp).db
             length = column.get('length')
             w.write(f"\t{name} = db.Column(db.{dbtype}")
-            if length is not None and length != '':
+            if length is not None and length != '' and tp == 'str':
                 w.write(f"({length})")
             if column.get('args'):
                 for arg in column.get('args'):

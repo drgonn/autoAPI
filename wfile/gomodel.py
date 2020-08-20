@@ -93,7 +93,6 @@ def make_gomodels(appdir,app):
             name = column.get('name')
             tp = column.get('type')
             dbtype = Tdbjson(tp).db
-            length = column.get('length')
             w.write(f'\t{name.title()} {dbtype} `json:"{name}"`')
             w.write(f"\n")
         for parent in table.get('parents'):
