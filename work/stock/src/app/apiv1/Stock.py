@@ -148,7 +148,7 @@ def delete_stock(id):
 
 @api.route('/stock/list', methods=['POST'])
 def list_stock():
-	# print(request.json)
+	print(request.json)
 	order = request.json.get('order')
 	sorter = request.json.get('sorter')
 	page = int(request.json.get('current', 1))

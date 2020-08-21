@@ -246,9 +246,9 @@ from app.tools import is_admin,get_permission
                     else:
                         w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n")
                 w.write(f"\tif sorter:\n")
-                w.write(f"\t\tif sorter.get('{argname}')== 'ascend':\n")
+                w.write(f"\t\tif sorter.get('{argname}') == 'ascend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
-                w.write(f"\t\tif sorter.get('{argname}')== 'descend':\n")
+                w.write(f"\t\telif sorter.get('{argname}') == 'descend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
         w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
         w.write(f"\tpage = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page\n")

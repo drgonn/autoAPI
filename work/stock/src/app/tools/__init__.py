@@ -79,7 +79,7 @@ def getinusedevice(uid):  # 获取有任务设备ID列表
     logging.error(url)
     r = requests.request("post", url, json={"uid": uid}).json()
     print(r)
-    if r.get("ret"):
+    if r.get("success"):
         return r.get("data")
 
 

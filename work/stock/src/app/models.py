@@ -27,6 +27,8 @@ class Stock(db.Model):
 	# 每日指标
 
 	def to_json(self):
+		last_trade_date = self.days.order_by(Day.trade_date.desc()).first()
+
 		return{
 			'id':self.id,
 			'ts_code':self.ts_code,
@@ -43,7 +45,7 @@ class Stock(db.Model):
 			'list_date':self.list_date,
 			'delist_date':self.delist_date,
 			'is_hs':self.is_hs,
-			'price':self.price,
+			'price':None if not last_trade_date else last_trade_date.close,
 		}
 
 	def __repr__(self):

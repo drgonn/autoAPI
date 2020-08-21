@@ -54,7 +54,7 @@ def write_goapis(root,ojson):
         w.write(f'\t{tablename}ID := c.Param("id")\n')
         w.write(f'\tdb.First(&{tablename}, {tablename}ID)\n')
         w.write(f'\tif {tablename}.ID == 0 {{\n')
-        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
+        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
         w.write(f'\t\treturn\n')
         w.write(f'\t}}\n')
         w.write(f'\t_{tablename} :=  json{tableclass}{{\n')
@@ -62,7 +62,7 @@ def write_goapis(root,ojson):
         for arg in table.get('args'):
             w.write(f'\t\t{arg.get("name").title()} : {tablename}.{arg.get("name").title()},\n')
         w.write(f'\t}}\n')
-        w.write(f'\tc.JSON(http.StatusOK, gin.H{{"ret": true, "error_code":0, "data": _{tablename}}})\n')
+        w.write(f'\tc.JSON(http.StatusOK, gin.H{{"success": true, "error_code":0, "data": _{tablename}}})\n')
         w.write('}\n')
         w.write('\n')
 
@@ -89,21 +89,21 @@ def write_goapis(root,ojson):
         w.write(f'\terr := c.BindJSON(&{tablename})\n')
         w.write(f'\tswitch {{\n')
         w.write(f'\tcase err != nil:\n')
-        w.write(f'\t\tc.JSON(200,gin.H{{"ret":false,"error_code": -1,"errmsg":"Post data err"}})\n')
+        w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"Post data err"}})\n')
         w.write(f'\t\treturn\n')
         for arg in table.get('args'):
             if arg.get('postmust'):
                 tp = arg.get('type')
                 emptyStr = Tdb(tp).empty
                 w.write(f'\tcase {tablename}.{arg.get("name").title()} == {emptyStr}:\n')
-                w.write(f'\t\tc.JSON(200,gin.H{{"ret":false,"error_code": -1,"errmsg":"{arg.get("name")} 参数缺失"}})\n')
+                w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"{arg.get("name")} 参数缺失"}})\n')
                 w.write(f'\t\treturn\n')
 
         for parent in table.get('parents'):
             parentname = parent.get('name')
             if parent.get('postmust'):
                 w.write(f'\tcase {tablename}.{parentname}ID == 0:\n')
-                w.write(f'\t\tc.JSON(200,gin.H{{"ret":false,"error_code": -1,"errmsg":"{parentname}ID 参数缺失"}})\n')
+                w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"{parentname}ID 参数缺失"}})\n')
                 w.write(f'\t\treturn\n')
         w.write('\t}\n')
 
@@ -113,7 +113,7 @@ def write_goapis(root,ojson):
                 w.write(f'\tvar query{tableclass} {tableclass}\n')
                 w.write(f'\tdb.Where("{aname} = ?", {tablename}.{aname.title()}).First(&query{tableclass})\n')
                 w.write(f'\tif query{tableclass}.ID != 0 {{\n')
-                w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} {aname} 已经存在，不允许重复"}})\n')
+                w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "{tableclass} {aname} 已经存在，不允许重复"}})\n')
                 w.write(f'\t\treturn\n')
                 w.write(f'\t}}\n')
 
@@ -129,7 +129,7 @@ def write_goapis(root,ojson):
                 w.write(f'\t{parentname.lower()}ID := {tablename}.{parentname}ID\n')
                 w.write(f'\tdb.First(&{parentname.lower()}, {parentname.lower()}ID)\n')
                 w.write(f'\tif {parentname.lower()}.ID == 0 {{\n')
-                w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
+                w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
                 w.write(f'\t\treturn\n')
                 w.write(f'\t}}\n')
 
@@ -155,7 +155,7 @@ def write_goapis(root,ojson):
         w.write(f'\t}}\n')
         w.write(f'\tdb.Save(&db{tableclass})\n')
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
-        w.write(f'\t\t"ret":true,\n')
+        w.write(f'\t\t"success":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
         w.write(f'\t\t"id":db{tableclass}.ID, \n')
         w.write('\t})\n')
@@ -192,7 +192,7 @@ def write_goapis(root,ojson):
         w.write(f'\t{tablename}ID := c.Param("id")\n')
         w.write(f'\tdb.First(&{tablename}, {tablename}ID)\n')
         w.write(f'\tif {tablename}.ID == 0 {{\n')
-        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
+        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
         w.write(f'\t\treturn\n')
         w.write(f'\t}}\n')
 
@@ -200,7 +200,7 @@ def write_goapis(root,ojson):
         w.write(f'\terr := c.BindJSON(&j{tablename})\n')
         w.write(f'\tswitch {{\n')
         w.write(f'\tcase err != nil:\n')
-        w.write(f'\t\tc.JSON(200,gin.H{{"ret":false,"error_code": -1,"errmsg":"Post data err"}})\n')
+        w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"Post data err"}})\n')
         w.write(f'\t\treturn\n')
         w.write('\t}\n')
 
@@ -217,7 +217,7 @@ def write_goapis(root,ojson):
                 w.write(f'\t\t{parentname.lower()}ID := j{tablename}.{parentname}ID\n')
                 w.write(f'\t\tdb.First(&{parentname.lower()}, {parentname.lower()}ID)\n')
                 w.write(f'\t\tif {parentname.lower()}.ID == 0 {{\n')
-                w.write(f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
+                w.write(f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
                 w.write(f'\t\t\treturn\n')
                 w.write(f'\t\t}}\n')
                 w.write(f'\tdb.Model(&{tablename}).Update("{parentname.lower()}ID",{tablename}.{parentname}ID)\n')
@@ -237,7 +237,7 @@ def write_goapis(root,ojson):
                     w.write(
                         f'\t\tif query{tableclass}.ID != 0 && query{tableclass}.{columnname} != {tablename}.{columnname} {{\n')
                     w.write(
-                        f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} {columnname} 已经存在，不允许重复"}})\n')
+                        f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "{tableclass} {columnname} 已经存在，不允许重复"}})\n')
                     w.write(f'\t\t\treturn\n')
                     w.write(f'\t\t}}\n')
                 w.write(f'\t\tdb.Model(&{tablename}).Update("{columnname}",j{tablename}.{columnname})\n')
@@ -245,7 +245,7 @@ def write_goapis(root,ojson):
             if column.get("name") == "update_time":
                 w.write(f'\tdb.Model(&{tablename}).Update("Update_Time",time.Now())\n')
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
-        w.write(f'\t\t"ret":true,\n')
+        w.write(f'\t\t"success":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
         w.write(f'\t\t"id":{tablename}.ID, \n')
         w.write('\t})\n')
@@ -279,7 +279,7 @@ def write_goapis(root,ojson):
         w.write(f'\t{tablename}ID := c.Param("id")\n')
         w.write(f'\tdb.First(&{tablename}, {tablename}ID)\n')
         w.write(f'\tif {tablename}.ID == 0 {{\n')
-        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
+        w.write(f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {tablename} found!"}})\n')
         w.write(f'\t\treturn\n')
         w.write(f'\t}}\n')
         for son in sons:
@@ -287,12 +287,12 @@ def write_goapis(root,ojson):
             w.write(f'\tdb.Where("{tablename}ID",{tablename}.ID).First(&{son.lower()})\n')
             w.write(f'\tif {son.lower()}.ID != 0 {{\n')
             w.write(
-                f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tablename}还拥有{son.lower()}，不能删除"}})\n')
+                f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "{tablename}还拥有{son.lower()}，不能删除"}})\n')
             w.write(f'\t\treturn\n')
             w.write(f'\t}}\n')
         w.write(f'\tdb.Delete(&{tablename})\n')
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
-        w.write(f'\t\t"ret":true,\n')
+        w.write(f'\t\t"success":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
         w.write('\t})\n')
         w.write('}\n\n')
@@ -328,7 +328,7 @@ def write_goapis(root,ojson):
         w.write(f'\terr := c.BindJSON(&{tablename})\n')
         w.write(f'\tswitch {{\n')
         w.write(f'\tcase err != nil:\n')
-        w.write(f'\t\tc.JSON(200,gin.H{{"ret":false,"error_code": -1,"errmsg":"Post data err"}})\n')
+        w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"Post data err"}})\n')
         w.write(f'\t\treturn\n')
 
         w.write(f'\tcase {tableclass.lower()}.Pageindex == 0:\n')
@@ -353,7 +353,7 @@ def write_goapis(root,ojson):
                 w.write(f'\t\t{parentname.lower()}ID := {tablename}.{parentname}ID\n')
                 w.write(f'\t\tdb.First(&{parentname.lower()}, {parentname.lower()}ID)\n')
                 w.write(f'\t\tif {parentname.lower()}.ID == 0 {{\n')
-                w.write(f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
+                w.write(f'\t\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "No {parentname} found!"}})\n')
                 w.write(f'\t\treturn\n')
                 w.write(f'\t\t}} else {{\n')
                 w.write(f'\t\t\tDb = Db.Where("{parentname.lower()}ID = ?",{tablename}.{parentname}ID)\n')
@@ -388,7 +388,7 @@ def write_goapis(root,ojson):
 
         w.write(f"\tif err := Db.Find(&item{tableclass}s).Count(&totalcount).Error; err != nil{{\n")
         w.write(
-            f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} 表数据查询错误"}})\n')
+            f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "{tableclass} 表数据查询错误"}})\n')
         w.write(f'\t\treturn\n')
         w.write('\t}\n\n')
 
@@ -411,7 +411,7 @@ def write_goapis(root,ojson):
 
         w.write(f"\tif err := Db.Find(&item{tableclass}s).Error; err != nil{{\n")
         w.write(
-            f'\t\tc.JSON(http.StatusNotFound, gin.H{{"ret": false, "error_code":-4, "errmsg": "{tableclass} 表数据查询错误"}})\n')
+            f'\t\tc.JSON(http.StatusNotFound, gin.H{{"success": false, "error_code":-4, "errmsg": "{tableclass} 表数据查询错误"}})\n')
         w.write(f'\t\treturn\n')
         w.write('\t}\n\n')
 
@@ -449,7 +449,7 @@ def write_goapis(root,ojson):
         w.write(f'\t}}\n')
 
         w.write(f'\tc.JSON(http.StatusCreated,gin.H{{\n')
-        w.write(f'\t\t"ret":true,\n')
+        w.write(f'\t\t"success":true,\n')
         w.write(f'\t\t"error_code": 0,\n')
         w.write(f'\t\t"data": _page,\n')
         w.write('\t})\n')

@@ -11,7 +11,7 @@ def teardown_request(exception=None):
 @api.route("/test", methods=["GET"])
 def test():
 	return jsonify({
-		"ret": True,
+		"success": True,
 		"error_code": 0,
 		"qrurl" : "order test OK"
 	})

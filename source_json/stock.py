@@ -71,6 +71,10 @@ project_json = {
                     "unique":1,
                     "mean": "代号",
                     "args":[
+                        {
+                            "name": "index",
+                            "value": "True",
+                        }
                     ],
                 },
                 {
@@ -430,7 +434,12 @@ project_json = {
             "repr":"name",
         },                  #每日数据
 
-    ]
+    ],
+    "routes":[
+        {
+            "table": "Day"
+        }
+    ],
 }
 
 

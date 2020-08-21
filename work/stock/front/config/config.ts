@@ -39,7 +39,7 @@ export default defineConfig({
     },
     {
       path: '/',
-      component: '../layouts/SecurityLayout',
+      // component: '../layouts/SecurityLayout',
       routes: [
         {
           path: '/',
@@ -48,8 +48,20 @@ export default defineConfig({
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/list/day',
             },
+            {
+              path: '/list/day',
+              name: '日行情',
+              // component: './list/table-list-test',
+            },
+            {
+              path: '/list/stock',
+              name: '股票',
+              redirect: '/stock',
+              // component: './list/table-list-test',
+            },
+
             {
               path: '/welcome',
               name: 'welcome',

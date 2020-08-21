@@ -1,3 +1,4 @@
+import os
 s=[
 ['ts_code','str','TS股票代码'],
 ['trade_date','str','交易日期'],
@@ -19,16 +20,50 @@ s=[
 ['circ_mv','float','流通市值（万元）'],
 ]
 
-for i in s:
-    f = f'''
-                {{
-                    "name": "{i[0]}",
-                    "type": "{i[1]}",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "{i[2]}",
-                }},
-'''
-    print(f)
+# for i in s:
+#     #     f = f'''
+#     #                 {{
+#     #                     "name": "{i[0]}",
+#     #                     "type": "{i[1]}",
+#     #                     "need": 1,  # 创建时候可以填写的参数
+#     #                     "postmust": 1,  # 创建时候必须填写的参数
+#     #                     "putneed": 1,  # 修改时可以修改的参数
+#     #                     "listmust": 0,  # 请求列表必须post的参数
+#     #                     "mean": "{i[2]}",
+#     #                 }},
+#     # '''
+#     f = f'''{i[0]} = d.{i[0]},'''
+#     f = f'''{i[0]} = np.float(d.{i[0]}) if not np.isnan(d.{i[0]}) else None,'''
+#     print(f)
+#
+
+
+file = "/mnt/c/Users/dronn/rong/project/stock/front/my-stock/src/pages/list/table-list/data.d.ts"
+
+to_file = "/mnt/c/Users/dronn/rong/project/autoAPI/wfront/component/"
+os.makedirs(to_file,exist_ok=True)
+
+# name = "data"
+
+f = open(file,'r')
+w = open(to_file+f'{name}.py','w+')
+w.write(f"import os\n")
+w.write(f"def w_component_{name}(root,ojson):\n")
+w.write(f"\tappname = ojson.get('app')\n")
+w.write(f"\tcomponent_name = 'table'\n")
+w.write(f"\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{component_name}}'),exist_ok=True)\n")
+w.write(f"\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{component_name}}/data.d.ts')\n")
+w.write(f"\tw = open(initdir,'w+')\n")
+w.write(f"")
+w.write(f"")
+
+for i in f:
+    print(i)
+    i = i.replace("{","{{")
+    i = i.replace("}","}}")
+    i = i[:-1]
+    print(i)
+    w.write(f'\tw.write(f"{i}")\n')
+
+w.close()
+
