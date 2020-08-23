@@ -20,4 +20,5 @@ def get_last_unholiday(now=datetime.now()):
     today = not_holiday(now)
     while today is None:
         now = now-timedelta(days=1)
+        today = not_holiday(now)
     return today

@@ -257,6 +257,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "日数据id",
+                    "show": [        #放在api当中显示的参数
+                        {
+                            "name":"name",
+                            "type": "str",
+                            "mean":"股名"
+                        },
+                    ],
                 },
             ],
             "args":[
@@ -358,6 +365,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市销率（TTM）",
+                    "sorter": 1,
                 },
 
                 {
@@ -368,6 +376,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "股息率（%）",
+                    "sorter": 1,
                 },
 
                 {
@@ -378,6 +387,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "股息率（TTM）（%）",
+                    "sorter": 1,
                 },
 
                 {
@@ -388,6 +398,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "总股本（万股）",
+                    "sorter": 1,
                 },
 
                 {
@@ -398,6 +409,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通股本（万股）",
+                    "sorter": 1,
                 },
 
                 {
@@ -408,6 +420,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "自由流通股本（万）",
+                    "sorter": 1,
                 },
 
                 {
@@ -418,6 +431,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "总市值（万元）",
+                    "sorter": 1,
                 },
 
                 {
@@ -428,6 +442,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通市值（万元）",
+                    "sorter": 1,
                 },
 
             ],
@@ -437,7 +452,14 @@ project_json = {
     ],
     "routes":[
         {
-            "table": "Day"
+            "path": "stock",   #上级目录主菜单详情
+            "name": "股票详情",
+            "components": [
+                {
+                    "module":"protable",
+                    "table": "Day",
+                }
+            ],
         }
     ],
 }

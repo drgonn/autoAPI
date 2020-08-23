@@ -38,22 +38,38 @@ s=[
 #
 
 
-file = "/mnt/c/Users/dronn/rong/project/stock/front/my-stock/src/pages/list/table-list/data.d.ts"
+file = "/mnt/c/Users/dron/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
 
-to_file = "/mnt/c/Users/dronn/rong/project/autoAPI/wfront/component/"
+to_file = "/mnt/c/Users/dron/rong/project/autoAPI/wfront/component/"
 os.makedirs(to_file,exist_ok=True)
 
-# name = "data"
+name = "service"
 
 f = open(file,'r')
 w = open(to_file+f'{name}.py','w+')
+
+
 w.write(f"import os\n")
+w.write(f"import sys\n")
+w.write(f"sys.path.append(os.path.abspath('.../tools'))\n")
+w.write(f"\n")
+w.write(f"from tools import Tdb\n")
+w.write(f"\n")
 w.write(f"def w_component_{name}(root,ojson):\n")
 w.write(f"\tappname = ojson.get('app')\n")
-w.write(f"\tcomponent_name = 'table'\n")
-w.write(f"\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{component_name}}'),exist_ok=True)\n")
-w.write(f"\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{component_name}}/data.d.ts')\n")
-w.write(f"\tw = open(initdir,'w+')\n")
+w.write(f"\tdatabases = ojson.get('databases')\n")
+w.write(f"\troutes = ojson.get('routes')\n")
+w.write(f"\tdatabases_dir = {{i['table'] : i for i in databases}}\n")
+w.write(f"\n")
+w.write(f"\tfor route in routes:\n")
+w.write(f"\t\tpath = route['path']\n")
+w.write(f"\t\tcomponents = route['components']\n")
+w.write(f"\t\tfor component in components:\n")
+w.write(f"\t\t\tcomponent_name = component['table']\n")
+w.write(f"\t\t\tmodule = component['module']\n")
+w.write(f"\t\t\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}'),exist_ok=True)\n")
+w.write(f"\t\t\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}/data.d ts')\n")
+w.write(f"\t\t\tw = open(initdir,'w+')\n")
 w.write(f"")
 w.write(f"")
 
@@ -63,7 +79,7 @@ for i in f:
     i = i.replace("}","}}")
     i = i[:-1]
     print(i)
-    w.write(f'\tw.write(f"{i}")\n')
+    w.write(f'''\t\t\tw.write(f"""{i}\\n""")\n''')
 
 w.close()
 

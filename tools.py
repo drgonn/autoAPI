@@ -5,24 +5,38 @@ class Tdb():
         if t == "int":
             self.db = "Integer"
             self.empty = 0
+            self.ts_interface = "number"
+            self.protable_valuetype = "digit"
         elif t == "float":
             self.db = "Float"
             self.empty = 0
+            self.ts_interface = "number"
+            self.protable_valuetype = "digit"
         elif t == "str":
             self.db = "String"
             self.empty = '""'
+            self.ts_interface = "string"
+            self.protable_valuetype = "text"
         elif t == "time":
             self.db = "DateTime"
             self.empty = '""'
+            self.ts_interface = "Date"
+            self.protable_valuetype = "dateTime"
         elif t == "date":
             self.db = "Date"
             self.empty = '""'
+            self.ts_interface = "Date"
+            self.protable_valuetype = "date"
         elif t == "bool":
             self.db = "Boolean"
             self.empty = 'false'
+            self.ts_interface = "boolean"
+            self.protable_valuetype = "text"
         elif t == "text":
             self.db = "Text"
             self.empty = '""'
+            self.ts_interface = "string"
+            self.protable_valuetype = "text"
         else:
             self.db = None
             self.empty = '""'

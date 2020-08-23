@@ -7,7 +7,7 @@ from datetime import datetime
 class Stock(db.Model):
 	__tablename__='stocks'
 	id = db.Column(db.Integer, primary_key=True)
-	ts_code = db.Column(db.String(16))
+	ts_code = db.Column(db.String(16), index=True)
 	symbol = db.Column(db.String(16), unique=True, index=True)
 	name = db.Column(db.String(64))
 	area = db.Column(db.String(64))
@@ -22,30 +22,25 @@ class Stock(db.Model):
 	delist_date = db.Column(db.Date)
 	is_hs = db.Column(db.String(8))
 	price = db.Column(db.Float)
-
-
-	# 每日指标
-
+	
 	def to_json(self):
-		last_trade_date = self.days.order_by(Day.trade_date.desc()).first()
-
 		return{
 			'id':self.id,
-			'ts_code':self.ts_code,
-			'symbol':self.symbol,
-			'name':self.name,
-			'area':self.area,
-			'industry':self.industry,
-			'fullname':self.fullname,
-			'enname':self.enname,
-			'market':self.market,
-			'exchange':self.exchange,
-			'curr_type':self.curr_type,
-			'list_status':self.list_status,
-			'list_date':self.list_date,
-			'delist_date':self.delist_date,
-			'is_hs':self.is_hs,
-			'price':None if not last_trade_date else last_trade_date.close,
+			'ts_code': self.ts_code,
+			'symbol': self.symbol,
+			'name': self.name,
+			'area': self.area,
+			'industry': self.industry,
+			'fullname': self.fullname,
+			'enname': self.enname,
+			'market': self.market,
+			'exchange': self.exchange,
+			'curr_type': self.curr_type,
+			'list_status': self.list_status,
+			'list_date': self.list_date,
+			'delist_date': self.delist_date,
+			'is_hs': self.is_hs,
+			'price': self.price,
 		}
 
 	def __repr__(self):
@@ -77,23 +72,24 @@ class Day(db.Model):
 	def to_json(self):
 		return{
 			'id':self.id,
-			'trade_date':self.trade_date,
-			'close':self.close,
-			'turnover_rate':self.turnover_rate,
-			'turnover_rate_f':self.turnover_rate_f,
-			'volume_ratio':self.volume_ratio,
-			'pe':self.pe,
-			'pe_ttm':self.pe_ttm,
-			'pb':self.pb,
-			'ps':self.ps,
-			'ps_ttm':self.ps_ttm,
-			'dv_ratio':self.dv_ratio,
-			'dv_ttm':self.dv_ttm,
-			'total_share':self.total_share,
-			'float_share':self.float_share,
-			'free_share':self.free_share,
-			'total_mv':self.total_mv,
-			'circ_mv':self.circ_mv,
+			'trade_date': self.trade_date,
+			'close': self.close,
+			'turnover_rate': self.turnover_rate,
+			'turnover_rate_f': self.turnover_rate_f,
+			'volume_ratio': self.volume_ratio,
+			'pe': self.pe,
+			'pe_ttm': self.pe_ttm,
+			'pb': self.pb,
+			'ps': self.ps,
+			'ps_ttm': self.ps_ttm,
+			'dv_ratio': self.dv_ratio,
+			'dv_ttm': self.dv_ttm,
+			'total_share': self.total_share,
+			'float_share': self.float_share,
+			'free_share': self.free_share,
+			'total_mv': self.total_mv,
+			'circ_mv': self.circ_mv,
+			'stock_name' : self.stock.name,
 		}
 
 	def __repr__(self):

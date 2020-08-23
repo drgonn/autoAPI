@@ -1,24 +1,24 @@
-from source_json import pay,app,yiyuan,bridge,flask,stock
+import os
 
-
+from source_json import pay, app, stock
 from tools import make_tree
-from wfile.api import write_apis,write_api_init
-from wfile.doc import write_docs
-from wfile.model import make_models
-from wfile.init import make_init
-from wfile.config import write_config
-from wfile.structure import write_deploy,write_model_doc_plant
 from wfile.admin import write_admin
-from wfile.postman import write_postman
-from wfile.xmind import write_xmind
-from wfile.init_manage import write_init
+from wfile.api import write_apis, write_api_init
 from wfile.auth import write_auth
+from wfile.config import write_config
+from wfile.doc import write_docs
+from wfile.goapi import write_goapis, write_goapi_init
+from wfile.gomodel import make_gomodels
+from wfile.init import make_init
+from wfile.init_manage import write_init
+from wfile.model import make_models
+from wfile.postman import write_postman
+from wfile.structure import write_deploy, write_model_doc_plant
+from wfile.xmind import write_xmind
 from wtest import write_test
 
-from wfile.gomodel import make_gomodels
-from wfile.goapi import write_goapis,write_goapi_init
-import json
-import os
+from wfront import w_front
+
 
 # ojson = order.temp_json
 
@@ -59,6 +59,9 @@ def run(ojson,path=False):
     make_gomodels(godir,ojson)
     write_goapi_init(root,ojson)
     write_goapis(root,ojson)
+
+    w_front(root,ojson)
+
 
     #生成文件后做的事情
     write_api_init(root,ojson)
