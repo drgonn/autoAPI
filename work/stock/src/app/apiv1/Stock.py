@@ -1,6 +1,7 @@
 from datetime import date,timedelta,datetime
 import logging
 import math
+import json
 
 from flask import request,jsonify,current_app,g
 from sqlalchemy import func
@@ -11,7 +12,7 @@ from app.standard import Permission
 from app.decorators import admin_required, permission_required
 from app import db
 from app.tools import is_admin,get_permission
-from app.models import Stock
+from app.models import Stock,Group
 
 @api.route('/stock/<int:id>', methods=['GET'])
 def get_stock(id):
@@ -24,6 +25,7 @@ def get_stock(id):
 
 @api.route('/stock', methods=['POST'])
 def create_stock():
+	print(request.json)
 	ts_code = request.json.get('ts_code')
 	if ts_code is None:
 		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：ts_code'})
@@ -72,6 +74,14 @@ def create_stock():
 
 	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,)
 
+	groupIds = request.json.get('groupIds') or []
+	for groupId in groupIds:
+		group = Group.query.filter_by(id=groupId)
+		if group is None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'groupID不存在'})
+		stock.groups.append(group)
+	
+
 	db.session.add(stock)
 	try:
 		db.session.commit()
@@ -117,6 +127,20 @@ def modify_stock(id):
 	stock.delist_date = delist_date or stock.delist_date
 	stock.is_hs = is_hs or stock.is_hs
 	stock.price = price or stock.price
+
+	groupIds = request.json.get('groupIds') or []
+	originalIds = [group.id for group in stock.groups.all()]
+	newIds = list(set(groupIds).difference(set(originalIds)))
+	oldIds = list(set(originalIds).difference(set(groupIds)))
+	for groupId in newIds:
+		group = Group.query.filter_by(id=groupId)
+		if group is None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'groupID不存在'})
+		stock.groups.append(group)
+	for groupId in oldIds:
+		group = Group.query.filter_by(id=groupId)
+		stock.groups.remove(group)
+	
 	db.session.add(stock)
 
 	try:
@@ -128,9 +152,14 @@ def modify_stock(id):
                     'error_code':0,
                     })
 
-@api.route('/stock/<int:id>', methods=['DELETE'])
-def delete_stock(id):
-	stock = Stock.query.get_or_404(id)
+@api.route('/stock', methods=['DELETE'])
+def delete_stock():
+	print('delete json:',request.json)
+	ids = request.json.get('ids')
+	for id in ids:
+		stock = Stock.query.get(id)
+		if stock is None:
+			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 	if stock.days.first() is not None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
 	db.session.delete(stock)
@@ -145,24 +174,24 @@ def delete_stock(id):
                 'error_code':0,
                 })
 
-@api.route('/stock/list', methods=['POST'])
+@api.route('/stock/list', methods=['GET'])
 def list_stock():
-	print(request.json)
-	order = request.json.get('order')
-	sorter = request.json.get('sorter')
-	page = int(request.json.get('current', 1))
-	pagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))
+	print(request.args)
+	sorter = request.args.get('sorter')
+	page = int(request.args.get('current', 1))
+	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_stocks = Stock.query
-	ts_code = request.json.get('ts_code')
+	ts_code = request.args.get('ts_code')
 	if ts_code is not None:
 		total_stocks = total_stocks.filter(Stock.ts_code.ilike(f'%{ts_code}%'))
 
-	symbol = request.json.get('symbol')
+	symbol = request.args.get('symbol')
 	if symbol is not None:
 		total_stocks = total_stocks.filter(Stock.symbol.ilike(f'%{symbol}%'))
 
 	if sorter:
+		sorter = json.loads(sorter)
 		if sorter.get('list_date') == 'ascend':
 			total_stocks = total_stocks.order_by(Stock.list_date.asc())
 		elif sorter.get('list_date') == 'descend':

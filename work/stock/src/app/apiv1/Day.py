@@ -1,6 +1,7 @@
 from datetime import date,timedelta,datetime
 import logging
 import math
+import json
 
 from flask import request,jsonify,current_app,g
 from sqlalchemy import func
@@ -24,6 +25,7 @@ def get_day(id):
 
 @api.route('/day', methods=['POST'])
 def create_day():
+	print(request.json)
 	trade_date = request.json.get('trade_date')
 	if trade_date is None:
 		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：trade_date'})
@@ -149,9 +151,14 @@ def modify_day(id):
                     'error_code':0,
                     })
 
-@api.route('/day/<int:id>', methods=['DELETE'])
-def delete_day(id):
-	day = Day.query.get_or_404(id)
+@api.route('/day', methods=['DELETE'])
+def delete_day():
+	print('delete json:',request.json)
+	ids = request.json.get('ids')
+	for id in ids:
+		day = Day.query.get(id)
+		if day is None:
+			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 	db.session.delete(day)
 
 	try:
@@ -164,24 +171,24 @@ def delete_day(id):
                 'error_code':0,
                 })
 
-@api.route('/day/list', methods=['POST'])
+@api.route('/day/list', methods=['GET'])
 def list_day():
-	print(request.json)
-	order = request.json.get('order')
-	sorter = request.json.get('sorter')
-	page = int(request.json.get('current', 1))
-	pagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))
+	print(request.args)
+	sorter = request.args.get('sorter')
+	page = int(request.args.get('current', 1))
+	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_days = Day.query
 
-	stockId = request.json.get('stockId')
-	if stockId is not None:
-		stock = Stock.query.filter_by(id=stockId).first()
+	stock_id = request.args.get('stock_id')
+	if stock_id is not None:
+		stock = Stock.query.filter_by(id=stock_id).first()
 		if stock is None:
-			return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})
+			return jsonify({'success':False,'error_code':-1,'errmsg':'stock_id不存在'})
 		else:
 			total_days = total_days.filter_by(stock_id=stock.id)
 	if sorter:
+		sorter = json.loads(sorter)
 		if sorter.get('ps_ttm') == 'ascend':
 			total_days = total_days.order_by(Day.ps_ttm.asc())
 		elif sorter.get('ps_ttm') == 'descend':

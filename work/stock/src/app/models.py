@@ -4,6 +4,10 @@ from app.tools import utc_switch,generate_token,certify_token,get_permission
 from app.standard import Permission
 from datetime import datetime  
 
+StockGroup = db.Table('stockgroups',
+	db.Column('stock_id',db.Integer,db.ForeignKey('stocks.id')),
+	db.Column('group_id',db.Integer,db.ForeignKey('groups.id')))
+
 class Stock(db.Model):
 	__tablename__='stocks'
 	id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +26,11 @@ class Stock(db.Model):
 	delist_date = db.Column(db.Date)
 	is_hs = db.Column(db.String(8))
 	price = db.Column(db.Float)
+
+	groups = db.relationship('Group',
+		secondary = StockGroup,
+		backref = db.backref('stocks',lazy='dynamic'),
+		lazy = 'dynamic')
 	
 	def to_json(self):
 		return{
@@ -94,3 +103,17 @@ class Day(db.Model):
 
 	def __repr__(self):
 		return '<Day %r>' % self.name
+
+class Group(db.Model):
+	__tablename__='groups'
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64))
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'name': self.name,
+		}
+
+	def __repr__(self):
+		return '<Group %r>' % self.name

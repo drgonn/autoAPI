@@ -57,7 +57,13 @@ project_json = {
             "table":"Stock",
             "api":1,
             "zh": "股票",
+            "crud":[],
             "parents":[
+            ],
+            "many":[
+                {
+                    "name": "Group",
+                },
             ],
             "args":[
                 {
@@ -251,6 +257,7 @@ project_json = {
             "table":"Day",
             "api":1,
             "zh": "日行情",
+            "crud":[],
             "parents":[
                 {
                     "name": "Stock",
@@ -452,6 +459,29 @@ project_json = {
             ],
             "repr":"name",
         },                  #每日数据
+        {
+            "table": "Group",
+            "api": 1,
+            "zh": "自选",
+            "crud":['post','put','delete'],
+            "parents": [
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名称",
+                    "filter": "like",
+                },
+            ],
+            "repr": "name",
+        },  # 自选分组
 
     ],
     "routes":[
@@ -466,6 +496,10 @@ project_json = {
                 {
                     "module":"protable",
                     "table": "Stock",
+                },
+                {
+                    "module": "protable",
+                    "table": "Group",
                 },
             ],
         }

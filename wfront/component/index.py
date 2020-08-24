@@ -16,6 +16,8 @@ def w_component_index(root,ojson):
 		for component in components:
 			component_name = component['table']
 			module = component['module']
+			table = databases_dir[component_name]
+			crud = table.get('crud')
 			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}'),exist_ok=True)
 			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}/index.tsx')
 			w = open(initdir,'w+')
@@ -27,19 +29,27 @@ def w_component_index(root,ojson):
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
-			if False:
+			if "post" in crud:
 				w.write(f"""import CreateForm from './components/CreateForm';\n""")
+			if False:
 				w.write(f"""import UpdateForm, {{ FormValueType }} from './components/UpdateForm';\n""")
 			w.write(f"""import {{ TableListItem }} from './data.d';\n""")
-			w.write(f"""import {{ query{component_name}List, updateRule, addRule, removeRule }} from './service';\n""")
+			w.write(f"""import {{ query{component_name}List""")
+			if "put" in crud:
+				w.write(f""", update{component_name} """)
+			if "post" in crud:
+				w.write(f""", add{component_name} """)
+			if "delete" in crud:
+				w.write(f""", remove{component_name} """)
+			w.write(f""" }} from './service';\n""")
 			w.write(f"""\n""")
 
 			# 添加功能，创建功能
-			if False:
+			if "post" in crud:
 				w.write(f"""const handleAdd = async (fields: TableListItem) => {{\n""")
 				w.write(f"""  const hide = message.loading('正在添加');\n""")
 				w.write(f"""  try {{\n""")
-				w.write(f"""    await addRule({{ ...fields }});\n""")
+				w.write(f"""    await add{component_name}({{ ...fields }});\n""")
 				w.write(f"""    hide();\n""")
 				w.write(f"""    message.success('添加成功');\n""")
 				w.write(f"""    return true;\n""")
@@ -74,13 +84,13 @@ def w_component_index(root,ojson):
 				w.write(f"""\n""")
 
 			# 删除功能
-			if False:
+			if "delete" in crud:
 				w.write(f"""const handleRemove = async (selectedRows: TableListItem[]) => {{\n""")
 				w.write(f"""  const hide = message.loading('正在删除');\n""")
 				w.write(f"""  if (!selectedRows) return true;\n""")
 				w.write(f"""  try {{\n""")
-				w.write(f"""    await removeRule({{\n""")
-				w.write(f"""      key: selectedRows.map((row) => row.key),\n""")
+				w.write(f"""    await remove{component_name}({{\n""")
+				w.write(f"""      ids: selectedRows.map((row) => row.id),\n""")
 				w.write(f"""    }});\n""")
 				w.write(f"""    hide();\n""")
 				w.write(f"""    message.success('删除成功，即将刷新');\n""")
@@ -95,14 +105,15 @@ def w_component_index(root,ojson):
 
 
 			w.write(f"""const TableList: React.FC<{{}}> = () => {{\n""")
-			if False:
+			if "post" in crud:
 				w.write(f"""  const [createModalVisible, handleModalVisible] = useState<boolean>(false);\n""")
+			if False:
 				w.write(f"""  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);\n""")
 				w.write(f"""  const [stepFormValues, setStepFormValues] = useState({{}});\n""")
-				w.write(f"""  const actionRef = useRef<ActionType>();\n""")
+			w.write(f"""  const actionRef = useRef<ActionType>();\n""")
 
 			w.write(f"""  const columns: ProColumns<TableListItem>[] = [\n""")
-			parents = databases_dir[component_name]['parents']
+			parents = table['parents']
 			for parent in parents:  # 显示父表中的值
 				parentname = parent.get('name')
 				show = parent.get("show")
@@ -118,7 +129,7 @@ def w_component_index(root,ojson):
 						w.write(f"""      dataIndex: '{parentname.lower()}_{s_name}',\n""")
 						w.write(f"""      valueType: '{type}',\n""")
 						w.write(f"""    }},\n""")
-			args = databases_dir[component_name]['args']
+			args = table['args']
 			for arg in args:
 				arg_name = arg['name']
 				arg_mean = arg['mean']
@@ -206,14 +217,19 @@ def w_component_index(root,ojson):
 			w.write(f"""  return (\n""")
 			w.write(f"""    <PageHeaderWrapper>\n""")
 			w.write(f"""      <ProTable<TableListItem>\n""")
-			w.write(f"""        headerTitle="查询表格"\n""")
+			w.write(f"""        actionRef={{actionRef}}\n""")
 			if False:
-				w.write(f"""        actionRef={{actionRef}}\n""")
-				w.write(f"""        rowKey="key"\n""")
-				w.write(f"""        toolBarRender={{(action, {{ selectedRows }}) => [\n""")
+				w.write(f"""        headerTitle="查询表格"\n""")
+			if "delete" in crud:
+				w.write(f"""        rowKey="id"\n""")
+				w.write(f"""        rowSelection={{{{}}}}\n""")
+
+			w.write(f"""        toolBarRender={{(action, {{ selectedRows }}) => [\n""")
+			if "post" in crud:
 				w.write(f"""          <Button type="primary" onClick={{() => handleModalVisible(true)}}>\n""")
 				w.write(f"""            <PlusOutlined /> 新建\n""")
 				w.write(f"""          </Button>,\n""")
+			if "delete" in crud:
 				w.write(f"""          selectedRows && selectedRows.length > 0 && (\n""")
 				w.write(f"""            <Dropdown\n""")
 				w.write(f"""              overlay={{\n""")
@@ -236,7 +252,8 @@ def w_component_index(root,ojson):
 				w.write(f"""              </Button>\n""")
 				w.write(f"""            </Dropdown>\n""")
 				w.write(f"""          ),\n""")
-				w.write(f"""        ]}}\n""")
+			w.write(f"""        ]}}\n""")
+			if False:
 				w.write(f"""        tableAlertRender={{({{ selectedRowKeys, selectedRows }}) => (\n""")
 				w.write(f"""          <div>\n""")
 				w.write(f"""            已选择 <a style={{{{ fontWeight: 600 }}}}>{{selectedRowKeys.length}}</a> 项&nbsp;&nbsp;\n""")
@@ -248,9 +265,9 @@ def w_component_index(root,ojson):
 
 			w.write(f"""        request={{(params, sorter, filter) => query{component_name}List({{ ...params, sorter, filter }})}}\n""")
 			w.write(f"""        columns={{columns}}\n""")
-			if False:
-				w.write(f"""        rowSelection={{{{}}}}\n""")
-				w.write(f"""      />\n""")
+			w.write(f"""      />\n""")
+
+			if "post" in crud:
 				w.write(f"""      <CreateForm onCancel={{() => handleModalVisible(false)}} modalVisible={{createModalVisible}}>\n""")
 				w.write(f"""        <ProTable<TableListItem, TableListItem>\n""")
 				w.write(f"""          onSubmit={{async (value) => {{\n""")
@@ -266,9 +283,9 @@ def w_component_index(root,ojson):
 				w.write(f"""          type="form"\n""")
 				w.write(f"""          columns={{columns}}\n""")
 				w.write(f"""          rowSelection={{{{}}}}\n""")
-			w.write(f"""        />\n""")
-			if False:
+				w.write(f"""        />\n""")
 				w.write(f"""      </CreateForm>\n""")
+			if False:
 				w.write(f"""      {{stepFormValues && Object.keys(stepFormValues).length ? (\n""")
 				w.write(f"""        <UpdateForm\n""")
 				w.write(f"""          onSubmit={{async (value) => {{\n""")

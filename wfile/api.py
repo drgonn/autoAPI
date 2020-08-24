@@ -19,6 +19,7 @@ def write_apis(root,ojson):
         im = """from datetime import date,timedelta,datetime
 import logging
 import math
+import json
 
 from flask import request,jsonify,current_app,g
 from sqlalchemy import func
@@ -58,6 +59,7 @@ from app.tools import is_admin,get_permission
 
         w.write(f"@api.route('/{tablename}', methods=['POST'])\n")
         w.write(f"def create_{tablename}():\n")
+        w.write(f"\tprint(request.json)\n")
         for column in table.get('args'):
             if column.get('need'):
                 argname = column.get('name')
@@ -172,9 +174,15 @@ from app.tools import is_admin,get_permission
 
 
 
-        w.write(f"@api.route('/{tablename}/<int:id>', methods=['DELETE'])\n")
-        w.write(f"def delete_{tablename}(id):\n")
-        w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+        w.write(f"@api.route('/{tablename}', methods=['DELETE'])\n")
+        w.write(f"def delete_{tablename}():\n")
+        w.write(f"\tprint('delete json:',request.json)\n")
+        w.write(f"\tids = request.json.get('ids')\n")
+        w.write(f"\tfor id in ids:\n")
+        w.write(f"\t\t{tablename} = {tableclass}.query.get(id)\n")
+        w.write(f"\t\tif {tablename} is None:\n")
+        w.write(f"""\t\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {{id}} 不存在'}})\n""")
+
 
         for table1 in ojson.get('databases'):
             if table1.get('parents'):
@@ -193,13 +201,12 @@ from app.tools import is_admin,get_permission
 
 
 
-        w.write(f"@api.route('/{tablename}/list', methods=['POST'])\n")
+        w.write(f"@api.route('/{tablename}/list', methods=['GET'])\n")
         w.write(f"def list_{tablename}():\n")
-        w.write(f"\tprint(request.json)\n")
-        w.write(f"\torder = request.json.get('order')\n")
-        w.write(f"\tsorter = request.json.get('sorter')\n")
-        w.write(f"\tpage = int(request.json.get('current', 1))\n")
-        w.write(f"\tpagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))\n")
+        w.write(f"\tprint(request.args)\n")
+        w.write(f"\tsorter = request.args.get('sorter')\n")
+        w.write(f"\tpage = int(request.args.get('current', 1))\n")
+        w.write(f"\tpagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))\n")
         w.write(f"\tpagesize = 20 if pagesize < 10 else pagesize\n")
 
         if table.get('userfilter'):
@@ -221,8 +228,8 @@ from app.tools import is_admin,get_permission
             parenttablename = parentname.lower()
             if parent.get('need'):
                 index = parent.get('index')
-                argname = f"{parenttablename}{parent.get('index').capitalize()}"
-                w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
+                argname = f"{parenttablename}_{parent.get('index')}"
+                w.write(f"\n\t{argname} = request.args.get('{argname}')\n")
                 w.write(f"\tif {argname} is not None:\n")
                 w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
                 w.write(f"\t\tif {parenttablename} is None:\n")
@@ -236,13 +243,15 @@ from app.tools import is_admin,get_permission
             if filter:
                 argname = column.get('name')
                 print(argname)
-                w.write(f"\t{argname} = request.json.get('{argname}')\n")
+                w.write(f"\t{argname} = request.args.get('{argname}')\n")
                 w.write(f"\tif {argname} is not None:\n")
                 if filter == "like":
                     w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
                 elif filter == "precise":
                     w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
         w.write(f"\tif sorter:\n")
+        w.write(f"\t\tsorter = json.loads(sorter)\n")
+
         for column in table.get('args'):
             if column.get("sorter"):
                 argname = column.get('name')
