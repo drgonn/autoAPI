@@ -1,4 +1,5 @@
 import os
+import re
 s=[
 ['ts_code','str','TS股票代码'],
 ['trade_date','str','交易日期'],
@@ -37,10 +38,13 @@ s=[
 #     print(f)
 #
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+f = re.match("/mnt/c/Users/(\w*)/", basedir)
+user = f.group(1)
 
-file = "/mnt/c/Users/dronn/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
+file = f"/mnt/c/Users/{user}/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
 
-to_file = "/mnt/c/Users/dronn/rong/project/autoAPI/wfront/component/"
+to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/component/"
 os.makedirs(to_file,exist_ok=True)
 
 name = "service"
