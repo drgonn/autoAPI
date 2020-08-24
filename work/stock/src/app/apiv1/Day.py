@@ -181,95 +181,40 @@ def list_day():
 			return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})
 		else:
 			total_days = total_days.filter_by(stock_id=stock.id)
-
-	trade_date = request.json.get('trade_date')
-	if trade_date is not None:
-		total_days = total_days.filter_by(trade_date=trade_date)
-	if sorter:
-		if sorter.get('trade_date') == 'ascend':
-			total_days = total_days.order_by(Day.trade_date.asc())
-		elif sorter.get('trade_date') == 'descend':
-			total_days = total_days.order_by(Day.trade_date.desc())
-	if sorter:
-		if sorter.get('close') == 'ascend':
-			total_days = total_days.order_by(Day.close.asc())
-		elif sorter.get('close') == 'descend':
-			total_days = total_days.order_by(Day.close.desc())
-	if sorter:
-		if sorter.get('turnover_rate') == 'ascend':
-			total_days = total_days.order_by(Day.turnover_rate.asc())
-		elif sorter.get('turnover_rate') == 'descend':
-			total_days = total_days.order_by(Day.turnover_rate.desc())
-	if sorter:
-		if sorter.get('turnover_rate_f') == 'ascend':
-			total_days = total_days.order_by(Day.turnover_rate_f.asc())
-		elif sorter.get('turnover_rate_f') == 'descend':
-			total_days = total_days.order_by(Day.turnover_rate_f.desc())
-	if sorter:
-		if sorter.get('volume_ratio') == 'ascend':
-			total_days = total_days.order_by(Day.volume_ratio.asc())
-		elif sorter.get('volume_ratio') == 'descend':
-			total_days = total_days.order_by(Day.volume_ratio.desc())
-	if sorter:
-		if sorter.get('pe') == 'ascend':
-			total_days = total_days.order_by(Day.pe.asc())
-		elif sorter.get('pe') == 'descend':
-			total_days = total_days.order_by(Day.pe.desc())
-	if sorter:
-		if sorter.get('pe_ttm') == 'ascend':
-			total_days = total_days.order_by(Day.pe_ttm.asc())
-		elif sorter.get('pe_ttm') == 'descend':
-			total_days = total_days.order_by(Day.pe_ttm.desc())
-	if sorter:
-		if sorter.get('pb') == 'ascend':
-			total_days = total_days.order_by(Day.pb.asc())
-		elif sorter.get('pb') == 'descend':
-			total_days = total_days.order_by(Day.pb.desc())
-	if sorter:
-		if sorter.get('ps') == 'ascend':
-			total_days = total_days.order_by(Day.ps.asc())
-		elif sorter.get('ps') == 'descend':
-			total_days = total_days.order_by(Day.ps.desc())
 	if sorter:
 		if sorter.get('ps_ttm') == 'ascend':
 			total_days = total_days.order_by(Day.ps_ttm.asc())
 		elif sorter.get('ps_ttm') == 'descend':
 			total_days = total_days.order_by(Day.ps_ttm.desc())
-	if sorter:
 		if sorter.get('dv_ratio') == 'ascend':
 			total_days = total_days.order_by(Day.dv_ratio.asc())
 		elif sorter.get('dv_ratio') == 'descend':
 			total_days = total_days.order_by(Day.dv_ratio.desc())
-	if sorter:
 		if sorter.get('dv_ttm') == 'ascend':
 			total_days = total_days.order_by(Day.dv_ttm.asc())
 		elif sorter.get('dv_ttm') == 'descend':
 			total_days = total_days.order_by(Day.dv_ttm.desc())
-	if sorter:
 		if sorter.get('total_share') == 'ascend':
 			total_days = total_days.order_by(Day.total_share.asc())
 		elif sorter.get('total_share') == 'descend':
 			total_days = total_days.order_by(Day.total_share.desc())
-	if sorter:
 		if sorter.get('float_share') == 'ascend':
 			total_days = total_days.order_by(Day.float_share.asc())
 		elif sorter.get('float_share') == 'descend':
 			total_days = total_days.order_by(Day.float_share.desc())
-	if sorter:
 		if sorter.get('free_share') == 'ascend':
 			total_days = total_days.order_by(Day.free_share.asc())
 		elif sorter.get('free_share') == 'descend':
 			total_days = total_days.order_by(Day.free_share.desc())
-	if sorter:
 		if sorter.get('total_mv') == 'ascend':
 			total_days = total_days.order_by(Day.total_mv.asc())
 		elif sorter.get('total_mv') == 'descend':
 			total_days = total_days.order_by(Day.total_mv.desc())
-	if sorter:
 		if sorter.get('circ_mv') == 'ascend':
 			total_days = total_days.order_by(Day.circ_mv.asc())
 		elif sorter.get('circ_mv') == 'descend':
 			total_days = total_days.order_by(Day.circ_mv.desc())
+		pass
 	totalcount = total_days.with_entities(func.count(Day.id)).scalar()
 	page = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page
 	pagination = total_days.paginate(page, per_page = pagesize, error_out = False)

@@ -154,103 +154,20 @@ def list_stock():
 	pagesize = int(request.json.get('pagesize', current_app.config['PER_PAGE']))
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_stocks = Stock.query
+	ts_code = request.json.get('ts_code')
+	if ts_code is not None:
+		total_stocks = total_stocks.filter(Stock.ts_code.ilike(f'%{ts_code}%'))
 
-	stockId = request.json.get('stockId')
-	if stockId is not None:
-		stock = Stock.query.filter_by(id=stockId).first()
-		if stock is None:
-			return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})
-		else:
-			total_stocks = total_stocks.filter_by(stock_id=stock.id)
+	symbol = request.json.get('symbol')
+	if symbol is not None:
+		total_stocks = total_stocks.filter(Stock.symbol.ilike(f'%{symbol}%'))
 
-	trade_date = request.json.get('trade_date')
-	if trade_date is not None:
-		total_stocks = total_stocks.filter_by(trade_date=trade_date)
 	if sorter:
-		if sorter.get('trade_date') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.trade_date.asc())
-		elif sorter.get('trade_date') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.trade_date.desc())
-	if sorter:
-		if sorter.get('close') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.close.asc())
-		elif sorter.get('close') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.close.desc())
-	if sorter:
-		if sorter.get('turnover_rate') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.turnover_rate.asc())
-		elif sorter.get('turnover_rate') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.turnover_rate.desc())
-	if sorter:
-		if sorter.get('turnover_rate_f') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.turnover_rate_f.asc())
-		elif sorter.get('turnover_rate_f') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.turnover_rate_f.desc())
-	if sorter:
-		if sorter.get('volume_ratio') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.volume_ratio.asc())
-		elif sorter.get('volume_ratio') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.volume_ratio.desc())
-	if sorter:
-		if sorter.get('pe') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.pe.asc())
-		elif sorter.get('pe') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.pe.desc())
-	if sorter:
-		if sorter.get('pe_ttm') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.pe_ttm.asc())
-		elif sorter.get('pe_ttm') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.pe_ttm.desc())
-	if sorter:
-		if sorter.get('pb') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.pb.asc())
-		elif sorter.get('pb') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.pb.desc())
-	if sorter:
-		if sorter.get('ps') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.ps.asc())
-		elif sorter.get('ps') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.ps.desc())
-	if sorter:
-		if sorter.get('ps_ttm') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.ps_ttm.asc())
-		elif sorter.get('ps_ttm') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.ps_ttm.desc())
-	if sorter:
-		if sorter.get('dv_ratio') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.dv_ratio.asc())
-		elif sorter.get('dv_ratio') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.dv_ratio.desc())
-	if sorter:
-		if sorter.get('dv_ttm') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.dv_ttm.asc())
-		elif sorter.get('dv_ttm') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.dv_ttm.desc())
-	if sorter:
-		if sorter.get('total_share') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.total_share.asc())
-		elif sorter.get('total_share') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.total_share.desc())
-	if sorter:
-		if sorter.get('float_share') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.float_share.asc())
-		elif sorter.get('float_share') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.float_share.desc())
-	if sorter:
-		if sorter.get('free_share') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.free_share.asc())
-		elif sorter.get('free_share') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.free_share.desc())
-	if sorter:
-		if sorter.get('total_mv') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.total_mv.asc())
-		elif sorter.get('total_mv') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.total_mv.desc())
-	if sorter:
-		if sorter.get('circ_mv') == 'ascend':
-			total_stocks = total_stocks.order_by(Stock.circ_mv.asc())
-		elif sorter.get('circ_mv') == 'descend':
-			total_stocks = total_stocks.order_by(Stock.circ_mv.desc())
+		if sorter.get('list_date') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.list_date.asc())
+		elif sorter.get('list_date') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.list_date.desc())
+		pass
 	totalcount = total_stocks.with_entities(func.count(Stock.id)).scalar()
 	page = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page
 	pagination = total_stocks.paginate(page, per_page = pagesize, error_out = False)

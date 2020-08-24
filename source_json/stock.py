@@ -70,6 +70,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique":1,
                     "mean": "代号",
+                    "filter" : "like",
                     "args":[
                         {
                             "name": "index",
@@ -87,6 +88,8 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "六位代号",
+                    # "filter" : "precise",
+                    "filter" : "like",
                     "args": [
                         {
                             "name": "unique",
@@ -208,6 +211,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "上市日期",
+                    "sorter": 1,
                 },
                 {
                     "name": "delist_date",
@@ -458,7 +462,11 @@ project_json = {
                 {
                     "module":"protable",
                     "table": "Day",
-                }
+                },
+                {
+                    "module":"protable",
+                    "table": "Stock",
+                },
             ],
         }
     ],

@@ -38,9 +38,9 @@ s=[
 #
 
 
-file = "/mnt/c/Users/dron/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
+file = "/mnt/c/Users/dronn/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
 
-to_file = "/mnt/c/Users/dron/rong/project/autoAPI/wfront/component/"
+to_file = "/mnt/c/Users/dronn/rong/project/autoAPI/wfront/component/"
 os.makedirs(to_file,exist_ok=True)
 
 name = "service"

@@ -6,9 +6,6 @@ import os
 def write_apis(root,ojson):
     app = ojson.get('app')
     appdir = os.path.join(root, f'{app}/src/app')
-    doc = os.path.join(root, f'{app}/doc')
-    host = ojson.get("host")
-    appname = ojson.get("name")
     for table in ojson.get('databases'):
         if not table.get('api'):
             continue
@@ -179,12 +176,12 @@ from app.tools import is_admin,get_permission
         w.write(f"def delete_{tablename}(id):\n")
         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
 
-        for table in ojson.get('databases'):
-            if table.get('parents'):
-                for parent in  table.get("parents"):
+        for table1 in ojson.get('databases'):
+            if table1.get('parents'):
+                for parent in  table1.get("parents"):
                     if parent.get("name") == tableclass:
-                        w.write(f"\tif {tablename}.{table.get('table').lower()}s.first() is not None:\n")
-                        w.write(f"\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table.get('table').lower()}，不能删除'}})\n")
+                        w.write(f"\tif {tablename}.{table1.get('table').lower()}s.first() is not None:\n")
+                        w.write(f"\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
         w.write(f"\tdb.session.delete({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
@@ -234,22 +231,26 @@ from app.tools import is_admin,get_permission
 
 
         for column in table.get('args'):
-            if column.get('need') or column.get('listneed'):
+            filter = column.get('filter')
+            # print(tablename,filter,column,table)
+            if filter:
                 argname = column.get('name')
-                if column.get('type') =='float':
-                    pass
-                else:
-                    w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
-                    w.write(f"\tif {argname} is not None:\n")
-                    if column.get('like'):
-                        w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n")
-                    else:
-                        w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n")
-                w.write(f"\tif sorter:\n")
+                print(argname)
+                w.write(f"\t{argname} = request.json.get('{argname}')\n")
+                w.write(f"\tif {argname} is not None:\n")
+                if filter == "like":
+                    w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
+                elif filter == "precise":
+                    w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
+        w.write(f"\tif sorter:\n")
+        for column in table.get('args'):
+            if column.get("sorter"):
+                argname = column.get('name')
                 w.write(f"\t\tif sorter.get('{argname}') == 'ascend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
                 w.write(f"\t\telif sorter.get('{argname}') == 'descend':\n")
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
+        w.write(f"\t\tpass\n")
         w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
         w.write(f"\tpage = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page\n")
         w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pagesize, error_out = False)\n")

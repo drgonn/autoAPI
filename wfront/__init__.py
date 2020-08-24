@@ -7,7 +7,7 @@ import os
 def w_front(root,ojson):
     appname = ojson.get('app')
     # root = os.path.join(root, f'{appname}/front/')
-    root = "/mnt/c/Users/dron/rong/project/stock/front/my-stock"
+    root = "/mnt/c/Users/dronn/rong/project/stock/front/my-stock"
     print('root',root)
     w_component_data(root,ojson)
     w_component_index(root,ojson)
