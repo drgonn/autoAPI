@@ -107,7 +107,9 @@ def make_tree(root,app,blues):             #建立所有文件夹
     mkdir(os.path.join(path,'go/src'))
     mkdir(os.path.join(path,'go/bin'))
     mkdir(os.path.join(path,'go/pkg'))
+    os.makedirs(os.path.join(path,'src/app/tasks'), exist_ok=True)
     app_path = os.path.join(path,'src/app')
+
     for b in blues:
         mkdir(os.path.join(app_path,b.get('name')))
 

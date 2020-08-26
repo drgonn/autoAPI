@@ -37,7 +37,7 @@ def write_xmind(root,ojson):
                     for column in table.get('parents'):
                         pclass = column.get('name')
                         if column.get('postmust') and column.get('name') != 'User':
-                            argname = column.get('name').lower()+ "Id"
+                            argname = column.get('name').lower()+ "_id"
                             argtype = column.get('type')
                             pjson[argname] = random_arg('int')
                 elif typezh == "列表":

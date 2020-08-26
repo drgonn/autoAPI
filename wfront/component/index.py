@@ -7,7 +7,7 @@ from tools import Tdb
 def w_component_index(root,ojson):
 	appname = ojson.get('app')
 	databases = ojson.get('databases')
-	routes = ojson.get('routes')
+	routes = ojson.get('routes') or []
 	databases_dir = {i['table'] : i for i in databases}
 
 	for route in routes:

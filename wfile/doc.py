@@ -123,20 +123,24 @@ def write_docs(root,ojson):
             for many in table.get('many'):
                 manyclass = many.get('name')
                 manyname = many.get('name').lower()
-                d.write(f"|{manyname}Ids|List|否|{manyclass}ID列表|\n")
+                d.write(f"|{manyname}_ids|List|否|{manyclass}ID列表|\n")
         d.write("\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
         d.write("```javascript\n{\n\t'success': true,\n\t'error_code': 0\n}\n```\n")
 
 
         d.write(f"###4、删除{zh}接口\n")
-        d.write(f"""```javascript\n请求方式：DELETE\n请求URL：{host}/api/v1/{appname}/{tablename}/<int:id>\n数据格式：JSON\n请求说明： 根据{zh}ID删除{zh}\n```\n""")
+        d.write(f"""```javascript\n请求方式：DELETE\n请求URL：{host}/api/v1/{appname}/{tablename}\n数据格式：JSON\n请求说明： 根据{zh}ID删除{zh}\n```\n""")
+        d.write("*请求参数说明*\n\n")
+        d.write("| 参数  | 类型   | 是否必须 | 说明        |\n")
+        d.write("| ----- | ------ | -------- | ----------- |\n")
+        d.write(f"|ids|list|是|要删除的id列表|\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
         d.write("```javascript\n{\n\t'success': true,\n\t'error_code': 0\n}\n```\n")
 
 
         d.write(f"###5、获取{zh}分页列表接口\n")
-        d.write(f"""```javascript\n请求方式：POST\n请求URL：{host}/api/v1/{appname}/{tablename}/list\n""")
+        d.write(f"""```javascript\n请求方式：GET\n请求URL：{host}/api/v1/{appname}/{tablename}/list\n""")
         d.write(f"""测试URL：{testhost}/api/v1/{appname}/{tablename}/list\n""")
         d.write(f"""```数据格式：JSON\n""")
         d.write(f"""请求说明： 获取{zh}分页列表接口\n```\n""")
@@ -145,8 +149,7 @@ def write_docs(root,ojson):
         d.write("| ----- | ------ | -------- | ----------- |\n")
         d.write(f"|current|int|否|页位置|\n")
         d.write(f"|pagesize|int|否|单页条数|\n")
-        d.write(f"|sortfield|int|否|排序标签名|\n")
-        d.write(f"|order|bool|否|排序规则，1为升序，0为降序，默认降序|\n")
+        d.write(f"|sorter|object|否|排序参数，格式例如：{{'price':'desend'}}，就是按价格降序|\n")
         for column in table.get('args'):
             if column.get('need')or column.get('listneed'):
                 if column.get('type') in ['float']:
@@ -171,18 +174,14 @@ def write_docs(root,ojson):
         d.write("\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
         d.write("```javascript\n{\n\t'success': true,\n\t'error_code': 0,\n")
-        d.write("\t'data':{\n")
-        d.write("\t\t'totalcount':'总条数',\n")
-        d.write("\t\t'pagecount':'总页数',\n")
-        d.write("\t\t'current':'页位置',\n")
-        d.write("\t\t'pagesize':'单页条数',\n")
-        d.write("\t\t'records':[\n\t\t\t{\n")
-        d.write(f"\t\t\t\t'id':'{zh}ID',\n")
+        d.write("\t'total':'总条数',\n")
+        d.write("\t'data':[\n\t\t{\n")
+        d.write(f"\t\t\t'id':'{zh}ID',\n")
         for column in table.get('args'):
             argname = column.get('name')
             argmean = column.get('mean')
-            d.write(f"\t\t\t\t'{argname}':'{argmean}',\n")
-        d.write("\t\t\t},\n\t\t\t...\n\t\t]\n\t}\n}\n```\n")
+            d.write(f"\t\t\t'{argname}':'{argmean}',\n")
+        d.write("\t\t},\n\t\t...\n\t]\n\t}\n}\n```\n")
 
 
         d.close()

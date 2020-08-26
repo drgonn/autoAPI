@@ -63,6 +63,8 @@ project_json = {
             "many":[
                 {
                     "name": "Group",
+                    "w_model":1,         # 表示用以写model的一方
+                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
                 },
             ],
             "args":[
@@ -466,6 +468,12 @@ project_json = {
             "crud":['post','put','delete'],
             "parents": [
             ],
+            "many":[
+                {
+                    "name": "Stock",
+                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
+                },
+            ],
             "args": [
                 {
                     "name": "name",
@@ -473,7 +481,8 @@ project_json = {
                     "length": "64",
                     "need": 1,  # 创建时候可以填写的参数
                     "postmust": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
+                    "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "put": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "名称",

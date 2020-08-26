@@ -43,12 +43,13 @@ def make_models(appdir,app):
             w.write(f"\t{parenttablenames} = db.relationship('{parentname}', backref=db.backref('{tablenames}', lazy='dynamic'))\n")
         if table.get("many"):
             for many in table.get('many'):
-                manyclass = many.get('name')
-                manyname = many.get('name').lower()
-                w.write(f"\n\t{manyname}s = db.relationship('{manyclass}',\n")
-                w.write(f"\t\tsecondary = {tableclass}{manyclass},\n")
-                w.write(f"\t\tbackref = db.backref('{tablenames}',lazy='dynamic'),\n")
-                w.write(f"\t\tlazy = 'dynamic')\n")
+                if many.get('w_model'):
+                    manyclass = many.get('name')
+                    manyname = many.get('name').lower()
+                    w.write(f"\n\t{manyname}s = db.relationship('{manyclass}',\n")
+                    w.write(f"\t\tsecondary = {tableclass}{manyclass},\n")
+                    w.write(f"\t\tbackref = db.backref('{tablenames}',lazy='dynamic'),\n")
+                    w.write(f"\t\tlazy = 'dynamic')\n")
         w.write(f"\t\n")
 
         w.write(f"\tdef to_json(self):\n")

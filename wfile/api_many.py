@@ -1,9 +1,11 @@
 import os
 
+"""专门用于写多对多关系的组合删除api的接口，如加入group，删除group"""
 
 
 
-def write_apis(root,ojson):
+
+def write_many_apis(root,ojson):
     app = ojson.get('app')
     appdir = os.path.join(root, f'{app}/src/app')
     for table in ojson.get('databases'):
@@ -120,7 +122,6 @@ from app.tools import is_admin,get_permission
 
         w.write(f"@api.route('/{tablename}/<int:id>', methods=['PUT'])\n")
         w.write(f"def modify_{tablename}(id):\n")
-        w.write(f"\tprint('put json:',request.json)\n")
         w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
         for column in table.get('args'):
             if column.get('putneed'):
@@ -149,28 +150,21 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t{tablename}.{parenttablename}_id = {parenttablename}.id\n")
         if table.get("many"):
             for many in table.get('many'):
-                if many.get('add_api'):
-                    manyclass = many.get('name')
-                    manyname = many.get('name').lower()
-                    w.write(f"\n\tadd_{manyname}_ids = request.json.get('add_{manyname}_ids')\n")
-                    w.write(f"\tif add_{manyname}_ids:\n")
-                    w.write(f"\t\toriginal_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
-                    w.write(f"\t\tnew_ids = list(set(add_{manyname}_ids).difference(set(original_ids)))\n")
-                    w.write(f"\t\tfor {manyname}_id in new_ids:\n")
-                    w.write(f"\t\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                    w.write(f"\t\t\tif {manyname} is None:\n")
-                    w.write(f"\t\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
-                    w.write(f"\t\t\t{tablename}.{manyname}s.append({manyname})\n")
-
-                    w.write(f"\n\tremove_{manyname}_ids = request.json.get('remove_{manyname}_ids')\n")
-                    w.write(f"\tif remove_{manyname}_ids:\n")
-
-                    w.write(f"\t\toriginal_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
-                    w.write(f"\t\tremove_ids = list(set(remove_{manyname}_ids).intersection(set(original_ids)))\n")
-                    w.write(f"\t\tfor {manyname}_id in remove_ids:\n")
-                    w.write(f"\t\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                    w.write(f"\t\t\t{tablename}.{manyname}s.remove({manyname})\n")
-                    w.write(f"\t\t\n")
+                manyclass = many.get('name')
+                manyname = many.get('name').lower()
+                w.write(f"\n\t{manyname}_ids = request.json.get('{manyname}_ids') or []\n")
+                w.write(f"\toriginal_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
+                w.write(f"\tnew_ids = list(set({manyname}_ids).difference(set(original_ids)))\n")
+                w.write(f"\told_ids = list(set(original_ids).difference(set({manyname}_ids)))\n")
+                w.write(f"\tfor {manyname}_id in new_ids:\n")
+                w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id)\n")
+                w.write(f"\t\tif {manyname} is None:\n")
+                w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+                w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
+                w.write(f"\tfor {manyname}_id in old_ids:\n")
+                w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id)\n")
+                w.write(f"\t\t{tablename}.{manyname}s.remove({manyname})\n")
+                w.write(f"\t\n")
 
         w.write(f"\tdb.session.add({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
@@ -284,20 +278,3 @@ from app.tools import is_admin,get_permission
         w.write(f"\n")
         w.close()
 
-def write_api_init(root,ojson):
-    appname = ojson.get('app')
-    initdir = os.path.join(root, f'{appname}/src/app/apiv1/__init__.py')
-    w = open(initdir, 'w+')
-    w.write("from flask import Blueprint\napi = Blueprint('api', __name__)\n")
-    w.write("from app.apiv1 import auth")
-    # for table in ojson.get('databases'):
-    #     if table.get('api'):
-    #         w.write(f",{table.get('table')}")
-
-    api_dir = os.path.dirname(initdir)
-
-    for  fname in os.listdir(api_dir):
-        if fname.endswith('.py') and fname != '__init__.py' and fname != 'auth.py':
-            print(fname)
-            w.write(f", {fname[:-3]}")
-    w.close()

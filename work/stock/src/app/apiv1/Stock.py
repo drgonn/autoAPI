@@ -74,9 +74,9 @@ def create_stock():
 
 	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,)
 
-	groupIds = request.json.get('groupIds') or []
-	for groupId in groupIds:
-		group = Group.query.filter_by(id=groupId)
+	group_ids = request.json.get('group_ids') or []
+	for group_id in group_ids:
+		group = Group.query.filter_by(id=group_id)
 		if group is None:
 			return jsonify({'success':False,'error_code':-1,'errmsg':'groupID不存在'})
 		stock.groups.append(group)
@@ -96,6 +96,7 @@ def create_stock():
 
 @api.route('/stock/<int:id>', methods=['PUT'])
 def modify_stock(id):
+	print('put json:',request.json)
 	stock = Stock.query.get_or_404(id)
 	ts_code = request.json.get('ts_code')
 	symbol = request.json.get('symbol')
@@ -128,19 +129,24 @@ def modify_stock(id):
 	stock.is_hs = is_hs or stock.is_hs
 	stock.price = price or stock.price
 
-	groupIds = request.json.get('groupIds') or []
-	originalIds = [group.id for group in stock.groups.all()]
-	newIds = list(set(groupIds).difference(set(originalIds)))
-	oldIds = list(set(originalIds).difference(set(groupIds)))
-	for groupId in newIds:
-		group = Group.query.filter_by(id=groupId)
-		if group is None:
-			return jsonify({'success':False,'error_code':-1,'errmsg':'groupID不存在'})
-		stock.groups.append(group)
-	for groupId in oldIds:
-		group = Group.query.filter_by(id=groupId)
-		stock.groups.remove(group)
-	
+	add_group_ids = request.json.get('add_group_ids')
+	if add_group_ids:
+		original_ids = [group.id for group in stock.groups.all()]
+		new_ids = list(set(add_group_ids).difference(set(original_ids)))
+		for group_id in new_ids:
+			group = Group.query.filter_by(id=group_id).first()
+			if group is None:
+				return jsonify({'success':False,'error_code':-1,'errmsg':'groupID不存在'})
+			stock.groups.append(group)
+
+	remove_group_ids = request.json.get('remove_group_ids')
+	if remove_group_ids:
+		original_ids = [group.id for group in stock.groups.all()]
+		remove_ids = list(set(remove_group_ids).intersection(set(original_ids)))
+		for group_id in remove_ids:
+			group = Group.query.filter_by(id=group_id).first()
+			stock.groups.remove(group)
+		
 	db.session.add(stock)
 
 	try:
@@ -206,6 +212,8 @@ def list_stock():
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
+                    "pagesize" : pagesize,
+                    "pagecount": pagination.pages,
                     'data':[stock.to_json() for stock in stocks]
                     })
 

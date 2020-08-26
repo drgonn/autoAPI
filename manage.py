@@ -1,6 +1,7 @@
 import os
+import re
 
-from source_json import pay, app, stock
+from source_json import pay, app, stock, bridge
 from tools import make_tree
 from wfile.admin import write_admin
 from wfile.api import write_apis, write_api_init
@@ -75,6 +76,10 @@ stock = stock.project_json
 # run(stock,"../stock/backend")
 run(stock)
 
-# bri = bridge.project_json
-# run(bri)
+bri = bridge.project_json
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+f = re.match("/mnt/c/Users/(\w*)/", basedir)
+user = f.group(1)
+# run(bri,path=f"/mnt/c/Users/{user}/Documents/mynut")
 
