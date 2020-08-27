@@ -87,10 +87,12 @@ def update_last_daily_basic():
 		d = df.iloc[i]
 		stock = Stock.query.filter_by(ts_code=d.ts_code).first()
 		if stock is None:
-			logging(f'更新所有股票的最近一个交易日数据过程当中stock:{d.ts_code}没有找到')
+			logging.error(f'更新所有股票的最近一个交易日数据过程当中stock:{d.ts_code}没有找到')
+			continue
 		if Day.query.filter_by(stock=stock).filter_by(trade_date=d.trade_date).first() is not None:
 			print(f'stock:{d.ts_code}已经存在')
 			continue
+
 
 		s = Day(
 			stock_id=stock.id,

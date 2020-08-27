@@ -21,7 +21,7 @@ JOBS = [
         'args': None,
         'trigger': {
             'type': 'cron',  # 类型
-            'minute': '*/2',   #每两分钟执行一次
+            'minute': '*/50',   #每两分钟执行一次
         },
     },
     {
@@ -34,6 +34,7 @@ JOBS = [
         },
     },
 ]
+
 
 
 def work_time():

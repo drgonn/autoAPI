@@ -188,6 +188,15 @@ def list_stock():
 	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_stocks = Stock.query
+
+	group_id = request.args.get('group_id')
+	if group_id is not None:
+		group = Group.query.filter_by(id=group_id).first()
+		if group is None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':f'group:{group_id}不存在'})
+		else:
+			total_stocks = group.stocks
+
 	ts_code = request.args.get('ts_code')
 	if ts_code is not None:
 		total_stocks = total_stocks.filter(Stock.ts_code.ilike(f'%{ts_code}%'))

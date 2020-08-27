@@ -231,6 +231,18 @@ from app.tools import is_admin,get_permission
             else:
                 w.write(f"\ttotal_{tablenames} = {tableclass}.query\n")
 
+        if table.get("many"):
+            for many in table.get('many'):
+                manyclass = many.get('name')
+                manyname = many.get('name').lower()
+                w.write(f"\n\t{manyname}_id = request.args.get('{manyname}_id')\n")
+                w.write(f"\tif {manyname}_id is not None:\n")
+                w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                w.write(f"\t\tif {manyname} is None:\n")
+                w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
+                w.write(f"\t\telse:\n")
+
+                w.write(f"\t\t\ttotal_{tablenames} = {manyname}.{tablename}s\n\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
@@ -243,6 +255,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t\tif {parenttablename} is None:\n")
                 w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
                 w.write(f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
+
 
 
         for column in table.get('args'):

@@ -116,6 +116,15 @@ def list_group():
 	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
 	pagesize = 20 if pagesize < 10 else pagesize
 	total_groups = Group.query
+
+	stock_id = request.args.get('stock_id')
+	if stock_id is not None:
+		stock = Stock.query.filter_by(id=stock_id).first()
+		if stock is None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':f'stock:{stock_id}不存在'})
+		else:
+			total_groups = stock.groups
+
 	name = request.args.get('name')
 	if name is not None:
 		total_groups = total_groups.filter(Group.name.ilike(f'%{name}%'))
