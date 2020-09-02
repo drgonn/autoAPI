@@ -1,5 +1,7 @@
 import os
 import re
+import sys
+import getopt
 
 from source_json import pay, app, stock, bridge
 from tools import make_tree
@@ -70,16 +72,73 @@ def run(ojson,path=False):
 pjson = pay.project_json         #执行支付系统
 appjson = app.project_json         #执行应用
 
-# run(pjson)
-# run(appjson)
-stock = stock.project_json
-# run(stock,"../stock/backend")
-run(stock)
+
 
 bri = bridge.project_json
+stock = stock.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
 user = f.group(1)
 # run(bri,path=f"/mnt/c/Users/{user}/Documents/mynut")
+
+source_dir = {
+    "bridge":bri,
+    "stock":stock,
+}
+module_dir = {}
+
+
+
+def main(argv):
+    source = ""
+    module = ""
+    target_dir = ""
+    try:
+        opts, args = getopt.getopt(argv, "hs:m:d:", ["help", "source=", "module=","target_dir="])
+    except getopt.GetoptError:
+        print('Error: test_arg.py -s <source> -m <module>')
+        print('   or: test_arg.py --source=<source> --module=<module>')
+        sys.exit(2)
+
+    # 处理 返回值options是以元组为元素的列表。
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print('test_arg.py -s <source> -m <module>')
+            print('or: test_arg.py --source=<source> --module=<module>')
+            sys.exit()
+        elif opt in ("-s", "--source"):
+            source = arg
+        elif opt in ("-m", "--module"):
+            module = arg
+        elif opt in ("-d", "--target_dir"):
+            print("opt",opts)
+            target_dir = arg
+    print('source为：', source)
+    print('module为：', module)
+    print('target_dir为：', target_dir)
+
+    path = False if target_dir == '' else target_dir
+
+
+    if source == "all":
+        pass
+    else:
+        source_json = source_dir.get(source)
+        if source_json is None:
+            print('Error: source json 不存在')
+        else:
+            run(source_dir.get(source),path)
+
+
+    # 打印 返回值args列表，即其中的元素是那些不含'-'或'--'的参数。
+    for i in range(0, len(args)):
+        print('参数 %s 为：%s' % (i + 1, args[i]))
+        print(args)
+
+
+if __name__ == "__main__":
+    # sys.argv[1:]为要处理的参数列表，sys.argv[0]为脚本名，所以用sys.argv[1:]过滤掉脚本名。
+    main(sys.argv[1:])
+
 
