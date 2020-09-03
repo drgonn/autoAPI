@@ -263,7 +263,6 @@ from app.tools import is_admin,get_permission
             # print(tablename,filter,column,table)
             if filter:
                 argname = column.get('name')
-                print(argname)
                 w.write(f"\t{argname} = request.args.get('{argname}')\n")
                 w.write(f"\tif {argname} is not None:\n")
                 if filter == "like":
@@ -311,6 +310,5 @@ def write_api_init(root,ojson):
 
     for  fname in os.listdir(api_dir):
         if fname.endswith('.py') and fname != '__init__.py' and fname != 'auth.py':
-            print(fname)
             w.write(f", {fname[:-3]}")
     w.close()

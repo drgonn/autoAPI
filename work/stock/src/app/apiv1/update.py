@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import g, jsonify,make_response,request, abort, current_app
 from app.apiv1 import api
-from ..data.tusharedata import  insert_stock,update_last_daily_basic
+from ..data.tusharedata import  insert_stock,update_last_daily_basic,update_stock_daily_basic
 from app import db
 import numpy as np
 from app.tools import certify_token,get_trole,certify_token
@@ -29,7 +29,9 @@ def update_days():
 	update_all_day= request.json.get('update_all_day')
 	if update_all_day:
 		update_last_daily_basic()
-
+	elif ts_codes:
+		for ts_code in ts_codes:
+			update_stock_daily_basic(ts_code)
 
 	# for ts_code in ts_codes:
 	# 	df = update_daily_basic(ts_code)

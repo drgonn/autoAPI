@@ -5,27 +5,29 @@ import getopt
 
 from source_json import pay, app, stock, bridge
 from tools import make_tree
-from wfile.admin import write_admin
-from wfile.api import write_apis, write_api_init
-from wfile.auth import write_auth
-from wfile.config import write_config
-from wfile.doc import write_docs
+
 from wfile.goapi import write_goapis, write_goapi_init
 from wfile.gomodel import make_gomodels
-from wfile.init import make_init
-from wfile.init_manage import write_init
-from wfile.model import make_models
+
+from wfile.wflask.model import make_models
 from wfile.postman import write_postman
 from wfile.structure import write_deploy, write_model_doc_plant
 from wfile.xmind import write_xmind
 from wtest import write_test
+from wfile.doc import write_docs as w_docs
 
 from wfront import w_front
+from wfile.wflask import w_flask
 
 
 # ojson = order.temp_json
+module_dir = {
+    'flask':w_flask,
+    'doc': w_docs,
 
-def run(ojson,path=False):
+}
+
+def run(ojson,path=False,modules=['flask','go','postman','doc','ant']):
     if not path:
         root = os.path.dirname(__file__)
         root = os.path.join(root,'work')
@@ -40,21 +42,13 @@ def run(ojson,path=False):
     make_tree(root,app,blues)          #建立文件夹
     appdir = os.path.join(root,f'{app}/src/app')
     make_models(appdir,ojson)
-    make_init(root,ojson)
-    write_apis(root,ojson)
 
-    write_docs(root,ojson)
-    write_config(root,ojson)
-    write_deploy(root,ojson)
+
     write_model_doc_plant(root,ojson)
-    write_admin(root,ojson)
 
     write_test(root,ojson)
-    # write_patch(root,ojson)
     write_postman(root,ojson)
     write_xmind(root,ojson)
-    write_init(root,ojson)
-    write_auth(root,ojson)
 
 
 
@@ -63,19 +57,18 @@ def run(ojson,path=False):
     write_goapi_init(root,ojson)
     write_goapis(root,ojson)
 
-    w_front(root,ojson)
+    for w in modules:
+        m = module_dir.get(w)
+        if m:
+            m(root,ojson)
 
 
     #生成文件后做的事情
-    write_api_init(root,ojson)
 
-pjson = pay.project_json         #执行支付系统
+pjson   = pay.project_json         #执行支付系统
 appjson = app.project_json         #执行应用
-
-
-
-bri = bridge.project_json
-stock = stock.project_json
+bri     = bridge.project_json
+stock   = stock.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
@@ -86,7 +79,6 @@ source_dir = {
     "bridge":bri,
     "stock":stock,
 }
-module_dir = {}
 
 
 
@@ -115,11 +107,10 @@ def main(argv):
             print("opt",opts)
             target_dir = arg
     print('source为：', source)
-    print('module为：', module)
+    print('module为：', args)
     print('target_dir为：', target_dir)
 
     path = False if target_dir == '' else target_dir
-
 
     if source == "all":
         pass
@@ -128,13 +119,9 @@ def main(argv):
         if source_json is None:
             print('Error: source json 不存在')
         else:
-            run(source_dir.get(source),path)
+            run(source_dir.get(source),path,args)
 
 
-    # 打印 返回值args列表，即其中的元素是那些不含'-'或'--'的参数。
-    for i in range(0, len(args)):
-        print('参数 %s 为：%s' % (i + 1, args[i]))
-        print(args)
 
 
 if __name__ == "__main__":
