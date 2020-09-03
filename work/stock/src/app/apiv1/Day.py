@@ -100,6 +100,7 @@ def create_day():
 
 @api.route('/day/<int:id>', methods=['PUT'])
 def modify_day(id):
+	print('put json:',request.json)
 	day = Day.query.get_or_404(id)
 	trade_date = request.json.get('trade_date')
 	close = request.json.get('close')
@@ -231,6 +232,8 @@ def list_day():
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
+                    "pagesize" : pagesize,
+                    "pagecount": pagination.pages,
                     'data':[day.to_json() for day in days]
                     })
 
