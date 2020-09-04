@@ -18,6 +18,7 @@ def w_flask(root,ojson):
     write_init(root,ojson)
     write_auth(root,ojson)
     write_apis(root,ojson)
+    #生成文件后做的事情,要放在最后做
     write_api_init(root, ojson)
 
     print(":--flask运行完成")

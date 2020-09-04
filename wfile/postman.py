@@ -59,7 +59,7 @@ def write_postman(root, ojson):
                     sorter = {}
                     # sorter = urllib.parse.urlencode({})
                     query.append({'key':'current','value':'1'})
-                    query.append({'key':'pagesize','value': '6'})
+                    query.append({'key':'pageSize','value': '6'})
                     query.append({'key':'sorter','value': "%7B%7D"})
                     bean = f"{table.get('table')}_id"
                 elif typezh == "修改":
@@ -87,6 +87,8 @@ def write_postman(root, ojson):
 
     w.write(js)
     w.close()
+    print(":--postman运行完成")
+
 
 
 def single_str(zh, typezh, host, port, protocol, path, method, pjson, tablename, id, appname, query):

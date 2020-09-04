@@ -24,10 +24,19 @@ from wfile.wflask import w_flask
 module_dir = {
     'flask':w_flask,
     'doc': w_docs,
+    'postman': write_postman,
+    'ant': w_front,
 
 }
+default_modules = ['flask','go','postman','doc','ant']
 
-def run(ojson,path=False,modules=['flask','go','postman','doc','ant']):
+def run(ojson,path=False,modules=default_modules):
+    """
+    :param ojson:
+    :param path: 要更新的文件夹位置，也就是app：stock或bridge的上级目录，不填默认False时，代表的既是内部的work文件夹
+    :param modules:  要更新的模块
+    :return:
+    """
     if not path:
         root = os.path.dirname(__file__)
         root = os.path.join(root,'work')
@@ -47,10 +56,7 @@ def run(ojson,path=False,modules=['flask','go','postman','doc','ant']):
     write_model_doc_plant(root,ojson)
 
     write_test(root,ojson)
-    write_postman(root,ojson)
     write_xmind(root,ojson)
-
-
 
     godir = os.path.join(root,f'{app}/go/src')
     make_gomodels(godir,ojson)
@@ -63,7 +69,6 @@ def run(ojson,path=False,modules=['flask','go','postman','doc','ant']):
             m(root,ojson)
 
 
-    #生成文件后做的事情
 
 pjson   = pay.project_json         #执行支付系统
 appjson = app.project_json         #执行应用
@@ -111,7 +116,7 @@ def main(argv):
     print('target_dir为：', target_dir)
 
     path = False if target_dir == '' else target_dir
-
+    args = args or default_modules
     if source == "all":
         pass
     else:

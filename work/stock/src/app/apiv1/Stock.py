@@ -71,8 +71,14 @@ def create_stock():
 	price = request.json.get('price')
 	if price is None:
 		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：price'})
+	circ_mv = request.json.get('circ_mv')
+	if circ_mv is None:
+		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：circ_mv'})
+	pe = request.json.get('pe')
+	if pe is None:
+		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：pe'})
 
-	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,)
+	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,circ_mv=circ_mv,pe=pe,)
 
 	group_ids = request.json.get('group_ids') or []
 	for group_id in group_ids:
@@ -113,6 +119,8 @@ def modify_stock(id):
 	delist_date = request.json.get('delist_date')
 	is_hs = request.json.get('is_hs')
 	price = request.json.get('price')
+	circ_mv = request.json.get('circ_mv')
+	pe = request.json.get('pe')
 	stock.ts_code = ts_code or stock.ts_code
 	stock.symbol = symbol or stock.symbol
 	stock.name = name or stock.name
@@ -128,6 +136,8 @@ def modify_stock(id):
 	stock.delist_date = delist_date or stock.delist_date
 	stock.is_hs = is_hs or stock.is_hs
 	stock.price = price or stock.price
+	stock.circ_mv = circ_mv or stock.circ_mv
+	stock.pe = pe or stock.pe
 
 	add_group_ids = request.json.get('add_group_ids')
 	if add_group_ids:
@@ -168,7 +178,7 @@ def delete_stock():
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 	if stock.days.first() is not None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
-	db.session.delete(stock)
+		db.session.delete(stock)
 
 	try:
 		db.session.commit()
@@ -185,8 +195,8 @@ def list_stock():
 	print(request.args)
 	sorter = request.args.get('sorter')
 	page = int(request.args.get('current', 1))
-	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
-	pagesize = 20 if pagesize < 10 else pagesize
+	pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))
+	pageSize = 20 if pageSize < 10 else pageSize
 	total_stocks = Stock.query
 
 	group_id = request.args.get('group_id')
@@ -205,23 +215,39 @@ def list_stock():
 	if symbol is not None:
 		total_stocks = total_stocks.filter(Stock.symbol.ilike(f'%{symbol}%'))
 
+	name = request.args.get('name')
+	if name is not None:
+		total_stocks = total_stocks.filter(Stock.name.ilike(f'%{name}%'))
+
 	if sorter:
 		sorter = json.loads(sorter)
 		if sorter.get('list_date') == 'ascend':
 			total_stocks = total_stocks.order_by(Stock.list_date.asc())
 		elif sorter.get('list_date') == 'descend':
 			total_stocks = total_stocks.order_by(Stock.list_date.desc())
+		if sorter.get('price') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.price.asc())
+		elif sorter.get('price') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.price.desc())
+		if sorter.get('circ_mv') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.circ_mv.asc())
+		elif sorter.get('circ_mv') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.circ_mv.desc())
+		if sorter.get('pe') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.pe.asc())
+		elif sorter.get('pe') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.pe.desc())
 		pass
 	totalcount = total_stocks.with_entities(func.count(Stock.id)).scalar()
-	page = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page
-	pagination = total_stocks.paginate(page, per_page = pagesize, error_out = False)
+	page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page
+	pagination = total_stocks.paginate(page, per_page = pageSize, error_out = False)
 	stocks = pagination.items
 
 	return jsonify({
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
-                    "pagesize" : pagesize,
+                    "pageSize" : pageSize,
                     "pagecount": pagination.pages,
                     'data':[stock.to_json() for stock in stocks]
                     })

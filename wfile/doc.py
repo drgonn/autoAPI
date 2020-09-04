@@ -148,7 +148,7 @@ def write_docs(root,ojson):
         d.write("| 参数  | 类型   | 是否必须 | 说明        |\n")
         d.write("| ----- | ------ | -------- | ----------- |\n")
         d.write(f"|current|int|否|页位置|\n")
-        d.write(f"|pagesize|int|否|单页条数|\n")
+        d.write(f"|pageSize|int|否|单页条数|\n")
         d.write(f"|sorter|object|否|排序参数，格式例如：{{'price':'desend'}}，就是按价格降序|\n")
         for column in table.get('args'):
             if column.get('need')or column.get('listneed'):

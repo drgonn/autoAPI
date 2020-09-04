@@ -26,6 +26,8 @@ class Stock(db.Model):
 	delist_date = db.Column(db.Date)
 	is_hs = db.Column(db.String(8))
 	price = db.Column(db.Float)
+	circ_mv = db.Column(db.Float)
+	pe = db.Column(db.Float)
 
 	groups = db.relationship('Group',
 		secondary = StockGroup,
@@ -50,6 +52,8 @@ class Stock(db.Model):
 			'delist_date': self.delist_date,
 			'is_hs': self.is_hs,
 			'price': self.price,
+			'circ_mv': self.circ_mv,
+			'pe': self.pe,
 		}
 
 	def __repr__(self):

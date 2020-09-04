@@ -126,6 +126,12 @@ def update_last_daily_basic():
 		if stock is None:
 			logging.error(f'更新所有股票的最近一个交易日数据过程当中stock:{d.ts_code}没有找到')
 			continue
+		stock.price = np.float(d.close) if not np.isnan(d.close) else None
+		stock.circ_mv = np.float(d.circ_mv) if not np.isnan(d.circ_mv) else None
+		stock.pe = np.float(d.pe) if not np.isnan(d.pe) else None
+		print(stock.pe)
+		db.session.add(stock)
+		db.session.commit()
 		if Day.query.filter_by(stock=stock).filter_by(trade_date=d.trade_date).first() is not None:
 			print(f'stock:{d.ts_code}已经存在')
 			continue

@@ -6,6 +6,10 @@ project_json = {
     "testhost":"localhost",                             #  test开头的都被用在postman当中做测试
     "testport":"8001",                             #
     "testprotocol":"http",                             #
+    "anturl":"http://localhost:8001",                               #ant前端访问地址
+    "anthost":"localhost",                             #  ant 调试访问地址
+    "antport":"8800",                             #ant 调试访问地址
+    "antprotocol":"http",                         #ant 调试访问地址
     "auth":None,                             #
     "Flask_APScheduler":{             #flask-apscheduler 的定时任务设置
         "jobs":[],
@@ -120,6 +124,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "名称",
+                    "filter": "like",
                 },
                 {
                     "name": "area",
@@ -251,6 +256,27 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "现价",
+                    "sorter": 1,
+                },
+                {
+                    "name": "circ_mv",
+                    "type": "float",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "流通市值（万元）",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pe",
+                    "type": "float",
+                    "need": 1,  # 创建时候可以填写的参数
+                    "postmust": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "市盈率（总市值/净利润，亏损的PE为空）",
+                    "sorter": 1,
                 },
             ],
             "repr":"name",

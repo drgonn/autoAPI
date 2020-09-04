@@ -160,7 +160,7 @@ def delete_day():
 		day = Day.query.get(id)
 		if day is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	db.session.delete(day)
+		db.session.delete(day)
 
 	try:
 		db.session.commit()
@@ -177,8 +177,8 @@ def list_day():
 	print(request.args)
 	sorter = request.args.get('sorter')
 	page = int(request.args.get('current', 1))
-	pagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))
-	pagesize = 20 if pagesize < 10 else pagesize
+	pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))
+	pageSize = 20 if pageSize < 10 else pageSize
 	total_days = Day.query
 
 	stock_id = request.args.get('stock_id')
@@ -224,15 +224,15 @@ def list_day():
 			total_days = total_days.order_by(Day.circ_mv.desc())
 		pass
 	totalcount = total_days.with_entities(func.count(Day.id)).scalar()
-	page = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page
-	pagination = total_days.paginate(page, per_page = pagesize, error_out = False)
+	page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page
+	pagination = total_days.paginate(page, per_page = pageSize, error_out = False)
 	days = pagination.items
 
 	return jsonify({
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
-                    "pagesize" : pagesize,
+                    "pageSize" : pageSize,
                     "pagecount": pagination.pages,
                     'data':[day.to_json() for day in days]
                     })

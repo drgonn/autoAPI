@@ -161,7 +161,7 @@ class AutoPDF:
 
     def start(self):
         self.story.append(PageBreak())
-        doc = MyDocTemplate(self.pdf_file, pagesize=letter)
+        doc = MyDocTemplate(self.pdf_file, pageSize=letter)
         frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
         template = PageTemplate(id='test', frames=frame, onPage=self.header, onPageEnd=self.footer)
         doc.addPageTemplates([template])
@@ -272,7 +272,7 @@ def auto_pdf(img_addr, path, doc_json):
 
     story = []
     story.append(PageBreak())
-    doc = MyDocTemplate(pdf_file, pagesize=letter)
+    doc = MyDocTemplate(pdf_file, pageSize=letter)
     frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
     template = PageTemplate(id='test', frames=frame, onPage=header, onPageEnd=footer)
     doc.addPageTemplates([template])

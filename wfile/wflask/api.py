@@ -199,7 +199,7 @@ from app.tools import is_admin,get_permission
                         w.write(f"\tif {tablename}.{table1.get('table').lower()}s.first() is not None:\n")
                         w.write(f"\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
-        w.write(f"\tdb.session.delete({tablename})\n")
+        w.write(f"\t\tdb.session.delete({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
         w.write(f"""\n\treturn jsonify({{'success':True,
@@ -214,8 +214,8 @@ from app.tools import is_admin,get_permission
         w.write(f"\tprint(request.args)\n")
         w.write(f"\tsorter = request.args.get('sorter')\n")
         w.write(f"\tpage = int(request.args.get('current', 1))\n")
-        w.write(f"\tpagesize = int(request.args.get('pagesize', current_app.config['PER_PAGE']))\n")
-        w.write(f"\tpagesize = 20 if pagesize < 10 else pagesize\n")
+        w.write(f"\tpageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
+        w.write(f"\tpageSize = 20 if pageSize < 10 else pageSize\n")
 
         if table.get('userfilter'):
             w.write(f"\n\tif is_admin():\n")
@@ -281,14 +281,14 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
         w.write(f"\t\tpass\n")
         w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
-        w.write(f"\tpage = math.ceil(totalcount/pagesize) if  math.ceil(totalcount/pagesize) < page else page\n")
-        w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pagesize, error_out = False)\n")
+        w.write(f"\tpage = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
+        w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
         w.write(f"\t{tablenames} = pagination.items\n")
         w.write(f"""\n\treturn jsonify({{
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
-                    "pagesize" : pagesize,
+                    "pageSize" : pageSize,
                     "pagecount": pagination.pages,
                     'data':[{tablename}.to_json() for {tablename} in {tablenames}]
                     }})""")

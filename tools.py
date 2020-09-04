@@ -1,4 +1,6 @@
 import os
+import re
+
 
 class Tdb():
     def __init__(self,t):
@@ -115,7 +117,15 @@ def make_tree(root,app,blues):             #建立所有文件夹
 
 
 
-
+def replace_file(file,source,target):
+    f = open(file, 'r')
+    alllines = f.readlines()
+    f.close()
+    f = open(file, 'w+')
+    for eachline in alllines:
+        a = re.sub(source, target, eachline)
+        f.writelines(a)
+    f.close()
 
 
 
