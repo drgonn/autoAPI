@@ -38,7 +38,7 @@ def run(ojson,path=False,modules=default_modules):
     :return:
     """
     if not path:
-        root = os.path.dirname(__file__)
+        root = os.path.abspath(os.path.dirname(__file__))
         root = os.path.join(root,'work')
     else:
         root = path

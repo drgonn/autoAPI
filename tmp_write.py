@@ -42,12 +42,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
 user = f.group(1)
 
-file = f"/mnt/c/Users/{user}/rong/project/stock/front/complete/src/pages/list/table-list/service.ts"
-
-to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/component/"
+file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/config.ts"
+to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/config/"
 os.makedirs(to_file,exist_ok=True)
 
-name = "service"
+name = "config"   #生成的文件名
 
 f = open(file,'r')
 w = open(to_file+f'{name}.py','w+')
@@ -59,7 +58,7 @@ w.write(f"sys.path.append(os.path.abspath('.../tools'))\n")
 w.write(f"\n")
 w.write(f"from tools import Tdb\n")
 w.write(f"\n")
-w.write(f"def w_component_{name}(root,ojson):\n")
+w.write(f"def w_config_{name}(root,ojson):\n")
 w.write(f"\tappname = ojson.get('app')\n")
 w.write(f"\tdatabases = ojson.get('databases')\n")
 w.write(f"\troutes = ojson.get('routes')\n")
@@ -85,5 +84,6 @@ for i in f:
     print(i)
     w.write(f'''\t\t\tw.write(f"""{i}\\n""")\n''')
 
+w.write(f'''\tw.close()\n''')
 w.close()
 

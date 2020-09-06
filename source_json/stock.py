@@ -523,6 +523,7 @@ project_json = {
         {
             "path": "stock",   #上级目录主菜单详情
             "name": "股票详情",
+            "icon":"",       #ant的菜单图标，图标列表[]
             "components": [
                 {
                     "module":"protable",

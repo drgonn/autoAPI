@@ -51,9 +51,25 @@ export default defineConfig({
               redirect: '/list/day',
             },
             {
-              path: '/list/day',
-              name: '日行情',
-              // component: './list/table-list-test',
+              path: '/stock',
+              name: '股票详情',
+              routes: [
+                {
+                  path: '/stock/day',
+                  name: '日行情',
+                  component: './stock/day_protable',
+                },
+                {
+                  path: '/stock/stock',
+                  name: '股票',
+                  component: './stock/stock_protable',
+                },
+                {
+                  path: '/stock/group',
+                  name: '自选',
+                  component: './stock/group_protable',
+                },
+              ]
             },
             {
               path: '/list/stock',
