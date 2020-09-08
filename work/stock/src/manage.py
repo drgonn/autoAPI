@@ -19,20 +19,5 @@ def test():
 	import unittest
 	tests = unittest.TestLoader().discover("tests")
 	unittest.TextTestRunner(verbosity=2).run(tests)
-@manager.command 
-def init_base():
-	appnames = ["card","qiot"]
-	for name in appnames:
-		if App.query.filter_by(name=name).first() is None:
-			app = App(name=name)
-			db.session.add(app)
-	db.session.commit()
-	cardtype=["续费订单"]
-	app =  App.query.filter_by(name="card").first()
-	for tname in cardtype:
-		if OType.query.filter_by(name=name).first() is None:
-			type = OType(name=name,app=app)
-			db.session.add(type)
-	db.session.commit()
 if __name__ == "__main__":
 	manager.run()

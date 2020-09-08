@@ -12,3 +12,4 @@ bridge/
 go/
 doc/
 test/
+node_modules/

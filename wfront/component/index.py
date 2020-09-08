@@ -20,6 +20,7 @@ def w_component_index(root,ojson):
 			crud = table.get('crud')
 			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}'),exist_ok=True)
 			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}/index.tsx')
+			com_dir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}')
 			w = open(initdir,'w+')
 
 
@@ -31,6 +32,8 @@ def w_component_index(root,ojson):
 			w.write(f"""\n""")
 			if "post" in crud:
 				w.write(f"""import CreateForm from './components/CreateForm';\n""")
+				if not os.path.exists(os.path.join(com_dir,'components')):
+					os.system(f"cp -r {os.path.join(root,'src/pages/ListTableList/components')}  {com_dir}")
 			if False:
 				w.write(f"""import UpdateForm, {{ FormValueType }} from './components/UpdateForm';\n""")
 			w.write(f"""import {{ TableListItem }} from './data.d';\n""")

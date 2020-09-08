@@ -3,7 +3,7 @@ import re
 import sys
 import getopt
 
-from source_json import pay, app, stock, bridge
+from source_json import pay, app, stock, bridge, oee
 from tools import make_tree
 
 from wfile.goapi import write_goapis, write_goapi_init
@@ -15,6 +15,7 @@ from wfile.structure import write_deploy, write_model_doc_plant
 from wfile.xmind import write_xmind
 from wtest import write_test
 from wfile.doc import write_docs as w_docs
+from wfile.sql import sql_start,db_upgrade
 
 from wfront import w_front
 from wfile.wflask import w_flask
@@ -68,12 +69,16 @@ def run(ojson,path=False,modules=default_modules):
         if m:
             m(root,ojson)
 
+    sql_start(ojson)
+    db_upgrade(root,ojson)
+
 
 
 pjson   = pay.project_json         #执行支付系统
 appjson = app.project_json         #执行应用
 bri     = bridge.project_json
 stock   = stock.project_json
+oee   = oee.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
@@ -83,6 +88,7 @@ user = f.group(1)
 source_dir = {
     "bridge":bri,
     "stock":stock,
+    "oee": oee,
 }
 
 

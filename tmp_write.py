@@ -42,11 +42,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
 user = f.group(1)
 
-file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/config.ts"
+file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/proxy.ts"
 to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/config/"
 os.makedirs(to_file,exist_ok=True)
 
-name = "config"   #生成的文件名
+name = "proxy"   #生成的文件名
 
 f = open(file,'r')
 w = open(to_file+f'{name}.py','w+')
