@@ -1,12 +1,11 @@
 import os
 from tools import Tdb
 import pymysql
-import mysql.connector
 
 
 
 #用来写部署文档
-def sql_start(root,ojson):            #没有databases时自动创建
+def sql_start(ojson):            #没有databases时自动创建
     app = ojson.get('app')
     sql = ojson.get('sql')
     if sql is not None and sql.get('sql') == "mysql":
@@ -34,5 +33,3 @@ def sql_start(root,ojson):            #没有databases时自动创建
         cursor.close()
         conn.close()
 
-def db_upgrade(root,ojson):
-    print(root)

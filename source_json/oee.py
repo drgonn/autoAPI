@@ -68,7 +68,7 @@ project_json = {
             "table":"Device",
             "api":1,
             "zh": "设备",
-            "crud":['post'],
+            "crud":['post','put','delete'],
             "parents":[
             ],
             "args":[
@@ -121,7 +121,7 @@ project_json = {
             "table":"Work",
             "api":1,
             "zh": "工作内容",
-            "crud":[],
+            "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "Device",
@@ -136,7 +136,7 @@ project_json = {
                         {
                             "name":"name",
                             "type": "str",
-                            "mean":"股名"
+                            "mean":"设备名"
                         },
                     ],
                 },
@@ -187,7 +187,7 @@ project_json = {
     "routes":[
         {
             "path": "oee",   #上级目录主菜单详情
-            "name": "股票详情",
+            "name": "OEE时间分析",
             "icon":"",       #ant的菜单图标，图标列表[]
             "components": [
                 {

@@ -95,7 +95,7 @@ def delete_work():
 		work = Work.query.get(id)
 		if work is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-		db.session.delete(work)
+	db.session.delete(work)
 
 	try:
 		db.session.commit()

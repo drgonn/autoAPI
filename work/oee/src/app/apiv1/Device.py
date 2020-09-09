@@ -81,7 +81,7 @@ def delete_device():
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 	if device.works.first() is not None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有work，不能删除'})
-		db.session.delete(device)
+	db.session.delete(device)
 
 	try:
 		db.session.commit()

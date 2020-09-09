@@ -5,6 +5,13 @@ export interface TableListItem {
   area: string;
 }
 
+export interface TablePutItem {
+  id?: number;
+  symbol?: string;
+  name?: string;
+  area?: string;
+}
+
 export interface TableListPagination {
   total: number;
   pageSize: number;

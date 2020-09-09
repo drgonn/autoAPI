@@ -6,6 +6,14 @@ export interface TableListItem {
   type: number;
 }
 
+export interface TablePutItem {
+  id?: number;
+  start_time?: Date;
+  end_time?: Date;
+  seconds?: number;
+  type?: number;
+}
+
 export interface TableListPagination {
   total: number;
   pageSize: number;

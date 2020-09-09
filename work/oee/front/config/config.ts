@@ -52,7 +52,7 @@ export default defineConfig({
             },
             {
               path: '/oee',
-              name: '股票详情',
+              name: 'OEE时间分析',
               routes: [
                 {
                   path: '/oee/device',

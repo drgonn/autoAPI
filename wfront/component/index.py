@@ -17,6 +17,8 @@ def w_component_index(root,ojson):
 			component_name = component['table']
 			module = component['module']
 			table = databases_dir[component_name]
+			table_zh = table.get('zh')
+			args = table.get('args')
 			crud = table.get('crud')
 			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}'),exist_ok=True)
 			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}/index.tsx')
@@ -25,7 +27,7 @@ def w_component_index(root,ojson):
 
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined }} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input }} from 'antd';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal }} from 'antd';\n""")
 			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
@@ -34,8 +36,7 @@ def w_component_index(root,ojson):
 				w.write(f"""import CreateForm from './components/CreateForm';\n""")
 				if not os.path.exists(os.path.join(com_dir,'components')):
 					os.system(f"cp -r {os.path.join(root,'src/pages/ListTableList/components')}  {com_dir}")
-			if False:
-				w.write(f"""import UpdateForm, {{ FormValueType }} from './components/UpdateForm';\n""")
+
 			w.write(f"""import {{ TableListItem }} from './data.d';\n""")
 			w.write(f"""import {{ query{component_name}List""")
 			if "put" in crud:
@@ -52,10 +53,17 @@ def w_component_index(root,ojson):
 				w.write(f"""const handleAdd = async (fields: TableListItem) => {{\n""")
 				w.write(f"""  const hide = message.loading('正在添加');\n""")
 				w.write(f"""  try {{\n""")
-				w.write(f"""    await add{component_name}({{ ...fields }});\n""")
-				w.write(f"""    hide();\n""")
-				w.write(f"""    message.success('添加成功');\n""")
-				w.write(f"""    return true;\n""")
+				w.write(f"""    const res = await add{component_name}({{ ...fields }});\n""")
+				w.write(f"""    if (res.success){{\n""")
+				w.write(f"""      hide();\n""")
+				w.write(f"""      message.success('添加成功');\n""")
+				w.write(f"""      return true;\n""")
+				w.write(f"""    }}else{{\n""")
+				w.write(f"""      message.error(res.errmsg)\n""")
+				w.write(f"""      hide();\n""")
+				w.write(f"""      return\n""")
+				w.write(f"""    }}\n""")
+
 				w.write(f"""  }} catch (error) {{\n""")
 				w.write(f"""    hide();\n""")
 				w.write(f"""    message.error('添加失败请重试！');\n""")
@@ -64,27 +72,7 @@ def w_component_index(root,ojson):
 				w.write(f"""}};\n""")
 				w.write(f"""\n""")
 
-			# update 功能
-			if False:
-				w.write(f"""const handleUpdate = async (fields: FormValueType) => {{\n""")
-				w.write(f"""  const hide = message.loading('正在配置');\n""")
-				w.write(f"""  try {{\n""")
-				w.write(f"""    await updateRule({{\n""")
-				w.write(f"""      name: fields.name,\n""")
-				w.write(f"""      desc: fields.desc,\n""")
-				w.write(f"""      key: fields.key,\n""")
-				w.write(f"""    }});\n""")
-				w.write(f"""    hide();\n""")
-				w.write(f"""\n""")
-				w.write(f"""    message.success('配置成功');\n""")
-				w.write(f"""    return true;\n""")
-				w.write(f"""  }} catch (error) {{\n""")
-				w.write(f"""    hide();\n""")
-				w.write(f"""    message.error('配置失败请重试！');\n""")
-				w.write(f"""    return false;\n""")
-				w.write(f"""  }}\n""")
-				w.write(f"""}};\n""")
-				w.write(f"""\n""")
+
 
 			# 删除功能
 			if "delete" in crud:
@@ -110,9 +98,12 @@ def w_component_index(root,ojson):
 			w.write(f"""const TableList: React.FC<{{}}> = () => {{\n""")
 			if "post" in crud:
 				w.write(f"""  const [createModalVisible, handleModalVisible] = useState<boolean>(false);\n""")
-			if False:
+			if "put" in crud:
 				w.write(f"""  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);\n""")
 				w.write(f"""  const [stepFormValues, setStepFormValues] = useState({{}});\n""")
+				w.write(f"""  const [id,setId]=useState(0)\n""")
+				w.write(f"""  const [formvalues,setValues]=useState({{}})\n""")
+				w.write(f"""  const [form] = Form.useForm()\n""")
 			w.write(f"""  const actionRef = useRef<ActionType>();\n""")
 
 			w.write(f"""  const columns: ProColumns<TableListItem>[] = [\n""")
@@ -195,6 +186,7 @@ def w_component_index(root,ojson):
 				w.write(f"""        return defaultRender(item);\n""")
 				w.write(f"""      }},\n""")
 				w.write(f"""    }},\n""")
+			if "put" in crud:
 				w.write(f"""    {{\n""")
 				w.write(f"""      title: '操作',\n""")
 				w.write(f"""      dataIndex: 'option',\n""")
@@ -204,18 +196,44 @@ def w_component_index(root,ojson):
 				w.write(f"""          <a\n""")
 				w.write(f"""            onClick={{() => {{\n""")
 				w.write(f"""              handleUpdateModalVisible(true);\n""")
-				w.write(f"""              setStepFormValues(record);\n""")
+				w.write(f"""              setValues(record);\n""")
+				w.write(f"""              setId(record.id);\n""")
 				w.write(f"""            }}}}\n""")
 				w.write(f"""          >\n""")
-				w.write(f"""            配置\n""")
+				w.write(f"""            修改\n""")
 				w.write(f"""          </a>\n""")
 				w.write(f"""          <Divider type="vertical" />\n""")
-				w.write(f"""          <a href="">订阅警报</a>\n""")
 				w.write(f"""        </>\n""")
 				w.write(f"""      ),\n""")
 				w.write(f"""    }},\n""")
 			w.write(f"""  ];\n""")
 			w.write(f"""\n""")
+
+			if "put" in crud:
+				w.write(f"""  const handleUpdate = ()=>{{\n""")
+				w.write(f"""    const hide=message.loading('正在提交...')\n""")
+				w.write(f"""    form\n""")
+				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
+				w.write(f"""      try{{\n""")
+				w.write(f"""        values.id = id\n""")
+				w.write(f"""        const res=await updateDevice({{...values}})\n""")
+				w.write(f"""        if(res.success){{\n""")
+				w.write(f"""          hide()\n""")
+				w.write(f"""          message.success('创建成功！')\n""")
+				w.write(f"""          handleUpdateModalVisible(false);\n""")
+				w.write(f"""          actionRef.current.reload();\n""")
+				w.write(f"""        }}else{{\n""")
+				w.write(f"""          message.error(res.errmsg||'请求失败请重试！');\n""")
+				w.write(f"""          hide();\n""")
+				w.write(f"""          return;\n""")
+				w.write(f"""        }}\n""")
+				w.write(f"""      }}catch(error){{\n""")
+				w.write(f"""        message.error('请求失败请重试！');\n""")
+				w.write(f"""        hide();\n""")
+				w.write(f"""      }}\n""")
+				w.write(f"""    }})\n""")
+				w.write(f"""  }}\n""")
+
 
 			w.write(f"""  return (\n""")
 			w.write(f"""    <PageHeaderWrapper>\n""")
@@ -288,27 +306,30 @@ def w_component_index(root,ojson):
 				w.write(f"""          rowSelection={{{{}}}}\n""")
 				w.write(f"""        />\n""")
 				w.write(f"""      </CreateForm>\n""")
-			if False:
-				w.write(f"""      {{stepFormValues && Object.keys(stepFormValues).length ? (\n""")
-				w.write(f"""        <UpdateForm\n""")
-				w.write(f"""          onSubmit={{async (value) => {{\n""")
-				w.write(f"""            const success = await handleUpdate(value);\n""")
-				w.write(f"""            if (success) {{\n""")
-				w.write(f"""              handleUpdateModalVisible(false);\n""")
-				w.write(f"""              setStepFormValues({{}});\n""")
-				w.write(f"""              if (actionRef.current) {{\n""")
-				w.write(f"""                actionRef.current.reload();\n""")
-				w.write(f"""              }}\n""")
-				w.write(f"""            }}\n""")
-				w.write(f"""          }}}}\n""")
-				w.write(f"""          onCancel={{() => {{\n""")
-				w.write(f"""            handleUpdateModalVisible(false);\n""")
-				w.write(f"""            setStepFormValues({{}});\n""")
-				w.write(f"""          }}}}\n""")
-				w.write(f"""          updateModalVisible={{updateModalVisible}}\n""")
-				w.write(f"""          values={{stepFormValues}}\n""")
-				w.write(f"""        />\n""")
-				w.write(f"""      ) : null}}\n""")
+			if "put" in crud:
+				w.write(f"""      <Modal\n""")
+				w.write(f"""        title="编辑{table_zh}"\n""")
+				w.write(f"""        visible={{updateModalVisible}}\n""")
+				w.write(f"""        onOk={{handleUpdate}}\n""")
+				w.write(f"""        onCancel={{()=>{{handleUpdateModalVisible(false)}}}}\n""")
+				w.write(f"""      >\n""")
+				w.write(f"""        <Form form={{form}} initialValues={{formvalues}}>\n""")
+				for arg in args:
+					w.write(f"""          <Form.Item\n""")
+					w.write(f"""            labelCol={{{{ span: 5 }}}}\n""")
+					w.write(f"""            wrapperCol={{{{ span: 15 }}}}\n""")
+					w.write(f"""            name='{arg.get('name')}'\n""")
+					w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
+					w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
+					w.write(f"""          >\n""")
+					w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+					w.write(f"""          </Form.Item>\n""")
+				w.write(f"""        </Form>\n""")
+				w.write(f"""      </Modal>\n""")
+
+                
+
+
 			w.write(f"""    </PageHeaderWrapper>\n""")
 			w.write(f"""  );\n""")
 			w.write(f"""}};\n""")

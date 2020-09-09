@@ -199,7 +199,7 @@ from app.tools import is_admin,get_permission
                         w.write(f"\tif {tablename}.{table1.get('table').lower()}s.first() is not None:\n")
                         w.write(f"\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
-        w.write(f"\t\tdb.session.delete({tablename})\n")
+        w.write(f"\tdb.session.delete({tablename})\n")
         w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
         w.write(f"""\n\treturn jsonify({{'success':True,

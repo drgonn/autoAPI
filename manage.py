@@ -15,7 +15,7 @@ from wfile.structure import write_deploy, write_model_doc_plant
 from wfile.xmind import write_xmind
 from wtest import write_test
 from wfile.doc import write_docs as w_docs
-from wfile.sql import sql_start,db_upgrade
+from wfile.sql import sql_start
 
 from wfront import w_front
 from wfile.wflask import w_flask
@@ -70,7 +70,6 @@ def run(ojson,path=False,modules=default_modules):
             m(root,ojson)
 
     sql_start(ojson)
-    db_upgrade(root,ojson)
 
 
 

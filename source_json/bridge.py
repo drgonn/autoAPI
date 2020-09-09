@@ -1,11 +1,21 @@
 project_json = {
     "app":"bridge",                  #文件源，app名
     "dataname":"bridge",                   #数据库名称
-    "datapassword":"781117",
+    "datapassword":"7811175yy",
     "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
     "testhost":"frp.sealan.tech",                             #
     "testport":"20303",                             #
     "testprotocol":"http",                             #
+    "anthost":"localhost",                             #  ant 调试访问地址
+    "antport":"8802",                             #ant 调试访问地址
+    "sql":{                    #数据库详情
+        "sql": "mysql",
+        "host": "localhost",
+        "name" :   'root',
+        "pwd" :  '7811175yy',
+        "port": 3306,
+    },
+    "antprotocol":"http",                         #ant 调试访问地址
     "blues":[
             {
                 "name":"apiv1",
@@ -92,6 +102,7 @@ project_json = {
             "table":"Province",
             "api":1,
             "zh": "省",
+            "crud":['post','put','delete'],
             "parents":[
             ],
             "args":[
@@ -115,6 +126,7 @@ project_json = {
             "table":"City",
             "api":1,
             "zh": "市",
+            "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "Province",
@@ -148,6 +160,7 @@ project_json = {
             "table":"Area",
             "api":1,
             "zh": "行政区",
+            "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "City",
@@ -181,6 +194,7 @@ project_json = {
             "table":"Bridgetype",
             "api":1,
             "zh": "桥梁种类",
+            "crud":['post','put','delete'],
             "parents":[
             ],
             "args":[
@@ -204,6 +218,7 @@ project_json = {
             "table": "Bridge",
             "api": 1,
             "zh": "桥梁",
+            "crud":['post','put','delete'],
             "parents": [
                 {
                     "name": "Bridgetype",
@@ -350,6 +365,7 @@ project_json = {
             "table": "Property",
             "api": 1,
             "zh": "桥梁属性名",
+            "crud":['post','put','delete'],
             "parents": [
             ],
             "args": [
@@ -448,6 +464,7 @@ project_json = {
             "table": "Filetype",
             "api": 1,
             "zh": "文件类型",
+            "crud":['post','put','delete'],
             "parents": [
             ],
             "args": [
@@ -1373,7 +1390,41 @@ project_json = {
             "repr": "id",
         },  # 应急报告管理
 
-    ]
+    ],
+    "routes": [
+        {
+            "path": "args",  # 上级目录主菜单详情
+            "name": "公用参数设置",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": [
+                {
+                    "module": "protable",
+                    "table": "Province",
+                },
+                {
+                    "module": "protable",
+                    "table": "City",
+                },
+                {
+                    "module": "protable",
+                    "table": "Area",
+                },
+                {
+                    "module": "protable",
+                    "table": "Bridgetype",
+                },
+                {
+                    "module": "protable",
+                    "table": "Filetype",
+                },
+                {
+                    "module": "protable",
+                    "table": "Property",
+                },
+
+            ],
+        }
+    ],
 }
 
 
