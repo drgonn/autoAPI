@@ -56,13 +56,13 @@ export default defineConfig({
               routes: [
                 {
                   path: '/oee/device',
-                  name: '设备',
+                  name: '机器',
                   component: './oee/device_protable',
                 },
                 {
-                  path: '/oee/work',
-                  name: '工作内容',
-                  component: './oee/work_protable',
+                  path: '/oee/worktime',
+                  name: '工作时间',
+                  component: './oee/worktime_protable',
                 },
               ]
             },

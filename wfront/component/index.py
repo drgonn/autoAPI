@@ -19,23 +19,22 @@ def w_component_index(root,ojson):
 			table = databases_dir[component_name]
 			table_zh = table.get('zh')
 			args = table.get('args')
+			parents = table.get('parents')
 			crud = table.get('crud')
-			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}'),exist_ok=True)
-			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}/index.tsx')
-			com_dir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}_{module}')
+			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}'),exist_ok=True)
+			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}/index.tsx')
+			com_dir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}')
 			w = open(initdir,'w+')
 
 
-			w.write(f"""import {{ DownOutlined, PlusOutlined }} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal }} from 'antd';\n""")
+			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select }} from 'antd';\n""")
 			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
-			if "post" in crud:
-				w.write(f"""import CreateForm from './components/CreateForm';\n""")
-				if not os.path.exists(os.path.join(com_dir,'components')):
-					os.system(f"cp -r {os.path.join(root,'src/pages/ListTableList/components')}  {com_dir}")
+
+			w.write(f"""""")
 
 			w.write(f"""import {{ TableListItem }} from './data.d';\n""")
 			w.write(f"""import {{ query{component_name}List""")
@@ -49,28 +48,7 @@ def w_component_index(root,ojson):
 			w.write(f"""\n""")
 
 			# 添加功能，创建功能
-			if "post" in crud:
-				w.write(f"""const handleAdd = async (fields: TableListItem) => {{\n""")
-				w.write(f"""  const hide = message.loading('正在添加');\n""")
-				w.write(f"""  try {{\n""")
-				w.write(f"""    const res = await add{component_name}({{ ...fields }});\n""")
-				w.write(f"""    if (res.success){{\n""")
-				w.write(f"""      hide();\n""")
-				w.write(f"""      message.success('添加成功');\n""")
-				w.write(f"""      return true;\n""")
-				w.write(f"""    }}else{{\n""")
-				w.write(f"""      message.error(res.errmsg)\n""")
-				w.write(f"""      hide();\n""")
-				w.write(f"""      return\n""")
-				w.write(f"""    }}\n""")
 
-				w.write(f"""  }} catch (error) {{\n""")
-				w.write(f"""    hide();\n""")
-				w.write(f"""    message.error('添加失败请重试！');\n""")
-				w.write(f"""    return false;\n""")
-				w.write(f"""  }}\n""")
-				w.write(f"""}};\n""")
-				w.write(f"""\n""")
 
 
 
@@ -98,6 +76,10 @@ def w_component_index(root,ojson):
 			w.write(f"""const TableList: React.FC<{{}}> = () => {{\n""")
 			if "post" in crud:
 				w.write(f"""  const [createModalVisible, handleModalVisible] = useState<boolean>(false);\n""")
+				for parent in parents:
+					postmust =  parent.get('post')
+					if postmust:
+						w.write(f"""  const [{parent.get('name')}list, set{parent.get('name')}list] = useState({{ data: [] }});\n""")
 			if "put" in crud:
 				w.write(f"""  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);\n""")
 				w.write(f"""  const [stepFormValues, setStepFormValues] = useState({{}});\n""")
@@ -107,7 +89,6 @@ def w_component_index(root,ojson):
 			w.write(f"""  const actionRef = useRef<ActionType>();\n""")
 
 			w.write(f"""  const columns: ProColumns<TableListItem>[] = [\n""")
-			parents = table['parents']
 			for parent in parents:  # 显示父表中的值
 				parentname = parent.get('name')
 				show = parent.get("show")
@@ -123,7 +104,6 @@ def w_component_index(root,ojson):
 						w.write(f"""      dataIndex: '{parentname.lower()}_{s_name}',\n""")
 						w.write(f"""      valueType: '{type}',\n""")
 						w.write(f"""    }},\n""")
-			args = table['args']
 			for arg in args:
 				arg_name = arg['name']
 				arg_mean = arg['mean']
@@ -209,6 +189,27 @@ def w_component_index(root,ojson):
 			w.write(f"""  ];\n""")
 			w.write(f"""\n""")
 
+			if "put" in crud or "post" in crud:
+				for parent in parents:
+					postmust =  parent.get('post')
+					if postmust:
+						w.write(f"""  const get{parent.get('name')}list = async (obj) => {{\n""")
+						w.write(f"""    const data = await query{parent.get('name')}List(obj);\n""")
+						w.write(f"""    if (data.success) {{\n""")
+						w.write(f"""      set{parent.get('name')}list(data);\n""")
+						w.write(f"""    }}\n""")
+						w.write(f"""  }};\n""")
+						w.write(f"""  const handlePopupScroll{parent.get('name')} = async (e) => {{\n""")
+						w.write(f"""    const {{ pageindex, pagecount }} = {parent.get('name')}list;\n""")
+						w.write(f"""    e.persist();\n""")
+						w.write(f"""    const {{ target }} = e;\n""")
+						w.write(f"""    if (\n""")
+						w.write(f"""      Math.ceil(target.scrollTop + target.offsetHeight) === target.scrollHeight &&\n""")
+						w.write(f"""      pageindex < pagecount\n""")
+						w.write(f"""    ) {{\n""")
+						w.write(f"""      queryuserlist({{ pageindex: pageindex + 1 }});\n""")
+						w.write(f"""    }}\n""")
+						w.write(f"""  }};\n""")
 			if "put" in crud:
 				w.write(f"""  const handleUpdate = ()=>{{\n""")
 				w.write(f"""    const hide=message.loading('正在提交...')\n""")
@@ -216,11 +217,34 @@ def w_component_index(root,ojson):
 				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
 				w.write(f"""      try{{\n""")
 				w.write(f"""        values.id = id\n""")
-				w.write(f"""        const res=await updateDevice({{...values}})\n""")
+				w.write(f"""        const res=await update{component_name}({{...values}})\n""")
+				w.write(f"""        if(res.success){{\n""")
+				w.write(f"""          hide()\n""")
+				w.write(f"""          message.success('修改成功！')\n""")
+				w.write(f"""          handleUpdateModalVisible(false);\n""")
+				w.write(f"""          actionRef.current.reload();\n""")
+				w.write(f"""        }}else{{\n""")
+				w.write(f"""          message.error(res.errmsg||'请求失败请重试！');\n""")
+				w.write(f"""          hide();\n""")
+				w.write(f"""          return;\n""")
+				w.write(f"""        }}\n""")
+				w.write(f"""      }}catch(error){{\n""")
+				w.write(f"""        message.error('请求失败请重试！');\n""")
+				w.write(f"""        hide();\n""")
+				w.write(f"""      }}\n""")
+				w.write(f"""    }})\n""")
+				w.write(f"""  }}\n""")
+			if "post" in crud:
+				w.write(f"""  const handleAdd = ()=>{{\n""")
+				w.write(f"""    form\n""")
+				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
+				w.write(f"""      const hide=message.loading('正在提交...')\n""")
+				w.write(f"""      try{{\n""")
+				w.write(f"""        const res=await add{component_name}({{...values}})\n""")
 				w.write(f"""        if(res.success){{\n""")
 				w.write(f"""          hide()\n""")
 				w.write(f"""          message.success('创建成功！')\n""")
-				w.write(f"""          handleUpdateModalVisible(false);\n""")
+				w.write(f"""          handleModalVisible(false);\n""")
 				w.write(f"""          actionRef.current.reload();\n""")
 				w.write(f"""        }}else{{\n""")
 				w.write(f"""          message.error(res.errmsg||'请求失败请重试！');\n""")
@@ -289,23 +313,76 @@ def w_component_index(root,ojson):
 			w.write(f"""      />\n""")
 
 			if "post" in crud:
-				w.write(f"""      <CreateForm onCancel={{() => handleModalVisible(false)}} modalVisible={{createModalVisible}}>\n""")
-				w.write(f"""        <ProTable<TableListItem, TableListItem>\n""")
-				w.write(f"""          onSubmit={{async (value) => {{\n""")
-				w.write(f"""            const success = await handleAdd(value);\n""")
-				w.write(f"""            if (success) {{\n""")
-				w.write(f"""              handleModalVisible(false);\n""")
-				w.write(f"""              if (actionRef.current) {{\n""")
-				w.write(f"""                actionRef.current.reload();\n""")
-				w.write(f"""              }}\n""")
-				w.write(f"""            }}\n""")
-				w.write(f"""          }}}}\n""")
-				w.write(f"""          rowKey="key"\n""")
-				w.write(f"""          type="form"\n""")
-				w.write(f"""          columns={{columns}}\n""")
-				w.write(f"""          rowSelection={{{{}}}}\n""")
-				w.write(f"""        />\n""")
-				w.write(f"""      </CreateForm>\n""")
+				w.write(f"""      <Modal\n""")
+				w.write(f"""        title="新建{table_zh}"\n""")
+				w.write(f"""        visible={{createModalVisible}}\n""")
+				w.write(f"""        onOk={{handleAdd}}\n""")
+				w.write(f"""        onCancel={{() => handleModalVisible(false)}} \n""")
+				w.write(f"""      >\n""")
+				w.write(f"""        <Form form={{form}} initialValues={{formvalues}}>\n""")
+				for parent in parents:
+					postmust =  parent.get('post')
+					if postmust:
+						w.write(f"""            <Form.Item\n""")
+						w.write(f"""              label={{\n""")
+						w.write(f"""                <span>\n""")
+						w.write(f"""                  选择自选组 &nbsp;\n""")
+						w.write(f"""                  <Tooltip title="选择需要的股票">\n""")
+						w.write(f"""                    <QuestionCircleOutlined />\n""")
+						w.write(f"""                  </Tooltip>\n""")
+						w.write(f"""                </span>\n""")
+						w.write(f"""              }}\n""")
+						w.write(f"""              name="{parent.get('name')}_id"\n""")
+						w.write(f"""              rules={{[\n""")
+						w.write(f"""                {{\n""")
+						w.write(f"""                  required: true,\n""")
+						w.write(f"""                  message: '请选择自选组!',\n""")
+						w.write(f"""                }},\n""")
+						w.write(f"""              ]}}\n""")
+						w.write(f"""            >\n""")
+						w.write(f"""              <Select\n""")
+						w.write(f"""                placeholder="请选择自选组..."\n""")
+						w.write(f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
+						w.write(f"""                allowClear\n""")
+						w.write(f"""                showSearch\n""")
+						w.write(f"""                optionFilterProp="children"\n""")
+						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						w.write(f"""              >\n""")
+						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
+						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
+						w.write(f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                  }})}}\n""")
+						w.write(f"""              </Select>\n""")
+						w.write(f"""            </Form.Item>\n""")
+						
+						
+						
+
+
+
+
+
+				for arg in args:
+					postmust =  arg.get('post')
+					if postmust:
+						w.write(f"""          <Form.Item\n""")
+						w.write(f"""            labelCol={{{{ span: 5 }}}}\n""")
+						w.write(f"""            wrapperCol={{{{ span: 15 }}}}\n""")
+						w.write(f"""            name='{arg.get('name')}'\n""")
+						if postmust == 1:
+							w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
+						elif postmust == 2:
+							w.write(f"""            rules= {{[{{ required: true, message: '请输入名称!' }}]}}\n""")
+						w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
+						w.write(f"""          >\n""")
+						w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+						w.write(f"""          </Form.Item>\n""")
+				w.write(f"""        </Form>\n""")
+				w.write(f"""      </Modal>\n""")
+
+
+
+
 			if "put" in crud:
 				w.write(f"""      <Modal\n""")
 				w.write(f"""        title="编辑{table_zh}"\n""")

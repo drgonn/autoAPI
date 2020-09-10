@@ -61,7 +61,7 @@ from app.tools import is_admin,get_permission
         w.write(f"def create_{tablename}():\n")
         w.write(f"\tprint(request.json)\n")
         for column in table.get('args'):
-            if column.get('need'):
+            if column.get('post'):
                 argname = column.get('name')
                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
             if column.get('postmust'):
@@ -72,24 +72,24 @@ from app.tools import is_admin,get_permission
             parenttablename = parentname.lower()
             if parent.get('name') == 'User':
                 w.write(f"\t{parenttablename} = g.current_user\n ")
-            elif parent.get('need'):
+            elif parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
                 w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
-                if parent.get('postmust'):
+                if parent.get('post')==2:
                     w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
                     w.write(f"\n\tif {parenttablename} is None:\n")
                     w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
                     w.write(f"\t\n")
         w.write(f"\n\t{tablename} = {tableclass}(")
         for column in table.get('args'):
-            if column.get('need'):
+            if column.get('post'):
                 argname = column.get('name')
                 w.write(f"{argname}={argname},")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
-            if parent.get('need'):
+            if parent.get('post'):
                 w.write(f"{parenttablename}_id={parenttablename}.id,")
         if table.get('appfilter'):
             w.write(f"app_id=g.app.id,")
@@ -246,7 +246,7 @@ from app.tools import is_admin,get_permission
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
-            if parent.get('need'):
+            if parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}_{parent.get('index')}"
                 w.write(f"\n\t{argname} = request.args.get('{argname}')\n")

@@ -105,7 +105,7 @@ def write_middle(root,ojson):
                 bean = False
                 if typezh == "创建":
                     for column in table.get('args'):
-                        if column.get('need'):
+                        if column.get('post'):
                             argname = column.get('name')
                             argtype = column.get('type')
                             pjson[argname] = random_arg(argtype)

@@ -67,21 +67,21 @@ project_json = {
         {
             "table":"Device",
             "api":1,
-            "zh": "设备",
+            "zh": "机器",
             "crud":['post','put','delete'],
             "parents":[
             ],
             "args":[
                 {
-                    "name":"symbol",
+                    "name":"sn",
                     "type":"str",
                     "length":"16",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique":1,
-                    "mean": "代号",
+                    "mean": "编号",
                     "filter" : "like",       # precise为精确查找，like，模糊查找
                     "args":[
                         {
@@ -94,8 +94,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -103,32 +103,32 @@ project_json = {
                     "filter": "like",
                 },
                 {
-                    "name": "area",
+                    "name": "type",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
-                    "mean": "地区",
+                    "mean": "类型",
                 },
 
             ],
             "repr":"name",
         },                  #oee
         {
-            "table":"Work",
+            "table":"Worktime",
             "api":1,
-            "zh": "工作内容",
+            "zh": "工作时间",
             "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "Device",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "设备id",
@@ -145,8 +145,8 @@ project_json = {
                 {
                     "name": "start_time",
                     "type": "time",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "开始时间",
@@ -154,8 +154,8 @@ project_json = {
                 {
                     "name": "end_time",
                     "type": "time",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "结束时间",
@@ -163,8 +163,8 @@ project_json = {
                 {
                     "name": "seconds",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "运行时间（秒）",
@@ -172,16 +172,108 @@ project_json = {
                 {
                     "name": "type",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "工作类型",
                 },
-
+                {
+                    "name": "amount",
+                    "type": "int",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "加工数量",
+                },
+                {
+                    "name": "good",
+                    "type": "int",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "良品数量",
+                },
+                {
+                    "name": "glue",
+                    "type": "int",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "使用胶量",
+                },
             ],
             "repr":"id",
-        },                  #每日数据
+        },                  #worktime
+        {
+            "table": "Valve",
+            "api": 1,
+            "zh": "点胶阀",
+            "crud": ['post', 'put', 'delete'],
+            "parents": [
+                {
+                    "name": "Device",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "设备id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "设备名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "sn",
+                    "type": "str",
+                    "length": "16",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "编号",
+                    "filter": "like",  # precise为精确查找，like，模糊查找
+                    "args": [
+                        {
+                            "name": "index",
+                            "value": "True",
+                        }
+                    ],
+                },
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名称",
+                    "filter": "like",
+                },
+                {
+                    "name": "type",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "类型",
+                },
+
+            ],
+            "repr": "id",
+        },  # 阀
 
     ],
     "routes":[
@@ -196,7 +288,7 @@ project_json = {
                 },
                 {
                     "module":"protable",
-                    "table": "Work",
+                    "table": "Worktime",
                 },
 
             ],

@@ -26,17 +26,11 @@ def get_device(id):
 @api.route('/device', methods=['POST'])
 def create_device():
 	print(request.json)
-	symbol = request.json.get('symbol')
-	if symbol is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：symbol'})
+	sn = request.json.get('sn')
 	name = request.json.get('name')
-	if name is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：name'})
-	area = request.json.get('area')
-	if area is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：area'})
+	type = request.json.get('type')
 
-	device = Device(symbol=symbol,name=name,area=area,)
+	device = Device(sn=sn,name=name,type=type,)
 
 	db.session.add(device)
 	try:
@@ -54,12 +48,12 @@ def create_device():
 def modify_device(id):
 	print('put json:',request.json)
 	device = Device.query.get_or_404(id)
-	symbol = request.json.get('symbol')
+	sn = request.json.get('sn')
 	name = request.json.get('name')
-	area = request.json.get('area')
-	device.symbol = symbol or device.symbol
+	type = request.json.get('type')
+	device.sn = sn or device.sn
 	device.name = name or device.name
-	device.area = area or device.area
+	device.type = type or device.type
 	db.session.add(device)
 
 	try:
@@ -79,8 +73,10 @@ def delete_device():
 		device = Device.query.get(id)
 		if device is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	if device.works.first() is not None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有work，不能删除'})
+	if device.worktimes.first() is not None:
+		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有worktime，不能删除'})
+	if device.valves.first() is not None:
+		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有valve，不能删除'})
 	db.session.delete(device)
 
 	try:
@@ -101,9 +97,9 @@ def list_device():
 	pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))
 	pageSize = 20 if pageSize < 10 else pageSize
 	total_devices = Device.query
-	symbol = request.args.get('symbol')
-	if symbol is not None:
-		total_devices = total_devices.filter(Device.symbol.ilike(f'%{symbol}%'))
+	sn = request.args.get('sn')
+	if sn is not None:
+		total_devices = total_devices.filter(Device.sn.ilike(f'%{sn}%'))
 
 	name = request.args.get('name')
 	if name is not None:

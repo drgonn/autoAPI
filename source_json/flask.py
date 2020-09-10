@@ -99,8 +99,8 @@ project_json = {
                     "name":"name",
                     "type":"str",
                     "length":"64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "项目名",
@@ -120,8 +120,8 @@ project_json = {
                     "name": "Project",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "项目id",
@@ -132,8 +132,8 @@ project_json = {
                     "name":"name",
                     "type":"str",
                     "length":"64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -152,8 +152,7 @@ project_json = {
                     "name": "Table",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "项目id",
@@ -164,8 +163,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -176,8 +175,7 @@ project_json = {
                     "name": "type",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -188,8 +186,7 @@ project_json = {
                     "name": "length",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -199,8 +196,8 @@ project_json = {
                 {
                     "name": "postneed",
                     "type": "bool",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -214,8 +211,8 @@ project_json = {
                 {
                     "name": "postmust",
                     "type": "bool",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -229,8 +226,8 @@ project_json = {
                 {
                     "name": "putneed",
                     "type": "bool",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -244,8 +241,8 @@ project_json = {
                 {
                     "name": "listmust",
                     "type": "bool",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -259,8 +256,8 @@ project_json = {
                 {
                     "name": "like",
                     "type": "bool",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -283,8 +280,8 @@ project_json = {
                     "name": "Column",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "项目id",
@@ -295,8 +292,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",
@@ -307,8 +304,8 @@ project_json = {
                     "name": "value",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "表名",

@@ -112,7 +112,7 @@ project_json = {
                     "index": "key",
                     "type": "str",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "应用KEY,由开发者注册应用生成，向开发者获取。",
@@ -142,10 +142,10 @@ project_json = {
                 {
                     "name": "money",
                     "type": "float",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "账户金额",
-                    "postmust": 0,
+
                     "args":[
                         {
                             "name":"default",
@@ -178,8 +178,8 @@ project_json = {
                     "name": "User",
                     "index": "uid",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "所属用户uid",
@@ -189,7 +189,7 @@ project_json = {
                     "index": "key",
                     "type": "str",
                     "need": 0,           # 创建时候可以填写的参数
-                    "postmust": 0,       # 创建时候必须填写的参数
+                           # 创建时候必须填写的参数
                     "putneed": 0,        # 修改时可以修改的参数
                     "listmust": 0,       # 请求列表必须post的参数
                     "mean": "应用KEY,由开发者注册应用生成，向开发者获取。",
@@ -199,10 +199,10 @@ project_json = {
                 {
                     "name": "money",
                     "type": "float",
-                    "need": 1,
+
                     "putneed": 1,
                     "mean": "交易金额",
-                    "postmust": 1,
+                    "post": 2,
                     "args":[
                         {
                             "name":"default",
@@ -214,10 +214,10 @@ project_json = {
                     "name": "gid",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "交易具体商品的gid",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -225,10 +225,10 @@ project_json = {
                     "name": "about",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "交易用途",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -236,10 +236,10 @@ project_json = {
                     "name": "activateUrl",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "生效链接",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },

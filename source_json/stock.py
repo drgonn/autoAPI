@@ -76,8 +76,8 @@ project_json = {
                     "name":"ts_code",
                     "type":"str",
                     "length":"16",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique":1,
@@ -94,8 +94,8 @@ project_json = {
                     "name": "symbol",
                     "type": "str",
                     "length": "16",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -118,8 +118,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -130,8 +130,8 @@ project_json = {
                     "name": "area",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -141,8 +141,8 @@ project_json = {
                     "name": "industry",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -152,8 +152,8 @@ project_json = {
                     "name": "fullname",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -163,8 +163,8 @@ project_json = {
                     "name": "enname",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -174,8 +174,8 @@ project_json = {
                     "name": "market",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -185,8 +185,8 @@ project_json = {
                     "name": "exchange",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -196,8 +196,8 @@ project_json = {
                     "name": "curr_type",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -207,8 +207,8 @@ project_json = {
                     "name": "list_status",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -218,8 +218,8 @@ project_json = {
                     "name": "list_date",
                     "type": "date",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -229,8 +229,8 @@ project_json = {
                 {
                     "name": "delist_date",
                     "type": "date",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -240,8 +240,8 @@ project_json = {
                     "name": "is_hs",
                     "type": "str",
                     "length": "8",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -250,8 +250,8 @@ project_json = {
                 {
                     "name": "price",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
@@ -261,8 +261,8 @@ project_json = {
                 {
                     "name": "circ_mv",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通市值（万元）",
@@ -271,8 +271,8 @@ project_json = {
                 {
                     "name": "pe",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市盈率（总市值/净利润，亏损的PE为空）",
@@ -291,8 +291,8 @@ project_json = {
                     "name": "Stock",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "日数据id",
@@ -309,8 +309,8 @@ project_json = {
                 {
                     "name": "trade_date",
                     "type": "date",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "交易日期",
@@ -319,8 +319,8 @@ project_json = {
                 {
                     "name": "close",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "当日收盘价",
@@ -329,8 +329,8 @@ project_json = {
                 {
                     "name": "turnover_rate",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "换手率（%）",
@@ -339,8 +339,8 @@ project_json = {
                 {
                     "name": "turnover_rate_f",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "换手率（自由流通股）",
@@ -349,8 +349,8 @@ project_json = {
                 {
                     "name": "volume_ratio",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "量比",
@@ -359,8 +359,8 @@ project_json = {
                 {
                     "name": "pe",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市盈率（总市值/净利润，亏损的PE为空）",
@@ -369,8 +369,8 @@ project_json = {
                 {
                     "name": "pe_ttm",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市盈率（TTM，亏损的PE为空）",
@@ -379,8 +379,8 @@ project_json = {
                 {
                     "name": "pb",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市净率（总市值/净资产）",
@@ -389,8 +389,8 @@ project_json = {
                 {
                     "name": "ps",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市销率",
@@ -399,8 +399,8 @@ project_json = {
                 {
                     "name": "ps_ttm",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市销率（TTM）",
@@ -410,8 +410,8 @@ project_json = {
                 {
                     "name": "dv_ratio",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "股息率（%）",
@@ -421,8 +421,8 @@ project_json = {
                 {
                     "name": "dv_ttm",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "股息率（TTM）（%）",
@@ -432,8 +432,8 @@ project_json = {
                 {
                     "name": "total_share",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "总股本（万股）",
@@ -443,8 +443,8 @@ project_json = {
                 {
                     "name": "float_share",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通股本（万股）",
@@ -454,8 +454,8 @@ project_json = {
                 {
                     "name": "free_share",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "自由流通股本（万）",
@@ -465,8 +465,8 @@ project_json = {
                 {
                     "name": "total_mv",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "总市值（万元）",
@@ -476,8 +476,8 @@ project_json = {
                 {
                     "name": "circ_mv",
                     "type": "float",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通市值（万元）",
@@ -505,8 +505,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
                     "put": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
                     "listmust": 0,  # 请求列表必须post的参数

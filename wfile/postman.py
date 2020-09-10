@@ -45,7 +45,7 @@ def write_postman(root, ojson):
                 ]
                 if typezh == "创建":
                     for column in table.get('args'):
-                        if column.get('need'):
+                        if column.get('post'):
                             argname = column.get('name')
                             argtype = column.get('type')
                             pjson[argname] = random_arg(argtype)

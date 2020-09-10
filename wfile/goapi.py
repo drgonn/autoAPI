@@ -92,7 +92,7 @@ def write_goapis(root,ojson):
         w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"Post data err"}})\n')
         w.write(f'\t\treturn\n')
         for arg in table.get('args'):
-            if arg.get('postmust'):
+            if arg.get('post'):
                 tp = arg.get('type')
                 emptyStr = Tdb(tp).empty
                 w.write(f'\tcase {tablename}.{arg.get("name").title()} == {emptyStr}:\n')
@@ -101,7 +101,7 @@ def write_goapis(root,ojson):
 
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            if parent.get('postmust'):
+            if parent.get('post'):
                 w.write(f'\tcase {tablename}.{parentname}ID == 0:\n')
                 w.write(f'\t\tc.JSON(200,gin.H{{"success":false,"error_code": -1,"errmsg":"{parentname}ID 参数缺失"}})\n')
                 w.write(f'\t\treturn\n')
@@ -122,7 +122,7 @@ def write_goapis(root,ojson):
             parenttablename = parentname.lower()
             if parent.get('name') == 'User':
                 pass
-            elif parent.get('postmust'):
+            elif parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
                 w.write(f'\tvar {parentname.lower()} {parentname}\n')
@@ -135,7 +135,7 @@ def write_goapis(root,ojson):
 
         w.write(f'\tdb{tableclass} := {tableclass}{{\n')
         for column in table.get('args'):
-            if column.get('need'):
+            if column.get('post'):
                 w.write(f'\t\t{column.get("name").title()} : {tablename}.{column.get("name").title()},\n')
             if column.get("name") == "create_time":
                 w.write(f'\t\t{column.get("name").title()} : time.Now(),\n')
@@ -148,7 +148,7 @@ def write_goapis(root,ojson):
             if parent.get('name') == 'User':
                 pass
                 # w.write(f"\t{parenttablename} = g.current_user\n ")
-            elif parent.get('need'):
+            elif parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}{parent.get('index').capitalize()}"
                 w.write(f'\t\t{parentname}ID : {tablename}.{parentname}ID,\n')
@@ -364,7 +364,7 @@ def write_goapis(root,ojson):
         for column in table.get('args'):
             tp = column.get('type')
             emptyStr = Tdb(tp).empty
-            if column.get('need') or column.get('listneed'):
+            if  column.get('listneed'):
                 argname = column.get('name')
                 if column.get('type') in ['int','str']:
                     w.write(f"\tif {tablename}.{argname.title()} != {emptyStr} {{\n")

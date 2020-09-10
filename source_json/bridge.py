@@ -110,8 +110,8 @@ project_json = {
                     "name":"name",
                     "type":"str",
                     "length":"64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique":1,
@@ -132,8 +132,8 @@ project_json = {
                     "name": "Province",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "省份id",
@@ -144,8 +144,8 @@ project_json = {
                     "name":"name",
                     "type":"str",
                     "length":"64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市名",
@@ -166,8 +166,8 @@ project_json = {
                     "name": "City",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市id",
@@ -179,8 +179,8 @@ project_json = {
                     "type":"str",
                     "length":"64",
                     "unique":1,
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "行政区名",
@@ -203,8 +203,8 @@ project_json = {
                     "type":"str",
                     "length":"64",
                     "unique":1,
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁种类名",
@@ -224,8 +224,8 @@ project_json = {
                     "name": "Bridgetype",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁种类id",
@@ -235,8 +235,8 @@ project_json = {
                     "name": "Province",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "省份id",
@@ -246,8 +246,8 @@ project_json = {
                     "name": "City",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市id",
@@ -257,8 +257,8 @@ project_json = {
                     "name": "Area",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "行政区id",
@@ -270,8 +270,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
@@ -284,8 +284,8 @@ project_json = {
                     "name": "safe_score",
                     "type": "float",
                     "length": "",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -297,8 +297,8 @@ project_json = {
                     "name": "advice",
                     "type": "text",
                     "length": "",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -311,8 +311,8 @@ project_json = {
                     "name": "monit_about",
                     "type": "text",
                     "length": "",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -326,7 +326,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -344,7 +344,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -373,8 +373,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -386,8 +386,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -407,8 +407,8 @@ project_json = {
                     "name": "Property",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁属性名id",
@@ -417,8 +417,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -429,8 +429,8 @@ project_json = {
                     "name": "value",
                     "type": "float",
                     #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -443,7 +443,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -472,8 +472,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -484,8 +484,8 @@ project_json = {
                 {
                     "name": "type",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -505,8 +505,8 @@ project_json = {
                     "name": "Filetype",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "文件类型id",
@@ -515,8 +515,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -528,7 +528,7 @@ project_json = {
                     "type": "str",
                     "length": "64",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
@@ -540,8 +540,8 @@ project_json = {
                     "name": "page",
                     "type": "int",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -554,7 +554,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -572,7 +572,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -600,8 +600,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -622,8 +622,8 @@ project_json = {
                     "name": "Product",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "产品id",
@@ -635,7 +635,7 @@ project_json = {
                     "type": "str",
                     "length": "256",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -656,8 +656,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -668,8 +668,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "256",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -681,8 +681,8 @@ project_json = {
                     "name": "latitude",
                     "type": "float",
                     # "length": "128",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -694,8 +694,8 @@ project_json = {
                     "name": "longitude",
                     "type": "float",
                     # "length": "128",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -720,8 +720,8 @@ project_json = {
                     "name": "Product",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "产品id",
@@ -730,8 +730,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -740,8 +740,8 @@ project_json = {
                     "name": "Location",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "位置id"
@@ -752,8 +752,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -765,8 +765,8 @@ project_json = {
                     "name": "sn",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
@@ -778,7 +778,7 @@ project_json = {
                     "name": "exception",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,
                     "like": 0,  # 是否支持模糊查找
@@ -794,7 +794,7 @@ project_json = {
                     "name": "fault",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,
                     "like": 0,  # 是否支持模糊查找
@@ -811,7 +811,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -829,7 +829,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -855,8 +855,8 @@ project_json = {
                     "name": "Device",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "设备id",
@@ -867,8 +867,8 @@ project_json = {
                     "name": "position",
                     "type": "int",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -880,7 +880,7 @@ project_json = {
                     "name": "exception",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,
                     "like": 0,  # 是否支持模糊查找
@@ -892,7 +892,7 @@ project_json = {
                     "name": "fault",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,
                     "like": 0,  # 是否支持模糊查找
@@ -905,7 +905,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -933,8 +933,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -954,8 +954,8 @@ project_json = {
                     "name": "Monitgroup",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控分组id",
@@ -966,8 +966,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -987,8 +987,8 @@ project_json = {
                     "name": "Monittype",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控类型id",
@@ -999,8 +999,8 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1020,8 +1020,8 @@ project_json = {
                     "name": "Monitarg",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控类型id",
@@ -1030,8 +1030,8 @@ project_json = {
                     "name": "Device",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "设备id",
@@ -1042,8 +1042,8 @@ project_json = {
                     "name": "value",
                     "type": "float",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1063,8 +1063,8 @@ project_json = {
                     "name": "Monitvalue",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控类型id",
@@ -1075,8 +1075,8 @@ project_json = {
                     "name": "value",
                     "type": "float",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1088,8 +1088,8 @@ project_json = {
                     "name": "compare",
                     "type": "int",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1101,8 +1101,8 @@ project_json = {
                     "name": "logic",
                     "type": "int",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1122,8 +1122,8 @@ project_json = {
                     "name": "Monitvalue",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控值id",
@@ -1134,8 +1134,8 @@ project_json = {
                     "name": "value",
                     "type": "float",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1148,7 +1148,7 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -1173,8 +1173,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1183,8 +1183,8 @@ project_json = {
                     "name": "Device",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "设备id",
@@ -1195,8 +1195,8 @@ project_json = {
                     "name": "statu",
                     "type": "bool",
                     # "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数int
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数int
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1212,8 +1212,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1233,8 +1233,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1245,8 +1245,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1266,8 +1266,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1278,8 +1278,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1299,8 +1299,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1311,8 +1311,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1332,8 +1332,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1344,8 +1344,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -1365,8 +1365,8 @@ project_json = {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
@@ -1377,8 +1377,8 @@ project_json = {
                     "name": "about",
                     "type": "text",
    #                 "length": "64",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust":0,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post":0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找

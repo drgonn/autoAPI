@@ -27,17 +27,9 @@ def get_work(id):
 def create_work():
 	print(request.json)
 	start_time = request.json.get('start_time')
-	if start_time is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：start_time'})
 	end_time = request.json.get('end_time')
-	if end_time is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：end_time'})
 	seconds = request.json.get('seconds')
-	if seconds is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：seconds'})
 	type = request.json.get('type')
-	if type is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：type'})
 
 	deviceId = request.json.get('deviceId')
 	device = Device.query.filter_by(id=deviceId).first()

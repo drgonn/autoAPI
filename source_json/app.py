@@ -62,7 +62,7 @@ project_json = {
                     "name":"createTime",
                     "type":"time",
 
-                    "postmust": 0,
+
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "mean": "创建时间",
                     "args":[
@@ -77,7 +77,7 @@ project_json = {
                     "length": "64",
                     "type": "str",
                     "need": 0,      # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,   # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -87,10 +87,10 @@ project_json = {
                     "name": "username",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "组件名",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -98,8 +98,8 @@ project_json = {
                     "name": "phone",
                     "length": "64",
                     "type": "str",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -109,8 +109,8 @@ project_json = {
                     "name": "email",
                     "length": "64",
                     "type": "str",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -120,7 +120,7 @@ project_json = {
                     "name": "emailbind",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -130,8 +130,8 @@ project_json = {
                     "name": "company",
                     "length": "64",
                     "type": "str",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -141,8 +141,8 @@ project_json = {
                     "name": "address",
                     "length": "64",
                     "type": "str",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -152,8 +152,8 @@ project_json = {
                     "name": "url",
                     "length": "128",
                     "type": "str",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                    "post": 1,  # 创建时候可以填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -164,7 +164,7 @@ project_json = {
                     "length": "64",
                     "type": "str",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -175,7 +175,7 @@ project_json = {
                     "length": "64",
                     "type": "str",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -186,7 +186,7 @@ project_json = {
                     "length": "64",
                     "type": "str",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -197,7 +197,7 @@ project_json = {
                     "length": "64",
                     "type": "str",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -216,7 +216,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "开发者ID",
@@ -231,7 +231,7 @@ project_json = {
                     "args":[
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -244,7 +244,7 @@ project_json = {
                     "args":[
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -256,7 +256,7 @@ project_json = {
                     "args":[
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -272,7 +272,7 @@ project_json = {
                         },
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -292,7 +292,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "开发者ID",
@@ -327,7 +327,7 @@ project_json = {
                         },
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -344,7 +344,7 @@ project_json = {
                         },
                     ],
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -353,10 +353,10 @@ project_json = {
                     "name": "about",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "应用描述",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -371,7 +371,7 @@ project_json = {
                             "value": "datetime.utcnow",
                         },
                     ],
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -389,8 +389,8 @@ project_json = {
                 #     "name": "App",
                 #     "index": "id",
                 #     "type": "int",
-                #     "need": 1,  # 创建时候可以填写的参数
-                #     "postmust": 1,  # 创建时候必须填写的参数
+                #     "post": 1,  # 创建时候可以填写的参数
+                #     "post": 2,  # 创建时候必须填写的参数
                 #     "putneed": 0,  # 修改时可以修改的参数
                 #     "listmust": 0,  # 请求列表必须post的参数
                 #     "mean": "规格id",
@@ -403,10 +403,10 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 0,
                     "mean": "组件名",
-                    "postmust": 1,
+                    "post": 2,
                     "args": [
                     ],
                 },
@@ -414,10 +414,10 @@ project_json = {
                     "name": "url",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+
                     "putneed": 1,
                     "mean": "组件调用地址",
-                    "postmust": 1,
+                    "post": 2,
                     "args": [
                     ],
                 },
@@ -425,10 +425,10 @@ project_json = {
                     "name": "about",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "组件描述",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -436,7 +436,7 @@ project_json = {
                     "name": "createTime",
                     "type": "time",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -461,8 +461,8 @@ project_json = {
                     "name": "Package",
                     # "index": "id",
                     # "type": "int",
-                    # "need": 1,  # 创建时候可以填写的参数
-                    # "postmust": 1,  # 创建时候必须填写的参数
+                    # "post": 1,  # 创建时候可以填写的参数
+                    # "post": 2,  # 创建时候必须填写的参数
                     # "putneed": 0,  # 修改时可以修改的参数
                     # "listmust": 0,  # 请求列表必须post的参数
                     # "mean": "规格id",
@@ -474,7 +474,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 0,  # 请求列表可以用来筛选的参数
                     "mean": "appid",
@@ -483,8 +483,8 @@ project_json = {
                     "name": "Module",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "规格id",
@@ -494,7 +494,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "开发者ID",
@@ -504,20 +504,20 @@ project_json = {
                 {
                     "name": "payType",
                     "type": "int",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "付费类型，1按时间，2按次",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
                 {
                     "name": "activate",
                     "type": "bool",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "启用状态",
-                    "postmust": 0,
+
                     "args": [
                         {
                             "name": "default",
@@ -537,7 +537,7 @@ project_json = {
                 {
                     "name": "maxTime",
                     "type": "int",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "最多调用次数",
                     "postneed": 1,
@@ -572,8 +572,8 @@ project_json = {
                     "name": "Module",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "组件id",
@@ -584,10 +584,10 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "套餐名",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -595,27 +595,27 @@ project_json = {
                     "name": "gid",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 0,
                     "mean": "规格gid",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
                 {
                     "name": "price",
                     "type": "float",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "套餐名",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
                 {
                     "name": "type",
                     "type": "int",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "套餐类型，1按天，2按月，3按年，4，按次",
                     "postneed": 1,
@@ -625,7 +625,7 @@ project_json = {
                 {
                     "name": "times",
                     "type": "int",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "付费类型的数量",
                     "postneed": 1,
@@ -636,10 +636,10 @@ project_json = {
                     "name": "about",
                     "type": "str",
                     "length": "128",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "描述",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -669,7 +669,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "APP",
@@ -679,7 +679,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "开发者ID",
@@ -689,7 +689,7 @@ project_json = {
                 {
                     "name": "type",
                     "type": "int",
-                    "need": 1,
+                    "post": 1,
                     "listneed": 1,
                     "mean": "类型，1创建，2修改，3添加服务，4，删除服务，5到期关闭服务",
                     "args": [
@@ -728,7 +728,7 @@ project_json = {
                     "index": "id",
                     "type": "int",
                     "need": 0,  # 创建时候可以填写的参数
-                    "postmust": 0,  # 创建时候必须填写的参数
+                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "listneed": 1,
@@ -738,8 +738,8 @@ project_json = {
                     "name": "App",
                     "index": "id",
                     "type": "int",
-                    "need": 1,  # 创建时候可以填写的参数
-                    "postmust": 1,  # 创建时候必须填写的参数
+                      # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "listneed": 1,

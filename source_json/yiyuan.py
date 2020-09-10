@@ -61,10 +61,10 @@ project_json = {
                     "name": "age",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "肌肤年龄",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -73,10 +73,10 @@ project_json = {
                     "name": "spot",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "斑点",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -85,10 +85,10 @@ project_json = {
                     "name": "pore",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "毛孔",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -97,10 +97,10 @@ project_json = {
                     "name": "skin_type",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "肤质",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -109,10 +109,10 @@ project_json = {
                     "name": "acne",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "痤疮",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -121,10 +121,10 @@ project_json = {
                     "name": "features",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "脸部特征属性",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -133,10 +133,10 @@ project_json = {
                     "name": "chloasma",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "棕色斑",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -145,10 +145,10 @@ project_json = {
                     "name": "roughness",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "粗糙度",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -157,10 +157,10 @@ project_json = {
                     "name": "color",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "肤色",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -169,10 +169,10 @@ project_json = {
                     "name": "disease",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "皮肤病",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -181,10 +181,10 @@ project_json = {
                     "name": "texture",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "纹理",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -193,10 +193,10 @@ project_json = {
                     "name": "uv_spot",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "紫外斑",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -205,10 +205,10 @@ project_json = {
                     "name": "moisture",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "水分",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -217,10 +217,10 @@ project_json = {
                     "name": "wrinkle",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "皱纹",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -229,10 +229,10 @@ project_json = {
                     "name": "region",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "脸部关键点切割区域",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -241,10 +241,10 @@ project_json = {
                     "name": "blackhead",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "黑头",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -253,10 +253,10 @@ project_json = {
                     "name": "pockmark",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "痘痘",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -265,10 +265,10 @@ project_json = {
                     "name": "dark_circl",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "黑眼圈",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },
@@ -277,10 +277,10 @@ project_json = {
                     "name": "appearance",
                     "type": "str",
                     "length": "64",
-                    "need": 1,
+                    "post": 1,
                     "putneed": 1,
                     "mean": "颜",
-                    "postmust": 0,
+
                     "args": [
                     ],
                 },

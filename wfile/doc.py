@@ -72,20 +72,20 @@ def write_docs(root,ojson):
         d.write("| 参数  | 类型   | 是否必须 | 说明        |\n")
         d.write("| ----- | ------ | -------- | ----------- |\n")
         for column in table.get('args'):
-            if column.get('need'):
+            if column.get('post'):
                 argname = column.get('name')
                 argmean = column.get('mean')
                 argtype = column.get('type')
-                postmust = '是' if column.get('postmust') else '否'
+                postmust = '是' if column.get('post') == 2 else '否'
                 d.write(f"|{argname}|{argtype}|{postmust}|{argmean}|\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             pmean = parent.get('mean')
             ptype = parent.get('type')
-            postmust = '是' if parent.get('postmust') else '否'
+            postmust = '是' if parent.get('post') == 2 else '否'
             parenttablename = parentname.lower()
             argname = f"{parenttablename}_{parent.get('index')}"
-            if parent.get('need'):
+            if parent.get('post'):
                 d.write(f"|{argname}|{ptype}|{postmust}|{pmean}|\n")
         if table.get('many'):
             for many in table.get('many'):
@@ -151,7 +151,7 @@ def write_docs(root,ojson):
         d.write(f"|pageSize|int|否|单页条数|\n")
         d.write(f"|sorter|object|否|排序参数，格式例如：{{'price':'desend'}}，就是按价格降序|\n")
         for column in table.get('args'):
-            if column.get('need')or column.get('listneed'):
+            if column.get('listneed'):
                 if column.get('type') in ['float']:
                     continue
                 argname = column.get('name')
@@ -169,7 +169,7 @@ def write_docs(root,ojson):
             plistmust = '是' if parent.get('listmust') else '否'
             parenttablename = parentname.lower()
             argname = f"{parenttablename}_{parent.get('index')}"
-            if parent.get('need'):
+            if parent.get('list'):
                 d.write(f"|{argname}|{ptype}|{plistmust}|{pmean}|\n")
         d.write("\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
