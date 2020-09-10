@@ -27,56 +27,22 @@ def get_stock(id):
 def create_stock():
 	print(request.json)
 	ts_code = request.json.get('ts_code')
-	if ts_code is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：ts_code'})
 	symbol = request.json.get('symbol')
-	if symbol is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：symbol'})
 	name = request.json.get('name')
-	if name is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：name'})
 	area = request.json.get('area')
-	if area is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：area'})
 	industry = request.json.get('industry')
-	if industry is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：industry'})
 	fullname = request.json.get('fullname')
-	if fullname is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：fullname'})
 	enname = request.json.get('enname')
-	if enname is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：enname'})
 	market = request.json.get('market')
-	if market is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：market'})
 	exchange = request.json.get('exchange')
-	if exchange is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：exchange'})
 	curr_type = request.json.get('curr_type')
-	if curr_type is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：curr_type'})
 	list_status = request.json.get('list_status')
-	if list_status is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：list_status'})
 	list_date = request.json.get('list_date')
-	if list_date is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：list_date'})
 	delist_date = request.json.get('delist_date')
-	if delist_date is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：delist_date'})
 	is_hs = request.json.get('is_hs')
-	if is_hs is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：is_hs'})
 	price = request.json.get('price')
-	if price is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：price'})
 	circ_mv = request.json.get('circ_mv')
-	if circ_mv is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：circ_mv'})
 	pe = request.json.get('pe')
-	if pe is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：pe'})
 
 	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,circ_mv=circ_mv,pe=pe,)
 
@@ -178,7 +144,7 @@ def delete_stock():
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 	if stock.days.first() is not None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
-		db.session.delete(stock)
+	db.session.delete(stock)
 
 	try:
 		db.session.commit()
@@ -221,6 +187,10 @@ def list_stock():
 
 	if sorter:
 		sorter = json.loads(sorter)
+		if sorter.get('industry') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.industry.asc())
+		elif sorter.get('industry') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.industry.desc())
 		if sorter.get('list_date') == 'ascend':
 			total_stocks = total_stocks.order_by(Stock.list_date.asc())
 		elif sorter.get('list_date') == 'descend':

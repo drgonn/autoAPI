@@ -27,8 +27,6 @@ def get_group(id):
 def create_group():
 	print(request.json)
 	name = request.json.get('name')
-	if name is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：name'})
 
 	group = Group(name=name,)
 
@@ -96,7 +94,7 @@ def delete_group():
 		group = Group.query.get(id)
 		if group is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-		db.session.delete(group)
+	db.session.delete(group)
 
 	try:
 		db.session.commit()

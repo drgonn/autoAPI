@@ -27,62 +27,28 @@ def get_day(id):
 def create_day():
 	print(request.json)
 	trade_date = request.json.get('trade_date')
-	if trade_date is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：trade_date'})
 	close = request.json.get('close')
-	if close is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：close'})
 	turnover_rate = request.json.get('turnover_rate')
-	if turnover_rate is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：turnover_rate'})
 	turnover_rate_f = request.json.get('turnover_rate_f')
-	if turnover_rate_f is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：turnover_rate_f'})
 	volume_ratio = request.json.get('volume_ratio')
-	if volume_ratio is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：volume_ratio'})
 	pe = request.json.get('pe')
-	if pe is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：pe'})
 	pe_ttm = request.json.get('pe_ttm')
-	if pe_ttm is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：pe_ttm'})
 	pb = request.json.get('pb')
-	if pb is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：pb'})
 	ps = request.json.get('ps')
-	if ps is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：ps'})
 	ps_ttm = request.json.get('ps_ttm')
-	if ps_ttm is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：ps_ttm'})
 	dv_ratio = request.json.get('dv_ratio')
-	if dv_ratio is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：dv_ratio'})
 	dv_ttm = request.json.get('dv_ttm')
-	if dv_ttm is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：dv_ttm'})
 	total_share = request.json.get('total_share')
-	if total_share is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：total_share'})
 	float_share = request.json.get('float_share')
-	if float_share is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：float_share'})
 	free_share = request.json.get('free_share')
-	if free_share is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：free_share'})
 	total_mv = request.json.get('total_mv')
-	if total_mv is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：total_mv'})
 	circ_mv = request.json.get('circ_mv')
-	if circ_mv is None:
-		return jsonify({'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：circ_mv'})
 
-	stockId = request.json.get('stockId')
-	stock = Stock.query.filter_by(id=stockId).first()
+	stock_id = request.json.get('stock_id')
+	stock = Stock.query.filter_by(id=stock_id).first()
  
 	if stock is None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})	
+		return jsonify({'success':False,'error_code':-1,'errmsg':'stock_id不存在'})	
 
 	day = Day(trade_date=trade_date,close=close,turnover_rate=turnover_rate,turnover_rate_f=turnover_rate_f,volume_ratio=volume_ratio,pe=pe,pe_ttm=pe_ttm,pb=pb,ps=ps,ps_ttm=ps_ttm,dv_ratio=dv_ratio,dv_ttm=dv_ttm,total_share=total_share,float_share=float_share,free_share=free_share,total_mv=total_mv,circ_mv=circ_mv,stock_id=stock.id,)
 
@@ -119,10 +85,10 @@ def modify_day(id):
 	free_share = request.json.get('free_share')
 	total_mv = request.json.get('total_mv')
 	circ_mv = request.json.get('circ_mv')
-	stockId = request.json.get('stockId')
-	stock = Stock.query.filter_by(id=stockId).first()
+	stock_id = request.json.get('stock_id')
+	stock = Stock.query.filter_by(id=stock_id).first()
 	if stock is None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'stockId不存在'})	
+		return jsonify({'success':False,'error_code':-1,'errmsg':'stock_id不存在'})	
 	day.trade_date = trade_date or day.trade_date
 	day.close = close or day.close
 	day.turnover_rate = turnover_rate or day.turnover_rate
@@ -160,7 +126,7 @@ def delete_day():
 		day = Day.query.get(id)
 		if day is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-		db.session.delete(day)
+	db.session.delete(day)
 
 	try:
 		db.session.commit()

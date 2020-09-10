@@ -5,7 +5,7 @@ from ..data.tusharedata import  insert_stock,update_last_daily_basic,update_stoc
 from app import db
 import numpy as np
 from app.tools import certify_token,get_trole,certify_token
-from ..models import Day,Stock
+from ..models import Day,Stock,Group
 import time
 """更新数据接口"""
 
@@ -42,3 +42,23 @@ def update_days():
 		"success": True,
 		"error_code": 0,
 	})
+
+def indus():
+	stocks = Stock.query.all()
+	for stock in stocks:
+		industry = stock.industry
+		group = Group.query.filter_by(name=industry).first()
+		if group:
+			group.stocks.append(stock)
+		else:
+			group = Group(name=industry)
+			group.stocks.append(stock)
+		db.session.add(group)
+	try:
+		db.session.commit()
+	except Exception as e:
+		db.session.rollback()
+		print(f'添加数据库发生错误,已经回退:{e}')
+		# return jsonify({'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'})
+
+			
