@@ -82,7 +82,7 @@ def w_config_config(root,ojson):
 				w.write(f"""                {{\n""")
 				w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
 				w.write(f"""                  name: '{table.get('zh')}',\n""")
-				w.write(f"""                  component: './{path}/{table_name.lower()}_{son_route.get('module')}',\n""")
+				w.write(f"""                  component: './{path}/{table_name.lower()}',\n""")
 				w.write(f"""                }},\n""")
 			w.write(f"""              ]\n""")
 			pass

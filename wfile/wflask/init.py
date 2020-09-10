@@ -49,6 +49,13 @@ def make_init(root,ojson):
     w = open(initdir,'w+')
     w.write(standard)
     w.close()
+    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/tools.py')
+
+    target = os.path.join(root, f'{appname}/src/app/tools.py')
+    print(source_dir)
+    print(target)
+    if not os.path.exists(target):
+        os.system(f'cp  {source_dir} {target}')
 
 
 

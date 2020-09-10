@@ -74,7 +74,7 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t{parenttablename} = g.current_user\n ")
             elif parent.get('post'):
                 index = parent.get('index')
-                argname = f"{parenttablename}{parent.get('index').capitalize()}"
+                argname = f"{parenttablename}_{parent.get('index')}"
                 w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
                 if parent.get('post')==2:
                     w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
@@ -131,7 +131,7 @@ from app.tools import is_admin,get_permission
             parenttablename = parentname.lower()
             if parent.get('putneed'):
                 index = parent.get('index')
-                argname = f"{parenttablename}{parent.get('index').capitalize()}"
+                argname = f"{parenttablename}_{parent.get('index')}"
                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
                 w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
                 w.write(f"\tif {parenttablename} is None:\n")

@@ -34,6 +34,13 @@ def w_component_index(root,ojson):
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
 
+
+			if "put" in crud or "post" in crud:
+				for parent in parents:
+					postmust =  parent.get('post')
+					if postmust:
+						w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/{path}/{parent.get('name').lower()}/service";\n""")
+
 			w.write(f"""""")
 
 			w.write(f"""import {{ TableListItem }} from './data.d';\n""")
@@ -332,7 +339,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                  </Tooltip>\n""")
 						w.write(f"""                </span>\n""")
 						w.write(f"""              }}\n""")
-						w.write(f"""              name="{parent.get('name')}_id"\n""")
+						w.write(f"""              name="{parent.get('name').lower()}_id"\n""")
 						w.write(f"""              rules={{[\n""")
 						w.write(f"""                {{\n""")
 						w.write(f"""                  required: true,\n""")
