@@ -126,7 +126,7 @@ def delete_day():
 		day = Day.query.get(id)
 		if day is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	db.session.delete(day)
+		db.session.delete(day)
 
 	try:
 		db.session.commit()

@@ -142,9 +142,9 @@ def delete_stock():
 		stock = Stock.query.get(id)
 		if stock is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	if stock.days.first() is not None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
-	db.session.delete(stock)
+		if stock.days.first() is not None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'stock还拥有day，不能删除'})
+		db.session.delete(stock)
 
 	try:
 		db.session.commit()
@@ -212,6 +212,12 @@ def list_stock():
 	page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page
 	pagination = total_stocks.paginate(page, per_page = pageSize, error_out = False)
 	stocks = pagination.items
+	data = [stock.to_json() for stock in stocks]
+	total = sum([i['circ_mv'] for i in data])
+	cmc = sum([{"item":i['name'],"count":i['circ_mv'],"percent":i['circ_mv']/total,} for i in data])
+
+
+
 
 	return jsonify({
                     'success':True,
@@ -219,6 +225,7 @@ def list_stock():
                     'total':totalcount,
                     "pageSize" : pageSize,
                     "pagecount": pagination.pages,
-                    'data':[stock.to_json() for stock in stocks]
+                    'data':data,
+					'cmc':cmc,
                     })
 

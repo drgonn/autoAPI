@@ -290,6 +290,10 @@ project_json = {
                     "module":"protable",
                     "table": "Worktime",
                 },
+                {
+                    "module": "protable",
+                    "table": "Valve",
+                },
 
             ],
         }
