@@ -1389,6 +1389,581 @@ project_json = {
             ],
             "repr": "id",
         },  # 应急报告管理
+        {
+            "table": "Udpdata",
+            "api": 1,
+            "zh": "应急报告管理",
+            "parents": [
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "预警处理结果",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "e_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "v1",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v2",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v3",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v4",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v5",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v6",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v7",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v8",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v9",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v10",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v11",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v12",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v13",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v14",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v15",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v16",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v17",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v18",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v19",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v20",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v21",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v22",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v23",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v24",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v25",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v26",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v27",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v28",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v29",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v30",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v31",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v32",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v33",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v34",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v35",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v36",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v37",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v38",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v39",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v40",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v41",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v42",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v43",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v44",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v45",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v46",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v47",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v48",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v49",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v50",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v51",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v52",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v53",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v54",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v55",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v56",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v57",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v58",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v59",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v60",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v61",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v62",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v63",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v64",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v65",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v66",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+                {
+                    "name": "v67",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "数据",
+                },
+
+
+            ],
+            "repr": "id",
+        },  # 应急报告管理
 
     ],
     "routes": [
