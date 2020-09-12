@@ -94,7 +94,7 @@ def delete_group():
 		group = Group.query.get(id)
 		if group is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	db.session.delete(group)
+		db.session.delete(group)
 
 	try:
 		db.session.commit()

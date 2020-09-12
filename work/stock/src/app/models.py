@@ -108,10 +108,6 @@ class Day(db.Model):
 	def __repr__(self):
 		return '<Day %r>' % self.name
 
-GroupStock = db.Table('groupstocks',
-	db.Column('group_id',db.Integer,db.ForeignKey('groups.id')),
-	db.Column('stock_id',db.Integer,db.ForeignKey('stocks.id')))
-
 class Group(db.Model):
 	__tablename__='groups'
 	id = db.Column(db.Integer, primary_key=True)

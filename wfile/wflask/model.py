@@ -13,11 +13,12 @@ def make_models(appdir,app):
         tablenames = tablename + 's'
         if table.get("many"):
             for many in table.get('many'):
-                manyclass = many.get('name')
-                manyname = many.get('name').lower()
-                w.write(f"\n{tableclass}{manyclass} = db.Table('{tablename}{manyname}s',\n")
-                w.write(f"\tdb.Column('{tablename}_id',db.Integer,db.ForeignKey('{tablename}s.id')),\n")
-                w.write(f"\tdb.Column('{manyname}_id',db.Integer,db.ForeignKey('{manyname}s.id')))\n")
+                if many.get('w_model'):
+                    manyclass = many.get('name')
+                    manyname = many.get('name').lower()
+                    w.write(f"\n{tableclass}{manyclass} = db.Table('{tablename}{manyname}s',\n")
+                    w.write(f"\tdb.Column('{tablename}_id',db.Integer,db.ForeignKey('{tablename}s.id')),\n")
+                    w.write(f"\tdb.Column('{manyname}_id',db.Integer,db.ForeignKey('{manyname}s.id')))\n")
 
         w.write(f"\nclass {tableclass}(db.Model):\n")
         w.write(f"\t__tablename__='{tablenames}'\n")
