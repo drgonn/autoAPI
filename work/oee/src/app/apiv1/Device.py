@@ -73,11 +73,11 @@ def delete_device():
 		device = Device.query.get(id)
 		if device is None:
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
-	if device.worktimes.first() is not None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有worktime，不能删除'})
-	if device.valves.first() is not None:
-		return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有valve，不能删除'})
-	db.session.delete(device)
+		if device.worktimes.first() is not None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有worktime，不能删除'})
+		if device.valves.first() is not None:
+			return jsonify({'success':False,'error_code':-1,'errmsg':'device还拥有valve，不能删除'})
+		db.session.delete(device)
 
 	try:
 		db.session.commit()
@@ -118,6 +118,7 @@ def list_device():
                     'error_code':0,
                     'total':totalcount,
                     "pageSize" : pageSize,
+                    "current" : page,
                     "pagecount": pagination.pages,
                     'data':[device.to_json() for device in devices]
                     })

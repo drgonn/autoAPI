@@ -212,20 +212,14 @@ def list_stock():
 	page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page
 	pagination = total_stocks.paginate(page, per_page = pageSize, error_out = False)
 	stocks = pagination.items
-	data = [stock.to_json() for stock in stocks]
-	total = sum([i['circ_mv'] for i in data])
-	cmc = sum([{"item":i['name'],"count":i['circ_mv'],"percent":i['circ_mv']/total,} for i in data])
-
-
-
 
 	return jsonify({
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
                     "pageSize" : pageSize,
+                    "current" : page,
                     "pagecount": pagination.pages,
-                    'data':data,
-					'cmc':cmc,
+                    'data':[stock.to_json() for stock in stocks]
                     })
 

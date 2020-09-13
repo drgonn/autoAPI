@@ -8,6 +8,7 @@ project_json = {
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8802",                             #ant 调试访问地址
+    # "auth":0,
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
@@ -1293,6 +1294,7 @@ project_json = {
         {
             "table": "Material",
             "api": 1,
+            "crud": [],
             "zh": "应急物资管理",
             "parents": [
                 {
@@ -1392,7 +1394,8 @@ project_json = {
         {
             "table": "Udpdata",
             "api": 1,
-            "zh": "应急报告管理",
+            "zh": "udp数据",
+            "crud": [],
             "parents": [
             ],
             "args": [
@@ -1429,7 +1432,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v1",
                 },
                 {
                     "name": "v2",
@@ -1437,7 +1440,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v2",
                 },
                 {
                     "name": "v3",
@@ -1445,7 +1448,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v3",
                 },
                 {
                     "name": "v4",
@@ -1453,7 +1456,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v4",
                 },
                 {
                     "name": "v5",
@@ -1461,7 +1464,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v5",
                 },
                 {
                     "name": "v6",
@@ -1469,7 +1472,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v6",
                 },
                 {
                     "name": "v7",
@@ -1477,7 +1480,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v7",
                 },
                 {
                     "name": "v8",
@@ -1485,7 +1488,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v8",
                 },
                 {
                     "name": "v9",
@@ -1493,7 +1496,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v9",
                 },
                 {
                     "name": "v10",
@@ -1501,7 +1504,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v10",
                 },
                 {
                     "name": "v11",
@@ -1509,7 +1512,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v11",
                 },
                 {
                     "name": "v12",
@@ -1517,7 +1520,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v12",
                 },
                 {
                     "name": "v13",
@@ -1525,7 +1528,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v13",
                 },
                 {
                     "name": "v14",
@@ -1533,7 +1536,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v14",
                 },
                 {
                     "name": "v15",
@@ -1541,7 +1544,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v15",
                 },
                 {
                     "name": "v16",
@@ -1549,7 +1552,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v16",
                 },
                 {
                     "name": "v17",
@@ -1557,7 +1560,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v17",
                 },
                 {
                     "name": "v18",
@@ -1565,7 +1568,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v18",
                 },
                 {
                     "name": "v19",
@@ -1573,7 +1576,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v19",
                 },
                 {
                     "name": "v20",
@@ -1581,7 +1584,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v20",
                 },
                 {
                     "name": "v21",
@@ -1589,7 +1592,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v21",
                 },
                 {
                     "name": "v22",
@@ -1597,7 +1600,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v22",
                 },
                 {
                     "name": "v23",
@@ -1605,7 +1608,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v23",
                 },
                 {
                     "name": "v24",
@@ -1613,7 +1616,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v24",
                 },
                 {
                     "name": "v25",
@@ -1621,7 +1624,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v25",
                 },
                 {
                     "name": "v26",
@@ -1629,7 +1632,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v26",
                 },
                 {
                     "name": "v27",
@@ -1637,7 +1640,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v27",
                 },
                 {
                     "name": "v28",
@@ -1645,7 +1648,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v28",
                 },
                 {
                     "name": "v29",
@@ -1653,7 +1656,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v29",
                 },
                 {
                     "name": "v30",
@@ -1661,7 +1664,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v30",
                 },
                 {
                     "name": "v31",
@@ -1669,7 +1672,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v31",
                 },
                 {
                     "name": "v32",
@@ -1677,7 +1680,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v32",
                 },
                 {
                     "name": "v33",
@@ -1685,7 +1688,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v33",
                 },
                 {
                     "name": "v34",
@@ -1693,7 +1696,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v34",
                 },
                 {
                     "name": "v35",
@@ -1701,7 +1704,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v35",
                 },
                 {
                     "name": "v36",
@@ -1709,7 +1712,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v36",
                 },
                 {
                     "name": "v37",
@@ -1717,7 +1720,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v37",
                 },
                 {
                     "name": "v38",
@@ -1725,7 +1728,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v38",
                 },
                 {
                     "name": "v39",
@@ -1733,7 +1736,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v39",
                 },
                 {
                     "name": "v40",
@@ -1741,7 +1744,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v40",
                 },
                 {
                     "name": "v41",
@@ -1749,7 +1752,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v41",
                 },
                 {
                     "name": "v42",
@@ -1757,7 +1760,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v42",
                 },
                 {
                     "name": "v43",
@@ -1765,7 +1768,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v43",
                 },
                 {
                     "name": "v44",
@@ -1773,7 +1776,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v44",
                 },
                 {
                     "name": "v45",
@@ -1781,7 +1784,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v45",
                 },
                 {
                     "name": "v46",
@@ -1789,7 +1792,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v46",
                 },
                 {
                     "name": "v47",
@@ -1797,7 +1800,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v47",
                 },
                 {
                     "name": "v48",
@@ -1805,7 +1808,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v48",
                 },
                 {
                     "name": "v49",
@@ -1813,7 +1816,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v49",
                 },
                 {
                     "name": "v50",
@@ -1821,7 +1824,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v50",
                 },
                 {
                     "name": "v51",
@@ -1829,7 +1832,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v51",
                 },
                 {
                     "name": "v52",
@@ -1837,7 +1840,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v52",
                 },
                 {
                     "name": "v53",
@@ -1845,7 +1848,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v53",
                 },
                 {
                     "name": "v54",
@@ -1853,7 +1856,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v54",
                 },
                 {
                     "name": "v55",
@@ -1861,7 +1864,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v55",
                 },
                 {
                     "name": "v56",
@@ -1869,7 +1872,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v56",
                 },
                 {
                     "name": "v57",
@@ -1877,7 +1880,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v57",
                 },
                 {
                     "name": "v58",
@@ -1885,7 +1888,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v58",
                 },
                 {
                     "name": "v59",
@@ -1893,7 +1896,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v59",
                 },
                 {
                     "name": "v60",
@@ -1901,7 +1904,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v60",
                 },
                 {
                     "name": "v61",
@@ -1909,7 +1912,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v61",
                 },
                 {
                     "name": "v62",
@@ -1917,7 +1920,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v62",
                 },
                 {
                     "name": "v63",
@@ -1925,7 +1928,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v63",
                 },
                 {
                     "name": "v64",
@@ -1933,7 +1936,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v64",
                 },
                 {
                     "name": "v65",
@@ -1941,7 +1944,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v65",
                 },
                 {
                     "name": "v66",
@@ -1949,7 +1952,7 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v66",
                 },
                 {
                     "name": "v67",
@@ -1957,16 +1960,26 @@ project_json = {
                     "post": 1,  # 创建时候可以填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "数据",
+                    "mean": "v67",
                 },
-
 
             ],
             "repr": "id",
-        },  # 应急报告管理
+        },  #
 
     ],
     "routes": [
+        {
+            "path": "udp",  # 上级目录主菜单详情
+            "name": "U",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": [
+                {
+                    "module": "protable",
+                    "table": "Udpdata",
+                },
+            ],
+        },
         {
             "path": "args",  # 上级目录主菜单详情
             "name": "公用参数设置",
@@ -1998,7 +2011,8 @@ project_json = {
                 },
 
             ],
-        }
+        },
+
     ],
 }
 

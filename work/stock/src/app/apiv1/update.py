@@ -48,11 +48,16 @@ def indus():
 	for stock in stocks:
 		industry = stock.industry
 		group = Group.query.filter_by(name=industry).first()
+		if 'ST' in stock.name:
+			continue
 		if group:
 			group.stocks.append(stock)
+			if 'ST' in stock.name:
+				group.stocks.remove(stock)
 		else:
 			group = Group(name=industry)
-			group.stocks.append(stock)
+			# group.stocks.append(stock)
+
 		db.session.add(group)
 	try:
 		db.session.commit()

@@ -88,12 +88,14 @@ f = re.match("/mnt/c/Users/(\w*)/", basedir)
 # w.close()
 
 for i in range(67):
-    f = f'''                    {{
-                        "name": "v{i+1}",
-                        "type": "float",
-                        "post": 1,  # 创建时候可以填写的参数
-                        "putneed": 1,  # 修改时可以修改的参数
-                        "listmust": 0,  # 请求列表必须post的参数
-                        "mean": "数据",
-                    }},'''
-    print(f)
+    # f = f'''                    {{
+    #                     "name": "v{i+1}",
+    #                     "type": "float",
+    #                     "post": 1,  # 创建时候可以填写的参数
+    #                     "putneed": 1,  # 修改时可以修改的参数
+    #                     "listmust": 0,  # 请求列表必须post的参数
+    #                     "mean": "v{i+1}",
+    #                 }},'''
+    # print(f)
+    # print(f"v{i+1} = ts[{i+12}]/10,")+2
+    print(f"chart_data.push({{time: o.e_time, value: o.v{i+1},name:'v{i+1}'}})")

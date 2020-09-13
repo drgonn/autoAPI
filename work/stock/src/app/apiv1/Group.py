@@ -140,6 +140,7 @@ def list_group():
                     'error_code':0,
                     'total':totalcount,
                     "pageSize" : pageSize,
+                    "current" : page,
                     "pagecount": pagination.pages,
                     'data':[group.to_json() for group in groups]
                     })

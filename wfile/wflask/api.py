@@ -289,6 +289,7 @@ from app.tools import is_admin,get_permission
                     'error_code':0,
                     'total':totalcount,
                     "pageSize" : pageSize,
+                    "current" : page,
                     "pagecount": pagination.pages,
                     'data':[{tablename}.to_json() for {tablename} in {tablenames}]
                     }})""")

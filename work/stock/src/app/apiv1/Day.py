@@ -199,6 +199,7 @@ def list_day():
                     'error_code':0,
                     'total':totalcount,
                     "pageSize" : pageSize,
+                    "current" : page,
                     "pagecount": pagination.pages,
                     'data':[day.to_json() for day in days]
                     })
