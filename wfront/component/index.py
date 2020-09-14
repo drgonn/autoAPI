@@ -406,18 +406,64 @@ def w_component_index(root,ojson):
 				w.write(f"""        onCancel={{()=>{{handleUpdateModalVisible(false)}}}}\n""")
 				w.write(f"""      >\n""")
 				w.write(f"""        <Form form={{form}} initialValues={{formvalues}}>\n""")
+				for parent in parents:
+					postmust =  parent.get('post')
+					if postmust:
+						w.write(f"""            <Form.Item\n""")
+						w.write(f"""              label={{\n""")
+						w.write(f"""                <span>\n""")
+						w.write(f"""                  选择自选组 &nbsp;\n""")
+						w.write(f"""                  <Tooltip title="选择需要的股票">\n""")
+						w.write(f"""                    <QuestionCircleOutlined />\n""")
+						w.write(f"""                  </Tooltip>\n""")
+						w.write(f"""                </span>\n""")
+						w.write(f"""              }}\n""")
+						w.write(f"""              name="{parent.get('name').lower()}_id"\n""")
+						w.write(f"""              rules={{[\n""")
+						w.write(f"""                {{\n""")
+						w.write(f"""                  required: true,\n""")
+						w.write(f"""                  message: '请选择自选组!',\n""")
+						w.write(f"""                }},\n""")
+						w.write(f"""              ]}}\n""")
+						w.write(f"""            >\n""")
+						w.write(f"""              <Select\n""")
+						w.write(f"""                placeholder="请选择自选组..."\n""")
+						w.write(f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
+						w.write(f"""                allowClear\n""")
+						w.write(f"""                showSearch\n""")
+						w.write(f"""                optionFilterProp="children"\n""")
+						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						w.write(f"""              >\n""")
+						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
+						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
+						w.write(f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                  }})}}\n""")
+						w.write(f"""              </Select>\n""")
+						w.write(f"""            </Form.Item>\n""")
+
 				for arg in args:
-					w.write(f"""          <Form.Item\n""")
-					w.write(f"""            labelCol={{{{ span: 5 }}}}\n""")
-					w.write(f"""            wrapperCol={{{{ span: 15 }}}}\n""")
-					w.write(f"""            name='{arg.get('name')}'\n""")
-					w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
-					w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
-					w.write(f"""          >\n""")
-					w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
-					w.write(f"""          </Form.Item>\n""")
+					postmust =  arg.get('post')
+					if postmust:
+
+						w.write(f"""          <Form.Item\n""")
+						w.write(f"""            name='{arg.get('name')}'\n""")
+						if postmust == 1:
+							w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
+						elif postmust == 2:
+							w.write(f"""            rules= {{[{{ required: true, message: '请输入名称!' }}]}}\n""")
+						w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
+						w.write(f"""          >\n""")
+						if arg.get('corres'):
+							w.write(f"""            <Select>\n""")
+							for cor in  arg.get('corres'):
+								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
+							w.write(f"""            </Select>\n""")
+						else:
+							w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+						w.write(f"""          </Form.Item>\n""")
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
+
 
                 
 

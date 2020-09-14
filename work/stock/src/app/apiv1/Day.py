@@ -27,6 +27,7 @@ def get_day(id):
 def create_day():
 	print(request.json)
 	trade_date = request.json.get('trade_date')
+	score = request.json.get('score')
 	close = request.json.get('close')
 	turnover_rate = request.json.get('turnover_rate')
 	turnover_rate_f = request.json.get('turnover_rate_f')
@@ -50,7 +51,7 @@ def create_day():
 	if stock is None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'stock_id不存在'})	
 
-	day = Day(trade_date=trade_date,close=close,turnover_rate=turnover_rate,turnover_rate_f=turnover_rate_f,volume_ratio=volume_ratio,pe=pe,pe_ttm=pe_ttm,pb=pb,ps=ps,ps_ttm=ps_ttm,dv_ratio=dv_ratio,dv_ttm=dv_ttm,total_share=total_share,float_share=float_share,free_share=free_share,total_mv=total_mv,circ_mv=circ_mv,stock_id=stock.id,)
+	day = Day(trade_date=trade_date,score=score,close=close,turnover_rate=turnover_rate,turnover_rate_f=turnover_rate_f,volume_ratio=volume_ratio,pe=pe,pe_ttm=pe_ttm,pb=pb,ps=ps,ps_ttm=ps_ttm,dv_ratio=dv_ratio,dv_ttm=dv_ttm,total_share=total_share,float_share=float_share,free_share=free_share,total_mv=total_mv,circ_mv=circ_mv,stock_id=stock.id,)
 
 	db.session.add(day)
 	try:
@@ -69,6 +70,7 @@ def modify_day(id):
 	print('put json:',request.json)
 	day = Day.query.get_or_404(id)
 	trade_date = request.json.get('trade_date')
+	score = request.json.get('score')
 	close = request.json.get('close')
 	turnover_rate = request.json.get('turnover_rate')
 	turnover_rate_f = request.json.get('turnover_rate_f')
@@ -90,6 +92,7 @@ def modify_day(id):
 	if stock is None:
 		return jsonify({'success':False,'error_code':-1,'errmsg':'stock_id不存在'})	
 	day.trade_date = trade_date or day.trade_date
+	day.score = score or day.score
 	day.close = close or day.close
 	day.turnover_rate = turnover_rate or day.turnover_rate
 	day.turnover_rate_f = turnover_rate_f or day.turnover_rate_f
@@ -156,6 +159,10 @@ def list_day():
 			total_days = total_days.filter_by(stock_id=stock.id)
 	if sorter:
 		sorter = json.loads(sorter)
+		if sorter.get('score') == 'ascend':
+			total_days = total_days.order_by(Day.score.asc())
+		elif sorter.get('score') == 'descend':
+			total_days = total_days.order_by(Day.score.desc())
 		if sorter.get('ps_ttm') == 'ascend':
 			total_days = total_days.order_by(Day.ps_ttm.asc())
 		elif sorter.get('ps_ttm') == 'descend':

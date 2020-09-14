@@ -65,6 +65,7 @@ class Day(db.Model):
 	__tablename__='days'
 	id = db.Column(db.Integer, primary_key=True)
 	trade_date = db.Column(db.Date)
+	score = db.Column(db.Float)
 	close = db.Column(db.Float)
 	turnover_rate = db.Column(db.Float)
 	turnover_rate_f = db.Column(db.Float)
@@ -88,6 +89,7 @@ class Day(db.Model):
 		return{
 			'id':self.id,
 			'trade_date': self.trade_date,
+			'score': self.score,
 			'close': self.close,
 			'turnover_rate': self.turnover_rate,
 			'turnover_rate_f': self.turnover_rate_f,

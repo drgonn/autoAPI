@@ -47,6 +47,11 @@ def scores():
 		"success": True,
 		"error_code": 0,
 	})
+	# return jsonify({
+	# 	"success": False,
+	# 	"error_code": -1,
+	# 	"errmsg":"错了士大夫但是",
+	# })
 
 def industry_score():
 	groups = Group.query.filter_by(type=2).all()
