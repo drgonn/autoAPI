@@ -63,7 +63,10 @@ def w_config_config(root,ojson):
 	w.write(f"""          routes: [\n""")
 	w.write(f"""            {{\n""")
 	w.write(f"""              path: '/',\n""")
-	w.write(f"""              redirect: '/list/day',\n""")
+	path = routes[0].get('path')
+	table_name = routes[0]['components'][0].get("table")
+	print("tablename",table_name)
+	w.write(f"""              redirect: '/{path}/{table_name.lower()}',\n""")
 	w.write(f"""            }},\n""")
 	for route in routes:
 		if route.get('components'):   #说明是菜单，不是最终标签

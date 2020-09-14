@@ -114,12 +114,20 @@ def w_component_index(root,ojson):
 			for arg in args:
 				arg_name = arg['name']
 				arg_mean = arg['mean']
+				arg_corres = arg.get('corres')
 				type = Tdb(arg['type']).protable_valuetype
 
 				w.write(f"""    {{\n""")
 				w.write(f"""      title: '{arg_mean}',\n""")
 				w.write(f"""      dataIndex: '{arg_name}',\n""")
-				w.write(f"""      valueType: '{type}',\n""")
+				if arg_corres:
+					print("corrrrrr", arg_corres)
+					w.write(f"""      valueEnum: {{\n""")
+					for corre in arg_corres:
+						w.write(f"""        {corre['key']}: {{ text:'{corre['value']}'}},\n""")
+					w.write(f"""      }}\n""")
+				else:
+					w.write(f"""      valueType: '{type}',\n""")
 				if arg.get('sorter'):
 					w.write(f"""      sorter: true,\n""")
 				w.write(f"""    }},\n""")
@@ -363,20 +371,12 @@ def w_component_index(root,ojson):
 						w.write(f"""                  }})}}\n""")
 						w.write(f"""              </Select>\n""")
 						w.write(f"""            </Form.Item>\n""")
-						
-						
-						
-
-
-
-
 
 				for arg in args:
 					postmust =  arg.get('post')
 					if postmust:
+
 						w.write(f"""          <Form.Item\n""")
-						w.write(f"""            labelCol={{{{ span: 5 }}}}\n""")
-						w.write(f"""            wrapperCol={{{{ span: 15 }}}}\n""")
 						w.write(f"""            name='{arg.get('name')}'\n""")
 						if postmust == 1:
 							w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
@@ -384,7 +384,13 @@ def w_component_index(root,ojson):
 							w.write(f"""            rules= {{[{{ required: true, message: '请输入名称!' }}]}}\n""")
 						w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
 						w.write(f"""          >\n""")
-						w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+						if arg.get('corres'):
+							w.write(f"""            <Select>\n""")
+							for cor in  arg.get('corres'):
+								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
+							w.write(f"""            </Select>\n""")
+						else:
+							w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")

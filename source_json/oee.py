@@ -131,7 +131,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "设备id",
+                    "mean": "机台id",
                     "show": [        #放在api当中显示的参数
                         {
                             "name":"name",
@@ -175,7 +175,14 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "工作类型",
+                    "mean": "时间类型",
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 1, 'value': "停止时间"},
+                        {'key': 2, 'value': "负荷时间"},
+                        {'key': 3, 'value': "停机时间"},
+                        {'key': 4, 'value': "运转时间"},
+                    ],
                 },
                 {
                     "name": "amount",
@@ -269,6 +276,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "类型",
+
                 },
 
             ],

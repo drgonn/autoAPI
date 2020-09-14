@@ -6,9 +6,9 @@ project_json = {
     "testhost":"localhost",                             #  test开头的都被用在postman当中做测试
     "testport":"8001",                             #
     "testprotocol":"http",                             #
-    "anturl":"http://localhost:8001",                               #ant前端访问地址
+    "anturl":"http://localhost:8888",                               #ant前端访问地址
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8800",                             #ant 调试访问地址
+    "antport":"8888",                             #ant 调试访问地址
     "antprotocol":"http",                         #ant 调试访问地址
     "auth":None,                             #
     "Flask_APScheduler":{             #flask-apscheduler 的定时任务设置
@@ -324,7 +324,15 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "交易日期",
                 },
-
+                {
+                    "name": "score",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "评分",
+                    "sorter": 1,
+                },
                 {
                     "name": "close",
                     "type": "float",
@@ -334,7 +342,6 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "当日收盘价",
                 },
-
                 {
                     "name": "turnover_rate",
                     "type": "float",
@@ -530,11 +537,12 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "分组类型",
-                    "corres": {
-                        1:"自选",
-                        2:"行业",
-                        3:"概念",
-                    },
+                    "filter": "precise",
+                    "corres": [
+                        {'key':1,'value':"自选"},
+                        {'key':2,'value':"行业"},
+                        {'key':3,'value':"概念"},
+                    ],
                 },
             ],
             "repr": "name",
@@ -549,16 +557,17 @@ project_json = {
             "components": [
                 {
                     "module":"protable",
-                    "table": "Day",
-                },
-                {
-                    "module":"protable",
                     "table": "Stock",
                 },
                 {
                     "module": "protable",
                     "table": "Group",
                 },
+                {
+                    "module":"protable",
+                    "table": "Day",
+                },
+
             ],
         }
     ],

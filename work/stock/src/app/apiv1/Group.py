@@ -130,6 +130,10 @@ def list_group():
 	if name is not None:
 		total_groups = total_groups.filter(Group.name.ilike(f'%{name}%'))
 
+	type = request.args.get('type')
+	if type is not None:
+		total_groups = total_groups.filter_by(type=type)
+
 	if sorter:
 		sorter = json.loads(sorter)
 		pass

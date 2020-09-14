@@ -33,15 +33,29 @@ def update_days():
 		for ts_code in ts_codes:
 			update_stock_daily_basic(ts_code)
 
-	# for ts_code in ts_codes:
-	# 	df = update_daily_basic(ts_code)
+	return jsonify({
+		"success": True,
+		"error_code": 0,
+	})
 
+@api.route("/scores", methods=["GET"])
+def scores():
+	# 计算行业排名得分
 
 
 	return jsonify({
 		"success": True,
 		"error_code": 0,
 	})
+
+def industry_score():
+	groups = Group.query.filter_by(type=2).all()
+	for group in groups:
+		for stock in  group.stocks:
+			for d in  stock.days:
+				pass
+
+
 
 def indus():
 	stocks = Stock.query.all()
@@ -55,7 +69,7 @@ def indus():
 			if 'ST' in stock.name:
 				group.stocks.remove(stock)
 		else:
-			group = Group(name=industry)
+			group = Group(name=industry,type=2)
 			# group.stocks.append(stock)
 
 		db.session.add(group)
@@ -66,4 +80,3 @@ def indus():
 		print(f'添加数据库发生错误,已经回退:{e}')
 		# return jsonify({'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'})
 
-			
