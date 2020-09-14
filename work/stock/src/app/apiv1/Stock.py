@@ -43,8 +43,9 @@ def create_stock():
 	price = request.json.get('price')
 	circ_mv = request.json.get('circ_mv')
 	pe = request.json.get('pe')
+	score = request.json.get('score')
 
-	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,circ_mv=circ_mv,pe=pe,)
+	stock = Stock(ts_code=ts_code,symbol=symbol,name=name,area=area,industry=industry,fullname=fullname,enname=enname,market=market,exchange=exchange,curr_type=curr_type,list_status=list_status,list_date=list_date,delist_date=delist_date,is_hs=is_hs,price=price,circ_mv=circ_mv,pe=pe,score=score,)
 
 	group_ids = request.json.get('group_ids') or []
 	for group_id in group_ids:
@@ -87,6 +88,7 @@ def modify_stock(id):
 	price = request.json.get('price')
 	circ_mv = request.json.get('circ_mv')
 	pe = request.json.get('pe')
+	score = request.json.get('score')
 	stock.ts_code = ts_code or stock.ts_code
 	stock.symbol = symbol or stock.symbol
 	stock.name = name or stock.name
@@ -104,6 +106,7 @@ def modify_stock(id):
 	stock.price = price or stock.price
 	stock.circ_mv = circ_mv or stock.circ_mv
 	stock.pe = pe or stock.pe
+	stock.score = score or stock.score
 
 	add_group_ids = request.json.get('add_group_ids')
 	if add_group_ids:
@@ -207,6 +210,10 @@ def list_stock():
 			total_stocks = total_stocks.order_by(Stock.pe.asc())
 		elif sorter.get('pe') == 'descend':
 			total_stocks = total_stocks.order_by(Stock.pe.desc())
+		if sorter.get('score') == 'ascend':
+			total_stocks = total_stocks.order_by(Stock.score.asc())
+		elif sorter.get('score') == 'descend':
+			total_stocks = total_stocks.order_by(Stock.score.desc())
 		pass
 	totalcount = total_stocks.with_entities(func.count(Stock.id)).scalar()
 	page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page

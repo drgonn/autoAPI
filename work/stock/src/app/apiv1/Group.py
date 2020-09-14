@@ -27,8 +27,9 @@ def get_group(id):
 def create_group():
 	print(request.json)
 	name = request.json.get('name')
+	type = request.json.get('type')
 
-	group = Group(name=name,)
+	group = Group(name=name,type=type,)
 
 	stock_ids = request.json.get('stock_ids') or []
 	for stock_id in stock_ids:
@@ -55,7 +56,9 @@ def modify_group(id):
 	print('put json:',request.json)
 	group = Group.query.get_or_404(id)
 	name = request.json.get('name')
+	type = request.json.get('type')
 	group.name = name or group.name
+	group.type = type or group.type
 
 	add_stock_ids = request.json.get('add_stock_ids')
 	if add_stock_ids:

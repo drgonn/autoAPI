@@ -272,11 +272,19 @@ project_json = {
                 {
                     "name": "pe",
                     "type": "float",
-                      # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市盈率（总市值/净利润，亏损的PE为空）",
+                    "sorter": 1,
+                },
+                {
+                    "name": "score",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "评分",
                     "sorter": 1,
                 },
             ],
@@ -514,6 +522,19 @@ project_json = {
                     "unique": 1,
                     "mean": "名称",
                     "filter": "like",
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "分组类型",
+                    "corres": {
+                        1:"自选",
+                        2:"行业",
+                        3:"概念",
+                    },
                 },
             ],
             "repr": "name",

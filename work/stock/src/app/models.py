@@ -28,6 +28,7 @@ class Stock(db.Model):
 	price = db.Column(db.Float)
 	circ_mv = db.Column(db.Float)
 	pe = db.Column(db.Float)
+	score = db.Column(db.Float)
 
 	groups = db.relationship('Group',
 		secondary = StockGroup,
@@ -54,6 +55,7 @@ class Stock(db.Model):
 			'price': self.price,
 			'circ_mv': self.circ_mv,
 			'pe': self.pe,
+			'score': self.score,
 		}
 
 	def __repr__(self):
@@ -112,11 +114,13 @@ class Group(db.Model):
 	__tablename__='groups'
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(64))
+	type = db.Column(db.Integer)
 	
 	def to_json(self):
 		return{
 			'id':self.id,
 			'name': self.name,
+			'type': self.type,
 		}
 
 	def __repr__(self):
