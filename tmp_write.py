@@ -40,62 +40,62 @@ s=[
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
-# user = f.group(1)
-#
-# file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/proxy.ts"
-# to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/config/"
-# os.makedirs(to_file,exist_ok=True)
-#
-# name = "proxy"   #生成的文件名
+user = f.group(1)
 
-# f = open(file,'r')
-# w = open(to_file+f'{name}.py','w+')
-#
-#
-# w.write(f"import os\n")
-# w.write(f"import sys\n")
-# w.write(f"sys.path.append(os.path.abspath('.../tools'))\n")
-# w.write(f"\n")
-# w.write(f"from tools import Tdb\n")
-# w.write(f"\n")
-# w.write(f"def w_config_{name}(root,ojson):\n")
-# w.write(f"\tappname = ojson.get('app')\n")
-# w.write(f"\tdatabases = ojson.get('databases')\n")
-# w.write(f"\troutes = ojson.get('routes')\n")
-# w.write(f"\tdatabases_dir = {{i['table'] : i for i in databases}}\n")
-# w.write(f"\n")
-# w.write(f"\tfor route in routes:\n")
-# w.write(f"\t\tpath = route['path']\n")
-# w.write(f"\t\tcomponents = route['components']\n")
-# w.write(f"\t\tfor component in components:\n")
-# w.write(f"\t\t\tcomponent_name = component['table']\n")
-# w.write(f"\t\t\tmodule = component['module']\n")
-# w.write(f"\t\t\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}'),exist_ok=True)\n")
-# w.write(f"\t\t\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}/data.d ts')\n")
-# w.write(f"\t\t\tw = open(initdir,'w+')\n")
-# w.write(f"")
-# w.write(f"")
-#
-# for i in f:
-#     print(i)
-#     i = i.replace("{","{{")
-#     i = i.replace("}","}}")
-#     i = i[:-1]
-#     print(i)
-#     w.write(f'''\t\t\tw.write(f"""{i}\\n""")\n''')
-#
-# w.write(f'''\tw.close()\n''')
-# w.close()
+file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/defaultSettings.ts"
+to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/config/"
+os.makedirs(to_file,exist_ok=True)
 
-for i in range(67):
-    # f = f'''                    {{
-    #                     "name": "v{i+1}",
-    #                     "type": "float",
-    #                     "post": 1,  # 创建时候可以填写的参数
-    #                     "putneed": 1,  # 修改时可以修改的参数
-    #                     "listmust": 0,  # 请求列表必须post的参数
-    #                     "mean": "v{i+1}",
-    #                 }},'''
-    # print(f)
-    # print(f"v{i+1} = ts[{i+12}]/10,")+2
-    print(f"chart_data.push({{time: o.e_time, value: o.v{i+1},name:'v{i+1}'}})")
+name = "defaultSettings"   #生成的文件名
+
+f = open(file,'r')
+w = open(to_file+f'{name}.py','w+')
+
+
+w.write(f"import os\n")
+w.write(f"import sys\n")
+w.write(f"sys.path.append(os.path.abspath('.../tools'))\n")
+w.write(f"\n")
+w.write(f"from tools import Tdb\n")
+w.write(f"\n")
+w.write(f"def w_config_{name}(root,ojson):\n")
+w.write(f"\tappname = ojson.get('app')\n")
+w.write(f"\tdatabases = ojson.get('databases')\n")
+w.write(f"\troutes = ojson.get('routes')\n")
+w.write(f"\tdatabases_dir = {{i['table'] : i for i in databases}}\n")
+w.write(f"\n")
+w.write(f"\tfor route in routes:\n")
+w.write(f"\t\tpath = route['path']\n")
+w.write(f"\t\tcomponents = route['components']\n")
+w.write(f"\t\tfor component in components:\n")
+w.write(f"\t\t\tcomponent_name = component['table']\n")
+w.write(f"\t\t\tmodule = component['module']\n")
+w.write(f"\t\t\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}'),exist_ok=True)\n")
+w.write(f"\t\t\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}/data.d ts')\n")
+w.write(f"\t\t\tw = open(initdir,'w+')\n")
+w.write(f"")
+w.write(f"")
+
+for i in f:
+    print(i)
+    i = i.replace("{","{{")
+    i = i.replace("}","}}")
+    i = i[:-1]
+    print(i)
+    w.write(f'''\t\t\tw.write(f"""{i}\\n""")\n''')
+
+w.write(f'''\tw.close()\n''')
+w.close()
+
+# for i in range(67):
+#     # f = f'''                    {{
+#     #                     "name": "v{i+1}",
+#     #                     "type": "float",
+#     #                     "post": 1,  # 创建时候可以填写的参数
+#     #                     "putneed": 1,  # 修改时可以修改的参数
+#     #                     "listmust": 0,  # 请求列表必须post的参数
+#     #                     "mean": "v{i+1}",
+#     #                 }},'''
+#     # print(f)
+#     # print(f"v{i+1} = ts[{i+12}]/10,")+2
+#     print(f"chart_data.push({{time: o.e_time, value: o.v{i+1},name:'v{i+1}'}})")

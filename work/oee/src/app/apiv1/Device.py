@@ -105,6 +105,10 @@ def list_device():
 	if name is not None:
 		total_devices = total_devices.filter(Device.name.ilike(f'%{name}%'))
 
+	type = request.args.get('type')
+	if type is not None:
+		total_devices = total_devices.filter_by(type=type)
+
 	if sorter:
 		sorter = json.loads(sorter)
 		pass

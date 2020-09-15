@@ -323,6 +323,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "交易日期",
+                    "sorter": 1,
                 },
                 {
                     "name": "score",
@@ -501,7 +502,7 @@ project_json = {
                 },
 
             ],
-            "repr":"name",
+            "repr":"trade_date",
         },                  #每日数据
         {
             "table": "Group",

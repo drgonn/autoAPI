@@ -1,6 +1,7 @@
 project_json = {
     "app":"oee",                  #文件源，app名
     "dataname":"oee",                   #数据库名称
+    "mean":"OEE分析系统",
     "datapassword":"7811175yy",
     "host":"http://localhost:8002",                             #文档中的域名地址
     "testhost":"localhost",                             #  test开头的都被用在postman当中做测试
@@ -111,6 +112,11 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 1, 'value': "三轴"},
+                        {'key': 2, 'value': "五轴"},
+                    ],
                     "mean": "类型",
                 },
 
@@ -202,7 +208,7 @@ project_json = {
                 },
                 {
                     "name": "glue",
-                    "type": "int",
+                    "type": "float",
                     "post": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数

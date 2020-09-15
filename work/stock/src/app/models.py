@@ -110,7 +110,7 @@ class Day(db.Model):
 		}
 
 	def __repr__(self):
-		return '<Day %r>' % self.name
+		return '<Day %r>' % self.trade_date
 
 class Group(db.Model):
 	__tablename__='groups'

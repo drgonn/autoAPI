@@ -31,7 +31,7 @@ class Worktime(db.Model):
 	type = db.Column(db.Integer)
 	amount = db.Column(db.Integer)
 	good = db.Column(db.Integer)
-	glue = db.Column(db.Integer)
+	glue = db.Column(db.Float)
 	device_id = db.Column(db.Integer, db.ForeignKey('devices.id'))
 	device = db.relationship('Device', backref=db.backref('worktimes', lazy='dynamic'))
 	

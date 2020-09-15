@@ -9,7 +9,7 @@ from ..models import Day,Stock,Group
 import time
 """更新数据接口"""
 
-
+# 拉取最早的所有股票
 @api.route("/get/all/stocks", methods=["GET"])
 def get_all_stocks():
 	insert_stock()
@@ -21,6 +21,7 @@ def get_all_stocks():
 	})
 
 
+# 更新所有股票最近一个交易日的数据
 @api.route("/update/days", methods=["POST"])
 def update_days():
 	print(request.json)
@@ -38,27 +39,66 @@ def update_days():
 		"error_code": 0,
 	})
 
-@api.route("/scores", methods=["GET"])
-def scores():
+@api.route("/scores/<statu>", methods=["GET"])
+def scores(statu):
 	# 计算行业排名得分
-
+	if statu == "new":
+		industry_new_score()
+	elif statu == "all":
+		industry_all_score()
+	else:
+		return jsonify({
+			"success": False,
+			"error_code": -1,
+			"errmsg":"更新状态不对，有new和all",
+		})
 
 	return jsonify({
 		"success": True,
 		"error_code": 0,
 	})
-	# return jsonify({
-	# 	"success": False,
-	# 	"error_code": -1,
-	# 	"errmsg":"错了士大夫但是",
-	# })
 
-def industry_score():
+def industry_new_score():
 	groups = Group.query.filter_by(type=2).all()
 	for group in groups:
+		ds = []
 		for stock in  group.stocks:
-			for d in  stock.days:
-				pass
+			d = stock.days.order_by(Day.trade_date.desc()).first()
+			if d:
+				ds.append(d)
+		dsmv = [d.total_mv for d in ds]
+		total_mv = sum(dsmv)
+		for d in ds:
+			d.score = (d.total_mv/total_mv)*100
+			if d.score is not None:
+				d.stock.score = d.score
+			db.session.add(d)
+		db.session.commit()
+
+
+def industry_all_score():
+	groups = Group.query.filter_by(type=2).all()
+	for group in groups:
+		if group.stocks.first() is None:
+			continue
+		stock1 = group.stocks[0]
+		for td in stock1.days:
+			trade_date = td.trade_date
+			ds = []
+			for stock in group.stocks:
+				d = stock.days.filter_by(trade_date=trade_date).first()
+				if d:
+					ds.append(d)
+			dsmv = [d.total_mv for d in ds]
+			total_mv = sum(dsmv)
+			for d in ds:
+				d.score = (d.total_mv/total_mv)*100
+				if d.score is not None:
+					d.stock.score = d.score
+				db.session.add(d)
+			db.session.commit()
+
+
 
 
 

@@ -90,6 +90,10 @@ def update_stock_daily_basic(ts_code):
 		if Day.query.filter_by(stock=stock).filter_by(trade_date=d.trade_date).first() is not None:
 			print(f'stock:{d.ts_code}已经存在')
 			continue
+		try:
+			dv_ratio = np.float(d.dv_ratio) if not np.isnan(d.dv_ratio) else None
+		except Exception:
+			dv_ratio = None
 		s = Day(
 			stock_id=stock.id,
 			trade_date=d.trade_date,
@@ -102,7 +106,7 @@ def update_stock_daily_basic(ts_code):
 			pb=np.float(d.pb) if not np.isnan(d.pb) else None,
 			ps=np.float(d.ps) if not np.isnan(d.ps) else None,
 			ps_ttm=np.float(d.ps_ttm) if not np.isnan(d.ps_ttm) else None,
-			dv_ratio=np.float(d.dv_ratio) if not np.isnan(d.dv_ratio) else None,
+			dv_ratio= dv_ratio,
 			dv_ttm=np.float(d.dv_ttm) if not np.isnan(d.dv_ttm) else None,
 			total_share=np.float(d.total_share) if not np.isnan(d.total_share) else None,
 			float_share=np.float(d.float_share) if not np.isnan(d.float_share) else None,

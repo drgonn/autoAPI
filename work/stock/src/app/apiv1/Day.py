@@ -159,6 +159,10 @@ def list_day():
 			total_days = total_days.filter_by(stock_id=stock.id)
 	if sorter:
 		sorter = json.loads(sorter)
+		if sorter.get('trade_date') == 'ascend':
+			total_days = total_days.order_by(Day.trade_date.asc())
+		elif sorter.get('trade_date') == 'descend':
+			total_days = total_days.order_by(Day.trade_date.desc())
 		if sorter.get('score') == 'ascend':
 			total_days = total_days.order_by(Day.score.asc())
 		elif sorter.get('score') == 'descend':

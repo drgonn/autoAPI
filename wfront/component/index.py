@@ -28,7 +28,7 @@ def w_component_index(root,ojson):
 
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select }} from 'antd';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber, TextArea }} from 'antd';\n""")
 			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
@@ -121,7 +121,6 @@ def w_component_index(root,ojson):
 				w.write(f"""      title: '{arg_mean}',\n""")
 				w.write(f"""      dataIndex: '{arg_name}',\n""")
 				if arg_corres:
-					print("corrrrrr", arg_corres)
 					w.write(f"""      valueEnum: {{\n""")
 					for corre in arg_corres:
 						w.write(f"""        {corre['key']}: {{ text:'{corre['value']}'}},\n""")
@@ -343,8 +342,8 @@ def w_component_index(root,ojson):
 						w.write(f"""            <Form.Item\n""")
 						w.write(f"""              label={{\n""")
 						w.write(f"""                <span>\n""")
-						w.write(f"""                  选择自选组 &nbsp;\n""")
-						w.write(f"""                  <Tooltip title="选择需要的股票">\n""")
+						w.write(f"""                  选择{parent.get('mean')[:-2]} &nbsp;\n""")
+						w.write(f"""                  <Tooltip title="选择需要的{parent.get('mean')[:-2]}">\n""")
 						w.write(f"""                    <QuestionCircleOutlined />\n""")
 						w.write(f"""                  </Tooltip>\n""")
 						w.write(f"""                </span>\n""")
@@ -353,12 +352,12 @@ def w_component_index(root,ojson):
 						w.write(f"""              rules={{[\n""")
 						w.write(f"""                {{\n""")
 						w.write(f"""                  required: true,\n""")
-						w.write(f"""                  message: '请选择自选组!',\n""")
+						w.write(f"""                  message: '请选择{parent.get('mean')[:-2]}!',\n""")
 						w.write(f"""                }},\n""")
 						w.write(f"""              ]}}\n""")
 						w.write(f"""            >\n""")
 						w.write(f"""              <Select\n""")
-						w.write(f"""                placeholder="请选择自选组..."\n""")
+						w.write(f"""                placeholder="请选择{parent.get('mean')[:-2]}..."\n""")
 						w.write(f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
@@ -374,8 +373,8 @@ def w_component_index(root,ojson):
 
 				for arg in args:
 					postmust =  arg.get('post')
+					type = arg.get('type')
 					if postmust:
-
 						w.write(f"""          <Form.Item\n""")
 						w.write(f"""            name='{arg.get('name')}'\n""")
 						if postmust == 1:
@@ -390,7 +389,14 @@ def w_component_index(root,ojson):
 								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
-							w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+							if type == "str":
+								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+							elif type == "int":
+								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
+							elif type == "text":
+								w.write(f"""            <TextArea rows={4} />\n""")
+							else:
+								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
@@ -412,8 +418,8 @@ def w_component_index(root,ojson):
 						w.write(f"""            <Form.Item\n""")
 						w.write(f"""              label={{\n""")
 						w.write(f"""                <span>\n""")
-						w.write(f"""                  选择自选组 &nbsp;\n""")
-						w.write(f"""                  <Tooltip title="选择需要的股票">\n""")
+						w.write(f"""                  选择{parent.get('mean')[:-2]} &nbsp;\n""")
+						w.write(f"""                  <Tooltip title="选择需要的{parent.get('mean')[:-2]}">\n""")
 						w.write(f"""                    <QuestionCircleOutlined />\n""")
 						w.write(f"""                  </Tooltip>\n""")
 						w.write(f"""                </span>\n""")
@@ -422,12 +428,12 @@ def w_component_index(root,ojson):
 						w.write(f"""              rules={{[\n""")
 						w.write(f"""                {{\n""")
 						w.write(f"""                  required: true,\n""")
-						w.write(f"""                  message: '请选择自选组!',\n""")
+						w.write(f"""                  message: '请选择{parent.get('mean')[:-2]}!',\n""")
 						w.write(f"""                }},\n""")
 						w.write(f"""              ]}}\n""")
 						w.write(f"""            >\n""")
 						w.write(f"""              <Select\n""")
-						w.write(f"""                placeholder="请选择自选组..."\n""")
+						w.write(f"""                placeholder="请选择{parent.get('mean')[:-2]}..."\n""")
 						w.write(f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
@@ -443,8 +449,8 @@ def w_component_index(root,ojson):
 
 				for arg in args:
 					postmust =  arg.get('post')
+					type = arg.get('type')
 					if postmust:
-
 						w.write(f"""          <Form.Item\n""")
 						w.write(f"""            name='{arg.get('name')}'\n""")
 						if postmust == 1:
@@ -459,10 +465,18 @@ def w_component_index(root,ojson):
 								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
-							w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+							if type == "str":
+								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
+							elif type == "int":
+								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
+							elif type == "text":
+								w.write(f"""            <TextArea rows={4} />\n""")
+							else:
+								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
+
 
 
                 
