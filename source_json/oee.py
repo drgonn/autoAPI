@@ -184,8 +184,10 @@ project_json = {
                     "mean": "时间类型",
                     "filter": "precise",
                     "corres": [
-                        {'key': 1, 'value': "停止时间"},
-                        {'key': 2, 'value': "负荷时间"},
+                        {'key': 1, 'value': "休息时间"},
+                        {'key': 2, 'value': "日常管理时间"},
+                        {'key': 5, 'value': "计划停止时间"},
+                        {'key': 6, 'value': "日常管理时间"},
                         {'key': 3, 'value': "停机时间"},
                         {'key': 4, 'value': "运转时间"},
                     ],

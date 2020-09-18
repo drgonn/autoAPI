@@ -758,7 +758,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "设备名",
+                    "mean": "传感器名称",
                     "args": [
                     ],
                 },
@@ -771,7 +771,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
-                    "mean": "序列号",
+                    "mean": "传感器编号",
                     "args": [
                     ],
                 },
@@ -792,6 +792,45 @@ project_json = {
                     ],
                 },
                 {
+                    "name": "dtu_name",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "dtu名称",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "dtu_sn",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "dtu编号",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "dtu_img",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "dtu图片",
+                    "args": [
+                    ],
+                },
+                {
                     "name": "fault",
                     "type": "bool",
                     "need": 0,  # 创建时候可以填写的参数
@@ -805,6 +844,20 @@ project_json = {
                             "name": "default",
                             "value": 0,
                         },
+                    ],
+                },
+                {
+                    "name": "install_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "安装时间",
+                    "sorter": 1,
+                    "args": [
                     ],
                 },
                 {
@@ -843,7 +896,6 @@ project_json = {
                         },
                     ],
                 },
-
             ],
             "repr": "name",
         },  # 设备
