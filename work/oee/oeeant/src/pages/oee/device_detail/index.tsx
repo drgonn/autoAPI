@@ -14,7 +14,7 @@ import { DataView } from '@antv/data-set';
 import DataSet from "@antv/data-set";
 import { queryWorktimeList, updateWorktime , addWorktime , removeWorktime  } from "../worktime/service"
 
-
+import ProCard from '@ant-design/pro-card';
 import {Card, Descriptions} from 'antd';
 import ProTable from '@ant-design/pro-table';
 import moment from 'moment';
@@ -113,6 +113,8 @@ const cadv1 = (data) => {
 export default (e) => {
   const [detail, setDetail] = useState({});
   const [worktime, setworktime] = useState([]);
+  const [statedv, setdv    ] = useState([]);
+  const [statedv1, setdv1    ] = useState([]);
   const [tabkey, setTabkey] = useState('WorkTime');
   const [flowdata, setFlowdata] = useState([]);
   const [sorter, setSorter] = useState('');
@@ -126,10 +128,10 @@ export default (e) => {
   useEffect(() => {
     async function fetchData() {
       const wtime = await queryWorktimeList({device_id:id,pageSize:70});
-      console.log(wtime.data)
-      // const ccc = cadv(wtime.data)
       setworktime(wtime.data);
-      console.log(worktime);
+      setdv(cadv(wtime.data).rows)
+      setdv1(cadv1(wtime.data).rows)
+
 
       // setDetail(data);
       // const list = [];
@@ -147,6 +149,10 @@ export default (e) => {
     fetchData();
   }, []);
 
+  console.log(statedv1)
+  // console.log(statedv.slice(1))
+  // console.log(statedv.slice(1).pop())
+  // console.log(statedv.length>0 && statedv.slice(1).pop().value)
 
 
   const contentList = {
@@ -159,52 +165,66 @@ export default (e) => {
       </Descriptions>
     ),
     WorkTime: (
-    <Chart
-      height={400}
-      data={cadv(worktime).rows}
-      autoFit
-      scale={{
-        percent: {
-          formatter: (val) => {
-            val = `${(val * 100).toFixed(2)}%`;
-            return val;
-          },
-        }
-      }}
-    >
-      <Coordinate type="theta" radius={0.5} />
-      <Axis visible={false} />
-      <Legend visible={false} />
-      <Tooltip showTitle={false} />
-      <Interval
-        position="percent"
-        adjust="stack"
-        color="type"
-        element-highlight
-        style={{
-          lineWidth: 1,
-          stroke: '#fff',
-        }}
-        label={['type', {
-           offset: -15,
-        }]}
-      />
-      {/*<View data={cadv1(worktime).rows}>*/}
-        <View data={cadv1(worktime).rows}>
-        <Coordinate type="theta" radius={0.75} innerRadius={0.5 / 0.75} />
-        <Interval
-          position="percent"
-          adjust="stack"
-          color={['name', ['#BAE7FF', '#7FC9FE', '#71E3E3', '#ABF5F5', '#8EE0A1', '#BAF5C4']]}
-          element-highlight
-          style={{
-            lineWidth: 1,
-            stroke: '#fff',
+    <ProCard style={{ marginTop: 3 }}  ghost>
+      <ProCard bordered layout="center">
+        <Descriptions bordered>
+          <Descriptions.Item label="停止时间" span={3}> {statedv.length>0 && statedv[1].value}s </Descriptions.Item>
+          <Descriptions.Item label="休息时间" span={3}> {statedv.length>0 && statedv[1].value}s </Descriptions.Item>
+          <Descriptions.Item label="负荷时间" span={3}> {statedv.length>0 && statedv[0].value}s </Descriptions.Item>
+          <Descriptions.Item label="运转时间" span={1}>{statedv1.length>0 && statedv1[2].value}s</Descriptions.Item>
+          <Descriptions.Item label="日常管理" span={1}>{statedv1.length>0 && statedv1[1].value}s</Descriptions.Item>
+          <Descriptions.Item label="停机时间" span={1}>{statedv1.length>0 && statedv1[0].value}s</Descriptions.Item>
+        </Descriptions>
+      </ProCard>
+      <ProCard colSpan="40%" bordered>
+        <Chart
+          height={400}
+          data={statedv}
+          autoFit
+          scale={{
+            percent: {
+              formatter: (val) => {
+                val = `${(val * 100).toFixed(2)}%`;
+                return val;
+              },
+            }
           }}
-          label="name"
-        />
-      </View>
-    </Chart>
+        >
+          <Coordinate type="theta" radius={0.5} />
+          <Axis visible={false} />
+          <Legend visible={false} />
+          <Tooltip showTitle={false} />
+          <Interval
+            position="percent"
+            adjust="stack"
+            color="type"
+            element-highlight
+            style={{
+              lineWidth: 1,
+              stroke: '#fff',
+            }}
+            label={['type', {
+              offset: -15,
+            }]}
+          />
+          <View data={statedv1}>
+            <Coordinate type="theta" radius={0.75} innerRadius={0.5 / 0.75} />
+            <Interval
+              position="percent"
+              adjust="stack"
+              color={['name', ['#BAE7FF', '#7FC9FE', '#71E3E3', '#ABF5F5', '#8EE0A1', '#BAF5C4']]}
+              element-highlight
+              style={{
+                lineWidth: 1,
+                stroke: '#fff',
+              }}
+              label="name"
+            />
+          </View>
+        </Chart>
+      </ProCard>
+    </ProCard>
+
 
 
     ),
