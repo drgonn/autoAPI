@@ -103,6 +103,7 @@ def make_tree(root,app,blues):             #建立所有文件夹
     mkdir(os.path.join(path,'test'))
     mkdir(os.path.join(path,'src'))
     mkdir(os.path.join(path,'src/app'))
+    mkdir(os.path.join(path,'src/statics'))
     mkdir(os.path.join(path,'src/app/admin'))
     mkdir(os.path.join(path,'src/app'))
     mkdir(os.path.join(path,'go'))

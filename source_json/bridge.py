@@ -87,6 +87,19 @@ project_json = {
                     ],
                 },
                 {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "用户名",
+                    "args":[
+                    ],
+                },
+                {
                     "name":"createDate",
                     "type":"time",
                     "args":[
@@ -309,6 +322,20 @@ project_json = {
                     ],
                 },
                 {
+                    "name": "about",
+                    "type": "text",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "概况",
+                    "args": [
+                    ],
+                },
+                {
                     "name": "monit_about",
                     "type": "text",
                     "length": "",
@@ -502,21 +529,20 @@ project_json = {
             "api": 1,
             "zh": "文件",
             "parents": [
-                {
-                    "name": "Filetype",
-                    "index": "id",
-                    "type": "int",
-                      # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "文件类型id",
-                },
+                # {
+                #     "name": "Filetype",
+                #     "index": "id",
+                #     "type": "int",
+                #       # 创建时候可以填写的参数
+                #     "post": 2,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "mean": "文件类型id",
+                # },
                 {
                     "name": "Bridge",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -535,6 +561,18 @@ project_json = {
                     "like": 1,  # 是否支持模糊查找
                     "mean": "文件名",
                     "args": [
+                    ],
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "文件类型",
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 1, 'value': "概览图片"},
                     ],
                 },
                 {
@@ -710,7 +748,7 @@ project_json = {
         {
             "table": "Device",
             "api": 1,
-            "zh": "设备",
+            "zh": "传感器",
             "many":[
                 {
                     "name": "Monitarg",
@@ -746,6 +784,16 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "位置id"
+                },
+                {
+                    "name": "Dtu",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "DTUid",
                 },
             ],
             "args": [
@@ -899,6 +947,227 @@ project_json = {
             ],
             "repr": "name",
         },  # 设备
+        {
+            "table": "Dtu",
+            "api": 1,
+            "zh": "DTU",
+            "many":[
+            ],
+            "parents": [
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "DTU名称",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "sn",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "DTU编号",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "dtu_img",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "dtu图片",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "fault",
+                    "type": "bool",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "是否故障",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "install_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "安装时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "update_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "更新时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.now",
+                        },
+                    ],
+                },
+                {
+                    "name": "create_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "创建时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.now",
+                        },
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # DTU
+        {
+            "table": "Collect",
+            "api": 1,
+            "zh": "采集仪",
+            "many":[
+            ],
+            "parents": [
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "采集仪名称",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "sn",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "采集仪编号",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "fault",
+                    "type": "bool",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "是否故障",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "install_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "安装时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "update_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "更新时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.now",
+                        },
+                    ],
+                },
+                {
+                    "name": "create_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "创建时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.now",
+                        },
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # 采集仪
         {
             "table": "Devicelog",
             "api": 1,

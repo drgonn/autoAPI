@@ -1,16 +1,17 @@
 
+import base64
 import hashlib
+import hmac
+import logging
+from datetime import datetime
+from time import time
+
+import jwt
 import requests
 from dateutil import tz
 from dateutil.tz import tzlocal
-from datetime import datetime
-from time import time
-import base64
-import hmac
-import logging
-
-from flask import current_app,g
-from authlib.jose import jwt
+from flask import current_app, g
+from jwt import exceptions
 
 permission_dir = {"one":1,"two":3,"three":7,"four":15,"five":31}
 #生成散列
@@ -44,19 +45,23 @@ def generate_token(key,id, expire=3600):
 	return b64_token.decode("utf-8")
 # 验证token
 def certify_token(token):
-	key = open('public.crt', 'r').read()
+	print(token)
+	result = {'status': False, 'data': None, 'error': None}
 	try:
-		token_dir = jwt.decode(token, key)
-	except Exception as e:
-		logging.error(e)
-		logging.error(f"token解码错误，token是: {token}")
-	return token_dir
-def get_trole(token):
-	key = open('public.crt','r').read()
-	token_dir = jwt.decode(token, key)
-	return token_dir.get('role')
+		verified_payload = jwt.decode(token, current_app.config['SECRET_KEY'], True)
+		result['status'] = True
+		result['data'] = verified_payload
+	except exceptions.ExpiredSignatureError:
+		result['error'] = 'token已失效'
+	except jwt.DecodeError:
+		result['error'] = 'token认证失败'
+	except jwt.InvalidTokenError:
+		result['error'] = '非法的token'
+	print(result)
+	return result['data']
+
+
 def getinusedevice(uid):        #获取有任务设备ID列表
-	print('getinuserddddddddddddddddd')
 	murl = current_app.config["OTA_URL_ALL"]
 	url = f'{murl}/api/v1/firmware/jump/inuse/deviceids'
 	logging.error(url)
