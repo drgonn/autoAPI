@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import g, jsonify,make_response,request, abort, current_app
 from app.apiv1 import api
 from app import db
-from app.tools import certify_token,get_trole,certify_token
+from app.tools import certify_token,certify_token
 #在所有的访问前做token或密码认证
 @api.teardown_request
 def teardown_request(exception=None):

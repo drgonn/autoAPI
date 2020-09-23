@@ -60,6 +60,8 @@ def make_models(appdir,app):
             name = column.get('name')
             if column.get('type') == 'time':
                 w.write(f"\t\t\t'{name}': utc_switch(self.{name}),\n")
+            elif column.get('file'):
+                w.write(f"""\t\t\t'{name}': f"statics/file/{{self.id}}/"+self.{name},\n""")
             else:
                 w.write(f"\t\t\t'{name}': self.{name},\n")
         for parent in table.get('parents'):           # 显示父表中的值
@@ -80,6 +82,7 @@ def make_models(appdir,app):
                     w.write(f"\t\t\t'{name}':utc_switch(self.{name}),\n")
                 else:
                     w.write(f"\t\t\t'{name}':self.{name},\n")
+
             for son in table.get('detail_sons'):
                 son = son.lower()
                 w.write(f"\t\t\t'{son}s':[{son}.to_detail() for {son} in self.{son}s],\n")

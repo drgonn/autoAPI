@@ -54,8 +54,8 @@ def make_init(root,ojson):
     if not os.path.exists(target):
         os.system(f'cp  {source_dir} {target}')
 
-    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/public.crt')
-    target = os.path.join(root, f'{appname}/src/public.crt')
+    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/public.py')
+    target = os.path.join(root, f'{appname}/src/app/apiv1/public.py')
     if not os.path.exists(target):
         os.system(f'cp  {source_dir} {target}')
     source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/private.pem')
