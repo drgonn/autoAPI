@@ -54,6 +54,10 @@ def make_models(appdir,app):
         w.write(f"\t\n")
 
         w.write(f"\tdef to_json(self):\n")
+        for column in table.get('args'):
+            if column.get('file'):
+                w.write(f"""\t\tstatic_host = current_app.config['STATIC_HOST']\n""")
+                break
         w.write(f"\t\treturn{{\n")
         w.write(f"\t\t\t'id':self.id,\n")
         for column in table.get('args'):
@@ -61,7 +65,8 @@ def make_models(appdir,app):
             if column.get('type') == 'time':
                 w.write(f"\t\t\t'{name}': utc_switch(self.{name}),\n")
             elif column.get('file'):
-                w.write(f"""\t\t\t'{name}': f"statics/file/{{self.id}}/"+self.{name},\n""")
+                w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/file/{{self.id}}/"+self.{name},\n""")
+                w.write(f"""\t\t\t'{name}': self.{name},\n""")
             else:
                 w.write(f"\t\t\t'{name}': self.{name},\n")
         for parent in table.get('parents'):           # 显示父表中的值
@@ -104,4 +109,5 @@ from app import db
 from app.tools import utc_switch,generate_token,certify_token,get_permission
 from app.standard import Permission
 from datetime import datetime  
+from flask import request,jsonify,current_app,g
 """

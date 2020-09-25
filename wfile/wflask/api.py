@@ -102,7 +102,7 @@ from app.tools import is_admin,get_permission
                 argname = column.get('name')
                 w.write(f"""\tstatic_folder = current_app.config['STATIC_FOLDER']\n""")
                 w.write(f"""\tuser_dir = os.path.join(static_folder, 'user_folder', f"{{g.current_user.uid}}")\n""")
-                w.write(f"""\ttmp_file_path = os.path.join(user_dir, name)\n""")
+                w.write(f"""\ttmp_file_path = os.path.join(user_dir, {argname})\n""")
                 w.write(f"""\tif not os.path.exists(tmp_file_path):\n""")
                 w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'文件{{tmp_file_path}}不存在'}})\n""")
 
@@ -124,7 +124,7 @@ from app.tools import is_admin,get_permission
             if column.get('file'):
                 argname = column.get('name')
                 w.write(f"""\t\tdst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
-                w.write(f"""\t\tdst_file_path = os.path.join(dst_dir, name)\n""")
+                w.write(f"""\t\tdst_file_path = os.path.join(dst_dir, {argname})\n""")
                 w.write(f"""\t\tos.makedirs(dst_dir,exist_ok=True)\n""")
                 w.write(f"""\t\tshutil.move(tmp_file_path,dst_file_path)\n""")
                 w.write(f"""\t\tshutil.rmtree(user_dir)\n""")

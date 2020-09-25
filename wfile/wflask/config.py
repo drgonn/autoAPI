@@ -7,6 +7,7 @@ def write_config(root,ojson):
     dataname = ojson.get('dataname')
     datapassword = ojson.get('datapassword')
     flaskapscheduler = ojson.get('Flask_APScheduler')
+    host = ojson.get("host")
 
 
     appname = ojson.get('app')
@@ -26,7 +27,8 @@ def write_config(root,ojson):
     w.write(f'	SQLALCHEMY_RECORD_QUERIES = True\n')
     w.write(f'	PER_PAGE = 20\n')
     w.write(f'	FLASKY_SLOW_DB_QUERY_TIME = 0.5\n\n')
-    w.write(f'	STATIC_FOLDER = os.path.join(basedir,"statics")\n\n')
+    w.write(f'	STATIC_FOLDER = os.path.join(basedir,"app","static")\n\n')
+    w.write(f'	STATIC_HOST = "{host}"\n\n')
     if flaskapscheduler:
         w.write(f'	SCHEDULER_API_ENABLED = True\n')
         w.write(f'	SCHEDULER_TIMEZONE = "Asia/Shanghai"\n')
