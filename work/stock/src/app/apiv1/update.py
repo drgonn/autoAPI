@@ -1,12 +1,10 @@
-from datetime import datetime
-from flask import g, jsonify,make_response,request, abort, current_app
-from app.apiv1 import api
-from ..data.tusharedata import  insert_stock,update_last_daily_basic,update_stock_daily_basic
 from app import db
-import numpy as np
-from app.tools import certify_token,get_trole,certify_token
-from ..models import Day,Stock,Group
-import time
+from app.apiv1 import api
+from flask import jsonify, request
+
+from ..data.tusharedata import insert_stock, update_last_daily_basic, update_stock_daily_basic
+from ..models import Day, Stock, Group
+
 """更新数据接口"""
 
 # 拉取最早的所有股票

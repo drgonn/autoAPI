@@ -1,41 +1,22 @@
-
 import base64
-import hashlib
 import hmac
 import logging
-from datetime import datetime
 from time import time
 
 import jwt
 import requests
-from dateutil import tz
-from dateutil.tz import tzlocal
 from flask import current_app, g
 from jwt import exceptions
 
 permission_dir = {"one":1,"two":3,"three":7,"four":15,"five":31}
-#生成散列
-def md5(arg):#这是加密函数，将传进来的函数加密
-    md5_pwd = hashlib.md5(bytes(arg,encoding='utf-8'))
-    md5_pwd.update(bytes("chenrong",encoding='utf-8'))
-    return md5_pwd.hexdigest()#返回加密的数据
-# 生成随机散列
-def randomd5():
-	return md5(str(time()))
-'''
- utc时间转本地时间,并转换为字符
-'''
-def utc_switch(utc,time_zone="GTM+8"):
-	if utc:
-		time_zone = time_zone or "GTM+8"
-		local_zone = time_zone or datetime.now(tzlocal()).tzname()
-		# UTC Zone
-		from_zone = tz.gettz('UTC')
-		# China Zone
-		to_zone = tz.gettz(local_zone)
-		utc = utc.replace(tzinfo=to_zone)
-		local = utc.astimezone(from_zone)
-		return datetime.strftime(local, "%Y-%m-%d %H:%M:%S")
+
+class Permission:
+	USER   = 1
+	LOW    = 2
+	MIDDLE = 4
+	HIGH   = 8
+	ADMIN  = 16
+
 def generate_token(key,id, expire=3600):
 	ts_str = str(time() + expire)
 	ts_byte = ts_str.encode("utf-8")
@@ -44,7 +25,7 @@ def generate_token(key,id, expire=3600):
 	b64_token = base64.urlsafe_b64encode(token.encode("utf-8"))
 	return b64_token.decode("utf-8")
 # 验证token
-def certify_token(token):
+def untie_token(token):
 	print(token)
 	result = {'status': False, 'data': None, 'error': None}
 	try:
@@ -75,11 +56,11 @@ def get_permission(permission):
 def is_admin():
 	return get_permission(16)
 def verify_auth_token(token):
-    uid = certify_token(token)
+    uid = untie_token(token)
     if uid:
         return User.query.filter_by(uid=uid).first()
     else:
         return None
     
     
-	
+

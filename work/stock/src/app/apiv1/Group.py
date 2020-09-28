@@ -1,17 +1,14 @@
-from datetime import date,timedelta,datetime
+
+import json
 import logging
 import math
-import json
 
-from flask import request,jsonify,current_app,g
-from sqlalchemy import func
-from sqlalchemy import not_,or_,and_,extract
-
-from app.apiv1 import api
-from app.standard import Permission
-from app.decorators import admin_required, permission_required
 from app import db
-from app.tools import is_admin,get_permission
+from app.apiv1 import api
+from app.models import Day, Stock
+from flask import request, jsonify, current_app
+from sqlalchemy import func
+
 from app.models import Group,Stock
 
 @api.route('/group/<int:id>', methods=['GET'])
@@ -99,11 +96,12 @@ def delete_group():
 			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {id} 不存在'})
 		db.session.delete(group)
 
-	try:
-		db.session.commit()
-	except Exception as e:
-		db.session.rollback()
-		logging.error(f'删除数据库发生错误,已经回退:{e}')
+		try:
+			db.session.commit()
+		except Exception as e:
+			db.session.rollback()
+			logging.error(f'删除数据库发生错误,已经回退:{e}')
+			return jsonify({'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {e} '})
 
 	return jsonify({'success':True,
                 'error_code':0,

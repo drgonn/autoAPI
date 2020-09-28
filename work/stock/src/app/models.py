@@ -1,8 +1,24 @@
-from datetime import datetime  #记录时间
 from app import db
-from app.tools import utc_switch,generate_token,certify_token,get_permission
-from app.standard import Permission
-from datetime import datetime  
+from datetime import datetime
+from app.tools import utc_switch
+
+class User(db.Model):
+	__tablename__='users'
+	id = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.String(64), unique=True, index=True, nullable=False)
+	name = db.Column(db.String(64))
+	createDate = db.Column(db.DateTime, default=datetime.utcnow)
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'uid': self.uid,
+			'name': self.name,
+			'createDate': utc_switch(self.createDate),
+		}
+
+	def __repr__(self):
+		return '<User %r>' % self.name
 
 StockGroup = db.Table('stockgroups',
 	db.Column('stock_id',db.Integer,db.ForeignKey('stocks.id')),

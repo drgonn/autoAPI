@@ -2,11 +2,17 @@ import os
 from tools import Tdb
 
 
+
 #建立models
 def make_models(appdir,app):
     modeldir = os.path.join(appdir,'models.py')
+    auth = app.get('auth')
     w = open(modeldir,'w+')
-    w.write(packages)
+    w.write('from app import db\n')
+    w.write('from datetime import datetime\n')
+    w.write('from app.tools import utc_switch\n')
+    if auth is not None:
+        pass
     for table in app.get('databases'):
         tableclass = table.get('table')
         tablename  = table.get('table').lower()
@@ -97,17 +103,7 @@ def make_models(appdir,app):
         if table.get('repr'):
             w.write(f"\n\tdef __repr__(self):\n\t\treturn '<{tableclass} %r>' % self.{table.get('repr')}\n")
 
-
-
-
     w.close()
 
 
 
-packages = """from datetime import datetime  #记录时间
-from app import db
-from app.tools import utc_switch,generate_token,certify_token,get_permission
-from app.standard import Permission
-from datetime import datetime  
-from flask import request,jsonify,current_app,g
-"""

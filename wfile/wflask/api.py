@@ -16,22 +16,17 @@ def write_apis(root,ojson):
         zh = table.get('zh')
         apidir = os.path.join(appdir,f'apiv1/{apifile}.py')
         w = open(apidir,'w+')
-        im = """from datetime import date,timedelta,datetime
+        im = """
+import json
 import logging
 import math
-import json
-import os
-import shutil
 
-from flask import request,jsonify,current_app,g
-from sqlalchemy import func
-from sqlalchemy import not_,or_,and_,extract
-
-from app.apiv1 import api
-from app.standard import Permission
-from app.decorators import admin_required, permission_required
 from app import db
-from app.tools import is_admin,get_permission
+from app.apiv1 import api
+from app.models import Day, Stock
+from flask import request, jsonify, current_app
+from sqlalchemy import func
+
 """
         w.write(im)
         w.write(f"from app.models import {tableclass}")

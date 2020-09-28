@@ -110,7 +110,7 @@ project_json = {
                     ],
                 },
             ],
-            "repr":"uid",
+            "repr":"name",
         },                  #User
         {
             "table":"Province",
