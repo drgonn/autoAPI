@@ -28,7 +28,8 @@ def w_component_index(root,ojson):
 
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber, TextArea }} from 'antd';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber }} from 'antd';\n""")
+			w.write("""const { TextArea } = Input;\n""")
 			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
@@ -394,7 +395,7 @@ def w_component_index(root,ojson):
 							elif type == "int":
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
 							elif type == "text":
-								w.write(f"""            <TextArea rows={4} />\n""")
+								w.write(f"""            <TextArea rows={{4}} />\n""")
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
@@ -470,7 +471,7 @@ def w_component_index(root,ojson):
 							elif type == "int":
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
 							elif type == "text":
-								w.write(f"""            <TextArea rows={4} />\n""")
+								w.write(f"""            <TextArea rows={{4}} />\n""")
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")

@@ -7,7 +7,7 @@ project_json = {
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8802",                             #ant 调试访问地址
+    "antport":"8803",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证
     "sql":{                    #数据库详情
         "sql": "mysql",

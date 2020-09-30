@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import useMergeValue from 'use-merge-value';
 import classNames from 'classnames';
 import { FormInstance } from 'antd/es/form';
-import { LoginParamsType } from '@/services/login';
-
 import LoginContext from './LoginContext';
 import LoginItem, { LoginItemProps } from './LoginItem';
+
 import LoginSubmit from './LoginSubmit';
 import LoginTab from './LoginTab';
 import styles from './index.less';
+import { LoginParamsType } from '../../service';
 
 export interface LoginProps {
   activeKey?: string;
@@ -17,7 +17,7 @@ export interface LoginProps {
   style?: React.CSSProperties;
   onSubmit?: (values: LoginParamsType) => void;
   className?: string;
-  from?: FormInstance;
+  form?: FormInstance;
   children: React.ReactElement<typeof LoginTab>[];
 }
 
@@ -65,10 +65,9 @@ const Login: LoginType = (props) => {
           },
         },
         updateActive: (activeItem) => {
-          if (!active) return;
-          if (active[type]) {
+          if (active && active[type]) {
             active[type].push(activeItem);
-          } else {
+          } else if (active) {
             active[type] = [activeItem];
           }
           setActive(active);
@@ -77,7 +76,7 @@ const Login: LoginType = (props) => {
     >
       <div className={classNames(className, styles.login)}>
         <Form
-          form={props.from}
+          form={props.form}
           onFinish={(values) => {
             if (props.onSubmit) {
               props.onSubmit(values as LoginParamsType);
@@ -87,7 +86,6 @@ const Login: LoginType = (props) => {
           {tabs.length ? (
             <React.Fragment>
               <Tabs
-                destroyInactiveTabPane
                 animated={false}
                 className={styles.tabs}
                 activeKey={type}

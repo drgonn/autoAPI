@@ -39,7 +39,7 @@ def untie_token(token):
 	except jwt.InvalidTokenError:
 		result['error'] = '非法的token'
 	print(result)
-	return result['data']
+	return result
 
 
 def getinusedevice(uid):        #获取有任务设备ID列表

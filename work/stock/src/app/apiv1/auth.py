@@ -11,8 +11,10 @@ def before_request():
 		return
 	if token:
 		token_dir = untie_token(token)
-		uid = token_dir.get("uid")
-		role = token_dir.get("role")
+		if token_dir.get("error"):
+			return jsonify({"success": False, "error_code": 201001, "errmsg": f"{token_dir.get('error')}"})
+		uid = token_dir["data"].get("uid")
+		role = token_dir["data"].get("role")
 		if uid:
 			g.current_user =  User.query.filter_by(uid=uid).first()
 			g.role = role

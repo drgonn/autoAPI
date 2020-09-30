@@ -6,6 +6,7 @@ from .config.package import modify_package_json
 from .config.config import w_config_config
 from .config.proxy import w_config_proxy
 from .config.defaultSettings import w_config_defaultSettings
+from .user import make_auth
 import os
 import re
 import shutil
@@ -31,5 +32,7 @@ def w_front(root,ojson):
     w_config_config(root,ojson)
     w_config_proxy(root,ojson)
     w_config_defaultSettings(root,ojson)
+
+    make_auth(root,ojson)
 
     print(f":--ant前端运行完成，运行地址是:  http://localhost:{antport}")

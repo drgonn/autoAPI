@@ -23,7 +23,6 @@ import math
 
 from app import db
 from app.apiv1 import api
-from app.models import Day, Stock
 from flask import request, jsonify, current_app
 from sqlalchemy import func
 

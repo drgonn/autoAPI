@@ -8,6 +8,7 @@ def w_config_config(root,ojson):
 	appname = ojson.get('app')
 	databases = ojson.get('databases')
 	routes = ojson.get('routes')
+	auth = ojson.get('auth')
 	databases_dir = {i['table'] : i for i in databases}
 
 
@@ -50,11 +51,22 @@ def w_config_config(root,ojson):
 	w.write(f"""          path: '/user/login',\n""")
 	w.write(f"""          component: './user/login',\n""")
 	w.write(f"""        }},\n""")
+	w.write(f"""        {{\n""")
+	w.write(f"""          name: '注册',\n""")
+	w.write(f"""          path: '/user/register',\n""")
+	w.write(f"""          component: './user/register',\n""")
+	w.write(f"""        }},\n""")
+	w.write(f"""        {{\n""")
+	w.write(f"""          name: '重设密码',\n""")
+	w.write(f"""          path: '/user/reset',\n""")
+	w.write(f"""          component: './user/reset',\n""")
+	w.write(f"""        }},\n""")
 	w.write(f"""      ],\n""")
 	w.write(f"""    }},\n""")
 	w.write(f"""    {{\n""")
 	w.write(f"""      path: '/',\n""")
-	w.write(f"""      // component: '../layouts/SecurityLayout',\n""")
+	if auth:
+		w.write(f"""      component: '../layouts/SecurityLayout',\n""")
 	w.write(f"""      routes: [\n""")
 	w.write(f"""        {{\n""")
 	w.write(f"""          path: '/',\n""")
