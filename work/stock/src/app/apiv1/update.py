@@ -110,6 +110,7 @@ def indus():
 		if 'ST' in stock.name:
 			continue
 		if group:
+			group.type = 2
 			group.stocks.append(stock)
 			if 'ST' in stock.name:
 				group.stocks.remove(stock)
