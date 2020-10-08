@@ -10,7 +10,7 @@ project_json = {
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8888",                             #ant 调试访问地址
     "antprotocol":"http",                         #ant 调试访问地址
-    "auth":None,                             #
+    "auth":1,                             #
     "Flask_APScheduler":{             #flask-apscheduler 的定时任务设置
         "jobs":[],
     },
@@ -57,6 +57,58 @@ project_json = {
         },
     ],                             #
     "databases":[                   #数据库表
+        {
+            "table":"User",
+            "api":False,
+            "zh": "用户",
+            "parents":[
+            ],
+            "args":[
+                {
+                    "name":"uid",
+                    "type":"str",
+                    "length":"64",
+                    "args":[
+                        {
+                            "name":"unique",
+                            "value":"True",
+                        },
+                        {
+                            "name":"index",
+                            "value":"True",
+                        },
+                        {
+                            "name":"nullable",
+                            "value":"False",
+                        },
+                    ],
+                },
+                {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "用户名",
+                    "args":[
+                    ],
+                },
+                {
+                    "name":"createDate",
+                    "type":"time",
+                    "args":[
+                        {
+                            "name":"default",
+                            "value":"datetime.utcnow",
+                        },
+                    ],
+                },
+            ],
+            "repr":"name",
+        },                  #User
         {
             "table":"Stock",
             "api":1,

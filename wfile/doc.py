@@ -57,6 +57,13 @@ def write_docs(root,ojson):
             argname = column.get('name')
             argmean = column.get('mean')
             d.write(f"\t\t'{argname}':'{argmean}',\n")
+        for parent in table.get('parents'):           # 显示父表中的值
+            parentname = parent.get('name')
+            show = parent.get("show")
+            if show is not None:
+                for sho in show:
+                    s_name = sho['name']
+                    d.write(f"\t\t'{parentname.lower()}_{s_name}' : '{sho['mean']}',\n")
 
         if table.get('detail_sons') is not None:
             for son in table.get('detail_sons'):
@@ -155,7 +162,8 @@ def write_docs(root,ojson):
         d.write(f"|pageSize|int|否|单页条数|\n")
         d.write(f"|sorter|object|否|排序参数，格式例如：{{'price':'desend'}}，就是按价格降序|\n")
         for column in table.get('args'):
-            if column.get('listneed'):
+            filter = column.get('filter')
+            if filter:
                 if column.get('type') in ['float']:
                     continue
                 argname = column.get('name')
@@ -164,7 +172,7 @@ def write_docs(root,ojson):
                     argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('corres')])
                 argtype = column.get('type')
                 alistmust = '是' if column.get('listmust') else '否'
-                if column.get('like'):
+                if filter == "like":
                     d.write(f"|{argname}|{argtype}|{alistmust}|{argmean},支持模糊查找|\n")
                 else:
                    d.write(f"|{argname}|{argtype}|{alistmust}|{argmean}|\n")

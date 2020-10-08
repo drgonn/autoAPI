@@ -2,11 +2,17 @@ import os
 from tools import Tdb
 
 
+
 #建立models
 def make_models(appdir,app):
     modeldir = os.path.join(appdir,'models.py')
+    auth = app.get('auth')
     w = open(modeldir,'w+')
-    w.write(packages)
+    w.write('from app import db\n')
+    w.write('from datetime import datetime\n')
+    w.write('from app.tools import utc_switch\n')
+    if auth is not None:
+        pass
     for table in app.get('databases'):
         tableclass = table.get('table')
         tablename  = table.get('table').lower()
@@ -54,12 +60,19 @@ def make_models(appdir,app):
         w.write(f"\t\n")
 
         w.write(f"\tdef to_json(self):\n")
+        for column in table.get('args'):
+            if column.get('file'):
+                w.write(f"""\t\tstatic_host = current_app.config['STATIC_HOST']\n""")
+                break
         w.write(f"\t\treturn{{\n")
         w.write(f"\t\t\t'id':self.id,\n")
         for column in table.get('args'):
             name = column.get('name')
             if column.get('type') == 'time':
                 w.write(f"\t\t\t'{name}': utc_switch(self.{name}),\n")
+            elif column.get('file'):
+                w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/file/{{self.id}}/"+self.{name},\n""")
+                w.write(f"""\t\t\t'{name}': self.{name},\n""")
             else:
                 w.write(f"\t\t\t'{name}': self.{name},\n")
         for parent in table.get('parents'):           # 显示父表中的值
@@ -80,6 +93,7 @@ def make_models(appdir,app):
                     w.write(f"\t\t\t'{name}':utc_switch(self.{name}),\n")
                 else:
                     w.write(f"\t\t\t'{name}':self.{name},\n")
+
             for son in table.get('detail_sons'):
                 son = son.lower()
                 w.write(f"\t\t\t'{son}s':[{son}.to_detail() for {son} in self.{son}s],\n")
@@ -89,16 +103,7 @@ def make_models(appdir,app):
         if table.get('repr'):
             w.write(f"\n\tdef __repr__(self):\n\t\treturn '<{tableclass} %r>' % self.{table.get('repr')}\n")
 
-
-
-
     w.close()
 
 
 
-packages = """from datetime import datetime  #记录时间
-from app import db
-from app.tools import utc_switch,generate_token,certify_token,get_permission
-from app.standard import Permission
-from datetime import datetime  
-"""

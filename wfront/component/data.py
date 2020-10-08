@@ -19,6 +19,7 @@ def w_component_data(root,ojson):
 			crud = table.get('crud')
 			module = component['module']
 			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}'),exist_ok=True)
+
 			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}/data.d.ts')
 			w = open(initdir,'w+')
 

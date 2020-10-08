@@ -16,20 +16,16 @@ def write_apis(root,ojson):
         zh = table.get('zh')
         apidir = os.path.join(appdir,f'apiv1/{apifile}.py')
         w = open(apidir,'w+')
-        im = """from datetime import date,timedelta,datetime
+        im = """
+import json
 import logging
 import math
-import json
 
-from flask import request,jsonify,current_app,g
-from sqlalchemy import func
-from sqlalchemy import not_,or_,and_,extract
-
-from app.apiv1 import api
-from app.standard import Permission
-from app.decorators import admin_required, permission_required
 from app import db
-from app.tools import is_admin,get_permission
+from app.apiv1 import api
+from flask import request, jsonify, current_app
+from sqlalchemy import func
+
 """
         w.write(im)
         w.write(f"from app.models import {tableclass}")
@@ -95,6 +91,15 @@ from app.tools import is_admin,get_permission
             w.write(f"app_id=g.app.id,")
         w.write(f")\n")
 
+        for column in table.get('args'):
+            if column.get('file'):
+                argname = column.get('name')
+                w.write(f"""\tstatic_folder = current_app.config['STATIC_FOLDER']\n""")
+                w.write(f"""\tuser_dir = os.path.join(static_folder, 'user_folder', f"{{g.current_user.uid}}")\n""")
+                w.write(f"""\ttmp_file_path = os.path.join(user_dir, {argname})\n""")
+                w.write(f"""\tif not os.path.exists(tmp_file_path):\n""")
+                w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'文件{{tmp_file_path}}不存在'}})\n""")
+
         if table.get("many"):
             for many in table.get('many'):
                 manyclass = many.get('name')
@@ -108,7 +113,17 @@ from app.tools import is_admin,get_permission
                 w.write(f"\t\n")
 
         w.write(f"\n\tdb.session.add({tablename})\n")
-        w.write(f"\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
+        w.write(f"\ttry:\n\t\tdb.session.commit()\n")
+        for column in table.get('args'):
+            if column.get('file'):
+                argname = column.get('name')
+                w.write(f"""\t\tdst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
+                w.write(f"""\t\tdst_file_path = os.path.join(dst_dir, {argname})\n""")
+                w.write(f"""\t\tos.makedirs(dst_dir,exist_ok=True)\n""")
+                w.write(f"""\t\tshutil.move(tmp_file_path,dst_file_path)\n""")
+                w.write(f"""\t\tshutil.rmtree(user_dir)\n""")
+
+        w.write(f"\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
         w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
         w.write(f"""\n\treturn jsonify({{'success':True,
@@ -200,8 +215,16 @@ from app.tools import is_admin,get_permission
                         w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
         w.write(f"\t\tdb.session.delete({tablename})\n")
-        w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
-        w.write(f"\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
+        w.write(f"\n\t\ttry:\n\t\t\tdb.session.commit()\n")
+        for column in table.get('args'):
+            if column.get('file'):
+                argname = column.get('name')
+                w.write(f"""\t\t\tstatic_folder = current_app.config['STATIC_FOLDER']\n""")
+                w.write(f"""\t\t\tdst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
+                w.write(f"""\t\t\tshutil.rmtree(dst_dir)\n""")
+        w.write(f"\t\texcept Exception as e:\n\t\t\tdb.session.rollback()\n")
+        w.write(f"\t\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
+        w.write(f"""\t\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {{e}} '}})\n""")
         w.write(f"""\n\treturn jsonify({{'success':True,
                 'error_code':0,
                 }})""")

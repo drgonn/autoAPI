@@ -10,13 +10,12 @@ def write_auth(root,ojson):
     
     auth = ojson.get('auth')
 
-    w.write('from datetime import datetime\n')
-    w.write('from flask import g, jsonify,make_response,request, abort, current_app\n')
+    w.write('from flask import g, jsonify, request\n')
     if auth is not None:
-        w.write('from app.models import User, Permission\n')
+        w.write('from app.tools.auth import untie_token\n')
+        w.write('from app.models import User\n')
     w.write('from app.apiv1 import api\n')
     w.write('from app import db\n')
-    w.write('from app.tools import certify_token,certify_token\n')
     w.write('#在所有的访问前做token或密码认证\n')
     if auth is not None:
         w.write('@api.before_request\n')
@@ -25,9 +24,11 @@ def write_auth(root,ojson):
         w.write('\tif request.endpoint[:8] == "api.test":  # 跳过认证\n')
         w.write('\t\treturn\n')
         w.write('\tif token:\n')
-        w.write('\t\ttoken_dir = certify_token(token)\n')
-        w.write('\t\tuid = token_dir.get("uid")\n')
-        w.write('\t\trole = token_dir.get("role")\n')
+        w.write('\t\ttoken_dir = untie_token(token)\n')
+        w.write('\t\tif token_dir.get("error"):\n')
+        w.write('''\t\t\treturn jsonify({"success": False, "error_code": 201001, "errmsg": f"{token_dir.get('error')}"})\n''')
+        w.write('\t\tuid = token_dir["data"].get("uid")\n')
+        w.write('\t\trole = token_dir["data"].get("role")\n')
         w.write('\t\tif uid:\n')
         w.write('\t\t\tg.current_user =  User.query.filter_by(uid=uid).first()\n')
         w.write('\t\t\tg.role = role\n')

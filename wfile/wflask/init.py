@@ -9,10 +9,7 @@ def make_init(root,ojson):
     w = open(initdir,'w+')
     w.close()
 
-    initdir = os.path.join(root,f'{appname}/src/app/decorators.py')
-    w = open(initdir,'w+')
-    w.write(decorators)
-    w.close()
+
     initdir = os.path.join(root,f'{appname}/requirements.txt')
     w = open(initdir,'w+')
     w.write(requirements)
@@ -49,41 +46,30 @@ def make_init(root,ojson):
     w = open(initdir,'w+')
     w.write(standard)
     w.close()
-    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/tools.py')
-    target = os.path.join(root, f'{appname}/src/app/tools.py')
-    if not os.path.exists(target):
-        os.system(f'cp  {source_dir} {target}')
+    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/tools_init.py')
+    target = os.path.join(root, f'{appname}/src/app/tools/__init__.py')
+    # if not os.path.exists(target):
+    os.system(f'cp  {source_dir} {target}')
 
-    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/public.crt')
-    target = os.path.join(root, f'{appname}/src/public.crt')
-    if not os.path.exists(target):
-        os.system(f'cp  {source_dir} {target}')
+    source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/public.py')
+    target = os.path.join(root, f'{appname}/src/app/apiv1/public.py')
+    os.system(f'cp  {source_dir} {target}')
     source_dir = os.path.join(os.path.dirname(root),'wfile/wflask/file/private.pem')
     target = os.path.join(root, f'{appname}/src/private.pem')
     if not os.path.exists(target):
         os.system(f'cp  {source_dir} {target}')
+    auth = ojson.get('auth')
+    if auth is not None:
+        source_dir = os.path.join(os.path.dirname(root), 'wfile/wflask/file/tools_auth.py')
+        target = os.path.join(root, f'{appname}/src/app/tools/auth.py')
+        # if not os.path.exists(target):
+        os.system(f'cp  {source_dir} {target}')
 
+        source_dir = os.path.join(os.path.dirname(root), 'wfile/wflask/file/decorators.py')
+        target = os.path.join(root, f'{appname}/src/app/decorators.py')
+        # if not os.path.exists(target):
+        os.system(f'cp  {source_dir} {target}')
 
-
-decorators = """
-from functools import wraps
-from flask import abort,g
-# from flask_login import current_user
-from app.models import Permission
-from app.tools import get_permission
-#用作权限访问的装饰器
-def permission_required(permission):
-	def decorator(f):
-		@wraps(f)
-		def decorated_function(*args, **kwargs):
-			if not get_permission(permission):
-				abort(403)
-			return f(*args, **kwargs)
-		return decorated_function
-	return decorator
-def admin_required(f):
-	return permission_required(Permission.ADMIN)(f)
-"""
 
 requirements = """
 alembic==1.0.11

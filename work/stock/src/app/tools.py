@@ -1,4 +1,3 @@
-
 import hashlib
 import requests
 from dateutil import tz
@@ -76,5 +75,4 @@ def verify_auth_token(token):
     else:
         return None
     
-    
-	
+

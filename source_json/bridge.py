@@ -7,7 +7,7 @@ project_json = {
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8802",                             #ant 调试访问地址
+    "antport":"8803",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证
     "sql":{                    #数据库详情
         "sql": "mysql",
@@ -110,7 +110,7 @@ project_json = {
                     ],
                 },
             ],
-            "repr":"uid",
+            "repr":"name",
         },                  #User
         {
             "table":"Province",
@@ -547,6 +547,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },
+                    ]
                 },
             ],
             "args": [
@@ -554,12 +561,26 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    "need": 0,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
+                    "post": 2,  # 创建时候可以填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
                     "mean": "文件名",
+                    "filter": "like",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "file_name",
+                    "type": "str",
+                    "length": "256",
+                    "post": 2,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "mean": "文件上传名",
+                    "filter": "like",
+                    "file": 1,   #表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
                     "args": [
                     ],
                 },
@@ -573,6 +594,15 @@ project_json = {
                     "filter": "precise",
                     "corres": [
                         {'key': 1, 'value': "概览图片"},
+                        {'key': 2, 'value': "设计图纸"},
+                        {'key': 3, 'value': "设计文件"},
+                        {'key': 4, 'value': "施工文件"},
+                        {'key': 5, 'value': "竣工图纸"},
+                        {'key': 6, 'value': "验收文件"},
+                        {'key': 7, 'value': "行政文件"},
+                        {'key': 8, 'value': "定期检查报告"},
+                        {'key': 9, 'value': "特殊检查报告"},
+                        {'key': 10, 'value': "历史维修资料"},
                     ],
                 },
                 {
@@ -584,7 +614,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "分册",
+                    "mean": "分册顺序",
                     "args": [
                     ],
                 },
