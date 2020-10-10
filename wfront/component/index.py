@@ -26,15 +26,22 @@ def w_component_index(root,ojson):
 			com_dir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}')
 			w = open(initdir,'w+')
 
+			upload = False
+			for column in table.get('args'):
+				if column.get('file'):
+					upload = True
+					break
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber }} from 'antd';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload }} from 'antd';\n""")
 			w.write("""const { TextArea } = Input;\n""")
 			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
-
+			if upload:
+				w.write("""import { getToken } from '@/utils/authority';\n""")
+				w.write("""import { UploadOutlined } from '@ant-design/icons';\n""")
 
 			if "put" in crud or "post" in crud:
 				for parent in parents:
@@ -95,6 +102,10 @@ def w_component_index(root,ojson):
 				w.write(f"""  const [formvalues,setValues]=useState({{}})\n""")
 				w.write(f"""  const [form] = Form.useForm()\n""")
 			w.write(f"""  const actionRef = useRef<ActionType>();\n""")
+			if upload:
+				w.write(f"""  const [filename,setFilename]=useState('')\n""")
+				w.write(f"""  const [loading,setLoading]=useState(false)\n""")
+
 
 			w.write(f"""  const columns: ProColumns<TableListItem>[] = [\n""")
 			for parent in parents:  # 显示父表中的值
@@ -252,12 +263,14 @@ def w_component_index(root,ojson):
 				w.write(f"""    }})\n""")
 				w.write(f"""  }}\n""")
 			if "post" in crud:
+
+				upload_arg = f",file_name:filename" if upload else ""
 				w.write(f"""  const handleAdd = ()=>{{\n""")
 				w.write(f"""    form\n""")
 				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
 				w.write(f"""      const hide=message.loading('正在提交...')\n""")
 				w.write(f"""      try{{\n""")
-				w.write(f"""        const res=await add{component_name}({{...values}})\n""")
+				w.write(f"""        const res=await add{component_name}({{...values{upload_arg}}})\n""")
 				w.write(f"""        if(res.success){{\n""")
 				w.write(f"""          hide()\n""")
 				w.write(f"""          message.success('创建成功！')\n""")
@@ -274,7 +287,55 @@ def w_component_index(root,ojson):
 				w.write(f"""      }}\n""")
 				w.write(f"""    }})\n""")
 				w.write(f"""  }}\n""")
-
+			if upload:
+				w.write(f"""  const props = {{\n""")
+				w.write(f"""    name: 'file',\n""")
+				w.write(f"""    // accept:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',\n""")
+				w.write(f"""    listType:"text",\n""")
+				w.write(f"""    action:`/api/upload?token=${{getToken()}}`,\n""")
+				w.write(f"""    showUploadList:false,\n""")
+				w.write(f"""    beforeUpload(file){{\n""")
+				w.write(f"""      setLoading(true)\n""")
+				w.write(f"""      const checkType=()=>{{\n""")
+				w.write(f"""        const nameArr=file.name.split('.')\n""")
+				w.write(f"""        const nameType=nameArr[nameArr.length-1]\n""")
+				w.write(f"""        // if(nameType==='xls'|| nameType==='xlsx' ){{\n""")
+				w.write(f"""        //   return true\n""")
+				w.write(f"""        // }}\n""")
+				w.write(f"""        return true\n""")
+				w.write(f"""      }}\n""")
+				w.write(f"""\n""")
+				w.write(f"""      if(!checkType()){{\n""")
+				w.write(f"""        setLoading(false)\n""")
+				w.write(f"""        message.error('文件格式错误，仅支持EXCEL格式上传！')\n""")
+				w.write(f"""      }}\n""")
+				w.write(f"""      const isLt10M = file.size / 1024 / 1024 < 10;\n""")
+				w.write(f"""\n""")
+				w.write(f"""      if (!isLt10M) {{\n""")
+				w.write(f"""        setLoading(false)\n""")
+				w.write(f"""        message.error('文件大小为10M以内!');\n""")
+				w.write(f"""      }}\n""")
+				w.write(f"""\n""")
+				w.write(f"""      return checkType() && isLt10M ;\n""")
+				w.write(f"""    }},\n""")
+				w.write(f"""    onChange(info) {{\n""")
+				w.write(f"""      if (info.file.status === 'done') {{\n""")
+				w.write(f"""\n""")
+				w.write(f"""        setLoading(false)\n""")
+				w.write(f"""\n""")
+				w.write(f"""\n""")
+				w.write(f"""        if(info.file.response.ret===false){{\n""")
+				w.write(f"""          message.error(info.file.response.errmsg ||'上传失败')\n""")
+				w.write(f"""          return\n""")
+				w.write(f"""        }}\n""")
+				w.write(f"""\n""")
+				w.write(f"""\n""")
+				w.write(f"""        setFilename(info.file.response.upload_file)\n""")
+				w.write(f"""\n""")
+				w.write(f"""        message.success('文件上传成功！')\n""")
+				w.write(f"""\n""")
+				w.write(f"""      }}}}\n""")
+				w.write(f"""  }};\n""")
 
 			w.write(f"""  return (\n""")
 			w.write(f"""    <PageHeaderWrapper>\n""")
@@ -399,6 +460,28 @@ def w_component_index(root,ojson):
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
+				if upload:
+					w.write(f"""          <Form.Item\n""")
+					w.write(f"""            label="上传文件"\n""")
+					w.write(f"""            name="file"\n""")
+					w.write(f"""            valuePropName="file"\n""")
+					w.write(f"""            rules={{[\n""")
+					w.write(f"""              {{\n""")
+					w.write(f"""                required: true,\n""")
+					w.write(f"""                message: '请上传文件!',\n""")
+					w.write(f"""              }},\n""")
+					w.write(f"""            ]}}\n""")
+					w.write(f"""          >\n""")
+					w.write(f"""            <Upload {{...props}}>\n""")
+					w.write(f"""              <Button loading={{loading}}>\n""")
+					w.write(f"""                {{\n""")
+					w.write(f"""                  loading?"正在上传":(<><UploadOutlined /> 点击上传</>)\n""")
+					w.write(f"""                }}\n""")
+					w.write(f"""\n""")
+					w.write(f"""              </Button>\n""")
+					w.write(f"""            </Upload>\n""")
+					w.write(f"""\n""")
+					w.write(f"""          </Form.Item>\n""")
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
 
@@ -475,6 +558,11 @@ def w_component_index(root,ojson):
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
+
+
+
+
+
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
 
