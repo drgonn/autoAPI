@@ -3,11 +3,13 @@ from tools import Tdb
 
 
 
+
 #建立models
 def make_models(appdir,app):
     modeldir = os.path.join(appdir,'models.py')
     auth = app.get('auth')
     w = open(modeldir,'w+')
+    w.write('from flask import request, jsonify, current_app, g\n')
     w.write('from app import db\n')
     w.write('from datetime import datetime\n')
     w.write('from app.tools import utc_switch\n')

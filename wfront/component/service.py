@@ -11,6 +11,8 @@ def w_component_service(root, ojson):
     databases = ojson.get('databases')
     routes = ojson.get('routes') or []
     databases_dir = {i['table']: i for i in databases}
+    auth = ojson.get('auth')
+    token = '?token=${getToken()}' if auth else ""
 
     for route in routes:
         path = route['path']
@@ -24,7 +26,10 @@ def w_component_service(root, ojson):
             os.makedirs(os.path.join(root, f'src/pages/{path}/{component_name.lower()}'), exist_ok=True)
             initdir = os.path.join(root, f'src/pages/{path}/{component_name.lower()}/service.ts')
             w = open(initdir, 'w+')
-            w.write(f"""import request from 'umi-request';\n""")
+            # w.write(f"""import request from 'umi-request';\n""")
+            w.write(f"""import request from '@/utils/request';\n""")
+            if auth:
+                w.write("""import { getToken } from '@/utils/authority';\n""")
             w.write(f"""import {{ TableListParams """)
             if "put" in crud:
                 w.write(f""", TablePutItem""")
@@ -32,7 +37,7 @@ def w_component_service(root, ojson):
             w.write(f"""\n""")
 
             w.write(f"""export async function query{component_name}List(params?: TableListParams) {{\n""")
-            w.write(f"""  return request('/api/{component_name.lower()}/list', {{\n""")
+            w.write(f"""  return request(`/api/{component_name.lower()}/list{token}`, {{\n""")
             w.write(f"""    params,\n""")
             w.write(f"""  }});\n""")
             w.write(f"""}}\n""")
@@ -40,7 +45,7 @@ def w_component_service(root, ojson):
 
             if "post" in crud:
                 w.write(f"""export async function add{component_name}(params: TableListParams) {{\n""")
-                w.write(f"""  return request('/api/{component_name.lower()}', {{\n""")
+                w.write(f"""  return request(`/api/{component_name.lower()}{token}`, {{\n""")
                 w.write(f"""    method: 'POST',\n""")
                 w.write(f"""    data: {{\n""")
                 w.write(f"""      ...params,\n""")
@@ -51,7 +56,7 @@ def w_component_service(root, ojson):
 
             if "delete" in crud:
                 w.write(f"""export async function remove{component_name}(params: {{ key: number[] }}) {{\n""")
-                w.write(f"""  return request('/api/{component_name.lower()}', {{\n""")
+                w.write(f"""  return request(`/api/{component_name.lower()}{token}`, {{\n""")
                 w.write(f"""    method: 'DELETE',\n""")
                 w.write(f"""    data: {{\n""")
                 w.write(f"""      ...params,\n""")
@@ -63,7 +68,7 @@ def w_component_service(root, ojson):
 
             if "put" in crud:
                 w.write(f"""export async function update{component_name}(params: TablePutItem) {{\n""")
-                w.write(f"""  return request(`/api/{component_name.lower()}/${{params.id}}`, {{\n""")
+                w.write(f"""  return request(`/api/{component_name.lower()}/${{params.id}}{token}`, {{\n""")
                 w.write(f"""    method: 'PUT',\n""")
                 w.write(f"""    data: {{\n""")
                 w.write(f"""      ...params,\n""")

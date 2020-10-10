@@ -7,7 +7,7 @@ project_json = {
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8803",                             #ant 调试访问地址
+    "antport":"8804",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证
     "sql":{                    #数据库详情
         "sql": "mysql",
@@ -527,6 +527,7 @@ project_json = {
         {
             "table": "File",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "文件",
             "parents": [
                 # {
@@ -574,7 +575,7 @@ project_json = {
                     "name": "file_name",
                     "type": "str",
                     "length": "256",
-                    "post": 2,  # 创建时候可以填写的参数
+                    "post": 0,  # 创建时候可以填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
@@ -2333,7 +2334,7 @@ project_json = {
         },
         {
             "path": "args",  # 上级目录主菜单详情
-            "name": "公用参数设置",
+            "name": "演示接口",
             "icon": "",  # ant的菜单图标，图标列表[]
             "components": [
                 {
@@ -2361,8 +2362,31 @@ project_json = {
                     "table": "Property",
                 },
 
+
+                {
+                    "module": "protable",
+                    "table": "Bridge",
+                },
+                {
+                    "module": "protable",
+                    "table": "File",
+                },
+
             ],
         },
+        # {
+        #     "path": "abc",  # 上级目录主菜单详情
+        #     "name": "用户操作部分",
+        #     "icon": "",  # ant的菜单图标，图标列表[]
+        #     "components": [
+        #
+        #         # {
+        #         #     "module": "protable",
+        #         #     "table": "File",
+        #         # },
+        #
+        #     ],
+        # },
 
     ],
 }

@@ -59,7 +59,7 @@ def w_config_config(root,ojson):
 	w.write(f"""        {{\n""")
 	w.write(f"""          name: '重设密码',\n""")
 	w.write(f"""          path: '/user/reset',\n""")
-	w.write(f"""          component: './user/reset',\n""")
+	w.write(f"""        //  component: './user/reset',\n""")
 	w.write(f"""        }},\n""")
 	w.write(f"""      ],\n""")
 	w.write(f"""    }},\n""")

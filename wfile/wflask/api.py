@@ -20,10 +20,12 @@ def write_apis(root,ojson):
 import json
 import logging
 import math
+import os
+import shutil
 
 from app import db
 from app.apiv1 import api
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, g
 from sqlalchemy import func
 
 """
@@ -57,7 +59,7 @@ from sqlalchemy import func
         w.write(f"def create_{tablename}():\n")
         w.write(f"\tprint(request.json)\n")
         for column in table.get('args'):
-            if column.get('post'):
+            if column.get('post') or column.get("file"):
                 argname = column.get('name')
                 w.write(f"\t{argname} = request.json.get('{argname}')\n")
             if column.get('postmust'):
@@ -79,7 +81,7 @@ from sqlalchemy import func
                     w.write(f"\t\n")
         w.write(f"\n\t{tablename} = {tableclass}(")
         for column in table.get('args'):
-            if column.get('post'):
+            if column.get('post') or column.get("file"):
                 argname = column.get('name')
                 w.write(f"{argname}={argname},")
         for parent in table.get('parents'):
