@@ -91,6 +91,17 @@ def w_config_config(root,ojson):
 			if icon:
 				w.write(f"""              icon: '{icon}',\n""")
 			w.write(f"""              routes: [\n""")
+			if son_routes == "all":
+				for table in databases:
+					table_name = table.get('table')
+					w.write(f"""                {{\n""")
+					w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
+					w.write(f"""                  name: '{table.get('zh')}',\n""")
+					w.write(f"""                  component: './{path}/{table_name.lower()}',\n""")
+					w.write(f"""                }},\n""")
+				w.write(f"""              ]\n""")
+				w.write(f"""            }},\n""")
+				break
 			for son_route in son_routes:
 				table_name = son_route.get("table")
 				table = databases_dir.get(table_name)

@@ -13,6 +13,51 @@ def w_component_data(root,ojson):
 	for route in routes:
 		path = route['path']
 		components = route['components']
+		if components == "all":
+			for table in databases:
+				component_name = table.get('table')
+				table = databases_dir[component_name]
+				crud = table.get('crud')
+				module = component['module']
+				os.makedirs(os.path.join(root, f'src/pages/{path}/{component_name.lower()}'), exist_ok=True)
+
+				initdir = os.path.join(root, f'src/pages/{path}/{component_name.lower()}/data.d.ts')
+				w = open(initdir, 'w+')
+
+				w.write(f"export interface TableListItem {{\n")
+				args = databases_dir[component_name]['args']
+				w.write(f"  id?: number;\n")
+				for arg in args:
+					arg_name = arg['name']
+					type = Tdb(arg['type']).ts_interface
+					w.write(f"  {arg_name}: {type};\n")
+				w.write(f"}}\n")
+				w.write(f"\n")
+
+				w.write(f"export interface TablePutItem {{\n")
+				args = databases_dir[component_name]['args']
+				w.write(f"  id?: number;\n")
+				for arg in args:
+					put = arg.get('putneed')
+					if put:
+						arg_name = arg['name']
+						type = Tdb(arg['type']).ts_interface
+						if put == 1:
+							w.write(f"  {arg_name}?: {type};\n")
+						elif put == 2:
+							w.write(f"  {arg_name}: {type};\n")
+
+				if table.get("many"):
+					for many in table.get('many'):
+						if many.get('add_api'):
+							manyclass = many.get('name')
+							manyname = many.get('name').lower()
+							w.write(f"  add_{manyname}_ids?: number[];\n")
+							w.write(f"  remove_{manyname}_ids?: number[];\n")
+				w.write(f"}}\n")
+				w.write(f"\n")
+
+			break
 		for component in components:
 			component_name = component['table']
 			table = databases_dir[component_name]

@@ -3,12 +3,15 @@ project_json = {
     "dataname":"bridge",                   #数据库名称
     "datapassword":"7811175yy",
     "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
+    # "host":"http://localhost:20303",                             #文档中的域名地址
     "testhost":"frp.sealan.tech",                             #
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8804",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证
+    "user_url":'http://frp.sealan.tech:20216/api/v3/user',
+    # "user_url":'http://localhost:20216/api/v3/user',
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
@@ -662,6 +665,7 @@ project_json = {
         {
             "table": "Product",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "产品",
             "parents": [
             ],
@@ -720,6 +724,7 @@ project_json = {
         {
             "table": "Location",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "桥梁位置",
             "parents": [
                 {
@@ -779,6 +784,7 @@ project_json = {
         {
             "table": "Device",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "传感器",
             "many":[
                 {
@@ -837,7 +843,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "传感器名称",
+                    "mean": "名称",
                     "args": [
                     ],
                 },
@@ -850,7 +856,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
-                    "mean": "传感器编号",
+                    "mean": "编号",
                     "args": [
                     ],
                 },
@@ -981,6 +987,7 @@ project_json = {
         {
             "table": "Dtu",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "DTU",
             "many":[
             ],
@@ -996,7 +1003,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "DTU名称",
+                    "mean": "名称",
                     "args": [
                     ],
                 },
@@ -1009,7 +1016,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
-                    "mean": "DTU编号",
+                    "mean": "编号",
                     "args": [
                     ],
                 },
@@ -1022,7 +1029,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
-                    "mean": "dtu图片",
+                    "mean": "图片",
                     "args": [
                     ],
                 },
@@ -1278,6 +1285,7 @@ project_json = {
         {
             "table": "Monitgroup",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "监控分组",
             "parents": [
             ],
@@ -1301,6 +1309,7 @@ project_json = {
         {
             "table": "Monittype",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "监控类型",
             "parents": [
                 {
@@ -1333,6 +1342,7 @@ project_json = {
         },  # 监控类型
         {
             "table": "Monitarg",
+            "crud":['post','put','delete'],
             "api": 1,
             "zh": "监控参数",
             "parents": [
@@ -1367,6 +1377,7 @@ project_json = {
         {
             "table": "Monitvalue",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "监控参数值",
             "parents": [
                 {
@@ -1469,6 +1480,7 @@ project_json = {
         {
             "table": "Valuelog",
             "api": 1,
+            "crud":['post','put','delete'],
             "zh": "监控值日志",
             "parents": [
                 {
@@ -2372,21 +2384,30 @@ project_json = {
                     "table": "File",
                 },
 
+                {
+                    "module": "protable",
+                    "table": "Dtu",
+                },
+                {
+                    "module": "protable",
+                    "table": "Location",
+                },
+                {
+                    "module": "protable",
+                    "table": "Product",
+                },
+                {
+                    "module": "protable",
+                    "table": "Device",
+                },
             ],
         },
-        # {
-        #     "path": "abc",  # 上级目录主菜单详情
-        #     "name": "用户操作部分",
-        #     "icon": "",  # ant的菜单图标，图标列表[]
-        #     "components": [
-        #
-        #         # {
-        #         #     "module": "protable",
-        #         #     "table": "File",
-        #         # },
-        #
-        #     ],
-        # },
+        {
+            "path": "abc",  # 上级目录主菜单详情
+            "name": "全部演示接口",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": "all",
+        },
 
     ],
 }

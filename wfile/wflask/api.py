@@ -88,7 +88,7 @@ from sqlalchemy import func
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('post'):
-                w.write(f"{parenttablename}_id={parenttablename}.id,")
+                w.write(f"{parenttablename}_id={parenttablename}_id,")
         if table.get('appfilter'):
             w.write(f"app_id=g.app.id,")
         w.write(f")\n")

@@ -13,9 +13,13 @@ def w_component_index(root,ojson):
 	for route in routes:
 		path = route['path']
 		components = route['components']
+
+		if components == "all":
+			components = databases
+
 		for component in components:
+			component["crud"] = ['post', 'put', 'delete']
 			component_name = component['table']
-			module = component['module']
 			table = databases_dir[component_name]
 			table_zh = table.get('zh')
 			args = table.get('args')
@@ -125,7 +129,7 @@ def w_component_index(root,ojson):
 						w.write(f"""    }},\n""")
 			for arg in args:
 				arg_name = arg['name']
-				arg_mean = arg['mean']
+				arg_mean = arg.get('mean')
 				arg_corres = arg.get('corres')
 				type = Tdb(arg['type']).protable_valuetype
 
