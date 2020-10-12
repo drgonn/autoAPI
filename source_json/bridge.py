@@ -2,16 +2,16 @@ project_json = {
     "app":"bridge",                  #文件源，app名
     "dataname":"bridge",                   #数据库名称
     "datapassword":"7811175yy",
-    "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
-    # "host":"http://localhost:20303",                             #文档中的域名地址
+    # "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
+    "host":"http://localhost:20303",                             #文档中的域名地址
     "testhost":"frp.sealan.tech",                             #
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8804",                             #ant 调试访问地址
+    "antport":"8806",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证
-    "user_url":'http://frp.sealan.tech:20216/api/v3/user',
-    # "user_url":'http://localhost:20216/api/v3/user',
+    # "user_url":'http://frp.sealan.tech:20216/api/v3/user',
+    "user_url":'http://localhost:20216/api/v3/user',
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
@@ -154,6 +154,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "省份id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "省名"
+                        },
+                    ],
                 },
             ],
             "args":[
@@ -188,6 +195,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "市名"
+                        },
+                    ],
                 },
             ],
             "args":[
@@ -247,6 +261,13 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁种类id",
                     "tojson": "name",    #在json字段当中显示的参数
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁类型"
+                        },
+                    ],
                 },
                 {
                     "name": "Province",
@@ -1287,6 +1308,9 @@ project_json = {
             "api": 1,
             "crud":['post','put','delete'],
             "zh": "监控分组",
+            "detail_sons":[
+                "monittype"
+            ],
             "parents": [
             ],
             "args": [
@@ -1311,6 +1335,9 @@ project_json = {
             "api": 1,
             "crud":['post','put','delete'],
             "zh": "监控类型",
+            "detail_sons":[
+                "monitarg"
+            ],
             "parents": [
                 {
                     "name": "Monitgroup",
@@ -1345,6 +1372,9 @@ project_json = {
             "crud":['post','put','delete'],
             "api": 1,
             "zh": "监控参数",
+            "detail_sons":[
+                "monitvalue"
+            ],
             "parents": [
                 {
                     "name": "Monittype",
@@ -1379,6 +1409,8 @@ project_json = {
             "api": 1,
             "crud":['post','put','delete'],
             "zh": "监控参数值",
+            "detail_sons":[
+            ],
             "parents": [
                 {
                     "name": "Monitarg",
@@ -1389,6 +1421,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "监控类型id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "参数名"
+                        },
+                    ],
                 },
                 {
                     "name": "Device",
@@ -1399,6 +1438,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "设备id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "设备名"
+                        },
+                    ],
                 },
             ],
             "args": [
@@ -1411,7 +1457,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "监控参数值",
+                    "mean": "监控参数当前值",
                     "args": [
                     ],
                 },

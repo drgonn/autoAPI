@@ -39,7 +39,7 @@ def w_component_index(root,ojson):
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
 			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload }} from 'antd';\n""")
 			w.write("""const { TextArea } = Input;\n""")
-			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
+			w.write(f"""import React, {{ useState, useRef, useEffect}} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
@@ -126,6 +126,31 @@ def w_component_index(root,ojson):
 						w.write(f"""      title: '{s_mean}',\n""")
 						w.write(f"""      dataIndex: '{parentname.lower()}_{s_name}',\n""")
 						w.write(f"""      valueType: '{type}',\n""")
+
+
+						w.write(f"""      renderFormItem:()=>{{\n""")
+						w.write(f"""        return(\n""")
+						w.write(f"""            <Form.Item\n""")
+						w.write(f"""              label=''\n""")
+						w.write(f"""              name="{parent.get('name').lower()}_id"\n""")
+						w.write(f"""            >\n""")
+						w.write(f"""              <Select\n""")
+						w.write(f"""                placeholder="请选择{parent.get('mean')[:-2]}..."\n""")
+						w.write(
+							f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
+						w.write(f"""                allowClear\n""")
+						w.write(f"""                showSearch\n""")
+						w.write(f"""                optionFilterProp="children"\n""")
+						w.write(f"""              >\n""")
+						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
+						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
+						w.write(
+							f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                  }})}}\n""")
+						w.write(f"""              </Select>\n""")
+						w.write(f"""            </Form.Item>\n""")
+						w.write(f"""          )}}\n""")
+
 						w.write(f"""    }},\n""")
 			for arg in args:
 				arg_name = arg['name']
@@ -231,6 +256,10 @@ def w_component_index(root,ojson):
 						w.write(f"""      set{parent.get('name')}list({parent.get('name')}data);\n""")
 						w.write(f"""    }}\n""")
 						w.write(f"""  }};\n""")
+
+						w.write(f"""useEffect(()=>{{get{parent.get('name')}list({{pageindex:1}})}},[])\n""")
+
+
 						w.write(f"""  const handlePopupScroll{parent.get('name')} = async (e) => {{\n""")
 						w.write(f"""    const {{ current, pagecount }} = {parent.get('name')}list;\n""")
 						w.write(f"""    e.persist();\n""")
@@ -428,7 +457,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
 						w.write(f"""                optionFilterProp="children"\n""")
-						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						# w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
@@ -526,7 +555,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
 						w.write(f"""                optionFilterProp="children"\n""")
-						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						# w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
