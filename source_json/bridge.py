@@ -9,9 +9,12 @@ project_json = {
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8806",                             #ant 调试访问地址
-    "auth": 1,                #是否需要用户登录认证
+    "auth": 1,                #是否需要用户登录认证YY
     # "user_url":'http://frp.sealan.tech:20216/api/v3/user',
     "user_url":'http://localhost:20216/api/v3/user',
+    "login_about":"智慧桥梁监测系统",                             #登录界面描述
+    "login_title":"智慧桥梁",                             #登录界面标题
+    "produce":"chenrong出品",                             #出品
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
@@ -1445,6 +1448,22 @@ project_json = {
                             "mean": "设备名"
                         },
                     ],
+                },
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },]
                 },
             ],
             "args": [
