@@ -2,16 +2,16 @@ project_json = {
     "app":"bridge",                  #文件源，app名
     "dataname":"bridge",                   #数据库名称
     "datapassword":"7811175yy",
-    # "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
-    "host":"http://localhost:20303",                             #文档中的域名地址
+    "host":"http://frp.sealan.tech:20303",                             #文档中的域名地址
+    # "host":"http://localhost:20303",                             #文档中的域名地址
     "testhost":"frp.sealan.tech",                             #
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8806",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证YY
-    # "user_url":'http://frp.sealan.tech:20216/api/v3/user',
-    "user_url":'http://localhost:20216/api/v3/user',
+    "user_url":'http://frp.sealan.tech:20216/api/v3/user',
+    # "user_url":'http://localhost:20216/api/v3/user',
     "login_about":"智慧桥梁监测系统",                             #登录界面描述
     "login_title":"智慧桥梁",                             #登录界面标题
     "produce":"chenrong出品",                             #出品
