@@ -8,11 +8,11 @@ project_json = {
     "testport":"20303",                             #
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8806",                             #ant 调试访问地址
+    "antport":"8807",                             #ant 调试访问地址
     "auth": 1,                #是否需要用户登录认证YY
     "user_url":'http://frp.sealan.tech:20216/api/v3/user',
     # "user_url":'http://localhost:20216/api/v3/user',
-    "login_about":"智慧桥梁监测系统",                             #登录界面描述
+    "login_about":"智慧桥梁监测系统,试用账号：18666821287，密码：123123",                             #登录界面描述
     "login_title":"智慧桥梁",                             #登录界面标题
     "produce":"chenrong出品",                             #出品
     "sql":{                    #数据库详情
@@ -760,6 +760,13 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },
+                    ],
                 },
             ],
             "args": [
@@ -855,6 +862,18 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "DTUid",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "DTU名称"
+                        },
+                        {
+                            "name": "sn",
+                            "type": "str",
+                            "mean": "DTU序列号"
+                        },
+                    ],
                 },
             ],
             "args": [
@@ -900,45 +919,45 @@ project_json = {
                         },
                     ],
                 },
-                {
-                    "name": "dtu_name",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "dtu名称",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "dtu_sn",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 1,  # 是否支持模糊查找
-                    "mean": "dtu编号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "dtu_img",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 1,  # 是否支持模糊查找
-                    "mean": "dtu图片",
-                    "args": [
-                    ],
-                },
+                # {
+                #     "name": "dtu_name",
+                #     "type": "str",
+                #     "length": "64",
+                #     # 创建时候可以填写的参数
+                #     "post": 1,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "like": 0,  # 是否支持模糊查找
+                #     "mean": "dtu名称",
+                #     "args": [
+                #     ],
+                # },
+                # {
+                #     "name": "dtu_sn",
+                #     "type": "str",
+                #     "length": "64",
+                #     # 创建时候可以填写的参数
+                #     "post": 1,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "like": 1,  # 是否支持模糊查找
+                #     "mean": "dtu编号",
+                #     "args": [
+                #     ],
+                # },
+                # {
+                #     "name": "dtu_img",
+                #     "type": "str",
+                #     "length": "64",
+                #     # 创建时候可以填写的参数
+                #     "post": 1,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "like": 1,  # 是否支持模糊查找
+                #     "mean": "dtu图片",
+                #     "args": [
+                #     ],
+                # },
                 {
                     "name": "fault",
                     "type": "bool",
