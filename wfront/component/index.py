@@ -13,9 +13,13 @@ def w_component_index(root,ojson):
 	for route in routes:
 		path = route['path']
 		components = route['components']
+
+		if components == "all":
+			components = databases
+
 		for component in components:
+			component["crud"] = ['post', 'put', 'delete']
 			component_name = component['table']
-			module = component['module']
 			table = databases_dir[component_name]
 			table_zh = table.get('zh')
 			args = table.get('args')
@@ -35,7 +39,7 @@ def w_component_index(root,ojson):
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
 			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload }} from 'antd';\n""")
 			w.write("""const { TextArea } = Input;\n""")
-			w.write(f"""import React, {{ useState, useRef }} from 'react';\n""")
+			w.write(f"""import React, {{ useState, useRef, useEffect}} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
 			w.write(f"""\n""")
@@ -73,12 +77,18 @@ def w_component_index(root,ojson):
 				w.write(f"""  const hide = message.loading('正在删除');\n""")
 				w.write(f"""  if (!selectedRows) return true;\n""")
 				w.write(f"""  try {{\n""")
-				w.write(f"""    await remove{component_name}({{\n""")
+				w.write(f"""    const res = await remove{component_name}({{\n""")
 				w.write(f"""      ids: selectedRows.map((row) => row.id),\n""")
 				w.write(f"""    }});\n""")
+				w.write("""    if (res.success){\n""")
 				w.write(f"""    hide();\n""")
 				w.write(f"""    message.success('删除成功，即将刷新');\n""")
 				w.write(f"""    return true;\n""")
+				w.write(f"""        }}else{{\n""")
+				w.write(f"""          message.error(res.errmsg||'请求失败请重试！');\n""")
+				w.write(f"""          hide();\n""")
+				w.write(f"""          return;\n""")
+				w.write(f"""        }}\n""")
 				w.write(f"""  }} catch (error) {{\n""")
 				w.write(f"""    hide();\n""")
 				w.write(f"""    message.error('删除失败，请重试');\n""")
@@ -122,10 +132,35 @@ def w_component_index(root,ojson):
 						w.write(f"""      title: '{s_mean}',\n""")
 						w.write(f"""      dataIndex: '{parentname.lower()}_{s_name}',\n""")
 						w.write(f"""      valueType: '{type}',\n""")
+
+
+						w.write(f"""      renderFormItem:()=>{{\n""")
+						w.write(f"""        return(\n""")
+						w.write(f"""            <Form.Item\n""")
+						w.write(f"""              label=''\n""")
+						w.write(f"""              name="{parent.get('name').lower()}_id"\n""")
+						w.write(f"""            >\n""")
+						w.write(f"""              <Select\n""")
+						w.write(f"""                placeholder="请选择{parent.get('mean')[:-2]}..."\n""")
+						w.write(
+							f"""                onPopupScroll={{handlePopupScroll{parent.get('name')}}}\n""")
+						w.write(f"""                allowClear\n""")
+						w.write(f"""                showSearch\n""")
+						w.write(f"""                optionFilterProp="children"\n""")
+						w.write(f"""              >\n""")
+						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
+						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
+						w.write(
+							f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                  }})}}\n""")
+						w.write(f"""              </Select>\n""")
+						w.write(f"""            </Form.Item>\n""")
+						w.write(f"""          )}}\n""")
+
 						w.write(f"""    }},\n""")
 			for arg in args:
 				arg_name = arg['name']
-				arg_mean = arg['mean']
+				arg_mean = arg.get('mean')
 				arg_corres = arg.get('corres')
 				type = Tdb(arg['type']).protable_valuetype
 
@@ -227,6 +262,10 @@ def w_component_index(root,ojson):
 						w.write(f"""      set{parent.get('name')}list({parent.get('name')}data);\n""")
 						w.write(f"""    }}\n""")
 						w.write(f"""  }};\n""")
+
+						w.write(f"""useEffect(()=>{{get{parent.get('name')}list({{pageindex:1}})}},[])\n""")
+
+
 						w.write(f"""  const handlePopupScroll{parent.get('name')} = async (e) => {{\n""")
 						w.write(f"""    const {{ current, pagecount }} = {parent.get('name')}list;\n""")
 						w.write(f"""    e.persist();\n""")
@@ -424,7 +463,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
 						w.write(f"""                optionFilterProp="children"\n""")
-						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						# w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
@@ -522,7 +561,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                allowClear\n""")
 						w.write(f"""                showSearch\n""")
 						w.write(f"""                optionFilterProp="children"\n""")
-						w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
+						# w.write(f"""                onDropdownVisibleChange={{get{parent.get('name')}list}}\n""")
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")

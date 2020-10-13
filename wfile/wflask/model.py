@@ -95,6 +95,13 @@ def make_models(appdir,app):
                     w.write(f"\t\t\t'{name}':utc_switch(self.{name}),\n")
                 else:
                     w.write(f"\t\t\t'{name}':self.{name},\n")
+            for parent in table.get('parents'):  # 显示父表中的值
+                parentname = parent.get('name')
+                show = parent.get("show")
+                if show is not None:
+                    for sho in show:
+                        s_name = sho['name']
+                        w.write(f"\t\t\t'{parentname.lower()}_{s_name}' : self.{parentname.lower()}.{s_name},\n")
 
             for son in table.get('detail_sons'):
                 son = son.lower()

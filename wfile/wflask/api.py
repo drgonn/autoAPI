@@ -88,7 +88,7 @@ from sqlalchemy import func
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('post'):
-                w.write(f"{parenttablename}_id={parenttablename}.id,")
+                w.write(f"{parenttablename}_id={parenttablename}_id,")
         if table.get('appfilter'):
             w.write(f"app_id=g.app.id,")
         w.write(f")\n")
@@ -320,6 +320,99 @@ from sqlalchemy import func
                     }})""")
         w.write(f"\n")
         w.write(f"\n")
+
+
+
+
+        if table.get('detail_sons') is not None:
+            w.write(f"@api.route('/{tablename}/list/detail', methods=['GET'])\n")
+            w.write(f"def list_detail_{tablename}():\n")
+            w.write(f"\tprint(request.args)\n")
+            w.write(f"\tsorter = request.args.get('sorter')\n")
+            w.write(f"\tpage = int(request.args.get('current', 1))\n")
+            w.write(f"\tpageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
+            w.write(f"\tpageSize = 20 if pageSize < 10 else pageSize\n")
+
+            if table.get('userfilter'):
+                w.write(f"\n\tif is_admin():\n")
+                if table.get('appfilter'):
+                    w.write(f"\t\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                else:
+                    w.write(f"\t\ttotal_{tablenames} = {tableclass}.query\n")
+                w.write(f"\telse:\n")
+                w.write(f"\t\ttotal_{tablenames} = g.current_user.{tablenames}\n")
+            else:
+                if table.get('appfilter'):
+                    w.write(f"\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                else:
+                    w.write(f"\ttotal_{tablenames} = {tableclass}.query\n")
+
+            if table.get("many"):
+                for many in table.get('many'):
+                    manyclass = many.get('name')
+                    manyname = many.get('name').lower()
+                    w.write(f"\n\t{manyname}_id = request.args.get('{manyname}_id')\n")
+                    w.write(f"\tif {manyname}_id is not None:\n")
+                    w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                    w.write(f"\t\tif {manyname} is None:\n")
+                    w.write(
+                        f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
+                    w.write(f"\t\telse:\n")
+
+                    w.write(f"\t\t\ttotal_{tablenames} = {manyname}.{tablename}s\n\n")
+            for parent in table.get('parents'):
+                parentname = parent.get('name')
+                parenttablename = parentname.lower()
+                if parent.get('post'):
+                    index = parent.get('index')
+                    argname = f"{parenttablename}_{parent.get('index')}"
+                    w.write(f"\n\t{argname} = request.args.get('{argname}')\n")
+                    w.write(f"\tif {argname} is not None:\n")
+                    w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+                    w.write(f"\t\tif {parenttablename} is None:\n")
+                    w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
+                    w.write(
+                        f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
+
+            for column in table.get('args'):
+                filter = column.get('filter')
+                # print(tablename,filter,column,table)
+                if filter:
+                    argname = column.get('name')
+                    w.write(f"\t{argname} = request.args.get('{argname}')\n")
+                    w.write(f"\tif {argname} is not None:\n")
+                    if filter == "like":
+                        w.write(
+                            f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
+                    elif filter == "precise":
+                        w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
+            w.write(f"\tif sorter:\n")
+            w.write(f"\t\tsorter = json.loads(sorter)\n")
+
+            for column in table.get('args'):
+                if column.get("sorter"):
+                    argname = column.get('name')
+                    w.write(f"\t\tif sorter.get('{argname}') == 'ascend':\n")
+                    w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
+                    w.write(f"\t\telif sorter.get('{argname}') == 'descend':\n")
+                    w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
+            w.write(f"\t\tpass\n")
+            w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
+            w.write(f"\tpage = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
+            w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
+            w.write(f"\t{tablenames} = pagination.items\n")
+            w.write(f"""\n\treturn jsonify({{
+                        'success':True,
+                        'error_code':0,
+                        'total':totalcount,
+                        "pageSize" : pageSize,
+                        "current" : page,
+                        "pagecount": pagination.pages,
+                        'data':[{tablename}.to_detail() for {tablename} in {tablenames}]
+                        }})""")
+            w.write(f"\n")
+            w.write(f"\n")
+
         w.close()
 
 def write_api_init(root,ojson):

@@ -10,19 +10,20 @@ def w_config_proxy(root,ojson):
 	port = ojson.get("testport")
 	routes = ojson.get('routes')
 	databases_dir = {i['table'] : i for i in databases}
-
+	user_url = ojson.get('user_url')
+	host_url = ojson.get('host')
 
 	initdir = os.path.join(root,f'config/proxy.ts')
 	w = open(initdir,'w+')
 	w.write(f"""export default {{\n""")
 	w.write(f"""  dev: {{\n""")
 	w.write(f"""    '/api/': {{\n""")
-	w.write(f"""      target: 'http://localhost:{port}/api/v1/{appname}',\n""")
+	w.write(f"""      target: '{host_url}/api/v1/{appname}',\n""")
 	w.write(f"""      changeOrigin: true,\n""")
 	w.write(f"""      pathRewrite: {{ '^/api': '' }},\n""")
 	w.write(f"""    }},\n""")
 	w.write(f"""    '/user/': {{\n""")
-	w.write(f"""      target: 'http://localhost:20216/api/v3/user',\n""")
+	w.write(f"""      target: '{user_url}',\n""")
 	w.write(f"""      changeOrigin: true,\n""")
 	w.write(f"""      pathRewrite: {{ '^/user': '' }},\n""")
 	w.write(f"""    }},\n""")
