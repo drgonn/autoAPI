@@ -34,3 +34,10 @@ def make_auth(root,ojson):
         source_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(root))), 'wfront/file/authfile/login.ts')
         target = os.path.join(root, f'src/models/login.ts')
         os.system(f'cp {source_dir} {target}')
+
+        source_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(root))), 'wfront/file/authfile/user_system')
+        target = os.path.join(root, f'src/pages')
+        # new_target = os.path.join(root, f'src/pages/user_system/user')
+        os.system(f'cp -r {source_dir} {target}')
+        print(f'cp -r {source_dir} {target}')
+        # os.system(f'mv  {target}/page_user {new_target}')

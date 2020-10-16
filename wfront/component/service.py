@@ -17,10 +17,13 @@ def w_component_service(root, ojson):
     for route in routes:
         path = route['path']
         components = route['components']
+
         if components == "all":
             components = databases
         for component in components:
             component_name = component['table']
+            if component_name == "User":
+                continue
             table = databases_dir[component_name]
             crud = table.get('crud')
             os.makedirs(os.path.join(root, f'src/pages/{path}/{component_name.lower()}'), exist_ok=True)

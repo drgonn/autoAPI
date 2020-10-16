@@ -1,8 +1,25 @@
-from datetime import datetime  #记录时间
+from flask import request, jsonify, current_app, g
 from app import db
-from app.tools import utc_switch,generate_token,certify_token,get_permission
-from app.standard import Permission
-from datetime import datetime  
+from datetime import datetime
+from app.tools import utc_switch
+
+class User(db.Model):
+	__tablename__='users'
+	id = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.String(64), unique=True, index=True, nullable=False)
+	name = db.Column(db.String(64))
+	createDate = db.Column(db.DateTime, default=datetime.utcnow)
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'uid': self.uid,
+			'name': self.name,
+			'createDate': utc_switch(self.createDate),
+		}
+
+	def __repr__(self):
+		return '<User %r>' % self.name
 
 class Device(db.Model):
 	__tablename__='devices'
@@ -71,3 +88,79 @@ class Valve(db.Model):
 
 	def __repr__(self):
 		return '<Valve %r>' % self.id
+
+class Role(db.Model):
+	__tablename__='roles'
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(64))
+	permissions = db.Column(db.Integer)
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'name': self.name,
+			'permissions': self.permissions,
+		}
+
+	def __repr__(self):
+		return '<Role %r>' % self.name
+
+class Usercopy(db.Model):
+	__tablename__='usercopys'
+	id = db.Column(db.Integer, primary_key=True)
+	uid = db.Column(db.String(64), unique=True, index=True, nullable=False)
+	username = db.Column(db.String(64))
+	phone = db.Column(db.String(64))
+	email = db.Column(db.String(64))
+	emailbind = db.Column(db.Boolean)
+	company = db.Column(db.String(64))
+	address = db.Column(db.String(64))
+	url = db.Column(db.String(128))
+	nickname = db.Column(db.String(64))
+	headimgurl = db.Column(db.String(256))
+	createDate = db.Column(db.DateTime, default=datetime.utcnow)
+	role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+	role = db.relationship('Role', backref=db.backref('usercopys', lazy='dynamic'))
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'uid': self.uid,
+			'username': self.username,
+			'phone': self.phone,
+			'email': self.email,
+			'emailbind': self.emailbind,
+			'company': self.company,
+			'address': self.address,
+			'url': self.url,
+			'nickname': self.nickname,
+			'headimgurl': self.headimgurl,
+			'createDate': utc_switch(self.createDate),
+			'role_name' : self.role.name,
+		}
+
+	def __repr__(self):
+		return '<Usercopy %r>' % self.name
+
+class Userlog(db.Model):
+	__tablename__='userlogs'
+	id = db.Column(db.Integer, primary_key=True)
+	ip = db.Column(db.String(64))
+	user_agent = db.Column(db.String(1024))
+	msg = db.Column(db.Text)
+	time = db.Column(db.DateTime, default=datetime.utcnow)
+	usercopy_id = db.Column(db.Integer, db.ForeignKey('usercopys.id'))
+	usercopy = db.relationship('Usercopy', backref=db.backref('userlogs', lazy='dynamic'))
+	
+	def to_json(self):
+		return{
+			'id':self.id,
+			'ip': self.ip,
+			'user_agent': self.user_agent,
+			'msg': self.msg,
+			'time': utc_switch(self.time),
+			'usercopy_name' : self.usercopy.name,
+		}
+
+	def __repr__(self):
+		return '<Userlog %r>' % self.name

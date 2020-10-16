@@ -9,9 +9,13 @@ project_json = {
     "testprotocol":"http",                             #
     # "anturl":"http://localhost:8002",                               #ant前端访问地址
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8801",                             #ant 调试访问地址
+    "antport":"8802",                             #ant 调试访问地址
     "antprotocol":"http",                         #ant 调试访问地址
-    "auth":None,                             #
+    "auth":1 ,                             #  是否有用户系统
+    "user_url":'http://localhost:20216/api/v3/user',
+    "login_about":"数据采集边缘计算产品与OEE,试用账号：18666821287，密码：123123",              #登录界面描述
+    "login_title":"东达科技",                             #登录界面标题
+    "produce":"东达科技出品",                             #出品
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
@@ -65,6 +69,61 @@ project_json = {
         },
     ],                             #
     "databases":[                   #数据库表
+        {
+            "table":"User",
+            "api":False,
+            "zh": "用户",
+            "crud":['post','put','delete'],
+            "parents":[
+            ],
+            "args":[
+                {
+                    "name":"uid",
+                    "type":"str",
+                    "length":"64",
+                    "mean": "UID",
+                    "args":[
+                        {
+                            "name":"unique",
+                            "value":"True",
+                        },
+                        {
+                            "name":"index",
+                            "value":"True",
+                        },
+                        {
+                            "name":"nullable",
+                            "value":"False",
+                        },
+                    ],
+                },
+                {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "用户名",
+                    "args":[
+                    ],
+                },
+                {
+                    "name":"createDate",
+                    "type":"time",
+                    "mean": "注册时间",
+                    "args":[
+                        {
+                            "name":"default",
+                            "value":"datetime.utcnow",
+                        },
+                    ],
+                },
+            ],
+            "repr":"name",
+        },                  #User
         {
             "table":"Device",
             "api":1,
@@ -291,6 +350,320 @@ project_json = {
             "repr": "id",
         },  # 阀
 
+        {
+            "table":"Role",
+            "api":1,
+            "zh": "角色",
+            "crud":['post','put','delete'],
+            "parents":[
+            ],
+            "args":[
+                {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "用户名",
+                    "args":[
+                    ],
+                },
+                {
+                    "name": "permissions",
+                    "type": "int",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "权限",
+                },
+
+            ],
+            "repr":"name",
+        },                  #role
+        {
+            "table": "Usercopy",
+            "api": False,
+            "zh": "用户",
+            "crud": ['post', 'put', 'delete'],
+            "parents": [
+                {
+                    "name": "Role",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "角色id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "角色名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "uid",
+                    "type": "str",
+                    "length": "64",
+                    "mean": "UID",
+                    "args": [
+                        {
+                            "name": "unique",
+                            "value": "True",
+                        },
+                        {
+                            "name": "index",
+                            "value": "True",
+                        },
+                        {
+                            "name": "nullable",
+                            "value": "False",
+                        },
+                    ],
+                },
+                {
+                    "name": "username",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "用户名",
+                    "args": [
+                    ],
+                },
+                # {
+                #     "name": "password_hash",
+                #     "type": "str",
+                #     "length": "128",
+                #     # 创建时候可以填写的参数
+                #     "post": 0,  # 创建时候必须填写的参数
+                #     "putneed": 0,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "unique": 1,
+                #     "mean": "用户名",
+                #     "args": [
+                #     ],
+                # },
+                # {
+                #     "name": "usersecret",
+                #     "type": "str",
+                #     "length": "127",
+                #     # 创建时候可以填写的参数
+                #     "post": 0,  # 创建时候必须填写的参数
+                #     "putneed": 0,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "unique": 1,
+                #     "mean": "用户名",
+                #     "args": [
+                #     ],
+                # },
+                {
+                    "name": "phone",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "手机",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "email",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "邮箱",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "emailbind",
+                    "type": "bool",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "邮箱是否绑定",
+                    "args": [
+                    ],
+                    "corres": [
+                        {'key': 1, 'value': "已绑定"},
+                        {'key': 0, 'value': "未绑定"},
+                    ],
+                },
+                {
+                    "name": "company",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "公司",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "address",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "地址",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "url",
+                    "type": "str",
+                    "length": "128",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "网址",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "nickname",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "微信昵称",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "headimgurl",
+                    "type": "str",
+                    "length": "256",
+                    # 创建时候可以填写的参数
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "微信头像地址",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "createDate",
+                    "type": "time",
+                    "mean": "注册时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.utcnow",
+                        },
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # User
+        {
+            "table": "Userlog",
+            "api": 1,
+            "zh": "用户日志",
+            "crud": ['delete','put','post'],
+            "parents": [
+                {
+                    "name": "Usercopy",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "用户id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "用户名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "ip",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "IP",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "user_agent",
+                    "type": "str",
+                    "length": "1024",
+                    # 创建时候可以填写的参数
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "agent",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "msg",
+                    "type": "text",
+                    # 创建时候可以填写的参数
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "msg",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "time",
+                    "type": "time",
+                    "mean": "登录时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.utcnow",
+                        },
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # User
     ],
     "routes":[
         {
@@ -311,6 +684,25 @@ project_json = {
                     "table": "Valve",
                 },
 
+            ],
+        },
+        {
+            "path": "user_system",  # 上级目录主菜单详情
+            "name": "用户管理",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": [
+                {
+                    "module": "protable",
+                    "table": "User",
+                },
+                {
+                    "module": "protable",
+                    "table": "Role",
+                },
+                {
+                    "module": "protable",
+                    "table": "Userlog",
+                },
             ],
         }
     ],

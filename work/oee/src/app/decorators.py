@@ -1,9 +1,6 @@
-
 from functools import wraps
-from flask import abort,g
-# from flask_login import current_user
-from app.models import Permission
-from app.tools import get_permission
+from flask import abort
+from app.tools.auth import get_permission,Permission
 #用作权限访问的装饰器
 def permission_required(permission):
 	def decorator(f):

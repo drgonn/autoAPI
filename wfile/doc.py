@@ -20,6 +20,7 @@ def out_detail(tableclass,ojson):
 
 
 def write_docs(root,ojson):
+    print("写入文档")
     app = ojson.get('app')
     appdir = os.path.join(root, f'{app}/src/app')
     doc = os.path.join(root, f'{app}/doc')
@@ -183,8 +184,8 @@ def write_docs(root,ojson):
             plistmust = '是' if parent.get('listmust') else '否'
             parenttablename = parentname.lower()
             argname = f"{parenttablename}_{parent.get('index')}"
-            if parent.get('list'):
-                d.write(f"|{argname}|{ptype}|{plistmust}|{pmean}|\n")
+            # if parent.get('list'):
+            d.write(f"|{argname}|{ptype}|{plistmust}|{pmean}|\n")
         d.write("\n")
         d.write("**返回示例**\n> 正常情况下，会返回下述JSON数据包\n")
         d.write("```javascript\n{\n\t'success': true,\n\t'error_code': 0,\n")

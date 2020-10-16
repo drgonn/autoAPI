@@ -11,6 +11,10 @@ class Config:
 	PER_PAGE = 20
 	FLASKY_SLOW_DB_QUERY_TIME = 0.5
 
+	STATIC_FOLDER = os.path.join(basedir,"app","static")
+
+	STATIC_HOST = "http://localhost:8002"
+
 
 
 	@staticmethod
