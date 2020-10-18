@@ -16,6 +16,8 @@ def w_component_data(root,ojson):
 		if components == "all":
 			for table in databases:
 				component_name = table.get('table')
+				if component_name == "User":
+					continue
 				table = databases_dir[component_name]
 				crud = table.get('crud')
 				module = component['module']
@@ -60,6 +62,8 @@ def w_component_data(root,ojson):
 			break
 		for component in components:
 			component_name = component['table']
+			if component_name == "User":
+				continue
 			table = databases_dir[component_name]
 			crud = table.get('crud')
 			module = component['module']

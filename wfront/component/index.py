@@ -20,6 +20,8 @@ def w_component_index(root,ojson):
 		for component in components:
 			component["crud"] = ['post', 'put', 'delete']
 			component_name = component['table']
+			if component_name == "User":
+				continue
 			table = databases_dir[component_name]
 			table_zh = table.get('zh')
 			args = table.get('args')

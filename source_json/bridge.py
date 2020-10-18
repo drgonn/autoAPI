@@ -9,10 +9,10 @@ project_json = {
     "testprotocol":"http",                             #
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"20305",                             #ant 调试访问地址
-    "auth": 1,                #是否需要用户登录认证YY
+    "auth": 1,                                     #是否需要用户登录认证YY
     "user_url":'http://frp.sealan.tech:20216/api/v3/user',
     # "user_url":'http://localhost:20216/api/v3/user',
-    "login_about":"智慧桥梁监测系统,试用账号：18666821287，密码：123",                             #登录界面描述
+    "login_about":"智慧桥梁监测系统,试用账号：18666821287，密码：123",              #登录界面描述
     "login_title":"智慧桥梁",                             #登录界面标题
     "produce":"chenrong出品",                             #出品
     "sql":{                    #数据库详情
