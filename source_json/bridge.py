@@ -122,6 +122,9 @@ project_json = {
             "table":"Province",
             "api":1,
             "zh": "省",
+            "detail_sons":[
+                "city"
+            ],
             "crud":['post','put','delete'],
             "parents":[
             ],
@@ -147,6 +150,9 @@ project_json = {
             "api":1,
             "zh": "市",
             "crud":['post','put','delete'],
+            "detail_sons":[
+                "area"
+            ],
             "parents":[
                 {
                     "name": "Province",
@@ -178,6 +184,32 @@ project_json = {
                     "mean": "市名",
                     "unique":1,
                     "args":[
+                    ],
+                },
+                {
+                    "name": "latitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "纬度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "longitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "经度",
+                    "args": [
                     ],
                 },
             ],
@@ -221,6 +253,32 @@ project_json = {
                     "args":[
                     ],
                 },
+                {
+                    "name": "latitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "纬度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "longitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "经度",
+                    "args": [
+                    ],
+                },
             ],
             "repr":"name",
         },                  #area
@@ -253,6 +311,8 @@ project_json = {
             "api": 1,
             "zh": "桥梁",
             "crud":['post','put','delete'],
+            "detail_sons":[
+            ],
             "parents": [
                 {
                     "name": "Bridgetype",
@@ -349,6 +409,20 @@ project_json = {
                     ],
                 },
                 {
+                    "name": "address",
+                    "type": "text",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "详细地址",
+                    "args": [
+                    ],
+                },
+                {
                     "name": "about",
                     "type": "text",
                     "length": "",
@@ -373,6 +447,32 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
                     "mean": "监测框架介绍",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "latitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "纬度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "longitude",
+                    "type": "float",
+                    # "length": "128",
+                    "post": 1,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "经度",
                     "args": [
                     ],
                 },
@@ -1434,6 +1534,23 @@ project_json = {
             "detail_sons":[
             ],
             "parents": [
+                {
+                    "name": "Monittype",
+                    "index": "id",
+                    "type": "int",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "监控类型id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "类型名"
+                        },
+                    ],
+                },
                 {
                     "name": "Monitarg",
                     "index": "id",
