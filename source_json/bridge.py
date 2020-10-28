@@ -220,6 +220,9 @@ project_json = {
             "api":1,
             "zh": "行政区",
             "crud":['post','put','delete'],
+            "detail_sons":[
+                "bridge"
+            ],
             "parents":[
                 {
                     "name": "City",

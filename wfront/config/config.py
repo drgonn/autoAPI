@@ -78,7 +78,7 @@ def w_config_config(root,ojson):
 	path = routes[0].get('path')
 	table_name = routes[0]['components'][0].get("table")
 	print("tablename",table_name)
-	w.write(f"""              redirect: '/{path}/{table_name.lower()}',\n""")
+	w.write(f"""              redirect: '/{appname}/{table_name.lower()}',\n""")
 	w.write(f"""            }},\n""")
 	for route in routes:
 		if route.get('components'):   #说明是菜单，不是最终标签
@@ -97,7 +97,7 @@ def w_config_config(root,ojson):
 					w.write(f"""                {{\n""")
 					w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
 					w.write(f"""                  name: '{table.get('zh')}',\n""")
-					w.write(f"""                  component: './{path}/{table_name.lower()}',\n""")
+					w.write(f"""                  component: './{appname}/{table_name.lower()}',\n""")
 					w.write(f"""                }},\n""")
 				w.write(f"""              ]\n""")
 				w.write(f"""            }},\n""")
@@ -108,16 +108,38 @@ def w_config_config(root,ojson):
 				w.write(f"""                {{\n""")
 				w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
 				w.write(f"""                  name: '{table.get('zh')}',\n""")
-				w.write(f"""                  component: './{path}/{table_name.lower()}',\n""")
+				w.write(f"""                  component: './{appname}/{table_name.lower()}',\n""")
 				w.write(f"""                }},\n""")
 			w.write(f"""              ]\n""")
-			pass
+
+
 		else:                   #是目标菜单
 			pass        #一级目录，暂时不写
 
 		w.write(f"""            }},\n""")
 
-
+	if auth:
+		w.write(f"""            {{\n""")
+		w.write(f"""              path: '/user_system',\n""")
+		w.write(f"""              name: '用户管理',\n""")
+		w.write(f"""              routes: [\n""")
+		w.write(f"""                {{\n""")
+		w.write(f"""                  path: '/user_system/user',\n""")
+		w.write(f"""                  name: '用户',\n""")
+		w.write(f"""                  component: './user_system/user',\n""")
+		w.write(f"""                }},\n""")
+		w.write(f"""                {{\n""")
+		w.write(f"""                  path: '/user_system/role',\n""")
+		w.write(f"""                  name: '角色',\n""")
+		w.write(f"""                  component: './user_system/role',\n""")
+		w.write(f"""                }},\n""")
+		w.write(f"""                {{\n""")
+		w.write(f"""                  path: '/user_system/userlog',\n""")
+		w.write(f"""                  name: '用户日志',\n""")
+		w.write(f"""                  component: './user_system/userlog',\n""")
+		w.write(f"""                }},\n""")
+		w.write(f"""              ]\n""")
+		w.write(f"""            }},\n""")
 
 	w.write(f"""            {{\n""")
 	w.write(f"""              path: '/admin',\n""")

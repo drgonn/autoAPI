@@ -21,9 +21,9 @@ def w_component_data(root,ojson):
 				table = databases_dir[component_name]
 				crud = table.get('crud')
 				module = component['module']
-				os.makedirs(os.path.join(root, f'src/pages/{path}/{component_name.lower()}'), exist_ok=True)
+				os.makedirs(os.path.join(root, f'src/pages/{appname}/{component_name.lower()}'), exist_ok=True)
 
-				initdir = os.path.join(root, f'src/pages/{path}/{component_name.lower()}/data.d.ts')
+				initdir = os.path.join(root, f'src/pages/{appname}/{component_name.lower()}/data.d.ts')
 				w = open(initdir, 'w+')
 
 				w.write(f"export interface TableListItem {{\n")
@@ -67,9 +67,9 @@ def w_component_data(root,ojson):
 			table = databases_dir[component_name]
 			crud = table.get('crud')
 			module = component['module']
-			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}'),exist_ok=True)
+			os.makedirs(os.path.join(root,f'src/pages/{appname}/{component_name.lower()}'),exist_ok=True)
 
-			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}/data.d.ts')
+			initdir = os.path.join(root,f'src/pages/{appname}/{component_name.lower()}/data.d.ts')
 			w = open(initdir,'w+')
 
 			w.write(f"export interface TableListItem {{\n")

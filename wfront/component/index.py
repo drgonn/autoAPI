@@ -27,9 +27,9 @@ def w_component_index(root,ojson):
 			args = table.get('args')
 			parents = table.get('parents')
 			crud = table.get('crud')
-			os.makedirs(os.path.join(root,f'src/pages/{path}/{component_name.lower()}'),exist_ok=True)
-			initdir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}/index.tsx')
-			com_dir = os.path.join(root,f'src/pages/{path}/{component_name.lower()}')
+			os.makedirs(os.path.join(root,f'src/pages/{appname}/{component_name.lower()}'),exist_ok=True)
+			initdir = os.path.join(root,f'src/pages/{appname}/{component_name.lower()}/index.tsx')
+			com_dir = os.path.join(root,f'src/pages/{appname}/{component_name.lower()}')
 			w = open(initdir,'w+')
 
 			upload = False
@@ -39,7 +39,7 @@ def w_component_index(root,ojson):
 					break
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
-			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload }} from 'antd';\n""")
+			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload,DatePicker  }} from 'antd';\n""")
 			w.write("""const { TextArea } = Input;\n""")
 			w.write(f"""import React, {{ useState, useRef, useEffect}} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
@@ -53,7 +53,7 @@ def w_component_index(root,ojson):
 				for parent in parents:
 					postmust =  parent.get('post')
 					if postmust:
-						w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/{path}/{parent.get('name').lower()}/service";\n""")
+						w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/{appname}/{parent.get('name').lower()}/service";\n""")
 
 			w.write(f"""""")
 
@@ -282,11 +282,33 @@ def w_component_index(root,ojson):
 			if "put" in crud:
 				w.write(f"""  const handleUpdate = ()=>{{\n""")
 				w.write(f"""    const hide=message.loading('正在提交...')\n""")
+
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f"""    let v_time = new Object();\n""")
+						break
 				w.write(f"""    form\n""")
 				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f"""      if (values.{arg['name']}u) {{\n""")
+						w.write(f"""        v_time.{arg['name']} = values.{arg['name']}u.format('YYYYMMDDHHmmss')\n""")
+						w.write(f"""      }}\n""")
 				w.write(f"""      try{{\n""")
 				w.write(f"""        values.id = id\n""")
-				w.write(f"""        const res=await update{component_name}({{...values}})\n""")
+				w.write(f"""        const res=await update{component_name}({{...values""")
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f""",...v_time\n""")
+						break
+				w.write(f"""}})\n""")
+				# w.write(f"""        const res=await update{component_name}({{...values}})\n""")
 				w.write(f"""        if(res.success){{\n""")
 				w.write(f"""          hide()\n""")
 				w.write(f"""          message.success('修改成功！')\n""")
@@ -307,11 +329,33 @@ def w_component_index(root,ojson):
 
 				upload_arg = f",file_name:filename" if upload else ""
 				w.write(f"""  const handleAdd = ()=>{{\n""")
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f"""    let v_time = new Object();\n""")
+						break
 				w.write(f"""    form\n""")
 				w.write(f"""      .validateFields().then(async(values)=>{{\n""")
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f"""      if (values.{arg['name']}) {{\n""")
+						w.write(f"""        v_time.{arg['name']} = values.{arg['name']}.format('YYYYMMDDHHmmss')\n""")
+						w.write(f"""      }}\n""")
 				w.write(f"""      const hide=message.loading('正在提交...')\n""")
+
 				w.write(f"""      try{{\n""")
-				w.write(f"""        const res=await add{component_name}({{...values{upload_arg}}})\n""")
+				w.write(f"""        const res=await add{component_name}({{...values{upload_arg}""")
+				for arg in args:
+					postmust =  arg.get('post')
+					type = arg.get('type')
+					if postmust and type == "time":
+						w.write(f""",...v_time\n""")
+						break
+
+				w.write(f"""}})\n""")
 				w.write(f"""        if(res.success){{\n""")
 				w.write(f"""          hide()\n""")
 				w.write(f"""          message.success('创建成功！')\n""")
@@ -498,6 +542,8 @@ def w_component_index(root,ojson):
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
 							elif type == "text":
 								w.write(f"""            <TextArea rows={{4}} />\n""")
+							elif type == "time":
+								w.write(f"""            <DatePicker showTime/>\n""")
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
@@ -577,7 +623,10 @@ def w_component_index(root,ojson):
 					type = arg.get('type')
 					if postmust:
 						w.write(f"""          <Form.Item\n""")
-						w.write(f"""            name='{arg.get('name')}'\n""")
+						if type == "time":
+							w.write(f"""            name='{arg.get('name')}u'\n""")
+						else:
+							w.write(f"""            name='{arg.get('name')}'\n""")
 						if postmust == 1:
 							w.write(f"""            rules= {{[{{ required: false, message: '请输入名称!' }}]}}\n""")
 						elif postmust == 2:
@@ -596,22 +645,13 @@ def w_component_index(root,ojson):
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
 							elif type == "text":
 								w.write(f"""            <TextArea rows={{4}} />\n""")
+							elif type == "time":
+								w.write(f"""            <DatePicker showTime/>\n""")
 							else:
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 						w.write(f"""          </Form.Item>\n""")
-
-
-
-
-
 				w.write(f"""        </Form>\n""")
 				w.write(f"""      </Modal>\n""")
-
-
-
-                
-
-
 			w.write(f"""    </PageHeaderWrapper>\n""")
 			w.write(f"""  );\n""")
 			w.write(f"""}};\n""")

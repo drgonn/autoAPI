@@ -41,7 +41,7 @@ const TableList: React.FC<{}> = () => {
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
+      title: '角色名',
       dataIndex: 'name',
       valueType: 'text',
     },

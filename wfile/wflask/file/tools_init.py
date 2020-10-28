@@ -19,13 +19,13 @@ def randomd5():
 '''
 def utc_switch(utc,time_zone="GTM+8"):
 	if utc:
-		time_zone = time_zone or "GTM+8"
-		local_zone = time_zone or datetime.now(tzlocal()).tzname()
-		# UTC Zone
-		from_zone = tz.gettz('UTC')
-		# China Zone
-		to_zone = tz.gettz(local_zone)
-		utc = utc.replace(tzinfo=to_zone)
-		local = utc.astimezone(from_zone)
-		return datetime.strftime(local, "%Y-%m-%d %H:%M:%S")
+		# time_zone = time_zone or "GTM+8"
+		# local_zone = time_zone or datetime.now(tzlocal()).tzname()
+		# # UTC Zone
+		# from_zone = tz.gettz('UTC')
+		# # China Zone
+		# to_zone = tz.gettz(local_zone)
+		# utc = utc.replace(tzinfo=to_zone)
+		# local = utc.astimezone(from_zone)
+		return datetime.strftime(utc, "%Y-%m-%d %H:%M:%S")
 

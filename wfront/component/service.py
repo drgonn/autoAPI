@@ -26,8 +26,8 @@ def w_component_service(root, ojson):
                 continue
             table = databases_dir[component_name]
             crud = table.get('crud')
-            os.makedirs(os.path.join(root, f'src/pages/{path}/{component_name.lower()}'), exist_ok=True)
-            initdir = os.path.join(root, f'src/pages/{path}/{component_name.lower()}/service.ts')
+            os.makedirs(os.path.join(root, f'src/pages/{appname}/{component_name.lower()}'), exist_ok=True)
+            initdir = os.path.join(root, f'src/pages/{appname}/{component_name.lower()}/service.ts')
             w = open(initdir, 'w+')
             # w.write(f"""import request from 'umi-request';\n""")
             w.write(f"""import request from '@/utils/request';\n""")
