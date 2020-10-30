@@ -40,8 +40,10 @@ class Tdb():
             self.ts_interface = "string"
             self.protable_valuetype = "text"
         else:
-            self.db = None
+            self.db = t
             self.empty = '""'
+            self.protable_valuetype = t
+            self.ts_interface = t
 
 class Tdbgo():
     def __init__(self,t):

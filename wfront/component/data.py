@@ -19,8 +19,6 @@ def w_component_data(root,ojson):
 				if component_name == "User":
 					continue
 				table = databases_dir[component_name]
-				crud = table.get('crud')
-				module = component['module']
 				os.makedirs(os.path.join(root, f'src/pages/{appname}/{component_name.lower()}'), exist_ok=True)
 
 				initdir = os.path.join(root, f'src/pages/{appname}/{component_name.lower()}/data.d.ts')

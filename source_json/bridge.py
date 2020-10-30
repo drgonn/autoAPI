@@ -12,8 +12,8 @@ project_json = {
     "auth": 1,                                     #是否需要用户登录认证YY
     "user_url":'http://frp.sealan.tech:20216/api/v3/user',
     # "user_url":'http://localhost:20216/api/v3/user',
-    "login_about":"智慧桥梁监测系统,试用账号：18666821287，密码：123",              #登录界面描述
-    "login_title":"智慧桥梁",                             #登录界面标题
+    "login_about":"智慧建筑监测系统,试用账号：18666821287，密码：123",              #登录界面描述
+    "login_title":"智慧建筑",                             #登录界面标题
     "produce":"chenrong出品",                             #出品
     "sql":{                    #数据库详情
         "sql": "mysql",
@@ -250,10 +250,13 @@ project_json = {
             "repr":"name",
         },                  #area
         {
-            "table":"Bridgetype",
+            "table":"Basetype",
             "api":1,
-            "zh": "桥梁种类",
+            "zh": "基础类型",
             "crud":['post','put','delete'],
+            "detail_sons":[
+                "buildtype"
+            ],
             "parents":[
             ],
             "args":[
@@ -266,36 +269,77 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁种类名",
+                    "mean": "基础类名",
                     "args":[
                     ],
                 },
             ],
             "repr":"name",
-        },                  #桥梁种类
+        },                  #基础类型
+        {
+            "table":"Buildtype",
+            "api":1,
+            "zh": "建筑种类",
+            "crud":['post','put','delete'],
+            "detail_sons":[
+            ],
+            "parents":[
+                {
+                    "name": "Basetype",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "建筑种类id",
+                    "tojson": "name",  # 在json字段当中显示的参数
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "基础类型"
+                        },
+                    ],
+                },
+            ],
+            "args":[
+                {
+                    "name":"name",
+                    "type":"str",
+                    "length":"64",
+                    "unique":1,
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "建筑种类名",
+                    "args":[
+                    ],
+                },
+            ],
+            "repr":"name",
+        },                  #建筑种类
         {
             "table": "Bridge",
             "api": 1,
-            "zh": "桥梁",
+            "zh": "建筑",
             "crud":['post','put','delete'],
             "detail_sons":[
             ],
             "parents": [
                 {
-                    "name": "Bridgetype",
+                    "name": "Buildtype",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁种类id",
+                    "mean": "建筑种类id",
                     "tojson": "name",    #在json字段当中显示的参数
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
                             "type": "str",
-                            "mean": "桥梁类型"
+                            "mean": "建筑类型"
                         },
                     ],
                 },
@@ -343,7 +387,7 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
-                    "mean": "桥梁名",
+                    "mean": "建筑名",
                     "unique":1,
                     "args": [
                     ],
@@ -482,7 +526,7 @@ project_json = {
 
             ],
             "repr": "name",
-        },  # 桥梁
+        },  # 建筑
         {
             "table": "Filetype",
             "api": 1,
@@ -504,18 +548,18 @@ project_json = {
                     "args": [
                     ],
                 },
-                {
-                    "name": "type",
-                    "type": "int",
-                      # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "文件的种类：1图片，2excel，3pdf",
-                    "args": [
-                    ],
-                },
+                # {
+                #     "name": "type",
+                #     "type": "int",
+                #       # 创建时候可以填写的参数
+                #     "post": 2,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "like": 0,  # 是否支持模糊查找
+                #     "mean": "文件的种类：1图片，2excel，3pdf",
+                #     "args": [
+                #     ],
+                # },
             ],
             "repr": "name",
         },  # 文件类型
@@ -525,16 +569,22 @@ project_json = {
             "crud":['post','put','delete'],
             "zh": "文件",
             "parents": [
-                # {
-                #     "name": "Filetype",
-                #     "index": "id",
-                #     "type": "int",
-                #       # 创建时候可以填写的参数
-                #     "post": 2,  # 创建时候必须填写的参数
-                #     "putneed": 1,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "mean": "文件类型id",
-                # },
+                {
+                    "name": "Filetype",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "文件类型id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "类型名"
+                        },
+                    ]
+                },
                 {
                     "name": "Bridge",
                     "index": "id",
@@ -542,12 +592,12 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
                             "type": "str",
-                            "mean": "桥梁名"
+                            "mean": "建筑名"
                         },
                     ]
                 },
@@ -580,33 +630,31 @@ project_json = {
                     "args": [
                     ],
                 },
-                {
-                    "name": "type",
-                    "type": "int",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "文件类型",
-                    "filter": "precise",
-                    "corres": [
-                        {'key': 1, 'value': "概览图片"},
-                        {'key': 2, 'value': "设计图纸"},
-                        {'key': 3, 'value': "设计文件"},
-                        {'key': 4, 'value': "施工文件"},
-                        {'key': 5, 'value': "竣工图纸"},
-                        {'key': 6, 'value': "验收文件"},
-                        {'key': 7, 'value': "行政文件"},
-                        {'key': 8, 'value': "定期检查报告"},
-                        {'key': 9, 'value': "特殊检查报告"},
-                        {'key': 10, 'value': "历史维修资料"},
-                    ],
-                },
+                # {
+                #     "name": "type",
+                #     "type": "int",
+                #     "post": 2,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "mean": "文件类型",
+                #     "filter": "precise",
+                #     "corres": [
+                #         {'key': 1, 'value': "概览图片"},
+                #         {'key': 2, 'value': "设计图纸"},
+                #         {'key': 3, 'value': "设计文件"},
+                #         {'key': 4, 'value': "施工文件"},
+                #         {'key': 5, 'value': "竣工图纸"},
+                #         {'key': 6, 'value': "验收文件"},
+                #         {'key': 7, 'value': "行政文件"},
+                #         {'key': 8, 'value': "定期检查报告"},
+                #         {'key': 9, 'value': "特殊检查报告"},
+                #         {'key': 10, 'value': "历史维修资料"},
+                #     ],
+                # },
                 {
                     "name": "page",
                     "type": "int",
-                    # "length": "64",
                     "post": 1,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -655,62 +703,6 @@ project_json = {
             "repr": "name",
         },  # 文件
         {
-            "table": "Product",
-            "api": 1,
-            "crud":['post','put','delete'],
-            "zh": "传感器类型",
-            "detail_sons":[
-                "device"
-            ],
-            "parents": [
-                {
-                    "name": "Monitgroup",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "监控分组id",
-                    "show": [  # 放在api当中显示的参数
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "分组名"
-                        },
-                    ]
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                      # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "类型名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "monitindex",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "默认监测指标",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 传感器类型
-        {
             "table": "Productimg",
             "api": 1,
             "zh": "产品图片",
@@ -745,72 +737,64 @@ project_json = {
             "repr": "name",
         },  # 产品图片
         {
-            "table": "Location",
+            "table": "Product",
             "api": 1,
             "crud":['post','put','delete'],
-            "zh": "桥梁位置",
+            "zh": "传感器类型",
+            "detail_sons":[
+                "device"
+            ],
             "parents": [
                 {
-                    "name": "Bridge",
+                    "name": "Monitgroup",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "监控分组id",
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
                             "type": "str",
-                            "mean": "桥梁名"
+                            "mean": "分组名"
                         },
-                    ],
+                    ]
                 },
             ],
             "args": [
                 {
                     "name": "name",
                     "type": "str",
-                    "length": "256",
-                      # 创建时候可以填写的参数
+                    "length": "64",
+                    # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "位置名称",
+                    "mean": "类型名",
                     "args": [
                     ],
                 },
                 {
-                    "name": "latitude",
-                    "type": "float",
-                    # "length": "128",
+                    "name": "args",
+                    "type": "JSON",
                     "post": 1,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
-                    "mean": "纬度",
+                    "mean": "默认自定义可变参数，在创建传感器时可以复用",
                     "args": [
-                    ],
-                },
-                {
-                    "name": "longitude",
-                    "type": "float",
-                    # "length": "128",
-                    "post": 1,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "经度",
-                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
                     ],
                 },
             ],
             "repr": "name",
-        },  # 桥梁位置
+        },  # 传感器类型
         {
             "table": "Device",
             "api": 1,
@@ -839,17 +823,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
-                },
-                {
-                    "name": "Location",
-                    "index": "id",
-                    "type": "int",
-                    "post": 1,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "位置id"
+                    "mean": "建筑id",
                 },
                 {
                     "name": "Dtu",
@@ -862,38 +836,35 @@ project_json = {
                     "mean": "DTUid",
                     "show": [  # 放在api当中显示的参数
                         {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "DTU名称"
-                        },
-                        {
                             "name": "sn",
                             "type": "str",
                             "mean": "DTU序列号"
                         },
                     ],
                 },
-            ],
-            "args": [
                 {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                      # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
+                    "name": "Collect",
+                    "index": "id",
+                    "type": "int",
+                    "post": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "名称",
-                    "args": [
+                    "mean": "采集仪id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "sn",
+                            "type": "str",
+                            "mean": "采集仪序列号"
+                        },
                     ],
                 },
+            ],
+            "args": [
                 {
                     "name": "sn",
                     "type": "str",
                     "length": "64",
-                      # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
+                    "post": 0,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 1,  # 是否支持模糊查找
@@ -917,45 +888,41 @@ project_json = {
                         },
                     ],
                 },
-                # {
-                #     "name": "dtu_name",
-                #     "type": "str",
-                #     "length": "64",
-                #     # 创建时候可以填写的参数
-                #     "post": 1,  # 创建时候必须填写的参数
-                #     "putneed": 1,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "like": 0,  # 是否支持模糊查找
-                #     "mean": "dtu名称",
-                #     "args": [
-                #     ],
-                # },
-                # {
-                #     "name": "dtu_sn",
-                #     "type": "str",
-                #     "length": "64",
-                #     # 创建时候可以填写的参数
-                #     "post": 1,  # 创建时候必须填写的参数
-                #     "putneed": 1,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "like": 1,  # 是否支持模糊查找
-                #     "mean": "dtu编号",
-                #     "args": [
-                #     ],
-                # },
-                # {
-                #     "name": "dtu_img",
-                #     "type": "str",
-                #     "length": "64",
-                #     # 创建时候可以填写的参数
-                #     "post": 1,  # 创建时候必须填写的参数
-                #     "putneed": 1,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "like": 1,  # 是否支持模糊查找
-                #     "mean": "dtu图片",
-                #     "args": [
-                #     ],
-                # },
+                {
+                    "name": "bimid",
+                    "type": "int",
+                    "length": "256",
+                      # 创建时候可以填写的参数
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "位置BimId",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "latitude",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "纬度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "longitude",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "经度",
+                    "args": [
+                    ],
+                },
                 {
                     "name": "fault",
                     "type": "bool",
@@ -1022,9 +989,59 @@ project_json = {
                         },
                     ],
                 },
+                {
+                    "name": "args",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "自定义可变参数",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
+                    ],
+                },
             ],
             "repr": "name",
         },  # 传感器
+        {
+            "table": "Deviceimg",
+            "api": 1,
+            "zh": "通讯设备图片",
+            "crud":['post','put','delete'],
+            "parents": [
+                {
+                    "name": "Device",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "传感器id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 传感器图片
         {
             "table": "Dtutype",
             "api": 1,
@@ -1043,6 +1060,22 @@ project_json = {
                     "like": 0,  # 是否支持模糊查找
                     "mean": "通讯设备类型名",
                     "args": [
+                    ],
+                },
+                {
+                    "name": "args",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "自定义可变参数",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
                     ],
                 },
             ],
@@ -1179,9 +1212,58 @@ project_json = {
                         },
                     ],
                 },
+                {
+                    "name": "args",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "自定义可变参数",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
+                    ],
+                },
             ],
             "repr": "name",
         },  # 通讯设备
+        {
+            "table": "Dtuimg",
+            "api": 1,
+            "zh": "通讯设备图片",
+            "parents": [
+                {
+                    "name": "Dtu",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "产品id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 通讯设备图片
         {
             "table": "Collecttype",
             "api": 1,
@@ -1200,6 +1282,22 @@ project_json = {
                     "like": 0,  # 是否支持模糊查找
                     "mean": "采集仪类型名",
                     "args": [
+                    ],
+                },
+                {
+                    "name": "args",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "自定义可变参数",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
                     ],
                 },
             ],
@@ -1230,19 +1328,6 @@ project_json = {
                 },
             ],
             "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "采集仪名称",
-                    "args": [
-                    ],
-                },
                 {
                     "name": "sn",
                     "type": "str",
@@ -1322,9 +1407,59 @@ project_json = {
                         },
                     ],
                 },
+                {
+                    "name": "args",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "自定义可变参数",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "{}",
+                        },
+                    ],
+                },
             ],
             "repr": "name",
         },  # 采集仪
+        {
+            "table": "Collectimg",
+            "api": 1,
+            "zh": "通讯设备图片",
+            "crud":['post','put','delete'],
+            "parents": [
+                {
+                    "name": "Collect",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "采集仪id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 采集仪图片
         {
             "table": "Devicelog",
             "api": 1,
@@ -1567,7 +1702,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
                 {
                     "name": "Device",
@@ -1626,7 +1761,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
             ],
             "args": [
@@ -1659,7 +1794,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
             ],
             "args": [
@@ -1693,7 +1828,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
             ],
             "args": [
@@ -1726,7 +1861,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
             ],
             "args": [
@@ -1759,7 +1894,7 @@ project_json = {
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "桥梁id",
+                    "mean": "建筑id",
                 },
             ],
             "args": [
@@ -1779,595 +1914,9 @@ project_json = {
             ],
             "repr": "id",
         },  # 应急报告管理
-        {
-            "table": "Udpdata",
-            "api": 1,
-            "zh": "udp数据",
-            "crud": [],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 0,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "e_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,  # 创建时候可以填写的参数
-                    # 创建时候必须填写的参数
-                    "putneed": 0,  # 修改时可以修改的参数
-                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "v1",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v1",
-                },
-                {
-                    "name": "v2",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v2",
-                },
-                {
-                    "name": "v3",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v3",
-                },
-                {
-                    "name": "v4",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v4",
-                },
-                {
-                    "name": "v5",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v5",
-                },
-                {
-                    "name": "v6",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v6",
-                },
-                {
-                    "name": "v7",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v7",
-                },
-                {
-                    "name": "v8",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v8",
-                },
-                {
-                    "name": "v9",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v9",
-                },
-                {
-                    "name": "v10",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v10",
-                },
-                {
-                    "name": "v11",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v11",
-                },
-                {
-                    "name": "v12",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v12",
-                },
-                {
-                    "name": "v13",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v13",
-                },
-                {
-                    "name": "v14",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v14",
-                },
-                {
-                    "name": "v15",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v15",
-                },
-                {
-                    "name": "v16",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v16",
-                },
-                {
-                    "name": "v17",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v17",
-                },
-                {
-                    "name": "v18",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v18",
-                },
-                {
-                    "name": "v19",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v19",
-                },
-                {
-                    "name": "v20",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v20",
-                },
-                {
-                    "name": "v21",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v21",
-                },
-                {
-                    "name": "v22",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v22",
-                },
-                {
-                    "name": "v23",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v23",
-                },
-                {
-                    "name": "v24",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v24",
-                },
-                {
-                    "name": "v25",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v25",
-                },
-                {
-                    "name": "v26",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v26",
-                },
-                {
-                    "name": "v27",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v27",
-                },
-                {
-                    "name": "v28",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v28",
-                },
-                {
-                    "name": "v29",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v29",
-                },
-                {
-                    "name": "v30",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v30",
-                },
-                {
-                    "name": "v31",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v31",
-                },
-                {
-                    "name": "v32",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v32",
-                },
-                {
-                    "name": "v33",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v33",
-                },
-                {
-                    "name": "v34",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v34",
-                },
-                {
-                    "name": "v35",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v35",
-                },
-                {
-                    "name": "v36",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v36",
-                },
-                {
-                    "name": "v37",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v37",
-                },
-                {
-                    "name": "v38",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v38",
-                },
-                {
-                    "name": "v39",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v39",
-                },
-                {
-                    "name": "v40",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v40",
-                },
-                {
-                    "name": "v41",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v41",
-                },
-                {
-                    "name": "v42",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v42",
-                },
-                {
-                    "name": "v43",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v43",
-                },
-                {
-                    "name": "v44",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v44",
-                },
-                {
-                    "name": "v45",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v45",
-                },
-                {
-                    "name": "v46",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v46",
-                },
-                {
-                    "name": "v47",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v47",
-                },
-                {
-                    "name": "v48",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v48",
-                },
-                {
-                    "name": "v49",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v49",
-                },
-                {
-                    "name": "v50",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v50",
-                },
-                {
-                    "name": "v51",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v51",
-                },
-                {
-                    "name": "v52",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v52",
-                },
-                {
-                    "name": "v53",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v53",
-                },
-                {
-                    "name": "v54",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v54",
-                },
-                {
-                    "name": "v55",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v55",
-                },
-                {
-                    "name": "v56",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v56",
-                },
-                {
-                    "name": "v57",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v57",
-                },
-                {
-                    "name": "v58",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v58",
-                },
-                {
-                    "name": "v59",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v59",
-                },
-                {
-                    "name": "v60",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v60",
-                },
-                {
-                    "name": "v61",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v61",
-                },
-                {
-                    "name": "v62",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v62",
-                },
-                {
-                    "name": "v63",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v63",
-                },
-                {
-                    "name": "v64",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v64",
-                },
-                {
-                    "name": "v65",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v65",
-                },
-                {
-                    "name": "v66",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v66",
-                },
-                {
-                    "name": "v67",
-                    "type": "float",
-                    "post": 1,  # 创建时候可以填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "v67",
-                },
-
-            ],
-            "repr": "id",
-        },  #
-
     ],
     "routes": [
-        {
-            "path": "udp",  # 上级目录主菜单详情
-            "name": "U",
-            "icon": "",  # ant的菜单图标，图标列表[]
-            "components": [
-                {
-                    "module": "protable",
-                    "table": "Udpdata",
-                },
-            ],
-        },
+
         {
             "path": "args",  # 上级目录主菜单详情
             "name": "演示接口",
@@ -2381,49 +1930,49 @@ project_json = {
                     "module": "protable",
                     "table": "City",
                 },
-                {
-                    "module": "protable",
-                    "table": "Area",
-                },
-                {
-                    "module": "protable",
-                    "table": "Bridgetype",
-                },
-                {
-                    "module": "protable",
-                    "table": "Filetype",
-                },
-                {
-                    "module": "protable",
-                    "table": "Property",
-                },
-
-
-                {
-                    "module": "protable",
-                    "table": "Bridge",
-                },
-                {
-                    "module": "protable",
-                    "table": "File",
-                },
-
-                {
-                    "module": "protable",
-                    "table": "Dtu",
-                },
-                {
-                    "module": "protable",
-                    "table": "Location",
-                },
-                {
-                    "module": "protable",
-                    "table": "Product",
-                },
-                {
-                    "module": "protable",
-                    "table": "Device",
-                },
+                # {
+                #     "module": "protable",
+                #     "table": "Area",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Buildtype",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Filetype",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Property",
+                # },
+                #
+                #
+                # {
+                #     "module": "protable",
+                #     "table": "Bridge",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "File",
+                # },
+                #
+                # {
+                #     "module": "protable",
+                #     "table": "Dtu",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Location",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Product",
+                # },
+                # {
+                #     "module": "protable",
+                #     "table": "Device",
+                # },
             ],
         },
         {
