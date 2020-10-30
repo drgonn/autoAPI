@@ -94,6 +94,8 @@ def w_config_config(root,ojson):
 			if son_routes == "all":
 				for table in databases:
 					table_name = table.get('table')
+					if table_name == "User":
+						continue
 					w.write(f"""                {{\n""")
 					w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
 					w.write(f"""                  name: '{table.get('zh')}',\n""")
