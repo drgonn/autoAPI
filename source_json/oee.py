@@ -471,7 +471,6 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                    # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -600,6 +599,149 @@ project_json = {
             ],
             "repr": "id",
         },  # 故障类型
+        {
+            "table": "Alarmtype",
+            "api": 1,
+            "zh": "报警",
+            "parents": [
+            ],
+            "args": [
+                {
+                    "name": "code",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "报警代码",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "mean",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "含义",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "cause",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "可能原因",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "solution",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "解决方案",
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "code",
+        },  # 报警类型
+        {
+            "table": "Alarm",
+            "api": 1,
+            "zh": "报警",
+            "parents": [
+                {
+                    "name": "Alarmtype",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "阀id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "code",
+                            "type": "str",
+                            "mean": "代码"
+                        },
+                        {
+                            "name": "mean",
+                            "type": "str",
+                            "mean": "含义"
+                        },
+                        {
+                            "name": "cause",
+                            "type": "str",
+                            "mean": "可能原因"
+                        },
+                        {
+                            "name": "solution",
+                            "type": "str",
+                            "mean": "解决方案"
+                        },
+                    ],
+                },
+                {
+                    "name": "Valve",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "阀id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "阀名"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
+                    ],
+                },
+                {
+                    "name": "Device",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "机台id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "create_time",
+                    "type": "time",
+                    "length": "",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.now",
+                        },
+                    ],
+                },
+            ],
+            "repr": "id",
+        },  # 报警
 
         {
             "table":"Role",
@@ -1061,11 +1203,23 @@ project_json = {
                     "module":"protable",
                     "table": "Valvetime",
                 },
+
+
+            ],
+        },
+        {
+            "path": "warn",  # 上级目录主菜单详情
+            "name": "故障报警",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": [
                 {
                     "module": "protable",
                     "table": "Bug",
                 },
-
+                {
+                    "module": "protable",
+                    "table": "Alarm",
+                },
             ],
         },
         {
@@ -1095,6 +1249,14 @@ project_json = {
                 {
                     "module": "protable",
                     "table": "Bugtype",
+                },
+                {
+                    "module": "protable",
+                    "table": "Bugtype",
+                },
+                {
+                    "module": "protable",
+                    "table": "Alarmtype",
                 },
             ],
         },

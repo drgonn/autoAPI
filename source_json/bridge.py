@@ -153,7 +153,6 @@ project_json = {
                     "unique": 1,
                     "mean": "行政编码",
                     "args": [
-
                     ],
                 },
             ],
@@ -200,6 +199,19 @@ project_json = {
                     "args":[
                     ],
                 },
+                {
+                    "name": "code",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "行政编码",
+                    "args": [
+                    ],
+                },
 
             ],
             "repr":"name",
@@ -243,6 +255,19 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "行政区名",
                     "args":[
+                    ],
+                },
+                {
+                    "name": "code",
+                    "type": "str",
+                    "length": "64",
+                    # 创建时候可以填写的参数
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "行政编码",
+                    "args": [
                     ],
                 },
 
@@ -299,6 +324,11 @@ project_json = {
                             "type": "str",
                             "mean": "基础类型"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
                     ],
                 },
             ],
@@ -327,6 +357,28 @@ project_json = {
             ],
             "parents": [
                 {
+                    "name": "Basetype",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "基础种类id",
+                    "tojson": "name",  # 在json字段当中显示的参数
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "基础类型"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
+                    ],
+                },
+                {
                     "name": "Buildtype",
                     "index": "id",
                     "type": "int",
@@ -341,6 +393,11 @@ project_json = {
                             "type": "str",
                             "mean": "建筑类型"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "建筑类型id"
+                        },
                     ],
                 },
                 {
@@ -353,6 +410,18 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "省份id",
                     "tojson": "name",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "省名 "
+                        },
+                        {
+                            "name": "code",
+                            "type": "int",
+                            "mean": "建筑类型id"
+                        },
+                    ],
                 },
                 {
                     "name": "City",
@@ -364,6 +433,18 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "市id",
                     "tojson": "name",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "省名 "
+                        },
+                        {
+                            "name": "code   ",
+                            "type": "int",
+                            "mean": "建筑类型id"
+                        },
+                    ],
                 },
                 {
                     "name": "Area",
@@ -375,6 +456,18 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "行政区id",
                     "tojson": "name",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "省名 "
+                        },
+                        {
+                            "name": "code",
+                            "type": "int",
+                            "mean": "建筑类型id"
+                        },
+                    ],
                 },
             ],
             "args": [
@@ -759,6 +852,11 @@ project_json = {
                             "type": "str",
                             "mean": "分组名"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
                     ]
                 },
             ],
@@ -814,6 +912,18 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "产品id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "名"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
+                    ]
                 },
                 {
                     "name": "Bridge",
@@ -824,6 +934,18 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "建筑id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "名"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
+                    ]
                 },
                 {
                     "name": "Dtu",
@@ -840,6 +962,11 @@ project_json = {
                             "type": "str",
                             "mean": "DTU序列号"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
                     ],
                 },
                 {
@@ -855,6 +982,11 @@ project_json = {
                             "name": "sn",
                             "type": "str",
                             "mean": "采集仪序列号"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
                         },
                     ],
                 },
@@ -976,7 +1108,6 @@ project_json = {
                     "type": "time",
                     "length": "",
                     "need": 0,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
                     "listmust": 0,  # 请求列表必须post的参数
@@ -1103,23 +1234,15 @@ project_json = {
                             "type": "str",
                             "mean": "类型名"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
+                        },
                     ],
                 },
             ],
             "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    # 创建时候可以填写的参数
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "like": 0,  # 是否支持模糊查找
-                    "mean": "名称",
-                    "args": [
-                    ],
-                },
                 {
                     "name": "sn",
                     "type": "str",
@@ -1323,6 +1446,11 @@ project_json = {
                             "name": "name",
                             "type": "str",
                             "mean": "类型名"
+                        },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "id"
                         },
                     ],
                 },
