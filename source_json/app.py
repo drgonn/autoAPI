@@ -483,7 +483,7 @@ project_json = {
                     "name": "Module",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -572,7 +572,7 @@ project_json = {
                     "name": "Module",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -738,7 +738,7 @@ project_json = {
                     "name": "App",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数

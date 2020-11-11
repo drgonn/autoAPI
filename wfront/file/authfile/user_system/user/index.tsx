@@ -74,7 +74,7 @@ const TableList: React.FC<{}> = () => {
     },
     {
       title: '用户名',
-      dataIndex: 'username',
+      dataIndex: 'name',
       valueType: 'text',
     },
     {
@@ -285,7 +285,7 @@ useEffect(()=>{getRolelist({pageindex:1})},[])
               </Select>
             </Form.Item>
           <Form.Item
-            name='username'
+            name='name'
             rules= {[{ required: false, message: '请输入名称!' }]}
             label="用户用户名"
           >
@@ -383,7 +383,7 @@ useEffect(()=>{getRolelist({pageindex:1})},[])
               </Select>
             </Form.Item>
           <Form.Item
-            name='username'
+            name='name'
             rules= {[{ required: false, message: '请输入名称!' }]}
             label="用户用户名"
           >

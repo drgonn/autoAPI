@@ -205,7 +205,7 @@ source_json = {
                     "name": "Stuff",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -217,7 +217,7 @@ source_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -261,7 +261,7 @@ source_json = {
                     "name": "Stuff",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -273,7 +273,7 @@ source_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -284,7 +284,7 @@ source_json = {
                 {
                     "name": "on",
                     "type": "bool",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -308,7 +308,7 @@ source_json = {
                     "name": "Style",
                     "index": "id",
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -375,7 +375,7 @@ source_json = {
                     "name": "basePrice",
                     "type": "float",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -387,7 +387,7 @@ source_json = {
                     "name": "sales",
                     "type": "float",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -450,7 +450,7 @@ source_json = {
                     "name": "status",
                     "type": "int",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
@@ -468,7 +468,7 @@ source_json = {
                     "name": "cart",
                     "type": "bool",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
@@ -564,7 +564,7 @@ source_json = {
                     "name": "Order",
                     "index": "id",  # 用来反向查找关联的post参数
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 1,  # 请求列表必须post的参数
@@ -574,7 +574,7 @@ source_json = {
                     "name": "Good",
                     "index": "id",
                     "type": "int",
-                          # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,   # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -596,7 +596,7 @@ source_json = {
                     "name": "count",
                     "type": "int",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
@@ -641,7 +641,7 @@ source_json = {
                     "name": "Order",
                     "index": "id",  # 用来反向查找关联的post参数
                     "type": "int",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
                     "listmust": 1,  # 请求列表必须post的参数
@@ -653,7 +653,7 @@ source_json = {
                     "name": "status",
                     "type": "int",
                     "length": "",
-                      # 创建时候可以填写的参数
+
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选

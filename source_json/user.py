@@ -1,20 +1,20 @@
 project_json = {
-    "app":"oee",                  #文件源，app名
-    "dataname":"oee",                   #数据库名称
-    "mean":"OEE分析系统",
+    "app":"user",                  #文件源，app名
+    "dataname":"user",                   #数据库名称
+    "mean":"用户系统",
     "datapassword":"7811175yy",
-    "host":"http://localhost:8002",                             #文档中的域名地址
+    "host":"http://localhost:8003",                             #文档中的域名地址
     "testhost":"localhost",                             #  test开头的都被用在postman当中做测试
-    "testport":"8002",                             #
+    "testport":"8003",                             #
     "testprotocol":"http",                             #
     # "anturl":"http://localhost:8002",                               #ant前端访问地址
     "anthost":"localhost",                             #  ant 调试访问地址
-    "antport":"8705",                             #ant 调试访问地址
+    "antport":"8605",                             #ant 调试访问地址
     "antprotocol":"http",                         #ant 调试访问地址
     "auth":1 ,                             #  是否有用户系统
     "user_url":'http://localhost:20216/api/v3/user',
     "login_about":"数据采集边缘计算产品与OEE,试用账号：18666821287，密码：123123",              #登录界面描述
-    "login_title":"东达科技",                             #登录界面标题
+    "login_title":"用户系统",                             #登录界面标题
     "produce":"东达科技出品",                             #出品
     "sql":{                    #数据库详情
         "sql": "mysql",
@@ -29,7 +29,7 @@ project_json = {
     "blues":[
             {
                 "name":"apiv1",
-                "address":"/api/v1/oee",      #其中一个api接口
+                "address":"/api/v1/user",      #其中一个api接口
             }, 
         ],                             #
     "configs":[
@@ -55,7 +55,7 @@ project_json = {
         },
         {
             "arg":"SQL_DATABASE",
-            "default":"'oee'",
+            "default":"'user'",
         },
         {
             "arg":"SQLALCHEMY_DATABASE_URI",
@@ -69,61 +69,6 @@ project_json = {
         },
     ],                             #
     "databases":[                   #数据库表
-        {
-            "table":"User",
-            "api":False,
-            "zh": "用户",
-            "crud":['post','put','delete'],
-            "parents":[
-            ],
-            "args":[
-                {
-                    "name":"uid",
-                    "type":"str",
-                    "length":"64",
-                    "mean": "UID",
-                    "args":[
-                        {
-                            "name":"unique",
-                            "value":"True",
-                        },
-                        {
-                            "name":"index",
-                            "value":"True",
-                        },
-                        {
-                            "name":"nullable",
-                            "value":"False",
-                        },
-                    ],
-                },
-                {
-                    "name":"name",
-                    "type":"str",
-                    "length":"64",
-
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique":1,
-                    "mean": "用户名",
-                    "args":[
-                    ],
-                },
-                {
-                    "name":"createDate",
-                    "type":"time",
-                    "mean": "注册时间",
-                    "args":[
-                        {
-                            "name":"default",
-                            "value":"datetime.utcnow",
-                        },
-                    ],
-                },
-            ],
-            "repr":"name",
-        },                  #User
         {
             "table":"Device",
             "api":1,
@@ -750,16 +695,11 @@ project_json = {
             "api":1,
             "zh": "部门",
             "crud":['post','put','delete'],
-            "many": [
+            "many":[
                 {
                     "name": "Permission",
-                    # "index": "id",
-                    # "type": "int",
-                    # "post": 1,  # 创建时候可以填写的参数
-                    # "post": 2,  # 创建时候必须填写的参数
-                    # "putneed": 0,  # 修改时可以修改的参数
-                    # "listmust": 0,  # 请求列表必须post的参数
-                    # "mean": "规格id",
+                    "w_model":1,         # 表示用以写model的一方
+                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
                 },
             ],
             "parents":[
@@ -797,8 +737,13 @@ project_json = {
             "api":1,
             "zh": "权限",
             "crud":['post','put','delete'],
+            "many":[
+                {
+                    "name": "Permission",
+                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
+                },
+            ],
             "parents":[
-
             ],
             "args":[
                 {
@@ -833,6 +778,22 @@ project_json = {
             "zh": "角色",
             "crud":['post','put','delete'],
             "parents":[
+                {
+                    "name": "Group",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "部门id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "部门名"
+                        },
+                    ],
+                },
             ],
             "args":[
                 {
@@ -870,7 +831,6 @@ project_json = {
                     "name": "Role",
                     "index": "id",
                     "type": "int",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -880,6 +840,22 @@ project_json = {
                             "name": "name",
                             "type": "str",
                             "mean": "角色名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Group",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "部门id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "部门名"
                         },
                     ],
                 },
@@ -1267,7 +1243,7 @@ project_json = {
     ],
     "routes":[
         {
-            "path": "oee",   #上级目录主菜单详情
+            "path": "user",   #上级目录主菜单详情
             "name": "OEE时间分析",
             "icon":"",       #ant的菜单图标，图标列表[]
             "components": [
@@ -1291,76 +1267,27 @@ project_json = {
 
             ],
         },
+
         {
-            "path": "warn",  # 上级目录主菜单详情
-            "name": "故障报警",
+            "path": "user_system",  # 上级目录主菜单详情
+            "name": "用户管理",
             "icon": "",  # ant的菜单图标，图标列表[]
             "components": [
                 {
                     "module": "protable",
-                    "table": "Bug",
+                    "table": "User",
                 },
                 {
                     "module": "protable",
-                    "table": "Alarm",
-                },
-            ],
-        },
-        {
-            "path": "plan",  # 上级目录主菜单详情
-            "name": "项目管理",
-            "icon": "",  # ant的菜单图标，图标列表[]
-            "components": [
-                {
-                    "module": "protable",
-                    "table": "Plan",
+                    "table": "Role",
                 },
                 {
                     "module": "protable",
-                    "table": "Project",
-                },
-            ],
-        },
-        {
-            "path": "arg",  # 上级目录主菜单详情
-            "name": "参数设置",
-            "icon": "",  # ant的菜单图标，图标列表[]
-            "components": [
-                {
-                    "module": "protable",
-                    "table": "Valvetype",
-                },
-                {
-                    "module": "protable",
-                    "table": "Bugtype",
+                    "table": "Userlog",
                 },
 
-                {
-                    "module": "protable",
-                    "table": "Alarmtype",
-                },
             ],
-        },
-        # {
-        #     "path": "user_system",  # 上级目录主菜单详情
-        #     "name": "用户管理",
-        #     "icon": "",  # ant的菜单图标，图标列表[]
-        #     "components": [
-        #         {
-        #             "module": "protable",
-        #             "table": "User",
-        #         },
-        #         {
-        #             "module": "protable",
-        #             "table": "Role",
-        #         },
-        #         {
-        #             "module": "protable",
-        #             "table": "Userlog",
-        #         },
-        #
-        #     ],
-        # }
+        }
     ],
 }
 

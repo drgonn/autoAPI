@@ -40,7 +40,6 @@ def w_component_index(root,ojson):
 
 			w.write(f"""import {{ DownOutlined, PlusOutlined, QuestionCircleOutlined}} from '@ant-design/icons';\n""")
 			w.write(f"""import {{ Button, Divider, Dropdown, Menu, message, Input, Form, Modal, Tooltip, Select, InputNumber ,Upload,DatePicker  }} from 'antd';\n""")
-			w.write("""const { TextArea } = Input;\n""")
 			w.write(f"""import React, {{ useState, useRef, useEffect}} from 'react';\n""")
 			w.write(f"""import {{ PageHeaderWrapper }} from '@ant-design/pro-layout';\n""")
 			w.write(f"""import ProTable, {{ ProColumns, ActionType }} from '@ant-design/pro-table';\n""")
@@ -53,7 +52,10 @@ def w_component_index(root,ojson):
 				for parent in parents:
 					postmust =  parent.get('post')
 					if postmust:
-						w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/{appname}/{parent.get('name').lower()}/service";\n""")
+						if parent.get('name') == "User":
+							w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/user_system/{parent.get('name').lower()}/service";\n""")
+						else:
+							w.write(f"""import {{query{parent.get('name')}List}} from "@/pages/{appname}/{parent.get('name').lower()}/service";\n""")
 
 			w.write(f"""""")
 
@@ -67,6 +69,7 @@ def w_component_index(root,ojson):
 				w.write(f""", remove{component_name} """)
 			w.write(f""" }} from './service';\n""")
 			w.write(f"""\n""")
+			w.write("""const { TextArea } = Input;\n""")
 
 			# 添加功能，创建功能
 
@@ -173,11 +176,16 @@ def w_component_index(root,ojson):
 					w.write(f"""      valueEnum: {{\n""")
 					for corre in arg_corres:
 						w.write(f"""        {corre['key']}: {{ text:'{corre['value']}'}},\n""")
-					w.write(f"""      }}\n""")
+					w.write(f"""      }},\n""")
 				else:
 					w.write(f"""      valueType: '{type}',\n""")
 				if arg.get('sorter'):
 					w.write(f"""      sorter: true,\n""")
+				if arg.get('filter'):
+					w.write(f"""      search: true,\n""")
+				else:
+					w.write(f"""      search: false,\n""")
+
 				w.write(f"""    }},\n""")
 
 

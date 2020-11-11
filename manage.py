@@ -4,6 +4,7 @@ import sys
 import getopt
 
 from source_json import pay, app, stock, bridge, oee
+from source_json import user as user1
 from tools import make_tree
 
 from wfile.goapi import write_goapis, write_goapi_init
@@ -11,6 +12,7 @@ from wfile.gomodel import make_gomodels
 
 from wfile.wflask.model import make_models
 from wfile.postman import write_postman
+from wfile.yapi import write_yapi
 from wfile.structure import write_deploy, write_model_doc_plant
 from wfile.xmind import write_xmind
 from wtest import write_test
@@ -26,10 +28,11 @@ module_dir = {
     'flask':w_flask,
     'doc': w_docs,
     'postman': write_postman,
+    'yapi': write_yapi,
     'ant': w_front,
 
 }
-default_modules = ['flask','go','postman','doc','ant']
+default_modules = ['flask','go','postman','doc','ant','yapi']
 
 def run(ojson,path=False,modules=default_modules):
     """
@@ -78,6 +81,7 @@ appjson = app.project_json         #执行应用
 bri     = bridge.project_json
 stock   = stock.project_json
 oee   = oee.project_json
+user1   = user1.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
@@ -88,6 +92,7 @@ source_dir = {
     "bridge":bri,
     "stock":stock,
     "oee": oee,
+    "user": user1,
 }
 
 
