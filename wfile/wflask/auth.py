@@ -17,7 +17,7 @@ def write_auth(root,ojson):
     w.write('from app.apiv1 import api\n')
     w.write('from app import db\n')
     w.write('#在所有的访问前做token或密码认证\n')
-    if auth is not None:
+    if auth:
         w.write('@api.before_request\n')
         w.write('def before_request():\n')
         w.write('\ttoken = request.args.get("token")\n')
