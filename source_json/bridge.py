@@ -666,6 +666,39 @@ project_json = {
             "repr": "name",
         },  # 建筑
         {
+            "table": "Bridgeimg",
+            "api": 1,
+            "zh": "建筑概览图",
+            "parents": [
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "产品id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 建筑图片
+        {
             "table": "Filetype",
             "api": 1,
             "zh": "文件类型",
@@ -1199,7 +1232,7 @@ project_json = {
         {
             "table": "Deviceimg",
             "api": 1,
-            "zh": "通讯设备图片",
+            "zh":"传感器图片",
             "crud":['post','put','delete'],
             "parents": [
                 {
@@ -1825,7 +1858,6 @@ project_json = {
                     "name": "Device",
                     "index": "id",
                     "type": "int",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -2053,9 +2085,7 @@ project_json = {
                 {
                     "name": "about",
                     "type": "text",
-   #                 "length": "64",
                     "post": 1,  # 创建时候可以填写的参数
-                      # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "like": 0,  # 是否支持模糊查找
@@ -2115,49 +2145,7 @@ project_json = {
                     "module": "protable",
                     "table": "City",
                 },
-                # {
-                #     "module": "protable",
-                #     "table": "Area",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Buildtype",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Filetype",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Property",
-                # },
-                #
-                #
-                # {
-                #     "module": "protable",
-                #     "table": "Bridge",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "File",
-                # },
-                #
-                # {
-                #     "module": "protable",
-                #     "table": "Dtu",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Location",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Product",
-                # },
-                # {
-                #     "module": "protable",
-                #     "table": "Device",
-                # },
+
             ],
         },
         {

@@ -118,10 +118,10 @@ project_json = {
             "zh": "权限",
             "crud":['post','put','delete'],
             "many":[
-                {
-                    "name": "Permission",
-                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
-                },
+                # {
+                #     "name": "Group",
+                #     "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
+                # },
             ],
             "parents":[
             ],
@@ -157,6 +157,13 @@ project_json = {
             "api":1,
             "zh": "角色",
             "crud":['post','put','delete'],
+            "many":[
+                {
+                    "name": "Permission",
+                    "w_model":1,         # 表示用以写model的一方
+                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
+                },
+            ],
             "parents":[
                 {
                     "name": "Group",
@@ -189,21 +196,15 @@ project_json = {
                     "args":[
                     ],
                 },
-                {
-                    "name": "permissions",
-                    "type": "int",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "权限",
-                },
+
 
             ],
             "repr":"name",
         },  # role
         {
             "table": "User",
-            "api": False,
+            # "api": False,
+            "api": True,
             "zh": "用户",
             "crud": ['post', 'put', 'delete'],
             "parents": [
@@ -262,7 +263,7 @@ project_json = {
                     ],
                 },
                 {
-                    "name": "username",
+                    "name": "name",
                     "type": "str",
                     "length": "64",
 
@@ -274,32 +275,6 @@ project_json = {
                     "args": [
                     ],
                 },
-                # {
-                #     "name": "password_hash",
-                #     "type": "str",
-                #     "length": "128",
-                #     # 创建时候可以填写的参数
-                #     "post": 0,  # 创建时候必须填写的参数
-                #     "putneed": 0,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "unique": 1,
-                #     "mean": "用户名",
-                #     "args": [
-                #     ],
-                # },
-                # {
-                #     "name": "usersecret",
-                #     "type": "str",
-                #     "length": "127",
-                #     # 创建时候可以填写的参数
-                #     "post": 0,  # 创建时候必须填写的参数
-                #     "putneed": 0,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "unique": 1,
-                #     "mean": "用户名",
-                #     "args": [
-                #     ],
-                # },
                 {
                     "name": "phone",
                     "type": "str",
@@ -496,130 +471,58 @@ project_json = {
                 },
             ],
             "repr": "name",
-        },  #
-
+        },  # Userlog
         {
-            "table": "Project",
+            "table": "Menu",
             "api": 1,
-            "zh": "项目分类",
+            "zh": "菜单",
             "crud": ['post', 'put', 'delete'],
+            "many": [
+                {
+                    "name": "Permission",
+                    "w_model": 1,  # 表示用以写model的一方
+                    "add_api": 1,  # true时 api 接口当中的put  写上添加对方的ids。
+                },
+            ],
             "parents": [
             ],
             "args": [
                 {
                     "name": "name",
                     "type": "str",
-                    "length": "256",
-                    "post": 2,  # 创建时候必须填写的参数
+                    "length": "64",
+                    "post": 1,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
-                    "mean": "工作事项",
-                    "filter": "like",
+                    "mean": "名",
+                    "args": [
+                    ],
                 },
-
+                {
+                    "name": "path",
+                    "type": "str",
+                    "length": "64",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "path",
+                    "args": [
+                    ],
+                },
+                # {
+                #     "name": "mid",
+                #     "type": "int",
+                #     "post": 1,  # 创建时候必须填写的参数
+                #     "putneed": 1,  # 修改时可以修改的参数
+                #     "listmust": 0,  # 请求列表必须post的参数
+                #     "mean": "id",
+                # },
             ],
             "repr": "name",
-        },  # 项目名
-        {
-            "table": "Plan",
-            "api": 1,
-            "zh": "项目进度",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-                {
-                    "name": "Project",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "项目id",
-                    "show": [  # 放在api当中显示的参数
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "项目名"
-                        },
-                    ],
-                },
-                {
-                    "name": "User",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "mean": "用户id",
-                    "show": [  # 放在api当中显示的参数
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "用户名"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "工作事项",
-                    "filter": "like",
-                },
-                {
-                    "name": "week",
-                    "type": "int",
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "周",
-                    "filter": "precise",
-                },
-                {
-                    "name": "current",
-                    "type": "text",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 0,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "当前进度及完成情况",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "follow",
-                    "type": "text",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 0,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "后续计划",
-                    "args": [
-                    ],
-                },
+        },  # Menu
 
-                {
-                    "name": "time",
-                    "type": "time",
-                    "mean": "提交时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.utcnow",
-                        },
-                    ],
-                },
-
-            ],
-            "repr": "id",
-        },  # 项目计划
     ],
     "routes":[
         {

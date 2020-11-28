@@ -29,6 +29,7 @@ def write_init(root,ojson):
     w.write('celery = Celery()\n')
     w.write('mail = Mail()\n')
 
+    w.write('from app.admin import admin\n')
     if flaskapscheduler:
         w.write('scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))\n')
     w.write('def create_app(config_name = "default"):\n')
@@ -46,6 +47,7 @@ def write_init(root,ojson):
     w.write('\tapp.sredis = redis.StrictRedis(connection_pool = pool)\n')
     w.write('\tapp.sredisPipe = app.sredis.pipeline(transaction = True)\n')
     w.write('\tcelery.conf.update(app.config)\n')
+    w.write('\tadmin.init_app(app)\n')
     w.write('\tfrom app.apiv1 import api as api_blueprint\n')
     w.write(f'\tapp.register_blueprint(api_blueprint, url_prefix="/api/v1/{appname}")\n')
     w.write('\treturn app\n')
