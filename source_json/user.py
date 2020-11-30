@@ -76,14 +76,8 @@ project_json = {
             "zh": "部门",
             "crud":['post','put','delete'],
             "many":[
-                {
-                    "name": "Permission",
-                    "w_model":1,         # 表示用以写model的一方
-                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
-                },
             ],
             "parents":[
-
             ],
             "args":[
                 {
@@ -95,6 +89,17 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique":1,
                     "mean": "名",
+                    "args":[
+                    ],
+                },
+                {
+                    "name":"permission",
+                    "type":"text",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "权限",
                     "args":[
                     ],
                 },
@@ -112,57 +117,52 @@ project_json = {
             ],
             "repr":"name",
         },  # 部门
-        {
-            "table":"Permission",
-            "api":1,
-            "zh": "权限",
-            "crud":['post','put','delete'],
-            "many":[
-                # {
-                #     "name": "Group",
-                #     "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
-                # },
-            ],
-            "parents":[
-            ],
-            "args":[
-                {
-                    "name":"name",
-                    "type":"str",
-                    "length":"64",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique":1,
-                    "mean": "名",
-                    "args":[
-                    ],
-                },
-                {
-                    "name":"about",
-                    "type":"text",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique":1,
-                    "mean": "描述",
-                    "args":[
-                    ],
-                },
-            ],
-            "repr":"name",
-        },  # permission
+        # {
+        #     "table":"Permission",
+        #     "api":1,
+        #     "zh": "权限",
+        #     "crud":['post','put','delete'],
+        #     "many":[
+        #         # {
+        #         #     "name": "Group",
+        #         #     "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
+        #         # },
+        #     ],
+        #     "parents":[
+        #     ],
+        #     "args":[
+        #         {
+        #             "name":"name",
+        #             "type":"str",
+        #             "length":"64",
+        #             "post": 1,  # 创建时候必须填写的参数
+        #             "putneed": 1,  # 修改时可以修改的参数
+        #             "listmust": 0,  # 请求列表必须post的参数
+        #             "unique":1,
+        #             "mean": "名",
+        #             "args":[
+        #             ],
+        #         },
+        #         {
+        #             "name":"about",
+        #             "type":"text",
+        #             "post": 1,  # 创建时候必须填写的参数
+        #             "putneed": 1,  # 修改时可以修改的参数
+        #             "listmust": 0,  # 请求列表必须post的参数
+        #             "unique":1,
+        #             "mean": "描述",
+        #             "args":[
+        #             ],
+        #         },
+        #     ],
+        #     "repr":"name",
+        # },  # permission
         {
             "table":"Role",
             "api":1,
             "zh": "角色",
             "crud":['post','put','delete'],
             "many":[
-                {
-                    "name": "Permission",
-                    "w_model":1,         # 表示用以写model的一方
-                    "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids。
-                },
             ],
             "parents":[
                 {
@@ -196,8 +196,28 @@ project_json = {
                     "args":[
                     ],
                 },
-
-
+                {
+                    "name": "permission",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "权限",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "描述",
+                    "args": [
+                    ],
+                },
             ],
             "repr":"name",
         },  # role
@@ -472,56 +492,6 @@ project_json = {
             ],
             "repr": "name",
         },  # Userlog
-        {
-            "table": "Menu",
-            "api": 1,
-            "zh": "菜单",
-            "crud": ['post', 'put', 'delete'],
-            "many": [
-                {
-                    "name": "Permission",
-                    "w_model": 1,  # 表示用以写model的一方
-                    "add_api": 1,  # true时 api 接口当中的put  写上添加对方的ids。
-                },
-            ],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "path",
-                    "type": "str",
-                    "length": "64",
-                    "post": 1,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "path",
-                    "args": [
-                    ],
-                },
-                # {
-                #     "name": "mid",
-                #     "type": "int",
-                #     "post": 1,  # 创建时候必须填写的参数
-                #     "putneed": 1,  # 修改时可以修改的参数
-                #     "listmust": 0,  # 请求列表必须post的参数
-                #     "mean": "id",
-                # },
-            ],
-            "repr": "name",
-        },  # Menu
 
     ],
     "routes":[
