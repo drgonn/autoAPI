@@ -29,7 +29,7 @@ def w_config_defaultSettings(root,ojson):
 	w.write(f"""  fixSiderbar: true,\n""")
 	w.write(f"""  colorWeak: false,\n""")
 	w.write(f"""  menu: {{\n""")
-	w.write(f"""    locale: true,\n""")
+	w.write(f"""    locale: false,\n""")
 	w.write(f"""  }},\n""")
 	w.write(f"""  title: '{appmean or appname}',\n""")
 	w.write(f"""  pwa: false,\n""")

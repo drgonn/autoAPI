@@ -36,6 +36,8 @@ def make_models(appdir,app):
             tp = column.get('type')
             dbtype = Tdb(tp).db
             length = column.get('length')
+            if name == "id":
+                continue
             w.write(f"\t{name} = db.Column(db.{dbtype}")
             if length is not None and length != '' and tp == 'str':
                 w.write(f"({length})")
@@ -70,7 +72,9 @@ def make_models(appdir,app):
         w.write(f"\t\t\t'id':self.id,\n")
         for column in table.get('args'):
             name = column.get('name')
-            if column.get('type') == 'time':
+            if name == "id":
+                continue
+            if column.get('type') == 'time' or column.get('type') == 'date':
                 w.write(f"\t\t\t'{name}': utc_switch(self.{name}),\n")
             elif column.get('file'):
                 w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/file/{{self.id}}/"+self.{name},\n""")

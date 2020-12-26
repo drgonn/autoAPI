@@ -156,7 +156,7 @@ def w_component_index(root,ojson):
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
 						w.write(
-							f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+							f"""                    return <Select.Option value={{obj.id}} key={{obj.id}}>{{obj.name}}</Select.Option>;\n""")
 						w.write(f"""                  }})}}\n""")
 						w.write(f"""              </Select>\n""")
 						w.write(f"""            </Form.Item>\n""")
@@ -433,11 +433,11 @@ def w_component_index(root,ojson):
 			w.write(f"""  return (\n""")
 			w.write(f"""    <PageHeaderWrapper>\n""")
 			w.write(f"""      <ProTable<TableListItem>\n""")
+			w.write(f"""        rowKey="id"\n""")
 			w.write(f"""        actionRef={{actionRef}}\n""")
 			if False:
 				w.write(f"""        headerTitle="查询表格"\n""")
 			if "delete" in crud:
-				w.write(f"""        rowKey="id"\n""")
 				w.write(f"""        rowSelection={{{{}}}}\n""")
 
 			w.write(f"""        toolBarRender={{(action, {{ selectedRows }}) => [\n""")
@@ -521,7 +521,7 @@ def w_component_index(root,ojson):
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
-						w.write(f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                    return <Select.Option value={{obj.id}} key={{obj.id}}>{{obj.name}}</Select.Option>;\n""")
 						w.write(f"""                  }})}}\n""")
 						w.write(f"""              </Select>\n""")
 						w.write(f"""            </Form.Item>\n""")
@@ -541,7 +541,7 @@ def w_component_index(root,ojson):
 						if arg.get('corres'):
 							w.write(f"""            <Select>\n""")
 							for cor in  arg.get('corres'):
-								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
+								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
 							if type == "str":
@@ -621,7 +621,7 @@ def w_component_index(root,ojson):
 						w.write(f"""              >\n""")
 						w.write(f"""                {{{parent.get('name')}list.data.length &&\n""")
 						w.write(f"""                  {parent.get('name')}list.data.map((obj) => {{\n""")
-						w.write(f"""                    return <Option value={{obj.id}}>{{obj.name}}</Option>;\n""")
+						w.write(f"""                    return <Select.Option value={{obj.id}} key={{obj.id}}>{{obj.name}}</Select.Option>;\n""")
 						w.write(f"""                  }})}}\n""")
 						w.write(f"""              </Select>\n""")
 						w.write(f"""            </Form.Item>\n""")
@@ -633,6 +633,8 @@ def w_component_index(root,ojson):
 						w.write(f"""          <Form.Item\n""")
 						if type == "time":
 							w.write(f"""            name='{arg.get('name')}u'\n""")
+						elif arg.get('name') == "id":
+							w.write(f"""            name='new_id'\n""")
 						else:
 							w.write(f"""            name='{arg.get('name')}'\n""")
 						if postmust == 1:
@@ -644,7 +646,7 @@ def w_component_index(root,ojson):
 						if arg.get('corres'):
 							w.write(f"""            <Select>\n""")
 							for cor in  arg.get('corres'):
-								w.write(f"""            <Option value={{{cor['key']}}}>{cor['value']}</Option>\n""")
+								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
 							if type == "str":

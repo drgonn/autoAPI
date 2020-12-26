@@ -69,7 +69,6 @@ project_json = {
         },
     ],                             #
     "databases":[                   #数据库表
-
         {
             "table":"Group",
             "api":1,
@@ -507,10 +506,6 @@ project_json = {
                 {
                     "module": "protable",
                     "table": "User",
-                },
-                {
-                    "module":"protable",
-                    "table": "Permission",
                 },
             ],
         },

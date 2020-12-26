@@ -13,8 +13,8 @@ project_json = {
     "antprotocol":"http",                         #ant 调试访问地址
     "auth":1 ,                             #  是否有用户系统
     "user_url":'http://localhost:20216/api/v3/user',
-    "login_about":"数据采集边缘计算产品与OEE,试用账号：18666821287，密码：123123",              #登录界面描述
-    "login_title":"marco",                             #登录界面标题
+    "login_about":"智能点胶系统（SDS）,试用账号：18666821287，密码：123123",              #登录界面描述
+    "login_title":"MARCO",                             #登录界面标题
     "produce":"MARCO(北京)自动控制系统开发有限公司出品",                             #出品
     "sql":{                    #数据库详情
         "sql": "mysql",
@@ -136,7 +136,6 @@ project_json = {
                     "name":"sn",
                     "type":"str",
                     "length":"16",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -166,7 +165,6 @@ project_json = {
                     "name": "type",
                     "type": "str",
                     "length": "64",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数

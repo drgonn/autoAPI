@@ -9,6 +9,11 @@ class Tdb():
             self.empty = 0
             self.ts_interface = "number"
             self.protable_valuetype = "digit"
+        elif t == "bigint":
+            self.db = "BIGINT"
+            self.empty = 0
+            self.ts_interface = "number"
+            self.protable_valuetype = "digit"
         elif t == "float":
             self.db = "Float"
             self.empty = 0

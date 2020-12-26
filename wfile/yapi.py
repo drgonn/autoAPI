@@ -22,7 +22,7 @@ def write_yapi(root, ojson):
             ("修改", "PUT", '/<id>', False),
             ("删除", "DELETE", '', False),
             ]
-    for table in ojson.get('databases')[:-6]:
+    for table in ojson.get('databases'):
         if table.get('api'):
             zh = table.get('zh')
             tablename = table.get("table").lower()
@@ -33,7 +33,7 @@ def write_yapi(root, ojson):
             gp['list'] = []
             # gp[''] = 0
             for typezh, method, p, argaddr in crud:
-                path = f"/api/v1/order/{tablename}"
+                path = f"/api/v1/{app}/{tablename}"
                 bean = False
                 pjson = {}
                 query = [{
@@ -206,6 +206,7 @@ def write_yapi(root, ojson):
             r.append(gp)
 
     js = json.dumps(r)
+
 
     w.write(js)
     w.close()

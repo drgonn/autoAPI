@@ -142,7 +142,10 @@ from sqlalchemy import func
         for column in table.get('args'):
             if column.get('putneed'):
                 argname = column.get('name')
-                w.write(f"\t{argname} = request.json.get('{argname}')\n")
+                if argname == "id":
+                    w.write(f"\tnew_{argname} = request.json.get('new_{argname}')\n")
+                else:
+                    w.write(f"\t{argname} = request.json.get('{argname}')\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
@@ -158,7 +161,10 @@ from sqlalchemy import func
         for column in table.get('args'):
             if column.get('putneed'):
                 argname = column.get('name')
-                w.write(f"\t{tablename}.{argname} = {argname} or {tablename}.{argname}\n")
+                if argname == "id":
+                    w.write(f"\t{tablename}.{argname} = new_{argname} or {tablename}.{argname}\n")
+                else:
+                    w.write(f"\t{tablename}.{argname} = {argname} or {tablename}.{argname}\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()

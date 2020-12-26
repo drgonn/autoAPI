@@ -10,6 +10,7 @@ project_json = {
     "anthost":"localhost",                             #  ant 调试访问地址
     "antport":"8888",                             #ant 调试访问地址
     "antprotocol":"http",                         #ant 调试访问地址
+    "user_url":'http://localhost:20216/api/v3/user',
     "auth":1,                             #
     "Flask_APScheduler":{             #flask-apscheduler 的定时任务设置
         "jobs":[],
@@ -193,7 +194,6 @@ project_json = {
                     "name": "industry",
                     "type": "str",
                     "length": "64",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -343,10 +343,211 @@ project_json = {
             "repr":"name",
         },                  #stock
         {
+            "table":"Index",
+            "api":1,
+            "zh": "指数",
+            "crud":[],
+            "parents":[
+            ],
+            "many":[
+            ],
+            "args":[
+                {
+                    "name":"ts_code",
+                    "type":"str",
+                    "length":"16",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique":1,
+                    "mean": "代号",
+                    "filter" : "like",
+                    "args":[
+                        {
+                            "name": "index",
+                            "value": "True",
+                        }
+                    ],
+                },
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名称",
+                    "filter": "like",
+                },
+                {
+                    "name": "fullname",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "全名",
+                },
+                {
+                    "name": "area",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "地区",
+                },
+                {
+                    "name": "industry",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "sorter": 1,
+                    "mean": "行业",
+                },
+
+                {
+                    "name": "enname",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "英文名",
+                },
+                {
+                    "name": "market",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易板块",
+                },
+                {
+                    "name": "exchange",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易所代码",
+                },
+                {
+                    "name": "curr_type",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "交易货币",
+                },
+                {
+                    "name": "list_status",
+                    "type": "str",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "上市状态： L上市 D退市 P暂停上市",
+                },
+                {
+                    "name": "list_date",
+                    "type": "date",
+                    "length": "64",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "上市日期",
+                    "sorter": 1,
+                },
+                {
+                    "name": "delist_date",
+                    "type": "date",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "退市日期",
+                },
+                {
+                    "name": "is_hs",
+                    "type": "str",
+                    "length": "8",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "是否沪深港通标的",
+                },
+                {
+                    "name": "price",
+                    "type": "float",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "现价",
+                    "sorter": 1,
+                },
+                {
+                    "name": "circ_mv",
+                    "type": "float",
+
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "流通市值（万元）",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pe",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "市盈率（总市值/净利润，亏损的PE为空）",
+                    "sorter": 1,
+                },
+                {
+                    "name": "score",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "评分",
+                    "sorter": 1,
+                },
+            ],
+            "repr":"name",
+        },                  #index指数
+        {
             "table":"Day",
             "api":1,
             "zh": "日行情",
-            "crud":[],
+            "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "Stock",
@@ -370,7 +571,6 @@ project_json = {
                 {
                     "name": "trade_date",
                     "type": "date",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -408,23 +608,19 @@ project_json = {
                 {
                     "name": "turnover_rate_f",
                     "type": "float",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "换手率（自由流通股）",
                 },
-
                 {
                     "name": "volume_ratio",
                     "type": "float",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "量比",
                 },
-
                 {
                     "name": "pe",
                     "type": "float",
@@ -511,7 +707,7 @@ project_json = {
 
                 {
                     "name": "float_share",
-                    "type": "float",
+                    "type": "bigint",
 
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -557,6 +753,117 @@ project_json = {
             "repr":"trade_date",
         },                  #每日数据
         {
+            "table":"Score_type",
+            "api":1,
+            "zh": "得分类型",
+            "crud":['post','put','delete'],
+            "parents":[
+            ],
+            "args":[
+                {
+                    "name": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "ID",
+                    "sorter": 1,
+                },
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length":"64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "名",
+                    "sorter": 1,
+                },
+                {
+                    "name": "weight",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "权重",
+                    "sorter": 1,
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "描述",
+                    "sorter": 1,
+                },
+            ],
+            "repr":"name",
+        },                  #得分类型
+        {
+            "table":"Score",
+            "api":1,
+            "zh": "得分",
+            "crud":['post','put','delete'],
+            "parents":[
+                {
+                    "name": "Stock",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "股票id",
+                    "show": [        #放在api当中显示的参数
+                        {
+                            "name":"name",
+                            "type": "str",
+                            "mean":"股名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Score_type",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "类型id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "类型名"
+                        },
+                    ],
+                },
+            ],
+            "args":[
+                {
+                    "name": "trade_date",
+                    "type": "date",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "日期",
+                    "filter": "precise",
+                    "sorter": 1,
+                },
+                {
+                    "name": "score",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "评分",
+                    "sorter": 1,
+                },
+            ],
+            "repr":"trade_date",
+        },                  #得分数据
+
+        {
             "table": "Group",
             "api": 1,
             "zh": "自选",
@@ -600,7 +907,6 @@ project_json = {
             ],
             "repr": "name",
         },  # 自选分组
-
     ],
     "routes":[
         {
@@ -617,12 +923,27 @@ project_json = {
                     "table": "Group",
                 },
                 {
+                    "module": "protable",
+                    "table": "Score",
+                },
+                {
                     "module":"protable",
                     "table": "Day",
                 },
 
             ],
-        }
+        },
+        {
+            "path": "arg",  # 上级目录主菜单详情
+            "name": "设置",
+            "icon": "",  # ant的菜单图标，图标列表[]
+            "components": [
+                {
+                    "module": "protable",
+                    "table": "Score_type",
+                },
+            ],
+        },
     ],
 }
 

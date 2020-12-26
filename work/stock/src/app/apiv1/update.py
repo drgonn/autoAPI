@@ -1,8 +1,11 @@
 from app import db
 from app.apiv1 import api
 from flask import jsonify, request
+import time
+from datetime import datetime
 
 from ..data.tusharedata import insert_stock, update_last_daily_basic, update_stock_daily_basic
+# from ..data.akshareData import insert_stock, update_last_daily_basic, update_stock_daily_basic
 from ..models import Day, Stock, Group
 
 """更新数据接口"""
@@ -10,8 +13,9 @@ from ..models import Day, Stock, Group
 # 拉取最早的所有股票
 @api.route("/get/all/stocks", methods=["GET"])
 def get_all_stocks():
+	"""拉取所有stock的基本信息"""
 	insert_stock()
-	# time.sleep(10)
+	# time.sleep(4)
 	return jsonify({
 		"success": True,
 		"error_code": 0,
@@ -19,18 +23,31 @@ def get_all_stocks():
 	})
 
 
-# 更新所有股票最近一个交易日的数据
 @api.route("/update/days", methods=["POST"])
 def update_days():
+	""" 根据参数更新所有股票最近一个交易日的数据"""
 	print(request.json)
 	ts_codes = request.json.get('ts_codes')
-	#更新所有股票最近一个交易日的数据
+	deep = request.json.get('deep')   #提交此参数为True表示获取所有数据，深度更新
 	update_all_day= request.json.get('update_all_day')
+
 	if update_all_day:
-		update_last_daily_basic()
+		stocks = Stock.query
 	elif ts_codes:
-		for ts_code in ts_codes:
-			update_stock_daily_basic(ts_code)
+		stocks = Stock.query.filter(Stock.ts_code.in_(ts_codes))
+
+	if not stocks:
+		return ({"success": False, "error_code": -2, "errmsg": f'stock {ts_codes} 为空或找不到'})
+
+	for stock in stocks:
+		d = stock.days.order_by(Day.trade_date.desc()).first()
+		if d:
+			start_date = d.trade_date
+			start_date = datetime.strftime(start_date, "%Y%m%d")
+		else:
+			start_date = None
+		print("开始获取时间",start_date,stock.name)
+		update_stock_daily_basic(stock,start_date)
 
 	return jsonify({
 		"success": True,
@@ -75,6 +92,7 @@ def industry_new_score():
 
 
 def industry_all_score():
+	""""""
 	groups = Group.query.filter_by(type=2).all()
 	for group in groups:
 		if group.stocks.first() is None:
@@ -95,9 +113,6 @@ def industry_all_score():
 					d.stock.score = d.score
 				db.session.add(d)
 			db.session.commit()
-
-
-
 
 
 def indus():
