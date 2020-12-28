@@ -3,7 +3,7 @@ import re
 import sys
 import getopt
 
-from source_json import pay, app, stock, bridge, oee
+from source_json import pay, app, stock, bridge, oee, order
 from source_json import user as user1
 from tools import make_tree
 
@@ -82,6 +82,7 @@ bri     = bridge.project_json
 stock   = stock.project_json
 oee   = oee.project_json
 user1   = user1.project_json
+order   = order.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
@@ -93,6 +94,7 @@ source_dir = {
     "stock":stock,
     "oee": oee,
     "user": user1,
+    "order": order,
 }
 
 
