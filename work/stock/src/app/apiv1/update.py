@@ -4,31 +4,36 @@ from flask import jsonify, request
 import time
 from datetime import datetime
 
-from ..data.tusharedata import insert_stock, update_last_daily_basic, update_stock_daily_basic
+from ..data.tusharedata import insert_stock,insert_index,  update_stock_daily_basic, update_index_daily
 # from ..data.akshareData import insert_stock, update_last_daily_basic, update_stock_daily_basic
-from ..models import Day, Stock, Group
+from ..models import Day, Stock, Group,Index,Indexday
 
 """更新数据接口"""
 
-# 拉取最早的所有股票
 @api.route("/get/all/stocks", methods=["GET"])
 def get_all_stocks():
 	"""拉取所有stock的基本信息"""
 	insert_stock()
-	# time.sleep(4)
 	return jsonify({
 		"success": True,
 		"error_code": 0,
-		"qrurl" : "order test OK"
 	})
 
+@api.route("/get/all/index", methods=["GET"])
+def get_all_index():
+	"""拉取所有Index指标的基本信息"""
+	insert_index()
+	return jsonify({
+		"success": True,
+		"error_code": 0,
+	})
 
 @api.route("/update/days", methods=["POST"])
 def update_days():
-	""" 根据参数更新所有股票最近一个交易日的数据"""
+	""" 根据参数更新所有股票最近一个stock股票交易日的数据"""
 	print(request.json)
 	ts_codes = request.json.get('ts_codes')
-	deep = request.json.get('deep')   #提交此参数为True表示获取所有数据，深度更新
+	empty = request.json.get('empty')   #补齐所有日线为空的股票
 	update_all_day= request.json.get('update_all_day')
 
 	if update_all_day:
@@ -40,6 +45,9 @@ def update_days():
 		return ({"success": False, "error_code": -2, "errmsg": f'stock {ts_codes} 为空或找不到'})
 
 	for stock in stocks:
+		if empty:
+			if stock.days.first() is not None:
+				continue
 		d = stock.days.order_by(Day.trade_date.desc()).first()
 		if d:
 			start_date = d.trade_date
@@ -48,12 +56,44 @@ def update_days():
 			start_date = None
 		print("开始获取时间",start_date,stock.name)
 		update_stock_daily_basic(stock,start_date)
+		time.sleep(1)
+
 
 	return jsonify({
 		"success": True,
 		"error_code": 0,
 	})
 
+@api.route("/update/index/daily", methods=["POST"])
+def update_index_days():
+	""" 根据参数更新所有股票最近一个index指标交易日的数据"""
+	print(request.json)
+	ts_codes = request.json.get('ts_codes')
+	update_all_day = request.json.get('update_all_day')
+
+	if update_all_day:
+		indexs = Index.query.filter(Index.about != None)
+	elif ts_codes:
+		indexs = Index.query.filter(Index.ts_code.in_(ts_codes))
+
+	if not indexs:
+		return ({"success": False, "error_code": -2, "errmsg": f'index {ts_codes} 为空或找不到'})
+
+	for index in indexs:
+		print(index)
+		d = index.indexdays.order_by(Indexday.trade_date.desc()).first()
+		if d:
+			start_date = d.trade_date
+			start_date = datetime.strftime(start_date, "%Y%m%d")
+		else:
+			start_date = None
+		print("开始获取时间",start_date,index.name)
+		update_index_daily(index,start_date)
+
+	return jsonify({
+		"success": True,
+		"error_code": 0,
+	})
 @api.route("/scores/<statu>", methods=["GET"])
 def scores(statu):
 	# 计算行业排名得分
@@ -72,6 +112,11 @@ def scores(statu):
 		"success": True,
 		"error_code": 0,
 	})
+
+
+
+
+
 
 def industry_new_score():
 	groups = Group.query.filter_by(type=2).all()

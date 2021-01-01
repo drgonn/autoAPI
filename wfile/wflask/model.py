@@ -11,7 +11,7 @@ def make_models(appdir,app):
     w = open(modeldir,'w+')
     w.write('from flask import request, jsonify, current_app, g\n')
     w.write('from app import db\n')
-    w.write('from datetime import datetime\n')
+    w.write('from datetime import datetime,date\n')
     w.write('from app.tools import utc_switch\n')
     if auth is not None:
         pass
@@ -74,8 +74,10 @@ def make_models(appdir,app):
             name = column.get('name')
             if name == "id":
                 continue
-            if column.get('type') == 'time' or column.get('type') == 'date':
+            if column.get('type') == 'time' :
                 w.write(f"\t\t\t'{name}': utc_switch(self.{name}),\n")
+            elif  column.get('type') == 'date':
+                w.write(f"\t\t\t'{name}': self.{name}.strftime('%Y-%m-%d') if self.{name} else None,\n")
             elif column.get('file'):
                 w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/file/{{self.id}}/"+self.{name},\n""")
                 w.write(f"""\t\t\t'{name}': self.{name},\n""")

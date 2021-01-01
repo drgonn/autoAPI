@@ -459,7 +459,6 @@ def w_component_index(root,ojson):
 				w.write(f"""                  selectedKeys={{[]}}\n""")
 				w.write(f"""                >\n""")
 				w.write(f"""                  <Menu.Item key="remove">批量删除</Menu.Item>\n""")
-				w.write(f"""                  <Menu.Item key="approval">批量审批</Menu.Item>\n""")
 				w.write(f"""                </Menu>\n""")
 				w.write(f"""              }}\n""")
 				w.write(f"""            >\n""")

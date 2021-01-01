@@ -346,7 +346,7 @@ project_json = {
             "table":"Index",
             "api":1,
             "zh": "指数",
-            "crud":[],
+            "crud":['put','delete'],
             "parents":[
             ],
             "many":[
@@ -381,20 +381,9 @@ project_json = {
                     "filter": "like",
                 },
                 {
-                    "name": "fullname",
-                    "type": "str",
-                    "length": "64",
-
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "全名",
-                },
-                {
                     "name": "market",
                     "type": "str",
-                    "length": "64",
+                    "length": "16",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -414,17 +403,6 @@ project_json = {
                 },
 
                 {
-                    "name": "index_type",
-                    "type": "str",
-                    "length": "64",
-
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "指数风格",
-                },
-                {
                     "name": "category",
                     "type": "str",
                     "length": "64",
@@ -437,9 +415,7 @@ project_json = {
                 },
                 {
                     "name": "base_date",
-                    "type": "str",
-                    "length": "64",
-
+                    "type": "date",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -450,7 +426,6 @@ project_json = {
                     "name": "base_point",
                     "type": "str",
                     "length": "64",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -469,28 +444,7 @@ project_json = {
                     "sorter": 1,
                 },
                 {
-                    "name": "exp_date",
-                    "type": "date",
-
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "终止日期",
-                },
-                {
-                    "name": "weight_rule",
-                    "type": "str",
-                    "length": "64",
-
-                    "post": 2,  # 创建时候必须填写的参数
-                    "putneed": 1,  # 修改时可以修改的参数
-                    "listmust": 0,  # 请求列表必须post的参数
-                    "unique": 1,
-                    "mean": "加权方式",
-                },
-                {
-                    "name": "desc",
+                    "name": "about",
                     "type": "text",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -502,10 +456,11 @@ project_json = {
             "repr":"name",
         },                  #index指数
         {
-            "table":"Index_day",
+            "table":"Indexday",
             "api":1,
             "zh": "指数日行情",
-            "crud":[],
+            # "crud":[],
+            "crud":['post','put','delete'],
             "parents":[
                 {
                     "name": "Index",
@@ -579,7 +534,7 @@ project_json = {
                 },
             ],
             "repr":"trade_date",
-        },                  #每日数据
+        },                  #每日指标
         {
             "table":"Day",
             "api":1,
@@ -967,7 +922,14 @@ project_json = {
                     "module":"protable",
                     "table": "Day",
                 },
-
+                {
+                    "module":"protable",
+                    "table": "Index",
+                },
+                {
+                    "module": "protable",
+                    "table": "Indexday",
+                },
             ],
         },
         {
