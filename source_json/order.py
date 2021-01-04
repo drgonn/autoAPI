@@ -53,7 +53,43 @@ project_json = {
         },
     ],                             #
     "databases":[                   #数据库表
-
+        {
+            "table": "CardUser",
+            "api": 1,
+            "zh": "用户",
+            "crud":['post','put','delete'],
+            "parents": [
+            ],
+            "many":[
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "put": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名",
+                    "filter": "like",
+                },
+                {
+                    "name": "uid",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "put": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "uid",
+                    "filter": "like",
+                },
+            ],
+            "repr": "name",
+        },  # User
         {
             "table": "Pack",
             "api": 1,
@@ -134,7 +170,7 @@ project_json = {
                 },
             ],
             "repr": "id",
-        },  # 流量包
+        },  # Pack
         {
             "table": "Cardpack",
             "api": 1,
@@ -199,7 +235,7 @@ project_json = {
                 },
             ],
             "repr": "id",
-        },  # 流量包
+        },  # Cardpack
         {
             "table": "PackageOrder",
             "api": 1,
@@ -304,7 +340,166 @@ project_json = {
                 },
             ],
             "repr": "id",
-        },  # 流量包
+        },  # PackageOrder
+        {
+            "table": "Package",
+            "api": 1,
+            "zh": "订单",
+            "crud":['post','put','delete'],
+            "parents": [
+
+            ],
+            "many": [
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "put": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "名称",
+                    "filter": "like",
+                },
+                {
+                    "name": "operator",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "运营商分类",
+                    "filter": "precise",
+                    "corres": [
+                        {'key':1,'value':"移动"},
+                        {'key':2,'value':"联通"},
+                        {'key':3,'value':"电信"},
+                    ],
+                },
+                {
+                    "name": "cycle",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "周期（月）",
+                    "filter": "precise",
+                    "sorter": 1,
+                },
+                {
+                    "name": "usage",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "流量大小（M）",
+                    "filter": "precise",
+                    "sorter": 1,
+                },
+                {
+                    "name": "shareFlag",
+                    "type": "bool",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "共享类型",
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 'true', 'value': "共享"},
+                        {'key': 'false', 'value': "独享"},
+                    ],
+                },
+                {
+                    "name": "price",
+                    "type": "float",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "价格（元）",
+                    "filter": "precise",
+                    "sorter": 1,
+                },
+                {
+                    "name": "createDate",
+                    "type": "time",
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "put": 0,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "创建时间",
+                    "sorter": 1,
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "备注",
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # Package
+        {
+            "table": "PackagePrice",
+            "api": 1,
+            "zh": "套餐价格",
+            "crud":['post','put','delete'],
+            "parents": [
+                {
+                    "name": "User",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "用户id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "用户名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Package",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "套餐id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "套餐名"
+                        },
+                    ],
+                },
+            ],
+            "many": [
+            ],
+            "args": [
+                {
+                    "name": "price",
+                    "type": "float",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "价格（元）",
+                    "filter": "precise",
+                },
+            ],
+            "repr": "id",
+        },  # PackagePrice
     ],
     "routes": [
 
