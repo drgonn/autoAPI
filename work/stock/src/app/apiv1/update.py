@@ -2,7 +2,7 @@ from app import db
 from app.apiv1 import api
 from flask import jsonify, request
 import time
-from datetime import datetime
+from datetime import datetime,date,timedelta
 
 from ..data.tusharedata import insert_stock,insert_index,  update_stock_daily_basic, update_index_daily
 # from ..data.akshareData import insert_stock, update_last_daily_basic, update_stock_daily_basic
@@ -46,15 +46,21 @@ def update_days():
 
 	for stock in stocks:
 		if empty:
+			print(stock)
+			print(stock.days.first())
 			if stock.days.first() is not None:
 				continue
 		d = stock.days.order_by(Day.trade_date.desc()).first()
 		if d:
 			start_date = d.trade_date
+			print(start_date,date.today())
+			if start_date >= date.today() -timedelta(days=1):
+				print(f'要更新的日期是{start_date},就是今天，已经有最新数据，无需更新')
+				continue
 			start_date = datetime.strftime(start_date, "%Y%m%d")
 		else:
 			start_date = None
-		print("开始获取时间",start_date,stock.name)
+		print("开始获取时间",start_date,stock.name,stock.ts_code)
 		update_stock_daily_basic(stock,start_date)
 		time.sleep(1)
 
@@ -87,7 +93,7 @@ def update_index_days():
 			start_date = datetime.strftime(start_date, "%Y%m%d")
 		else:
 			start_date = None
-		print("开始获取时间",start_date,index.name)
+		print("开始获取时间",start_date,index.name,index.ts_code)
 		update_index_daily(index,start_date)
 
 	return jsonify({
@@ -184,3 +190,64 @@ def indus():
 		print(f'添加数据库发生错误,已经回退:{e}')
 		# return jsonify({'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'})
 
+
+
+@api.route("/fill/days", methods=["GET"])
+def fill_days():
+	"""计算所有股票的涨跌幅度"""
+	stocks = Stock.query.filter(Stock.id > 992)
+	for stock in stocks:
+		"""计算过去一年的收益结果存起来,最后一天的收益率，或指定天的收益"""
+		group = Group.query.filter_by(name = stock.industry).filter_by(type=2).first()
+		if not group:
+			return jsonify({
+				"success": False,
+				"error_code": -1,
+				"errmsg":f"{stock.name}没有行业",
+			})
+		stock.groups.append(group)
+
+		print(stock.name,stock.id)
+		group_id= stock.groups.filter_by(type=2).first().id
+		print(stock.groups.filter_by(type=2).first().name)
+		cl = list()
+		for d in stock.days.order_by(Day.trade_date.asc()):
+			# print(f'{d.trade_date}的收盘价是： {d.close}')
+			if len(cl) >1:
+				d.pct1 = (d.close/cl[-1]) - 1
+			# print(f'单日涨幅{d.pct1}')
+			if len(cl) >3:
+				d.pct3 = (d.close/cl[-3]) - 1
+			# print(f'3日涨幅{d.pct3}')
+			if len(cl) >5:
+				d.pct5 = (d.close/cl[-5]) - 1
+			# print(f'5日涨幅{d.pct5}')
+			if len(cl) >10:
+				d.pct10 = (d.close/cl[-10]) - 1
+			# print(f'10日涨幅{d.pct5}')
+			if len(cl) >20:
+				d.pct20 = (d.close/cl[-20]) - 1
+				# print(f'20日涨幅{d.pct20}')
+				cl.pop(0)
+			d.group_id = group_id
+			cl.append(d.close)
+			db.session.add(d)
+		db.session.commit()
+	return jsonify({
+		"success": True,
+		"error_code": 0,
+	})
+
+from .temp import income_way2
+@api.route("/simulation/test", methods=["POST"])
+def simulation():
+	"""模拟测试打印，临时测试用"""
+
+	income_way2()
+
+
+	print(111111)
+	return jsonify({
+		"success": True,
+		"error_code": 0,
+	})

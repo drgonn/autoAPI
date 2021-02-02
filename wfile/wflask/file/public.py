@@ -30,15 +30,15 @@ def upload():
 		# get file size after saving
 		size = os.path.getsize(uploaded_file_path)
 		if size <= 0:
-			return jsonify({"ret": False,
+			return jsonify({"success": False,
 							"error_code": 0,
 							}), 406,
 
-		return jsonify({"ret": True,
+		return jsonify({"success": True,
 						"error_code": 0 ,
 						"upload_file": filename,
 						}), 201,
 
-	return jsonify({"ret": False,
+	return jsonify({"success": False,
 					"error_code": 0,
 					}), 406,

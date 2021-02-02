@@ -119,7 +119,7 @@ from sqlalchemy import func
         for column in table.get('args'):
             if column.get('file'):
                 argname = column.get('name')
-                w.write(f"""\t\tdst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
+                w.write(f"""\t\tdst_dir = os.path.join(static_folder, '{tablename}{argname}', f"{{{tablename}.id}}")\n""")
                 w.write(f"""\t\tdst_file_path = os.path.join(dst_dir, {argname})\n""")
                 w.write(f"""\t\tos.makedirs(dst_dir,exist_ok=True)\n""")
                 w.write(f"""\t\tshutil.move(tmp_file_path,dst_file_path)\n""")

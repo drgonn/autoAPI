@@ -153,13 +153,33 @@ project_json = {
                     "name": "name",
                     "type": "str",
                     "length": "64",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "unique": 1,
                     "mean": "名称",
                     "filter": "like",
+                },
+                {
+                    "name": "ip",
+                    "type": "str",
+                    "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "ip地址",
+                },
+                {
+                    "name": "img",
+                    "type": "str",
+                    "length": "256",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    'file': 1,
+                    "mean": "图片",
                 },
                 {
                     "name": "type",
@@ -176,7 +196,6 @@ project_json = {
                     ],
                     "mean": "类型",
                 },
-
             ],
             "repr":"name",
         },                  #机台
@@ -272,6 +291,55 @@ project_json = {
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "使用胶量",
+                },
+            ],
+            "repr":"id",
+        },                  #worktime
+        {
+            "table":"Devicestatu",
+            "api":1,
+            "zh": "机台开关状态",
+            "crud":['post','put','delete'],
+            "parents":[
+                {
+                    "name": "Device",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "机台id",
+                    "show": [        #放在api当中显示的参数
+                        {
+                            "name":"name",
+                            "type": "str",
+                            "mean":"设备名"
+                        },
+                    ],
+                },
+            ],
+            "args":[
+                {
+                    "name": "start_time",
+                    "type": "time",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "开始时间",
+                },
+
+                {
+                    "name": "status",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "状态类型",
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 1, 'value': "开始工作"},
+                        {'key': 2, 'value': "停止工作"},
+                    ],
                 },
             ],
             "repr":"id",
@@ -743,8 +811,6 @@ project_json = {
             "repr": "id",
         },  # 报警
 
-
-
         {
             "table": "Project",
             "api": 1,
@@ -867,6 +933,92 @@ project_json = {
             ],
             "repr": "id",
         },  # 项目计划
+        {
+            "table": "Message",
+            "api": 1,
+            "zh": "通知",
+            "crud": ['post', 'put', 'delete'],
+            "parents": [
+                {
+                    "name": "User",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "用户id",
+                    # "show": [  # 放在api当中显示的参数
+                    #     {
+                    #         "name": "name",
+                    #         "type": "str",
+                    #         "mean": "用户名"
+                    #     },
+                    # ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "title",
+                    "type": "str",
+                    "length": "256",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "工作事项",
+                    "filter": "like",
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "类型",
+                    "filter": "precise",
+                    "corres": [
+                        {'key': 1, 'value': "提醒"},
+                        {'key': 2, 'value': "警告"},
+                    ],
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "unique": 1,
+                    "mean": "消息内容",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "read",
+                    "type": "bool",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "filter": "precise",
+                    "mean": "消息是否已读",
+                },
+                {
+                    "name": "ct_time",
+                    "type": "time",
+                    "mean": "时间",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "datetime.utcnow",
+                        },
+                    ],
+                },
+
+            ],
+            "repr": "id",
+        },  # 项目计划
     ],
     "routes":[
         {
@@ -907,6 +1059,10 @@ project_json = {
                     "module": "protable",
                     "table": "Alarm",
                 },
+                {
+                    "module": "protable",
+                    "table": "Message",
+                },
             ],
         },
         {
@@ -941,6 +1097,10 @@ project_json = {
                 {
                     "module": "protable",
                     "table": "Alarmtype",
+                },
+                {
+                    "module": "protable",
+                    "table": "Devicestatu",
                 },
             ],
         },

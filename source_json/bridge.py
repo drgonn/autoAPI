@@ -18,8 +18,8 @@ project_json = {
     "sql":{                    #数据库详情
         "sql": "mysql",
         "host": "localhost",
-        "name" :   'root',
-        "pwd" :  '7811175yy',
+        "name": 'root',
+        "pwd" : '7811175yy',
         "port": 3306,
     },
     "antprotocol":"http",                         #ant 调试访问地址

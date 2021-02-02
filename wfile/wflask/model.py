@@ -79,7 +79,7 @@ def make_models(appdir,app):
             elif  column.get('type') == 'date':
                 w.write(f"\t\t\t'{name}': self.{name}.strftime('%Y-%m-%d') if self.{name} else None,\n")
             elif column.get('file'):
-                w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/file/{{self.id}}/"+self.{name},\n""")
+                w.write(f"""\t\t\t'{name}_url': f"{{static_host}}/{tablename}{name}/{{self.id}}/"+self.{name} if self.{name} else None,\n""")
                 w.write(f"""\t\t\t'{name}': self.{name},\n""")
             else:
                 w.write(f"\t\t\t'{name}': self.{name},\n")

@@ -558,6 +558,22 @@ project_json = {
                         },
                     ],
                 },
+                {
+                    "name": "Group",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "分组id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "分组名"
+                        },
+                    ],
+                },
             ],
             "args":[
                 {
@@ -581,16 +597,59 @@ project_json = {
                 {
                     "name": "close",
                     "type": "float",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "当日收盘价",
                 },
                 {
+                    "name": "pct1",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "单日涨幅",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pct3",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "3日涨幅",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pct5",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "5日涨幅",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pct10",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "10日涨幅",
+                    "sorter": 1,
+                },
+                {
+                    "name": "pct20",
+                    "type": "float",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "20日涨幅",
+                    "sorter": 1,
+                },
+                {
                     "name": "turnover_rate",
                     "type": "float",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
@@ -729,21 +788,18 @@ project_json = {
                     "mean": "总市值（万元）",
                     "sorter": 1,
                 },
-
                 {
                     "name": "circ_mv",
                     "type": "float",
-
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "流通市值（万元）",
                     "sorter": 1,
                 },
-
             ],
             "repr":"trade_date",
-        },                  #每日数据
+        },                  #每日行情
         {
             "table":"Score_type",
             "api":1,

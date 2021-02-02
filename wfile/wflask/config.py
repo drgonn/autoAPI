@@ -28,7 +28,7 @@ def write_config(root,ojson):
     w.write(f'	PER_PAGE = 20\n')
     w.write(f'	FLASKY_SLOW_DB_QUERY_TIME = 0.5\n\n')
     w.write(f'	STATIC_FOLDER = os.path.join(basedir,"app","static")\n\n')
-    w.write(f'	STATIC_HOST = "{host}"\n\n')
+    w.write(f'	STATIC_HOST = os.environ.get("STATIC_HOST") or "{host}"\n\n')
     if flaskapscheduler:
         w.write(f'	SCHEDULER_API_ENABLED = True\n')
         w.write(f'	SCHEDULER_TIMEZONE = "Asia/Shanghai"\n')
