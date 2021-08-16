@@ -1102,6 +1102,10 @@ project_json = {
                     "module": "protable",
                     "table": "Devicestatu",
                 },
+                {
+                    "module": "protable",
+                    "table": "Message",
+                },
             ],
         },
         # {

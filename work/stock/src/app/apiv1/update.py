@@ -6,7 +6,11 @@ from datetime import datetime,date,timedelta
 
 from ..data.tusharedata import insert_stock,insert_index,  update_stock_daily_basic, update_index_daily
 # from ..data.akshareData import insert_stock, update_last_daily_basic, update_stock_daily_basic
-from ..models import Day, Stock, Group,Index,Indexday
+from ..models import Day, Stock, Group,Index,Indexday,Score
+from ..tools.trade_date import buydate
+import numpy as np
+from functools import reduce
+
 
 """更新数据接口"""
 
@@ -242,11 +246,131 @@ from .temp import income_way2
 @api.route("/simulation/test", methods=["POST"])
 def simulation():
 	"""模拟测试打印，临时测试用"""
+	# print("先找股票的中位数")
+	# stocks = Stock.query.all()
+	stocks = Group.query.get(25).stocks.all()
+	tian = 300
+	for stock in stocks:
+		days = stock.days.all()
+		start_p = days[0].close
+		close_p = days[-1].close
+		l = len(days)
+		# print(days[:10])
+		# z = len(days)//2
+		print(f"{stock.name}拿着不动，最开始时间是{days[0].trade_date}，价格{start_p}，结束时间是{days[-1].trade_date}，价格{close_p}，平均收益{(close_p/start_p)/l}，收益:            {close_p/start_p}")
+		buy_price = 0
+		fes = []
+		if l <tian:
+			break
+		for i,d in enumerate(days[tian:]):
+			if d.pe:
+				ndays = days[i:tian+i]
+				pes = [d.pe for d in ndays]
+				pes = list(filter(None, pes))
+				z = np.median(pes)
+				# print(f"\n{stock.name}的市盈利中位数是{z}")
+				if d.pe < z and buy_price == 0:
+					buy_price = d.close
+				elif d.pe > z and buy_price != 0:
+					fe = d.close/buy_price
+					buy_price = 0
+					fes.append(fe)
+		sum = reduce(lambda x, y: x * y, fes)
+		print(f"中位数计算方法，收益比例是{len(fes)},收益倍数是:                                                 {sum}")
 
-	income_way2()
 
 
-	print(111111)
+
+
+
+	# print("开始按照两数当中的大数为上，小数为下，获取大小两数，超过大数卖出，低于小数买入。")
+
+	print("")
+	print("")
+	# j2 = Score.query.filter_by(score_type_id=2).filter_by(trade_date="20210107").order_by(Score.score.desc()).limit(100).all()
+	# j2 = [j.stock.name for j in j2]
+	# j3 = Score.query.filter_by(score_type_id=3).filter_by(trade_date="20210107").order_by(Score.score.desc()).limit(100).all()
+	# j3 = [j.stock.name for j in j3]
+	# j4 = Score.query.filter_by(score_type_id=4).filter_by(trade_date="20210107").order_by(Score.score.desc()).limit(100).all()
+	# j4 = [j.stock.name for j in j4]
+	# j5 = Score.query.filter_by(score_type_id=5).filter_by(trade_date="20210107").order_by(Score.score.desc()).limit(100).all()
+	# j5 = [j.stock.name for j in j5]
+	#
+	# j = list(set(j2)& set(j3) & set(j4) & set(j5) )
+	# print(j)
+	#
+	# """
+	# 一批股票，先计算每股五年盈利，然后计算平均盈利，然后计算算法盈利
+	# """
+	# endday = "20201229"
+	# startday = "20180108"
+	# avl = []
+	# for i in j:
+	# 	print(i)
+	# 	stock = Stock.query.filter_by(name=i).first()
+	# 	end = stock.days.order_by(Day.trade_date.desc()).filter(Day.trade_date >=endday).first()
+	# 	start = stock.days.order_by(Day.trade_date.asc()).filter(Day.trade_date >=startday).first()
+	# 	print(end.close,start.close)
+	# 	avl.append(end.close/start.close)
+	# avange = sum(avl)/len(j)
+	# print("计算得平均值是",avange)
+	#
+	# # 循环日期,从大盘开始
+	# datel = buydate(startday,endday)
+	# stocks = Stock.query.filter(Stock.name.in_(j)).all()
+	# stock_ids = [s.id for s in stocks]
+	# print(stocks)
+	# buystocks = {}
+	# for i in stocks:
+	# 	buystocks[i.name] = {"mount":0,"price":0}
+	#
+	# length = len(j)
+	# half = length//2
+	# divid = 100/half
+	# remain = 0
+	# # 第一天，买入前跌幅最高一半股票
+	# for d in datel:
+	# 	days = Day.query.filter(Day.stock_id.in_(stock_ids)).filter_by(trade_date=d).all()
+	# 	sds  = days.sort(key = lambda x : x.pct1)
+	# 	print([i.pct1 for i in days[::-1]])
+	# 	for i in days[:half]:
+	# 		buystocks[i.stock.name]['mount'] = divid
+	# 		buystocks[i.stock.name]['price'] = i.close
+	# 	# print(buystocks)
+	# 	break
+	# for d in datel:
+	# 	days = Day.query.filter(Day.stock_id.in_(stock_ids)).filter_by(trade_date=d).all()
+	# 	# print([i.pct1 for i in days])
+	# 	sds  = days.sort(key = lambda x : x.pct1)
+	# 	# 找到跌幅最高没有买入股票，买入，涨幅最高的持仓股，卖掉
+	# 	for i in days[::-1]:
+	# 		if buystocks[i.stock.name]['mount'] != 0:
+	# 			mount = buystocks[i.stock.name]['mount']
+	# 			buystocks[i.stock.name]['mount'] = 0
+	# 			buyprice = buystocks[i.stock.name]['price']
+	# 			li = i.close/buyprice
+	# 			remain = mount* li
+	# 			break
+	# 	for i in days:
+	# 		if buystocks[i.stock.name]['mount'] == 0:
+	# 			buystocks[i.stock.name]['mount'] = remain
+	# 			buystocks[i.stock.name]['price'] = i.close
+	# 			remain = 0
+	# 			break
+	# 	break
+	# buystocks = {'泸州老窖': {'mount': 0, 'price': 192.25}, '酒鬼酒': {'mount': 0, 'price': 119.13}, '高德红外': {'mount': 158.90997379455337, 'price': 41.75}, '亿纬锂能': {'mount': 0, 'price': 72.27}, '新宙邦': {'mount': 64.67662345076965, 'price': 104.0}, '汇川技术': {'mount': 71.58909111349267, 'price': 90.9}, '片仔癀': {'mount': 0, 'price': 227.3}, '通威股份': {'mount': 0, 'price': 30.02}, '通策医疗': {'mount': 71.93156359820635, 'price': 260.31}, '山西汾酒': {'mount': 117.538043872948, 'price': 321.25}, '妙可蓝多': {'mount': 49.569339594788865, 'price': 45.93}, '中国中免': {'mount': 0, 'price': 217.25}}
+	#
+	#
+	# rall = sum([value['mount'] for value in buystocks.values()])
+	# print(rall/100)
+
+
+
+
+
+
+
+
 	return jsonify({
 		"success": True,
 		"error_code": 0,

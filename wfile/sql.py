@@ -13,7 +13,7 @@ def sql_start(ojson):            #没有databases时自动创建
         name =     sql.get('name')
         pwd =      sql.get('pwd')
         port= sql.get('port')
-        conn = pymysql.connect(host, name, pwd,port=port,charset='utf8')
+        conn = pymysql.connect(host=host, user=name,password= pwd,port=port,charset='utf8')
         cursor = conn.cursor()
         cursor.execute('show databases;')
         tables_tup = cursor.fetchall()

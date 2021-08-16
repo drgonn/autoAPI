@@ -1967,6 +1967,677 @@ project_json = {
             "repr": "id",
         },  # 预警信息
         {
+            "table": "Sick",
+            "api": 1,
+            "zh": "病害类型",
+            "parents": [
+                {
+                    "name": "Part",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "部位id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "部位名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "unique": 1,
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "名",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "id",
+        },  # 病害类型
+        {
+            "table": "Sickscale",
+            "api": 1,
+            "zh": "病害标度",
+            "parents": [
+                {
+                    "name": "Sick",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "病害类型id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "病害名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "scale",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "标度",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "score",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "分数",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "描述",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "id",
+        },  # 病害标度
+        {
+            "table": "Inspectwork",
+            "api": 1,
+            "zh": "巡检任务",
+            "parents": [
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "post": 2,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "标题",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "statu",
+                    "type": "int",
+                    # "length": "64",
+                    "post": 1,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "处理状态，1未开始，2进行中,3巡检完成,4已评分",
+                    "corres": [
+                        {'key': 1, 'value': "未开始"},
+                        {'key': 2, 'value': "进行中"},
+                        {'key': 3, 'value': "巡检完成"},
+                        {'key': 4, 'value': "已评分"},
+                    ],
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    # "length": "64",
+                    "post": 1,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 1,  # 请求列表必须post的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "巡检类型，1日常巡检，2周期巡检",
+                    "corres": [
+                        {'key': 1, 'value': "日常巡检"},
+                        {'key': 2, 'value': "周期巡检"},
+                        {'key': 3, 'value': "专项巡检"},
+                        {'key': 4, 'value': "应急巡检"},
+                    ],
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "描述",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "users",
+                    "type": "JSON",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 0,  # 请求列表可以用来筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "默认自定义可变参数，在创建传感器时可以复用",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": "[]",
+                        },
+                    ],
+                },
+                {
+                    "name": "start_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 2,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "开始时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "end_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 2,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "截止时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "scale",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "综合评分",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "advice",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "处理建议",
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "id",
+        },  # 巡检任务
+        {
+            "table": "Inspect",
+            "api": 1,
+            "zh": "巡检记录",
+            "parents": [
+                {
+                    "name": "Inspectwork",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "巡检任务id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "巡检任务名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },
+                    ],
+                },
+                {
+                    "name": "User",
+                    "index": "id",
+                    "type": "int",
+                    "post": 0,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "用户id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "用户名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "post": 2,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "标题",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "statu",
+                    "type": "bool",
+                    # "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "处理状态，1已处理，0未处理",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "描述",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "detect_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "巡检时间，不提交则会记录为提交时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "id",
+        },  # 巡检记录
+        {
+            "table": "Disease",
+            "api": 1,
+            "zh": "病害记录",
+            "parents": [
+                {
+                    "name": "Inspect",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "病害id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+
+                            "mean": "巡检记录标题"
+                        },
+                    ],
+                },
+                {
+                    "name": "Sick",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "病害id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "病害名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Sickscale",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "标度id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "about",
+                            "type": "str",
+                            "mean": "得分描述"
+                        },
+                    ],
+                },
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "桥梁id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "桥梁名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Component",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "构件id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "sn",
+                            "type": "str",
+                            "mean": "构件名"
+                        },
+                    ],
+                },
+
+            ],
+            "args": [
+                {
+                    "name": "statu",
+                    "type": "bool",
+                    # "length": "64",
+                    "post": 2,  # 创建时候必须填写的参数int
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "处理状态，1已处理，0未处理",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "scale",
+                    "type": "float",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "得分",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "about",
+                    "type": "text",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "描述",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "detect_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 0,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "病害记录时间，不提交则会记录为提交时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "id",
+        },  # 病害记录
+        {
+            "table": "Diseimg",
+            "api": 1,
+            "zh":"病害图片",
+            "crud":['post','put','delete'],
+            "parents": [
+                {
+                    "name": "Disease",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "病害记录id",
+                },
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "256",
+                    "need": 0,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片地址",
+                    "args": [
+                    ],
+                },
+
+            ],
+            "repr": "name",
+        },  # 病害图片
+        {
+            "table": "Part",
+            "api": 1,
+            "zh": "基础设施部位",
+            "parents": [
+                {
+                    "name": "Buildtype",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "基础设施种类id",
+                },
+
+            ],
+            "args": [
+                {
+                    "name": "name",
+                    "type": "str",
+                    "length": "64",
+                    "unique": 1,
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "名",
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # 基础设施部位
+        {
+            "table": "Component",
+            "api": 1,
+            "zh": "构件",
+            "many":[
+            ],
+            "parents": [
+                {
+                    "name": "Part",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "部位id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "部位名"
+                        },
+                    ],
+                },
+                {
+                    "name": "Bridge",
+                    "index": "id",
+                    "type": "int",
+                    "post": 2,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "mean": "建筑id",
+                    "show": [  # 放在api当中显示的参数
+                        {
+                            "name": "name",
+                            "type": "str",
+                            "mean": "建筑名"
+                        },
+                    ],
+                },
+            ],
+            "args": [
+                {
+                    "name": "sn",
+                    "type": "str",
+                    "length": "64",
+                    "post": 1,  # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 1,  # 是否支持模糊查找
+                    "sorter": 1,
+                    "mean": "构件编号",
+                    "args": [
+                    ],
+                },
+                {
+                    "name": "disea",
+                    "type": "bool",
+                    "need": 0,  # 创建时候可以填写的参数
+                    # 创建时候必须填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "是否有病害",
+                    "args": [
+                        {
+                            "name": "default",
+                            "value": 0,
+                        },
+                    ],
+                },
+                {
+                    "name": "detect_time",
+                    "type": "time",
+                    "length": "",
+                    "post": 1,  # 创建时候可以填写的参数
+                    "putneed": 1,  # 修改时可以修改的参数
+                    "listneed": 1,  # 请求列表可以用来筛选，只要有这个时候，不可创建也可筛选
+                    "listmust": 0,  # 请求列表必须post的参数
+                    "like": 0,  # 是否支持模糊查找
+                    "mean": "上一次检查时间",
+                    "sorter": 1,
+                    "args": [
+                    ],
+                },
+            ],
+            "repr": "name",
+        },  # 构件
+        {
             "table": "Contact",
             "api": 1,
             "zh": "应急联络网",
@@ -1985,7 +2656,6 @@ project_json = {
                 {
                     "name": "about",
                     "type": "text",
-   #                 "length": "64",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数

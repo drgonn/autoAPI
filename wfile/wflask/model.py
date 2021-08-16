@@ -89,7 +89,7 @@ def make_models(appdir,app):
             if show is not None:
                 for sho in show:
                     s_name = sho['name']
-                    w.write(f"\t\t\t'{parentname.lower()}_{s_name}' : self.{parentname.lower()}.{s_name},\n")
+                    w.write(f"\t\t\t'{parentname.lower()}_{s_name}' : self.{parentname.lower()}.{s_name} if self.{parentname.lower()} else None,\n")
         w.write(f"\t\t}}\n")
         if table.get('detail_sons') is not None:
             w.write(f"\tdef to_detail(self):\n")

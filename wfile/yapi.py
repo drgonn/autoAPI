@@ -33,7 +33,7 @@ def write_yapi(root, ojson):
             gp['list'] = []
             # gp[''] = 0
             for typezh, method, p, argaddr in crud:
-                path = f"/api/v1/{app}/{tablename}"
+                path = f"/{tablename}"
                 bean = False
                 pjson = {}
                 query = [{
@@ -127,7 +127,7 @@ def write_yapi(root, ojson):
                     rstr = json.dumps(sjson)
 
                     for column in table.get('parents'):
-                        if column.get('postmust') and column.get('name') != 'User':
+                        if column.get('post') and column.get('name') != 'User':
                             argname = column.get('name').lower() + "_id"
                             argtype = column.get('type')
                             argmean = column.get('mean')
@@ -179,7 +179,7 @@ def write_yapi(root, ojson):
                             ytype = Tdb(argtype).db.lower()
                             pjson["properties"][argname] = {"type": ytype, "description": argmean}
                     for column in table.get('parents'):
-                        if column.get('postmust') and column.get('name') != 'User':
+                        if column.get('post') and column.get('name') != 'User':
                             argname = column.get('name').lower() + "_id"
                             argtype = column.get('type')
                             argmean = column.get('mean')
@@ -196,7 +196,7 @@ def write_yapi(root, ojson):
 
                 if p == '/<id>':
                     id = random_arg("int")
-                    path += f'/id'
+                    path += '/{{}'
                 else:
                     id = False
                     path += p
@@ -235,11 +235,12 @@ def single_str(zh, typezh, host, port, protocol, path, method, pjson, tablename,
         "method": method,
         "desc": "",
         "req_query": [
-            # {
-            #     "required": "0",
-            #     "_id": "5fa39b1d6935300090607d79",
-            #     "name": "token"
-            # }
+            {
+                "required": "1",
+                "_id": "6052fca844868a00946ae536",
+                "name": "token",
+                "desc": ""
+            }
         ],
         "req_headers": [
             {

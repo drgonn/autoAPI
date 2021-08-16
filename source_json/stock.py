@@ -868,6 +868,11 @@ project_json = {
                             "type": "str",
                             "mean":"股名"
                         },
+                        {
+                            "name": "id",
+                            "type": "int",
+                            "mean": "ID"
+                        },
                     ],
                 },
                 {

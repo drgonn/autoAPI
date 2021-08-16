@@ -128,8 +128,9 @@ from sqlalchemy import func
         w.write(f"\texcept Exception as e:\n\t\tdb.session.rollback()\n")
         w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
         w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
-        w.write(f"""\n\treturn jsonify({{'success':True,
-                    'error_code':0,
+        w.write(f"""\n\treturn jsonify({{'success': True,
+                    'error_code': 0,
+                    'id': {tablename}.id,
                     }})""")
         w.write(f"\n\n")
 
