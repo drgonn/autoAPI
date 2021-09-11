@@ -330,7 +330,7 @@ project_json = {
                     "mean": "邮箱是否绑定",
                     "args": [
                     ],
-                    "corres": [
+                    "mapping": [
                         {'key': 1, 'value': "已绑定"},
                         {'key': 0, 'value': "未绑定"},
                     ],

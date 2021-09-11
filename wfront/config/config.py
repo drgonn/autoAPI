@@ -77,9 +77,9 @@ def w_config_config(root,ojson):
 	w.write(f"""            {{\n""")
 	w.write(f"""              path: '/',\n""")
 	path = routes[0].get('path')
-	table_name = routes[0]['components'][0].get("table")
-	print("tablename",table_name)
-	w.write(f"""              redirect: '/{appname}/{table_name.lower()}',\n""")
+	names = routes[0]['components'][0].get("table")
+	print("tablename",names)
+	w.write(f"""              redirect: '/{appname}/{names.lower()}',\n""")
 	w.write(f"""            }},\n""")
 	for route in routes:
 		if route.get('components'):   #说明是菜单，不是最终标签
@@ -94,24 +94,24 @@ def w_config_config(root,ojson):
 			w.write(f"""              routes: [\n""")
 			if son_routes == "all":
 				for table in databases:
-					table_name = table.get('table')
-					if table_name == "User":
+					names = table.get('table')
+					if names == "User":
 						continue
 					w.write(f"""                {{\n""")
-					w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
+					w.write(f"""                  path: '/{path}/{names.lower()}',\n""")
 					w.write(f"""                  name: '{table.get('zh')}',\n""")
-					w.write(f"""                  component: './{appname}/{table_name.lower()}',\n""")
+					w.write(f"""                  component: './{appname}/{names.lower()}',\n""")
 					w.write(f"""                }},\n""")
 				w.write(f"""              ]\n""")
 				w.write(f"""            }},\n""")
 				break
 			for son_route in son_routes:
-				table_name = son_route.get("table")
-				table = databases_dir.get(table_name)
+				names = son_route.get("table")
+				table = databases_dir.get(names)
 				w.write(f"""                {{\n""")
-				w.write(f"""                  path: '/{path}/{table_name.lower()}',\n""")
+				w.write(f"""                  path: '/{path}/{names.lower()}',\n""")
 				w.write(f"""                  name: '{table.get('zh')}',\n""")
-				w.write(f"""                  component: './{appname}/{table_name.lower()}',\n""")
+				w.write(f"""                  component: './{appname}/{names.lower()}',\n""")
 				w.write(f"""                }},\n""")
 			w.write(f"""              ]\n""")
 

@@ -951,7 +951,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "分组类型",
                     "filter": "precise",
-                    "corres": [
+                    "mapping": [
                         {'key':1,'value':"自选"},
                         {'key':2,'value':"行业"},
                         {'key':3,'value':"概念"},

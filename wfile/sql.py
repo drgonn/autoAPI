@@ -1,6 +1,9 @@
 import os
 from tools import Tdb
-import pymysql
+try:
+    import pymysql
+except:
+    print("沒有安裝pysql，不自动创建数据库，想要创建数据库请填入正确数据库信息并安装pysql")
 
 
 

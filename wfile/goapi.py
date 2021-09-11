@@ -124,7 +124,10 @@ def write_goapis(root,ojson):
                 pass
             elif parent.get('post'):
                 index = parent.get('index')
-                argname = f"{parenttablename}{parent.get('index').capitalize()}"
+                try:
+                    argname = f"{parenttablename}{parent.get('index').capitalize()}"
+                except AttributeError:
+                    print("某个表的parent灭有index",parent)
                 w.write(f'\tvar {parentname.lower()} {parentname}\n')
                 w.write(f'\t{parentname.lower()}ID := {tablename}.{parentname}ID\n')
                 w.write(f'\tdb.First(&{parentname.lower()}, {parentname.lower()}ID)\n')

@@ -4,6 +4,7 @@ import json
 import string
 import html
 import urllib
+from copy import deepcopy
 
 
 def write_postman(root, ojson):
@@ -21,7 +22,8 @@ def write_postman(root, ojson):
         ],
         "protocolProfileBehavior": {}
     }
-    testdoc = os.path.join(root, f'{app}/test/postman_reset.json')
+
+    testdoc = os.path.join(root, f'{app}/test/postman_all_reset.json')
     w = open(testdoc, 'w+')
     crud = [("创建", "POST", '', False),
             ("列表", "GET", '/list', '$.data.records[-1].id'),
@@ -33,6 +35,19 @@ def write_postman(root, ojson):
         if table.get('api'):
             zh = table.get('zh')
             tablename = table.get("table").lower()
+            test_son_doc = os.path.join(
+                root, f'{app}/test/postman_json/{tablename}.json')
+            sonfile = open(test_son_doc, 'w+')
+            sonr = {
+                "info": {
+                    "_postman_id": "17c8561c-5131-404e-98ef-1a2c52be6c09",
+                    "name": app + " reset",
+                    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+                },
+                "item": [
+                ],
+                "protocolProfileBehavior": {}
+            }
 
             for typezh, method, p, argaddr in crud:
                 path = f"/api/v1/order/{tablename}"
@@ -58,9 +73,9 @@ def write_postman(root, ojson):
                 elif typezh == "列表":
                     sorter = {}
                     # sorter = urllib.parse.urlencode({})
-                    query.append({'key':'current','value':'1'})
-                    query.append({'key':'pageSize','value': '6'})
-                    query.append({'key':'sorter','value': "%7B%7D"})
+                    query.append({'key': 'current', 'value': '1'})
+                    query.append({'key': 'pageSize', 'value': '6'})
+                    query.append({'key': 'sorter', 'value': "%7B%7D"})
                     bean = f"{table.get('table')}_id"
                 elif typezh == "修改":
                     pjson = {}
@@ -70,7 +85,7 @@ def write_postman(root, ojson):
                             argtype = column.get('type')
                             pjson[argname] = random_arg(argtype)
                 elif typezh == "删除":
-                    pjson = {"ids":[1,2]}
+                    pjson = {"ids": [1, 2]}
                 pjsonstr = json.dumps(pjson)
                 # pjsonstr = html.escape(pjsonstr)
                 if p == '/<id>':
@@ -82,13 +97,16 @@ def write_postman(root, ojson):
                 single_api = single_str(zh, typezh, host, port, protocol, path, method, pjsonstr, tablename, id, app,
                                         query)
                 r["item"].append(single_api)
+                sonr["item"].append(single_api)
+            sjs = json.dumps(sonr)
+            sonfile.write(sjs)
+            sonfile.close()
 
     js = json.dumps(r)
 
     w.write(js)
     w.close()
     print(":--postman运行完成")
-
 
 
 def single_str(zh, typezh, host, port, protocol, path, method, pjson, tablename, id, appname, query):

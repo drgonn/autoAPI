@@ -83,8 +83,8 @@ def write_docs(root,ojson):
             if column.get('post'):
                 argname = column.get('name')
                 argmean = column.get('mean')
-                if column.get('corres'):
-                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('corres')])
+                if column.get('mapping'):
+                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
                 postmust = '是' if column.get('post') == 2 else '否'
                 d.write(f"|{argname}|{argtype}|{postmust}|{argmean}|\n")
@@ -119,8 +119,8 @@ def write_docs(root,ojson):
             if column.get('putneed'):
                 argname = column.get('name')
                 argmean = column.get('mean')
-                if column.get('corres'):
-                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('corres')])
+                if column.get('mapping'):
+                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
                 d.write(f"|{argname}|{argtype}|否|{argmean}|\n")
         for parent in table.get('parents'):
@@ -169,8 +169,8 @@ def write_docs(root,ojson):
                     continue
                 argname = column.get('name')
                 argmean = column.get('mean')
-                if column.get('corres'):
-                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('corres')])
+                if column.get('mapping'):
+                    argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
                 alistmust = '是' if column.get('listmust') else '否'
                 if filter == "like":

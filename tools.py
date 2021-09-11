@@ -108,8 +108,11 @@ def make_tree(root,app,blues):             #建立所有文件夹
     mkdir(path)
     mkdir(os.path.join(path,'doc'))
     mkdir(os.path.join(path,'test'))
+    mkdir(os.path.join(path,'test/postman_json'))
+    mkdir(os.path.join(path,'test/yapi'))
     mkdir(os.path.join(path,'src'))
     mkdir(os.path.join(path,'src/app'))
+    mkdir(os.path.join(path,'src/models'))
     mkdir(os.path.join(path,'src/statics'))
     mkdir(os.path.join(path,'src/app/admin'))
     mkdir(os.path.join(path,'src/app/tools'))
@@ -137,5 +140,18 @@ def replace_file(file,source,target):
     f.close()
 
 
-
+def name_convert(name: str) -> str:
+    """驼峰式命名和下划线式命名互转"""
+    is_camel_name = True  # 是否为驼峰式命名
+    if re.match(r'[a-z][_a-z]+$', name):
+        is_camel_name = False
+    elif re.match(r'[a-zA-Z]+$', name) is None:
+        raise ValueError(f'Value of "name" is invalid: {name}')
+    if is_camel_name:  # 驼峰转下划线
+        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name).lower()
+    else:  # 下划线转驼峰
+        contents = re.findall('_[a-z]+', name)
+        for content in contents:
+            name = name.replace(content, content[1:].title())
+    return name
 

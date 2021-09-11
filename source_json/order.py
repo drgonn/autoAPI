@@ -151,7 +151,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "运营商分类",
                     "filter": "precise",
-                    "corres": [
+                    "mapping": [
                         {'key':1,'value':"移动"},
                         {'key':2,'value':"联通"},
                         {'key':3,'value':"电信"},
@@ -303,7 +303,7 @@ project_json = {
                 #     "listmust": 0,  # 请求列表必须post的参数
                 #     "mean": "流量大小（M）",
                 #     "filter": "precise",
-                #     "corres": [
+                #     "mapping": [
                 #         {'key': 1, 'value': "套餐续费"},
                 #         {'key': 2, 'value': "发卡"},
                 #         {'key': 3, 'value': "流量包购买"},
@@ -372,7 +372,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "运营商分类",
                     "filter": "precise",
-                    "corres": [
+                    "mapping": [
                         {'key':1,'value':"移动"},
                         {'key':2,'value':"联通"},
                         {'key':3,'value':"电信"},
@@ -406,7 +406,7 @@ project_json = {
                     "listmust": 0,  # 请求列表必须post的参数
                     "mean": "共享类型",
                     "filter": "precise",
-                    "corres": [
+                    "mapping": [
                         {'key': 'true', 'value': "共享"},
                         {'key': 'false', 'value': "独享"},
                     ],

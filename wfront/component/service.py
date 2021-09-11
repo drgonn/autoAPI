@@ -25,7 +25,7 @@ def w_component_service(root, ojson):
             if component_name == "User":
                 continue
             table = databases_dir[component_name]
-            crud = table.get('crud')
+            crud = table.get('crud') or []
             os.makedirs(os.path.join(root, f'src/pages/{appname}/{component_name.lower()}'), exist_ok=True)
             initdir = os.path.join(root, f'src/pages/{appname}/{component_name.lower()}/service.ts')
             w = open(initdir, 'w+')

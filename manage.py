@@ -10,7 +10,6 @@ from tools import make_tree
 from wfile.goapi import write_goapis, write_goapi_init
 from wfile.gomodel import make_gomodels
 
-from wfile.wflask.model import make_models
 from wfile.postman import write_postman
 from wfile.yapi import write_yapi
 from wfile.structure import write_deploy, write_model_doc_plant
@@ -22,19 +21,22 @@ from wfile.sql import sql_start
 from wfront import w_front
 from wfile.wflask import w_flask
 
+from wclass.wclass import Project
+
 
 # ojson = order.temp_json
 module_dir = {
-    'flask':w_flask,
+    'flask': w_flask,
     'doc': w_docs,
     'postman': write_postman,
     'yapi': write_yapi,
-    'ant': w_front,
+    # 'ant': w_front,  编写前端的接口，暂时注释
 
 }
-default_modules = ['flask','go','postman','doc','ant','yapi']
+default_modules = ['flask', 'go', 'postman', 'doc', 'ant', 'yapi']
 
-def run(ojson,path=False,modules=default_modules):
+
+def run(ojson, path=False, modules=default_modules):
     """
     :param ojson:
     :param path: 要更新的文件夹位置，也就是app：stock或bridge的上级目录，不填默认False时，代表的既是内部的work文件夹
@@ -43,60 +45,67 @@ def run(ojson,path=False,modules=default_modules):
     """
     if not path:
         root = os.path.abspath(os.path.dirname(__file__))
-        root = os.path.join(root,'work')
+        root = os.path.join(root, 'work')
+        new_root = os.path.join(root, 'new_work')
     else:
         root = path
     # root = "/mnt/c/Users/dron/OneDrive/work/"
     # res = dict_to_object(ojson)
     # print(res.database[0].table)
-    app     = ojson.get('app')
-    blues   = ojson.get('blues')
+    app = ojson.get('app')
+    blues = ojson.get('blues')
 
-    make_tree(root,app,blues)          #建立文件夹
-    appdir = os.path.join(root,f'{app}/src/app')
-    make_models(appdir,ojson)
+    make_tree(root, app, blues)  # 建立文件夹
 
+    write_model_doc_plant(root, ojson)
 
-    write_model_doc_plant(root,ojson)
+    write_test(root, ojson)
+    write_xmind(root, ojson)
 
-    write_test(root,ojson)
-    write_xmind(root,ojson)
-
-    godir = os.path.join(root,f'{app}/go/src')
-    make_gomodels(godir,ojson)
-    write_goapi_init(root,ojson)
-    write_goapis(root,ojson)
+    godir = os.path.join(root, f'{app}/go/src')
+    make_gomodels(godir, ojson)
+    write_goapi_init(root, ojson)
+    write_goapis(root, ojson)
 
     for w in modules:
         m = module_dir.get(w)
         if m:
-            m(root,ojson)
+            m(root, ojson)
 
+    # 全新class 写入方法,以后全在这里了
+    make_tree(new_root, app, blues)  # 建立文件夹
+    p = Project(new_root, ojson)
+    p.run()
+
+
+try:
     sql_start(ojson)
+except:
+    print("沒有安裝pysql，不自动创建数据库，想要创建数据库请填入正确数据库信息并安装pysql")
 
 
-
-pjson   = pay.project_json         #执行支付系统
-appjson = app.project_json         #执行应用
-bri     = bridge.project_json
-stock   = stock.project_json
-oee   = oee.project_json
-user1   = user1.project_json
-order   = order.project_json
+pjson = pay.project_json  # 执行支付系统
+appjson = app.project_json  # 执行应用
+bri = bridge.project_json
+stock = stock.project_json
+oee = oee.project_json
+user1 = user1.project_json
+order = order.project_json
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+print(basedir)
 f = re.match("/mnt/c/Users/(\w*)/", basedir)
-user = f.group(1)
+# user = f.group(1)
 # run(bri,path=f"/mnt/c/Users/{user}/Documents/mynut")
 
 source_dir = {
-    "bridge":bri,
-    "stock":stock,
+    "bridge": bri,
+    "stock": stock,
     "oee": oee,
     "user": user1,
     "order": order,
+    "pay": pjson,
 }
-
 
 
 def main(argv):
@@ -104,7 +113,8 @@ def main(argv):
     module = ""
     target_dir = ""
     try:
-        opts, args = getopt.getopt(argv, "hs:m:d:", ["help", "source=", "module=","target_dir="])
+        opts, args = getopt.getopt(
+            argv, "hs:m:d:", ["help", "source=", "module=", "target_dir="])
     except getopt.GetoptError:
         print('Error: test_arg.py -s <source> -m <module>')
         print('   or: test_arg.py --source=<source> --module=<module>')
@@ -121,7 +131,7 @@ def main(argv):
         elif opt in ("-m", "--module"):
             module = arg
         elif opt in ("-d", "--target_dir"):
-            print("opt",opts)
+            print("opt", opts)
             target_dir = arg
     print('source为：', source)
     print('module为：', args)
@@ -136,13 +146,9 @@ def main(argv):
         if source_json is None:
             print('Error: source json 不存在')
         else:
-            run(source_dir.get(source),path,args)
-
-
+            run(source_dir.get(source), path, args)
 
 
 if __name__ == "__main__":
     # sys.argv[1:]为要处理的参数列表，sys.argv[0]为脚本名，所以用sys.argv[1:]过滤掉脚本名。
     main(sys.argv[1:])
-
-

@@ -4,9 +4,23 @@ import os
 
 
 def write_apis(root,ojson):
+    tab = "    "
     app = ojson.get('app')
     appdir = os.path.join(root, f'{app}/src/app')
+
     for table in ojson.get('databases'):
+        target_str_list=[]
+        import_list = []  
+        api_get_list=[]
+        api_post_list=[]
+        api_put_list=[]
+        api_delete_list=[]
+        api_list_list=[]
+        commit_get_list=[]
+        commit_post_list=[]
+        commit_put_list=[]
+        commit_delete_list=[]
+        commit_list_list=[]
         if not table.get('api'):
             continue
         tableclass = table.get('table')
@@ -29,264 +43,286 @@ from flask import request, jsonify, current_app, g
 from sqlalchemy import func
 
 """
-        w.write(im)
-        w.write(f"from app.models import {tableclass}")
+        import_list.append(im)
+        import_list.append(f"from app.models import {tableclass}")
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            w.write(f",{parentname}")
+            import_list.append(f",{parentname}")
         if table.get('many'):
             for many in table.get('many'):
                 manyclass = many.get('name')
-                w.write(f",{manyclass}")
-        w.write("\n\n")
+                import_list.append(f",{manyclass}")
+        import_list.append("\n\n")
+
 
         for column in table.get('args'):
             argname = column.get('name')
 
-        w.write(f"@api.route('/{tablename}/<int:id>', methods=['GET'])\n")
-        w.write(f"def get_{tablename}(id):\n")
-        w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+        api_get_list.append(f"\n@api.route('/{tablename}/<int:id>', methods=['GET'])\n")
+        api_get_list.append(f"def get_{tablename}(id):\n")
+        commit_get_list.append(f'{tab*1}"""get单个{zh}接口\n\n')
+        commit_get_list.append(f'{tab*1}Params:\n')
+        commit_get_list.append(f'{tab*2}id: {zh}ID\n')
+        commit_get_list.append(f'{tab*1}Returns:\n')
+        commit_get_list.append(f'{tab*2}success: bool类型，请求成功与否\n')
+        commit_get_list.append(f'{tab*2}error_code: int类型，错误代码，成功为0\n')
+        commit_get_list.append(f'{tab*2}records: 对象，{zh}的详细参数\n')
+        commit_get_list.append(f'{tab*1}"""\n')
+        api_get_list.append(f"{tab}{tablename} = {tableclass}.query.get_or_404(id)\n")
         to_what = 'to_json' #if table.get('nodetail') else 'to_detail'
 
-        w.write(f"""\n\treturn jsonify({{'success':True,
-                    'error_code':0,
-                    'records':{tablename}.{to_what}(),
+        api_get_list.append(f"""\n{tab}return jsonify({{'success': True,
+                    'error_code': 0,
+                    'records': {tablename}.{to_what}(),
                     }})""")
-        w.write(f"\n\n")
+        api_get_list.append(f"\n\n")
 
-
-        w.write(f"@api.route('/{tablename}', methods=['POST'])\n")
-        w.write(f"def create_{tablename}():\n")
-        w.write(f"\tprint(request.json)\n")
+        api_post_list.append(f"@api.route('/{tablename}', methods=['POST'])\n")
+        api_post_list.append(f"def create_{tablename}():\n")
+        commit_post_list.append(f'{tab*1}"""post创建单个{zh}接口\n\n')
+        commit_post_list.append(f'{tab*1}requests:\n')
+        commit_post_list.append(f'{tab*1}Returns:\n')
+        commit_post_list.append(f'{tab*2}success: bool类型，请求成功与否\n')
+        commit_post_list.append(f'{tab*2}error_code: int类型，错误代码，成功为0\n')
+        commit_post_list.append(f'{tab*2}id: {zh}ID\n')
+        commit_post_list.append(f'{tab*1}"""\n')
+        api_post_list.append(f"{tab}print(request.json)\n")
         for column in table.get('args'):
             if column.get('post') or column.get("file"):
                 argname = column.get('name')
-                w.write(f"\t{argname} = request.json.get('{argname}')\n")
+                argmean = column.get('mean')
+                api_post_list.append(f"{tab}{argname} = request.json.get('{argname}')\n")
+                commit_post_list.insert(2, f"{tab*2}{argname}: {argmean}\n")
             if column.get('postmust'):
-                w.write(f"\tif {argname} is None:\n")
-                w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
+                api_post_list.append(f"{tab}if {argname} is None:\n")
+                api_post_list.append(f"{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
+            parentmean = parent.get('mean')
             parenttablename = parentname.lower()
             if parent.get('name') == 'User':
-                w.write(f"\t{parenttablename} = g.current_user\n ")
+                api_post_list.append(f"{tab}{parenttablename} = g.current_user\n ")
             elif parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}_{parent.get('index')}"
-                w.write(f"\n\t{argname} = request.json.get('{argname}')\n")
+                api_post_list.append(f"\n{tab}{argname} = request.json.get('{argname}')\n")
+                must = "，非必填"
                 if parent.get('post')==2:
-                    w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
-                    w.write(f"\n\tif {parenttablename} is None:\n")
-                    w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
-                    w.write(f"\t\n")
-        w.write(f"\n\t{tablename} = {tableclass}(")
+                    api_post_list.append(f"{tab}{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n ")
+                    api_post_list.append(f"\n{tab}if {parenttablename} is None:\n")
+                    api_post_list.append(f"""{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+                    api_post_list.append(f"{tab}\n")
+                    must= "，必填"
+
+                commit_post_list.insert(2, f"{tab*2}{parenttablename}_{parent.get('index')}: {parentmean}{must}\n")
+        api_post_list.append(f"\n{tab}{tablename} = {tableclass}(")
         for column in table.get('args'):
             if column.get('post') or column.get("file"):
                 argname = column.get('name')
-                w.write(f"{argname}={argname},")
+                api_post_list.append(f"{argname}={argname},")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('post'):
-                w.write(f"{parenttablename}_id={parenttablename}.id,")
+                api_post_list.append(f"{parenttablename}_id={parenttablename}.id,")
         if table.get('appfilter'):
-            w.write(f"app_id=g.app.id,")
-        w.write(f")\n")
+            api_post_list.append(f"app_id=g.app.id,")
+        api_post_list.append(f")\n")
 
         for column in table.get('args'):
             if column.get('file'):
                 argname = column.get('name')
-                w.write(f"""\tstatic_folder = current_app.config['STATIC_FOLDER']\n""")
-                w.write(f"""\tuser_dir = os.path.join(static_folder, 'user_folder', f"{{g.current_user.uid}}")\n""")
-                w.write(f"""\ttmp_file_path = os.path.join(user_dir, {argname})\n""")
-                w.write(f"""\tif not os.path.exists(tmp_file_path):\n""")
-                w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'文件{{tmp_file_path}}不存在'}})\n""")
+                api_post_list.append(f"""{tab}static_folder = current_app.config['STATIC_FOLDER']\n""")
+                api_post_list.append(f"""{tab}user_dir = os.path.join(static_folder, 'user_folder', f"{{g.current_user.uid}}")\n""")
+                api_post_list.append(f"""{tab}tmp_file_path = os.path.join(user_dir, {argname})\n""")
+                api_post_list.append(f"""{tab}if not os.path.exists(tmp_file_path):\n""")
+                api_post_list.append(f"""{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':f'文件{{tmp_file_path}}不存在'}})\n""")
 
         if table.get("many"):
             for many in table.get('many'):
                 manyclass = many.get('name')
                 manyname = many.get('name').lower()
-                w.write(f"\n\t{manyname}_ids = request.json.get('{manyname}_ids') or []\n")
-                w.write(f"\tfor {manyname}_id in {manyname}_ids:\n")
-                w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id)\n")
-                w.write(f"\t\tif {manyname} is None:\n")
-                w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
-                w.write(f"\t\t{tablename}.{manyname}s.append({manyname})\n")
-                w.write(f"\t\n")
+                api_post_list.append(f"\n{tab}{manyname}_ids = request.json.get('{manyname}_ids') or []\n")
+                api_post_list.append(f"{tab}for {manyname}_id in {manyname}_ids:\n")
+                api_post_list.append(f"{tab}{tab}{manyname} = {manyclass}.query.filter_by(id={manyname}_id)\n")
+                api_post_list.append(f"{tab}{tab}if {manyname} is None:\n")
+                api_post_list.append(f"{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+                api_post_list.append(f"{tab}{tab}{tablename}.{manyname}s.append({manyname})\n")
+                api_post_list.append(f"{tab}\n")
 
-        w.write(f"\n\tdb.session.add({tablename})\n")
-        w.write(f"\ttry:\n\t\tdb.session.commit()\n")
+        api_post_list.append(f"\n{tab}db.session.add({tablename})\n")
+        api_post_list.append(f"{tab}try:\n{tab}{tab}db.session.commit()\n")
         for column in table.get('args'):
             if column.get('file'):
                 argname = column.get('name')
-                w.write(f"""\t\tdst_dir = os.path.join(static_folder, '{tablename}{argname}', f"{{{tablename}.id}}")\n""")
-                w.write(f"""\t\tdst_file_path = os.path.join(dst_dir, {argname})\n""")
-                w.write(f"""\t\tos.makedirs(dst_dir,exist_ok=True)\n""")
-                w.write(f"""\t\tshutil.move(tmp_file_path,dst_file_path)\n""")
-                w.write(f"""\t\tshutil.rmtree(user_dir)\n""")
+                api_post_list.append(f"""{tab}{tab}dst_dir = os.path.join(static_folder, '{tablename}{argname}', f"{{{tablename}.id}}")\n""")
+                api_post_list.append(f"""{tab}{tab}dst_file_path = os.path.join(dst_dir, {argname})\n""")
+                api_post_list.append(f"""{tab}{tab}os.makedirs(dst_dir,exist_ok=True)\n""")
+                api_post_list.append(f"""{tab}{tab}shutil.move(tmp_file_path,dst_file_path)\n""")
+                api_post_list.append(f"""{tab}{tab}shutil.rmtree(user_dir)\n""")
 
-        w.write(f"\texcept Exception as e:\n\t\tdb.session.rollback()\n")
-        w.write(f"\t\tlogging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
-        w.write(f"""\n\treturn jsonify({{'success': True,
+        api_post_list.append(f"{tab}except Exception as e:\n{tab}{tab}db.session.rollback()\n")
+        api_post_list.append(f"{tab}{tab}logging.error(f'添加数据库发生错误,已经回退:{{e}}')\n")
+        api_post_list.append(f"{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': '数据库插入错误，请查看日志'}})\n")
+        api_post_list.append(f"""\n{tab}return jsonify({{'success': True,
                     'error_code': 0,
                     'id': {tablename}.id,
                     }})""")
-        w.write(f"\n\n")
+        api_post_list.append(f"\n\n")
 
 
 
-        w.write(f"@api.route('/{tablename}/<int:id>', methods=['PUT'])\n")
-        w.write(f"def modify_{tablename}(id):\n")
-        w.write(f"\tprint('put json:',request.json)\n")
-        w.write(f"\t{tablename} = {tableclass}.query.get_or_404(id)\n")
+        api_put_list.append(f"@api.route('/{tablename}/<int:id>', methods=['PUT'])\n")
+        api_put_list.append(f"def modify_{tablename}(id):\n")
+        api_put_list.append(f"{tab}print('put json:',request.json)\n")
+        api_put_list.append(f"{tab}{tablename} = {tableclass}.query.get_or_404(id)\n")
         for column in table.get('args'):
             if column.get('putneed'):
                 argname = column.get('name')
                 if argname == "id":
-                    w.write(f"\tnew_{argname} = request.json.get('new_{argname}')\n")
+                    api_put_list.append(f"{tab}new_{argname} = request.json.get('new_{argname}')\n")
                 else:
-                    w.write(f"\t{argname} = request.json.get('{argname}')\n")
+                    api_put_list.append(f"{tab}{argname} = request.json.get('{argname}')\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('putneed'):
                 index = parent.get('index')
                 argname = f"{parenttablename}_{parent.get('index')}"
-                w.write(f"\t{argname} = request.json.get('{argname}')\n")
-                w.write(f"\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
-                w.write(f"\tif {parenttablename} is None:\n")
-                w.write(f"""\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
-                w.write(f"\t\n")
+                api_put_list.append(f"{tab}{argname} = request.json.get('{argname}')\n")
+                api_put_list.append(f"{tab}{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+                api_put_list.append(f"{tab}if {parenttablename} is None:\n")
+                api_put_list.append(f"""{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})""")
+                api_put_list.append(f"{tab}\n")
 
         for column in table.get('args'):
             if column.get('putneed'):
                 argname = column.get('name')
                 if argname == "id":
-                    w.write(f"\t{tablename}.{argname} = new_{argname} or {tablename}.{argname}\n")
+                    api_put_list.append(f"{tab}{tablename}.{argname} = new_{argname} or {tablename}.{argname}\n")
                 else:
-                    w.write(f"\t{tablename}.{argname} = {argname} or {tablename}.{argname}\n")
+                    api_put_list.append(f"{tab}{tablename}.{argname} = {argname} or {tablename}.{argname}\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('putneed'):
-                w.write(f"\t{tablename}.{parenttablename}_id = {parenttablename}.id\n")
+                api_put_list.append(f"{tab}{tablename}.{parenttablename}_id = {parenttablename}.id\n")
         if table.get("many"):
             for many in table.get('many'):
                 if many.get('add_api'):
                     manyclass = many.get('name')
                     manyname = many.get('name').lower()
-                    w.write(f"\n\tadd_{manyname}_ids = request.json.get('add_{manyname}_ids')\n")
-                    w.write(f"\tif add_{manyname}_ids:\n")
-                    w.write(f"\t\toriginal_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
-                    w.write(f"\t\tnew_ids = list(set(add_{manyname}_ids).difference(set(original_ids)))\n")
-                    w.write(f"\t\tfor {manyname}_id in new_ids:\n")
-                    w.write(f"\t\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                    w.write(f"\t\t\tif {manyname} is None:\n")
-                    w.write(f"\t\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
-                    w.write(f"\t\t\t{tablename}.{manyname}s.append({manyname})\n")
+                    api_put_list.append(f"\n{tab}add_{manyname}_ids = request.json.get('add_{manyname}_ids')\n")
+                    api_put_list.append(f"{tab}if add_{manyname}_ids:\n")
+                    api_put_list.append(f"{tab}{tab}original_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
+                    api_put_list.append(f"{tab}{tab}new_ids = list(set(add_{manyname}_ids).difference(set(original_ids)))\n")
+                    api_put_list.append(f"{tab}{tab}for {manyname}_id in new_ids:\n")
+                    api_put_list.append(f"{tab}{tab}{tab}{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                    api_put_list.append(f"{tab}{tab}{tab}if {manyname} is None:\n")
+                    api_put_list.append(f"{tab}{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{manyname}ID不存在'}})\n")
+                    api_put_list.append(f"{tab}{tab}{tab}{tablename}.{manyname}s.append({manyname})\n")
 
-                    w.write(f"\n\tremove_{manyname}_ids = request.json.get('remove_{manyname}_ids')\n")
-                    w.write(f"\tif remove_{manyname}_ids:\n")
+                    api_put_list.append(f"\n{tab}remove_{manyname}_ids = request.json.get('remove_{manyname}_ids')\n")
+                    api_put_list.append(f"{tab}if remove_{manyname}_ids:\n")
 
-                    w.write(f"\t\toriginal_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
-                    w.write(f"\t\tremove_ids = list(set(remove_{manyname}_ids).intersection(set(original_ids)))\n")
-                    w.write(f"\t\tfor {manyname}_id in remove_ids:\n")
-                    w.write(f"\t\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                    w.write(f"\t\t\t{tablename}.{manyname}s.remove({manyname})\n")
-                    w.write(f"\t\t\n")
+                    api_put_list.append(f"{tab}{tab}original_ids = [{manyname}.id for {manyname} in {tablename}.{manyname}s.all()]\n")
+                    api_put_list.append(f"{tab}{tab}remove_ids = list(set(remove_{manyname}_ids).intersection(set(original_ids)))\n")
+                    api_put_list.append(f"{tab}{tab}for {manyname}_id in remove_ids:\n")
+                    api_put_list.append(f"{tab}{tab}{tab}{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                    api_put_list.append(f"{tab}{tab}{tab}{tablename}.{manyname}s.remove({manyname})\n")
+                    api_put_list.append(f"{tab}{tab}\n")
 
-        w.write(f"\tdb.session.add({tablename})\n")
-        w.write(f"\n\ttry:\n\t\tdb.session.commit()\n\texcept Exception as e:\n\t\tdb.session.rollback()\n")
-        w.write(f"\t\tlogging.error(f'修改数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"""\treturn jsonify({{'success':True,
+        api_put_list.append(f"{tab}db.session.add({tablename})\n")
+        api_put_list.append(f"\n{tab}try:\n{tab}{tab}db.session.commit()\n{tab}except Exception as e:\n{tab}{tab}db.session.rollback()\n")
+        api_put_list.append(f"{tab}{tab}logging.error(f'修改数据库发生错误,已经回退:{{e}}')\n")
+        api_put_list.append(f"""{tab}return jsonify({{'success':True,
                     'error_code':0,
                     }})""")
-        w.write(f"\n\n")
+        api_put_list.append(f"\n\n")
 
 
 
-        w.write(f"@api.route('/{tablename}', methods=['DELETE'])\n")
-        w.write(f"def delete_{tablename}():\n")
-        w.write(f"\tprint('delete json:',request.json)\n")
-        w.write(f"\tids = request.json.get('ids')\n")
-        w.write(f"\tfor id in ids:\n")
-        w.write(f"\t\t{tablename} = {tableclass}.query.get(id)\n")
-        w.write(f"\t\tif {tablename} is None:\n")
-        w.write(f"""\t\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {{id}} 不存在'}})\n""")
+        api_delete_list.append(f"@api.route('/{tablename}', methods=['DELETE'])\n")
+        api_delete_list.append(f"def delete_{tablename}():\n")
+        api_delete_list.append(f"{tab}print('delete json:',request.json)\n")
+        api_delete_list.append(f"{tab}ids = request.json.get('ids')\n")
+        api_delete_list.append(f"{tab}for id in ids:\n")
+        api_delete_list.append(f"{tab}{tab}{tablename} = {tableclass}.query.get(id)\n")
+        api_delete_list.append(f"{tab}{tab}if {tablename} is None:\n")
+        api_delete_list.append(f"""{tab}{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除错误，id： {{id}} 不存在'}})\n""")
 
 
         for table1 in ojson.get('databases'):
             if table1.get('parents'):
                 for parent in  table1.get("parents"):
                     if parent.get("name") == tableclass:
-                        w.write(f"\t\tif {tablename}.{table1.get('table').lower()}s.first() is not None:\n")
-                        w.write(f"\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
+                        api_delete_list.append(f"{tab}{tab}if {tablename}.{table1.get('table').lower()}s.first() is not None:\n")
+                        api_delete_list.append(f"{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{tablename}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
-        w.write(f"\t\tdb.session.delete({tablename})\n")
-        w.write(f"\n\t\ttry:\n\t\t\tdb.session.commit()\n")
+        api_delete_list.append(f"{tab}{tab}db.session.delete({tablename})\n")
+        api_delete_list.append(f"\n{tab}{tab}try:\n{tab}{tab}{tab}db.session.commit()\n")
         for column in table.get('args'):
             if column.get('file'):
                 argname = column.get('name')
-                w.write(f"""\t\t\tstatic_folder = current_app.config['STATIC_FOLDER']\n""")
-                w.write(f"""\t\t\tdst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
-                w.write(f"""\t\t\tshutil.rmtree(dst_dir)\n""")
-        w.write(f"\t\texcept Exception as e:\n\t\t\tdb.session.rollback()\n")
-        w.write(f"\t\t\tlogging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
-        w.write(f"""\t\t\treturn jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {{e}} '}})\n""")
-        w.write(f"""\n\treturn jsonify({{'success':True,
+                api_delete_list.append(f"""{tab}{tab}{tab}static_folder = current_app.config['STATIC_FOLDER']\n""")
+                api_delete_list.append(f"""{tab}{tab}{tab}dst_dir = os.path.join(static_folder, '{tablename}', f"{{{tablename}.id}}")\n""")
+                api_delete_list.append(f"""{tab}{tab}{tab}shutil.rmtree(dst_dir)\n""")
+        api_delete_list.append(f"{tab}{tab}except Exception as e:\n{tab}{tab}{tab}db.session.rollback()\n")
+        api_delete_list.append(f"{tab}{tab}{tab}logging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
+        api_delete_list.append(f"""{tab}{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {{e}} '}})\n""")
+        api_delete_list.append(f"""\n{tab}return jsonify({{'success':True,
                 'error_code':0,
                 }})""")
-        w.write(f"\n\n")
+        api_delete_list.append(f"\n\n")
 
 
 
-        w.write(f"@api.route('/{tablename}/list', methods=['GET'])\n")
-        w.write(f"def list_{tablename}():\n")
-        w.write(f"\tprint(request.args)\n")
-        w.write(f"\tsorter = request.args.get('sorter')\n")
-        w.write(f"\tpage = int(request.args.get('current', 1))\n")
-        w.write(f"\tpageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
-        w.write(f"\tpageSize = 20 if pageSize < 10 else pageSize\n")
+        api_list_list.append(f"@api.route('/{tablename}/list', methods=['GET'])\n")
+        api_list_list.append(f"def list_{tablename}():\n")
+        api_list_list.append(f"{tab}print(request.args)\n")
+        api_list_list.append(f"{tab}sorter = request.args.get('sorter')\n")
+        api_list_list.append(f"{tab}page = int(request.args.get('current', 1))\n")
+        api_list_list.append(f"{tab}pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
+        api_list_list.append(f"{tab}pageSize = 20 if pageSize < 10 else pageSize\n")
 
         if table.get('userfilter'):
-            w.write(f"\n\tif is_admin():\n")
+            api_list_list.append(f"\n{tab}if is_admin():\n")
             if table.get('appfilter'):
-                w.write(f"\t\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                api_list_list.append(f"{tab}{tab}total_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
             else:
-                w.write(f"\t\ttotal_{tablenames} = {tableclass}.query\n")
-            w.write(f"\telse:\n")
-            w.write(f"\t\ttotal_{tablenames} = g.current_user.{tablenames}\n")
+                api_list_list.append(f"{tab}{tab}total_{tablenames} = {tableclass}.query\n")
+            api_list_list.append(f"{tab}else:\n")
+            api_list_list.append(f"{tab}{tab}total_{tablenames} = g.current_user.{tablenames}\n")
         else:
             if table.get('appfilter'):
-                w.write(f"\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                api_list_list.append(f"{tab}total_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
             else:
-                w.write(f"\ttotal_{tablenames} = {tableclass}.query\n")
+                api_list_list.append(f"{tab}total_{tablenames} = {tableclass}.query\n")
 
         if table.get("many"):
             for many in table.get('many'):
                 manyclass = many.get('name')
                 manyname = many.get('name').lower()
-                w.write(f"\n\t{manyname}_id = request.args.get('{manyname}_id')\n")
-                w.write(f"\tif {manyname}_id is not None:\n")
-                w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                w.write(f"\t\tif {manyname} is None:\n")
-                w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
-                w.write(f"\t\telse:\n")
+                api_list_list.append(f"\n{tab}{manyname}_id = request.args.get('{manyname}_id')\n")
+                api_list_list.append(f"{tab}if {manyname}_id is not None:\n")
+                api_list_list.append(f"{tab}{tab}{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                api_list_list.append(f"{tab}{tab}if {manyname} is None:\n")
+                api_list_list.append(f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
+                api_list_list.append(f"{tab}{tab}else:\n")
 
-                w.write(f"\t\t\ttotal_{tablenames} = {manyname}.{tablename}s\n\n")
+                api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = {manyname}.{tablename}s\n\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
             parenttablename = parentname.lower()
             if parent.get('post'):
                 index = parent.get('index')
                 argname = f"{parenttablename}_{parent.get('index')}"
-                w.write(f"\n\t{argname} = request.args.get('{argname}')\n")
-                w.write(f"\tif {argname} is not None:\n")
-                w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
-                w.write(f"\t\tif {parenttablename} is None:\n")
-                w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
-                w.write(f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
+                api_list_list.append(f"\n{tab}{argname} = request.args.get('{argname}')\n")
+                api_list_list.append(f"{tab}if {argname} is not None:\n")
+                api_list_list.append(f"{tab}{tab}{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+                api_list_list.append(f"{tab}{tab}if {parenttablename} is None:\n")
+                api_list_list.append(f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
+                api_list_list.append(f"{tab}{tab}else:\n{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
 
 
 
@@ -295,28 +331,28 @@ from sqlalchemy import func
             # print(tablename,filter,column,table)
             if filter:
                 argname = column.get('name')
-                w.write(f"\t{argname} = request.args.get('{argname}')\n")
-                w.write(f"\tif {argname} is not None:\n")
+                api_list_list.append(f"{tab}{argname} = request.args.get('{argname}')\n")
+                api_list_list.append(f"{tab}if {argname} is not None:\n")
                 if filter == "like":
-                    w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
+                    api_list_list.append(f"{tab}{tab}total_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
                 elif filter == "precise":
-                    w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
-        w.write(f"\tif sorter:\n")
-        w.write(f"\t\tsorter = json.loads(sorter)\n")
+                    api_list_list.append(f"{tab}{tab}total_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
+        api_list_list.append(f"{tab}if sorter:\n")
+        api_list_list.append(f"{tab}{tab}sorter = json.loads(sorter)\n")
 
         for column in table.get('args'):
             if column.get("sorter"):
                 argname = column.get('name')
-                w.write(f"\t\tif sorter.get('{argname}') == 'ascend':\n")
-                w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
-                w.write(f"\t\telif sorter.get('{argname}') == 'descend':\n")
-                w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
-        w.write(f"\t\tpass\n")
-        w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
-        w.write(f"\tpage = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
-        w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
-        w.write(f"\t{tablenames} = pagination.items\n")
-        w.write(f"""\n\treturn jsonify({{
+                api_list_list.append(f"{tab}{tab}if sorter.get('{argname}') == 'ascend':\n")
+                api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
+                api_list_list.append(f"{tab}{tab}elif sorter.get('{argname}') == 'descend':\n")
+                api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
+        api_list_list.append(f"{tab}{tab}pass\n")
+        api_list_list.append(f"{tab}totalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
+        api_list_list.append(f"{tab}page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
+        api_list_list.append(f"{tab}pagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
+        api_list_list.append(f"{tab}{tablenames} = pagination.items\n")
+        api_list_list.append(f"""\n{tab}return jsonify({{
                     'success':True,
                     'error_code':0,
                     'total':totalcount,
@@ -325,90 +361,90 @@ from sqlalchemy import func
                     "pagecount": pagination.pages,
                     'data':[{tablename}.to_json() for {tablename} in {tablenames}]
                     }})""")
-        w.write(f"\n")
-        w.write(f"\n")
+        api_list_list.append(f"\n")
+        api_list_list.append(f"\n")
 
 
 
 
         if table.get('detail_sons') is not None:
-            w.write(f"@api.route('/{tablename}/list/detail', methods=['GET'])\n")
-            w.write(f"def list_detail_{tablename}():\n")
-            w.write(f"\tprint(request.args)\n")
-            w.write(f"\tsorter = request.args.get('sorter')\n")
-            w.write(f"\tpage = int(request.args.get('current', 1))\n")
-            w.write(f"\tpageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
-            w.write(f"\tpageSize = 20 if pageSize < 10 else pageSize\n")
+            api_list_list.append(f"@api.route('/{tablename}/list/detail', methods=['GET'])\n")
+            api_list_list.append(f"def list_detail_{tablename}():\n")
+            api_list_list.append(f"{tab}print(request.args)\n")
+            api_list_list.append(f"{tab}sorter = request.args.get('sorter')\n")
+            api_list_list.append(f"{tab}page = int(request.args.get('current', 1))\n")
+            api_list_list.append(f"{tab}pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
+            api_list_list.append(f"{tab}pageSize = 20 if pageSize < 10 else pageSize\n")
 
             if table.get('userfilter'):
-                w.write(f"\n\tif is_admin():\n")
+                api_list_list.append(f"\n{tab}if is_admin():\n")
                 if table.get('appfilter'):
-                    w.write(f"\t\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                    api_list_list.append(f"{tab}{tab}total_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
                 else:
-                    w.write(f"\t\ttotal_{tablenames} = {tableclass}.query\n")
-                w.write(f"\telse:\n")
-                w.write(f"\t\ttotal_{tablenames} = g.current_user.{tablenames}\n")
+                    api_list_list.append(f"{tab}{tab}total_{tablenames} = {tableclass}.query\n")
+                api_list_list.append(f"{tab}else:\n")
+                api_list_list.append(f"{tab}{tab}total_{tablenames} = g.current_user.{tablenames}\n")
             else:
                 if table.get('appfilter'):
-                    w.write(f"\ttotal_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
+                    api_list_list.append(f"{tab}total_{tablenames} = {tableclass}.query.filter_by(app_id=g.app.id)\n")
                 else:
-                    w.write(f"\ttotal_{tablenames} = {tableclass}.query\n")
+                    api_list_list.append(f"{tab}total_{tablenames} = {tableclass}.query\n")
 
             if table.get("many"):
                 for many in table.get('many'):
                     manyclass = many.get('name')
                     manyname = many.get('name').lower()
-                    w.write(f"\n\t{manyname}_id = request.args.get('{manyname}_id')\n")
-                    w.write(f"\tif {manyname}_id is not None:\n")
-                    w.write(f"\t\t{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
-                    w.write(f"\t\tif {manyname} is None:\n")
-                    w.write(
-                        f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
-                    w.write(f"\t\telse:\n")
+                    api_list_list.append(f"\n{tab}{manyname}_id = request.args.get('{manyname}_id')\n")
+                    api_list_list.append(f"{tab}if {manyname}_id is not None:\n")
+                    api_list_list.append(f"{tab}{tab}{manyname} = {manyclass}.query.filter_by(id={manyname}_id).first()\n")
+                    api_list_list.append(f"{tab}{tab}if {manyname} is None:\n")
+                    api_list_list.append(
+                        f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':f'{manyname}:{{{manyname}_id}}不存在'}})\n""")
+                    api_list_list.append(f"{tab}{tab}else:\n")
 
-                    w.write(f"\t\t\ttotal_{tablenames} = {manyname}.{tablename}s\n\n")
+                    api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = {manyname}.{tablename}s\n\n")
             for parent in table.get('parents'):
                 parentname = parent.get('name')
                 parenttablename = parentname.lower()
                 if parent.get('post'):
                     index = parent.get('index')
                     argname = f"{parenttablename}_{parent.get('index')}"
-                    w.write(f"\n\t{argname} = request.args.get('{argname}')\n")
-                    w.write(f"\tif {argname} is not None:\n")
-                    w.write(f"\t\t{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
-                    w.write(f"\t\tif {parenttablename} is None:\n")
-                    w.write(f"""\t\t\treturn jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
-                    w.write(
-                        f"\t\telse:\n\t\t\ttotal_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
+                    api_list_list.append(f"\n{tab}{argname} = request.args.get('{argname}')\n")
+                    api_list_list.append(f"{tab}if {argname} is not None:\n")
+                    api_list_list.append(f"{tab}{tab}{parenttablename} = {parentname}.query.filter_by({index}={argname}).first()\n")
+                    api_list_list.append(f"{tab}{tab}if {parenttablename} is None:\n")
+                    api_list_list.append(f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
+                    api_list_list.append(
+                        f"{tab}{tab}else:\n{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.filter_by({parenttablename}_id={parenttablename}.id)\n")
 
             for column in table.get('args'):
                 filter = column.get('filter')
                 # print(tablename,filter,column,table)
                 if filter:
                     argname = column.get('name')
-                    w.write(f"\t{argname} = request.args.get('{argname}')\n")
-                    w.write(f"\tif {argname} is not None:\n")
+                    api_list_list.append(f"{tab}{argname} = request.args.get('{argname}')\n")
+                    api_list_list.append(f"{tab}if {argname} is not None:\n")
                     if filter == "like":
-                        w.write(
-                            f"\t\ttotal_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
+                        api_list_list.append(
+                            f"{tab}{tab}total_{tablenames} = total_{tablenames}.filter({tableclass}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
                     elif filter == "precise":
-                        w.write(f"\t\ttotal_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
-            w.write(f"\tif sorter:\n")
-            w.write(f"\t\tsorter = json.loads(sorter)\n")
+                        api_list_list.append(f"{tab}{tab}total_{tablenames} = total_{tablenames}.filter_by({argname}={argname})\n\n")
+            api_list_list.append(f"{tab}if sorter:\n")
+            api_list_list.append(f"{tab}{tab}sorter = json.loads(sorter)\n")
 
             for column in table.get('args'):
                 if column.get("sorter"):
                     argname = column.get('name')
-                    w.write(f"\t\tif sorter.get('{argname}') == 'ascend':\n")
-                    w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
-                    w.write(f"\t\telif sorter.get('{argname}') == 'descend':\n")
-                    w.write(f"\t\t\ttotal_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
-            w.write(f"\t\tpass\n")
-            w.write(f"\ttotalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
-            w.write(f"\tpage = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
-            w.write(f"\tpagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
-            w.write(f"\t{tablenames} = pagination.items\n")
-            w.write(f"""\n\treturn jsonify({{
+                    api_list_list.append(f"{tab}{tab}if sorter.get('{argname}') == 'ascend':\n")
+                    api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.asc())\n")
+                    api_list_list.append(f"{tab}{tab}elif sorter.get('{argname}') == 'descend':\n")
+                    api_list_list.append(f"{tab}{tab}{tab}total_{tablenames} = total_{tablenames}.order_by({tableclass}.{argname}.desc())\n")
+            api_list_list.append(f"{tab}{tab}pass\n")
+            api_list_list.append(f"{tab}totalcount = total_{tablenames}.with_entities(func.count({tableclass}.id)).scalar()\n")
+            api_list_list.append(f"{tab}page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
+            api_list_list.append(f"{tab}pagination = total_{tablenames}.paginate(page, per_page = pageSize, error_out = False)\n")
+            api_list_list.append(f"{tab}{tablenames} = pagination.items\n")
+            api_list_list.append(f"""\n{tab}return jsonify({{
                         'success':True,
                         'error_code':0,
                         'total':totalcount,
@@ -417,11 +453,32 @@ from sqlalchemy import func
                         "pagecount": pagination.pages,
                         'data':[{tablename}.to_detail() for {tablename} in {tablenames}]
                         }})""")
-            w.write(f"\n")
-            w.write(f"\n")
+            api_list_list.append(f"\n")
+            api_list_list.append(f"\n")
+
+
+        # 加入导入包
+        target_str_list += import_list
+
+        api_get_list[2:0] = commit_get_list
+        target_str_list += api_get_list
+        api_post_list[2:0] = commit_post_list
+        target_str_list += api_post_list
+        api_put_list[2:0] = commit_put_list
+        target_str_list += api_put_list
+        api_delete_list[2:0] = commit_delete_list
+        target_str_list += api_delete_list
+        api_list_list[2:0] = commit_list_list
+        target_str_list += api_list_list
+
+
+        for line in target_str_list:
+            w.write(line)
 
         w.close()
 
+
+# 写入api的init文件
 def write_api_init(root,ojson):
     appname = ojson.get('app')
     initdir = os.path.join(root, f'{appname}/src/app/apiv1/__init__.py')

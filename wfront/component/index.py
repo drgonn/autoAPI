@@ -26,7 +26,7 @@ def w_component_index(root,ojson):
 			table_zh = table.get('zh')
 			args = table.get('args')
 			parents = table.get('parents')
-			crud = table.get('crud')
+			crud = table.get('crud') or []
 			os.makedirs(os.path.join(root,f'src/pages/{appname}/{component_name.lower()}'),exist_ok=True)
 			initdir = os.path.join(root,f'src/pages/{appname}/{component_name.lower()}/index.tsx')
 			com_dir = os.path.join(root,f'src/pages/{appname}/{component_name.lower()}')
@@ -166,15 +166,15 @@ def w_component_index(root,ojson):
 			for arg in args:
 				arg_name = arg['name']
 				arg_mean = arg.get('mean')
-				arg_corres = arg.get('corres')
+				arg_mapping = arg.get('mapping')
 				type = Tdb(arg['type']).protable_valuetype
 
 				w.write(f"""    {{\n""")
 				w.write(f"""      title: '{arg_mean}',\n""")
 				w.write(f"""      dataIndex: '{arg_name}',\n""")
-				if arg_corres:
+				if arg_mapping:
 					w.write(f"""      valueEnum: {{\n""")
-					for corre in arg_corres:
+					for corre in arg_mapping:
 						w.write(f"""        {corre['key']}: {{ text:'{corre['value']}'}},\n""")
 					w.write(f"""      }},\n""")
 				else:
@@ -537,9 +537,9 @@ def w_component_index(root,ojson):
 							w.write(f"""            rules= {{[{{ required: true, message: '请输入名称!' }}]}}\n""")
 						w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
 						w.write(f"""          >\n""")
-						if arg.get('corres'):
+						if arg.get('mapping'):
 							w.write(f"""            <Select>\n""")
-							for cor in  arg.get('corres'):
+							for cor in  arg.get('mapping'):
 								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
@@ -642,9 +642,9 @@ def w_component_index(root,ojson):
 							w.write(f"""            rules= {{[{{ required: true, message: '请输入名称!' }}]}}\n""")
 						w.write(f"""            label="{table_zh}{arg.get('mean')}"\n""")
 						w.write(f"""          >\n""")
-						if arg.get('corres'):
+						if arg.get('mapping'):
 							w.write(f"""            <Select>\n""")
-							for cor in  arg.get('corres'):
+							for cor in  arg.get('mapping'):
 								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:

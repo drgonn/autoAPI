@@ -30,7 +30,10 @@ def write_yapi(root, ojson):
             gp['index'] = 0
             gp['name'] = zh
             gp['desc'] = zh
-            gp['list'] = []
+            gp['list'] = []            
+            test_son_doc = os.path.join(root, f'{app}/test/yapi/{tablename}.json')
+            sonfile = open(test_son_doc, 'w+')
+            son_list=[]
             # gp[''] = 0
             for typezh, method, p, argaddr in crud:
                 path = f"/{tablename}"
@@ -121,7 +124,7 @@ def write_yapi(root, ojson):
                             argmean = column.get('mean')
                             argtype = column.get('type')
                             ytype = Tdb(argtype).db.lower()
-                            pjson["properties"][argname] = {"type":ytype,"description":argmean}
+                            pjson["properties"][argname] = {"type":ytype,"description":f"{zh}{argmean}"}
                             if column.get("post") == 2:
                                 pjson["required"].append(argname)
                     rstr = json.dumps(sjson)
@@ -196,7 +199,7 @@ def write_yapi(root, ojson):
 
                 if p == '/<id>':
                     id = random_arg("int")
-                    path += '/{{}'
+                    path += '/{id}'
                 else:
                     id = False
                     path += p
@@ -204,6 +207,12 @@ def write_yapi(root, ojson):
                                         query,rstr)
                 gp["list"].append(single_api)
             r.append(gp)
+            son_list.append(gp)
+            sonjs = json.dumps(son_list)
+            sonfile.write(sonjs)
+            sonfile.close()
+
+
 
     js = json.dumps(r)
 
@@ -222,7 +231,7 @@ def single_str(zh, typezh, host, port, protocol, path, method, pjson, tablename,
             "params": []
         },
         "edit_uid": 0,
-        "status": "undone",
+        "status": "done",
         "type": "static",
         "req_body_is_json_schema": True,
         "res_body_is_json_schema": True,
@@ -283,25 +292,3 @@ def random_arg(type):
     elif type == "int":
         return random.randint(0, 5)
 
-
-
-f={"type":"object",
-   "title":"empty object",
-   "properties":
-       {"success":
-            {"type":"boolean",
-             "description":"返回成功",
-             "mock":{"mock":"true"}
-             },
-        "data":
-            {"type":"array",
-             "items":
-                 {"type":"object",
-                  "properties":{"id":{"type":"integer","description":"省id"},
-                                "name":{"type":"string","description":"省名"}},
-                  "required":["id","name"]},
-             "description":"数据列表"}
-        },
-   "required":
-       ["success","data"]
-   }
