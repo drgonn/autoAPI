@@ -72,10 +72,19 @@ class Project(object):
     def write_all(self, addr_lines_map):
         """再次更改写入文件地址"""
         try:
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/routers/api/v1/pconfig.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/routers/api/v1/pconfig.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/service/pconfig.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/service/pconfig.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/dao/pconfig.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/dao/pconfig.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/model/pconfig.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/model/pconfig.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/routers/api/v1/tenant.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/routers/api/v1/tenant.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/service/tenant.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/service/tenant.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/dao/tenant.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/dao/tenant.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/model/tenant.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/model/tenant.go")
             # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/routers/api/v1/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/routers/api/v1/project.go")
-            addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/service/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/service/project.go")
-            addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/dao/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/dao/project.go")
-            addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/model/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/model/project.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/service/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/service/project.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/dao/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/dao/project.go")
+            # addr_lines_map["w/home/dron/rong/bridge/go-tenants-manager/internal/model/project.go"] = addr_lines_map.pop("w/home/dron/rong/autoAPI/work/new_work/pay/go_pay/internal/model/project.go")
+            pass
         except KeyError as e:
             print("地址错误 ",e)
         

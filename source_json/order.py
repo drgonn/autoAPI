@@ -65,7 +65,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
@@ -77,7 +77,7 @@ project_json = {
                 },
                 {
                     "name": "uid",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
@@ -106,7 +106,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
@@ -188,7 +188,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "iccid",
-                            "type": "str",
+                            "type": "string",
                             "mean": "卡iccid"
                         },
                     ],
@@ -204,7 +204,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "套餐名"
                         },
                     ],
@@ -253,7 +253,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "操作用户名"
                         },
                     ],
@@ -269,7 +269,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "套餐名"
                         },
                     ],
@@ -285,7 +285,7 @@ project_json = {
             "args": [
                 {
                     "name": "code",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
@@ -354,7 +354,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数,0不需要，1可填，2，必须填写
@@ -463,7 +463,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "用户名"
                         },
                     ],
@@ -479,7 +479,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "套餐名"
                         },
                     ],

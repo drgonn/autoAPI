@@ -25,6 +25,7 @@ class Table(object):
         self.many = []
         self.parents = []
         self.sons = []
+        self.index = None
         for a in arg_json:
             column = Column(
                 a.get('name'),
@@ -36,12 +37,18 @@ class Table(object):
                 a.get('about'),
                 a.get('sorter'),
                 a.get('mean'),
-                a.get('mapping')
+                a.get('unique'),
+                a.get('mapping'),
+                a.get('index'),
             )
             column.table_zh_name = table_zh
-            column.table_title_name = self.Name
-            column.table_lower_name = self.name
-            column.table_table_name = self.names
+            column.table_Name = self.Name
+            column.table_name = self.name
+            column.table_names = self.names
+            if column.name == "id":
+                self.index = column
+            if column.index:
+                self.index = column
             self.columns.append(column)
         for parnet in parent_json:
             p = Parent(
@@ -53,9 +60,9 @@ class Table(object):
                 parnet.get("mean"),
                 parnet.get("show"),
             )
-            p.table_title_name = self.Name
-            p.table_lower_name = self.name
-            p.table_table_name = self.names
+            p.table_Name = self.Name
+            p.table_name = self.name
+            p.table_names = self.names
             self.parents.append(p)
         
         for many in many_json or []:
@@ -66,9 +73,9 @@ class Table(object):
                 many.get("mean"),
                 many.get("prefix"),
             )
-            m.table_title_name = self.Name
-            m.table_lower_name = self.name
-            m.table_table_name = self.names
+            m.table_Name = self.Name
+            m.table_name = self.name
+            m.table_names = self.names
             self.many.append(m)
         for son in sons_json or []:
             s = Son(
@@ -85,7 +92,7 @@ class Table(object):
             "flask_api_route_get": f"\n@api.route('{prefix}/{self.name}/<int:id>', methods=['GET'])\n",
             "flask_api_route_post": f"\n@api.route('{prefix}/{self.name}', methods=['POST'])\n",
             "flask_api_route_put": f"\n@api.route('{prefix}/{self.name}/<int:id>', methods=['PUT'])\n",
-            "flask_api_route_delete": f"\n@api.route('{prefix}/{self.name}/<int:id>', methods=['DELETE'])\n",
+            "flask_api_route_delete": f"\n@api.route('{prefix}/{self.name}', methods=['DELETE'])\n",
             "flask_api_route_list": f"\n@api.route('{prefix}/{self.name}/list', methods=['GET'])\n",
             "doc_url": ""
              
@@ -95,7 +102,7 @@ class Table(object):
         return s
 
     # 生成一列column的格式化字符串
-    def make_column_format(self, fm, tabs):
+    def make_column_format(self, fm, tabs=0):
         rs = ''
         for column in self.columns:
             rs += column.format_str(fm, tabs)
@@ -308,9 +315,8 @@ class Table(object):
     def make_api_delete_list(self):
         api_delete_list = []
         commit_delete_list = []
-
     
-        api_delete_list.append(f"@api.route('/{self.name}', methods=['DELETE'])\n")
+        api_delete_list.append(self.format_table_str("flask_api_route_delete"))
         api_delete_list.append(f"def delete_{self.name}():\n")        
         commit_delete_list.append(f'{tab*1}"""delete删除多个{self.zh_name}接口\n')
         commit_delete_list.append(f'\n{tab*1}Params:\n')
@@ -334,16 +340,16 @@ class Table(object):
         #                 api_delete_list.append(f"{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{self.name}还拥有{table1.get('table').lower()}，不能删除'}})\n")
 
         api_delete_list.append(f"{tab}{tab}db.session.delete({self.name})\n")
-        api_delete_list.append(f"\n{tab}{tab}try:\n{tab}{tab}{tab}db.session.commit()\n")
+        api_delete_list.append(f"\n{tab}try:\n{tab}{tab}db.session.commit()\n")
         # for column in self.columns:
         #     if column.get('file'):
         #         argname = column.name
         #         api_delete_list.append(f"""{tab}{tab}{tab}static_folder = current_app.config['STATIC_FOLDER']\n""")
         #         api_delete_list.append(f"""{tab}{tab}{tab}dst_dir = os.path.join(static_folder, '{self.name}', f"{{{self.name}.id}}")\n""")
         #         api_delete_list.append(f"""{tab}{tab}{tab}shutil.rmtree(dst_dir)\n""")
-        api_delete_list.append(f"{tab}{tab}except Exception as e:\n{tab}{tab}{tab}db.session.rollback()\n")
-        api_delete_list.append(f"{tab}{tab}{tab}logging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
-        api_delete_list.append(f"""{tab}{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {{e}} '}})\n""")
+        api_delete_list.append(f"{tab}except Exception as e:\n{tab}{tab}db.session.rollback()\n")
+        api_delete_list.append(f"{tab}{tab}logging.error(f'删除数据库发生错误,已经回退:{{e}}')\n")
+        api_delete_list.append(f"""{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': f'删除数据发生错误， {{e}} '}})\n""")
         api_delete_list.append(f"""\n{tab}return jsonify({{'success':True,
                 'error_code':0,
                 }})""")
@@ -400,7 +406,7 @@ class Table(object):
 
         api_list_list.append(self.make_many_format("flask_api_list", 1))
         for parent in self.parents:
-            if parent.post:
+            if parent.list:
                 index = parent.index
                 argname = f"{parent.name}_{parent.index}"
                 api_list_list.append(f"\n{tab}{argname} = request.args.get('{argname}')\n")
@@ -813,12 +819,10 @@ class Table(object):
         class_commit_list.append(f'{tab}"""\n')
         class_list.append(f"class {self.Name}(db.Model):\n")
         class_list.append(f"{tab}__tablename__ = '{self.names}'\n")
-        class_commit_list.insert(-1, f"{tab*2}id: 序号， 主键\n")
         class_commit_list.insert(-1,self.make_column_format("commit_table",2))
         class_commit_list.insert(-1,self.make_parent_format("commit_table",2))
         class_tojson_commit_list.append(f'{tab*2}"""返回请求json数据\n\n')
         class_tojson_commit_list.append(f'{tab*2}Returns:\n')
-        class_tojson_commit_list.append(f'{tab*3}id: 序号\n')
         # class_list.append(self.make_column_format("commit_to_json",2))
         class_tojson_commit_list.append(f'{tab*2}"""\n')
         
@@ -854,7 +858,6 @@ class Table(object):
         #             f"""{tab}{tab}static_host = current_app.config['STATIC_HOST']\n""")
         #         break
         class_list.append(f"{tab}{tab}return{{\n")
-        class_list.append(f"{tab}{tab}{tab}'id': self.id,\n")
         class_list.append(self.make_column_format("flask_model_to_json",3))
         class_list.append(self.make_parent_format("flask_model_to_json",3))
         class_list.append(f"{tab}{tab}}}\n")
@@ -921,7 +924,8 @@ class Table(object):
         t_list = []
         t_list.append("package v1\n")
         t_list.append(f"type {self.Name} struct{{}}\n")
-        t_list.append(f"func New{self.Name}() {self.Name}{{return {self.Name}{{}}}}\n")
+        t_list.append(f"func New{self.Name}() {self.Name}{{return {self.Name}{{}}}}\n\n")
+
         t_list.append(f"func (p {self.Name}) Create(c *gin.Context) {{\n")
         t_list.append(f"param := service.Create{self.Name}Request{{}}\n")
         t_list.append(make_valid_str())
@@ -937,135 +941,227 @@ class Table(object):
         t_list.append(f'}}\n')
         t_list.append(f'param.Id = {self.name}_id\n')
         t_list.append(f'response.ToResponse(param)\n')
-        t_list.append(f'return\n')
-        t_list.append(f"}}\n")
+        t_list.append(f'return\n}}\n')
+
+        t_list.append(f'func (t {self.Name}) Get(c *gin.Context) {{\n')
+        if self.index.name != "id":
+            t_list.append(f'	param := service.Get{self.Name}Request{{{self.index.Name}: c.Param("{self.index.name}")}}\n')
+        else:
+            t_list.append(f'	param := service.Get{self.Name}Request{{Id: convert.StrTo(c.Param("id")).MustUInt32()}}\n')
+        t_list.append(f'	response := app.NewResponse(c)\n')
+        t_list.append(f'	valid, errs := app.BindAndValid(c, &param)\n')
+        t_list.append(f'	if !valid {{\n')
+        t_list.append(f'		global.Logger.Errorf("app.BindAndValid errs: %v", errs)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'	svc := service.New(c.Request.Context())\n')
+        t_list.append(f'	{self.name}, err := svc.Get{self.Name}(&param)\n')
+        t_list.append(f'	if err != nil {{\n')
+        t_list.append(f'		global.Logger.Errorf("svc.Get{self.Name} err: %v", err)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.ErrorGet{self.Name}Fail)\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'	response.ToResponse({self.name})\n')
+        t_list.append(f'	return\n')
+        t_list.append(f'}}\n\n')
+
+        t_list.append(f'func (t {self.Name}) List(c *gin.Context) {{\n')
+        t_list.append(f'	param := service.{self.Name}ListRequest{{}}\n')
+        t_list.append(f'	response := app.NewResponse(c)\n')
+        t_list.append(f'	valid, errs := app.BindAndValid(c, &param)\n')
+        t_list.append(f'	if !valid {{\n')
+        t_list.append(f'		global.Logger.Errorf("app.BindAndValid errs: %v", errs)\n')
+        t_list.append(f'		errRsp := errcode.InvalidParams.WithDetails(errs.Errors()...)\n')
+        t_list.append(f'		response.ToErrorResponse(errRsp)\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'\n')
+        t_list.append(f'	svc := service.New(c)\n')
+        t_list.append(f'	pager := app.Pager{{\n')
+        t_list.append(f'		Page:     app.GetPage(c),\n')
+        t_list.append(f'		PageSize: app.GetPageSize(c),\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'	totalRows, err := svc.Count{self.Name}(&service.Count{self.Name}Request{{\n')
+        t_list.append(self.make_column_format("gin_api_router_count",2))
+        t_list.append(f'	}})\n')
+        t_list.append(f'	if err != nil {{\n')
+        t_list.append(f'		global.Logger.Errorf("svc.Count{self.Name} err: %v", err)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.ErrorCount{self.Name}Fail)\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'	{self.names}, err := svc.Get{self.Name}List(&param, &pager)\n')
+        t_list.append(f'	if err != nil {{\n')
+        t_list.append(f'		global.Logger.Errorf("svc.Get{self.Name}List err: %v", err)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.ErrorGet{self.Name}ListFail)\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'	response.ToResponseList({self.names}, totalRows)\n')
+        t_list.append(f'	return\n')
+        t_list.append(f'}}\n\n')
+
+        t_list.append(f'func (t {self.Name}) Update(c *gin.Context) {{\n')
+        if self.index.name != "id":
+            t_list.append(f'	param := service.Update{self.Name}Request{{{self.index.Name}: c.Param("{self.index.name}")}}\n')
+        else:
+            t_list.append(f'	param := service.Update{self.Name}Request{{Id: convert.StrTo(c.Param("id")).MustUInt32()}}\n')
+        t_list.append(f'	response := app.NewResponse(c)\n')
+        t_list.append(f'	valid, errs := app.BindAndValid(c, &param)\n')
+        t_list.append(f'	if !valid {{\n')
+        t_list.append(f'		global.Logger.Errorf("app.BindAndValid errs: %v", errs)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'\n')
+        t_list.append(f'	svc := service.New(c.Request.Context())\n')
+        t_list.append(f'	n, err := svc.Update{self.Name}(&param)\n')
+        t_list.append(f'	if err != nil || n < 1 {{\n')
+        t_list.append(f'		global.Logger.Errorf("svc.Update{self.Name} err: %v", err)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.ErrorUpdate{self.Name}Fail)\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'\n')
+        t_list.append(f'	response.ToResponse(gin.H{{}})\n')
+        t_list.append(f'	return\n')
+        t_list.append(f'}}\n\n')
+        t_list.append(f'func (t {self.Name}) Delete(c *gin.Context) {{\n')
+        if self.index.name != "id":
+            t_list.append(f'	param := service.Delete{self.Name}Request{{{self.index.Name}: c.Param("{self.index.name}")}}\n')
+        else:
+            t_list.append(f'	param := service.Delete{self.Name}Request{{Id: convert.StrTo(c.Param("id")).MustUInt32()}}\n')
+        # t_list.append(f'	param := service.Delete{self.Name}Request{{}}\n')
+        t_list.append(f'	response := app.NewResponse(c)\n')
+        t_list.append(f'	valid, errs := app.BindAndValid(c, &param)\n')
+        t_list.append(f'	if !valid {{\n')
+        t_list.append(f'		global.Logger.Errorf("app.BindAndValid errs: %v", errs)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'\n')
+        t_list.append(f'	svc := service.New(c.Request.Context())\n')
+        t_list.append(f'	n, err := svc.Delete{self.Name}(&param)\n')
+        t_list.append(f'	if err != nil || n < 1{{\n')
+        t_list.append(f'		global.Logger.Errorf("svc.Delete{self.Name} err: %v", err)\n')
+        t_list.append(f'		response.ToErrorResponse(errcode.ErrorDelete{self.Name}Fail)\n')
+        t_list.append(f'		return\n')
+        t_list.append(f'	}}\n')
+        t_list.append(f'\n')
+        t_list.append(f'	response.ToResponse(gin.H{{}})\n')
+        t_list.append(f'	return\n')
+        t_list.append(f'}}\n')
+
         return {t_dir:t_list}
     
     def make_gin_internal_service(self, project_dir):
         t_dir = "w" + os.path.join(project_dir,f"internal/service/{self.name}.go")
         t_list = []
-
         t_list.append("package service\n\n")
         t_list.append(f'type Count{self.Name}Request struct {{\n')
-        t_list.append(f'	Name string `form:"name" binding:"max=100"`\n')
-        t_list.append(f'	Ouid string `form:"ouid" binding:"max=100"`\n')
+        t_list.append(self.make_column_format("gin_api_service_count_valid",1))
         t_list.append(f'}}\n\n')
         t_list.append(f'type {self.Name}ListRequest struct {{\n')
-        t_list.append(f'	Name     string `form:"name" binding:"max=100"`\n')
-        t_list.append(f'	Describe string `form:"describe"`\n')
-        t_list.append(f'	Ouid     string `form:"ouid" binding:"max=100"`\n')
+        t_list.append(self.make_column_format("gin_api_service_count_valid",1))
         t_list.append(f'}}\n\n')
         t_list.append(f'type Create{self.Name}Request struct {{\n')
         t_list.append(f'	Id       int64  `json:"id"`\n')
-
-        # t_list.append(self.make_column_format(1))
-
-        t_list.append(f'	Name     string `json:"name" binding:"max=100"`\n')
-        t_list.append(f'	Describe string `json:"describe"`\n')
-        t_list.append(f'	Ouid     string `json:"ouid" binding:"max=100"`\n')
+        t_list.append(self.make_column_format("gin_api_create_valid",1))
         t_list.append(f'}}\n\n')
+        t_list.append(f'type Update{self.Name}Request struct {{\n')
+        t_list.append(f'	 {self.index.Name} {self.index.go_type} `form:"{self.index.name} binding:"required"`\n')
+        t_list.append(self.make_column_format("gin_api_update_valid",1))
+        t_list.append(f'}}\n\n')
+        t_list.append(f'type Get{self.Name}Request struct {{\n')        
+        t_list.append(f'	 {self.index.Name} {self.index.go_type} `form:"{self.index.name} binding:"required"`\n}}\n\n')
         t_list.append(f'type Delete{self.Name}Request struct {{\n')
-        t_list.append(f'	ID uint32 `form:"id" binding:"required,gte=1"`\n')
-        t_list.append(f'}}\n\n')
+        t_list.append(f'	 {self.index.Name} {self.index.go_type} `form:"{self.index.name} binding:"required"`\n}}\n\n')
         t_list.append(f'func (svc *Service) Count{self.Name}(param *Count{self.Name}Request) (int, error) {{\n')
-        t_list.append(f'	return svc.dao.Count{self.Name}(param.Name, param.Ouid)\n')
-        t_list.append(f'}}\n\n')
+        t_list.append(f'	return svc.dao.Count{self.Name}({self.make_column_format("gin_api_service_list_param")})\n}}\n\n')
         t_list.append(f'func (svc *Service) Get{self.Name}List(param *{self.Name}ListRequest, pager *app.Pager) ([]*model.{self.Name}, error) {{\n')
-        t_list.append(f'	return svc.dao.Get{self.Name}List(param.Name, param.Ouid, pager.Page, pager.PageSize)\n')
-        t_list.append(f'}}\n\n')
+        t_list.append(f'	return svc.dao.Get{self.Name}List({self.make_column_format("gin_api_service_list_param")} pager.Page, pager.PageSize)\n}}\n\n')
         t_list.append(f'func (svc *Service) Create{self.Name}(param *Create{self.Name}Request) (int64, error) {{\n')
-        t_list.append(f'	return svc.dao.Create{self.Name}(param.Name, param.Describe, param.Ouid)\n')
-        t_list.append(f'}}\n\n')
+        t_list.append(f'	return svc.dao.Create{self.Name}({self.make_column_format("gin_api_service_create_param")})\n}}\n\n')
+        t_list.append(f'func (svc *Service) Update{self.Name}(param *Update{self.Name}Request) (int64, error) {{\n')
+        t_list.append(f'	return svc.dao.Update{self.Name}({self.make_column_format("gin_api_service_update_param")} param.{self.index.Name})\n}}\n\n')
         t_list.append(f'func (svc *Service) Delete{self.Name}(param *Delete{self.Name}Request) (int64, error) {{\n')
-        t_list.append(f'	return svc.dao.Delete{self.Name}(param.ID)\n')
-        t_list.append(f'}}\n')
+        t_list.append(f'	return svc.dao.Delete{self.Name}(param.{self.index.Name})\n}}\n\n')
+        t_list.append(f'func (svc *Service) Get{self.Name}(param *Get{self.Name}Request) (*model.{self.Name}, error) {{\n')
+        t_list.append(f'	return svc.dao.Get{self.Name}(param.{self.index.Name})\n}}\n\n')
         return {t_dir:t_list}
 
     def make_gin_internal_dao(self, project_dir):
         t_dir = "w" + os.path.join(project_dir,f"internal/dao/{self.name}.go")
         t_list = []
-
         t_list.append("package dao\n\n")
-        t_list.append(f'func (d *Dao) Count{self.Name}(name string, ouid string) (int, error) {{\n')
-        t_list.append(f'	{self.name} := model.{self.Name}{{Name: name, Ouid: ouid}}\n')
-        t_list.append(f'	return {self.name}.Count(d.engine)\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (d *Dao) Get{self.Name}List(name, ouid string, page, pageSize int) ([]*model.{self.Name}, error) {{\n')
-        t_list.append(f'	{self.name} := model.{self.Name}{{Name: name, Ouid: ouid}}\n')
+        t_list.append(f'func (d *Dao) Count{self.Name}({self.make_column_format("gin_api_dao_list_args")}) (int, error) {{\n')
+        t_list.append(f'	{self.name} := model.{self.Name}{{{self.make_column_format("gin_api_dao_list_model",2)}}}\n')
+        t_list.append(f'	return {self.name}.Count(d.engine)\n}}\n\n')
+        t_list.append(f'func (d *Dao) Get{self.Name}({self.index.name} {self.index.go_type}) (*model.{self.Name}, error) {{\n')
+        t_list.append(f'	{self.name} := model.{self.Name}{{{self.index.Name}: {self.index.name}}}\n')
+        t_list.append(f'	return {self.name}.Get(d.engine)\n}}\n\n')
+        t_list.append(f'func (d *Dao) Get{self.Name}List({self.make_column_format("gin_api_dao_list_args")} page, pageSize int) ([]*model.{self.Name}, error) {{\n')
+        t_list.append(f'	{self.name} := model.{self.Name}{{{self.make_column_format("gin_api_dao_list_model",2)}}}\n')
         t_list.append(f'	pageOffset := app.GetPageOffset(page, pageSize)\n')
-        t_list.append(f'	return {self.name}.List(d.engine, pageOffset, pageSize)\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (d *Dao) Create{self.Name}(name, describe, ouid string) (int64, error) {{\n')
-        t_list.append(f'	fmt.Println("dao", name, describe, ouid)\n')
+        t_list.append(f'	return {self.name}.List(d.engine, pageOffset, pageSize)\n}}\n\n')
+        t_list.append(f'func (d *Dao) Create{self.Name}({self.make_column_format("gin_api_dao_create_args")}) (int64, error) {{\n')
         t_list.append(f'	{self.name} := model.{self.Name}{{\n')
-        t_list.append(f'		Name:     name,\n')
-        t_list.append(f'		Describe: describe,\n')
-        t_list.append(f'		Ouid:     ouid,\n')
+        t_list.append(self.make_column_format("gin_api_dao_create_model",2))
         t_list.append(f'	}}\n')
-        t_list.append(f'	fmt.Println("tenamt", {self.name})\n')
-        t_list.append(f'	return {self.name}.Create(d.engine)\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (d *Dao) Delete{self.Name}(id uint32) (int64, error) {{\n')
-        t_list.append(f'	{self.name} := model.{self.Name}{{ID: id}}\n')
-        t_list.append(f'	return {self.name}.Delete(d.engine)\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
+        t_list.append(f'	return {self.name}.Create(d.engine)\n}}\n\n')
+        t_list.append(f'func (d *Dao) Update{self.Name}({self.make_column_format("gin_api_dao_update_args")} {self.index.name} {self.index.go_type}) (int64, error) {{\n')
+        t_list.append(f'	{self.name} := model.{self.Name}{{\n')
+        t_list.append(f'	{self.index.Name}: {self.index.name},\n')
+        t_list.append(self.make_column_format("gin_api_dao_update_model",2))
+        t_list.append(f'	}}\n')
+        t_list.append(f'	return {self.name}.Update(d.engine)\n}}\n\n')
+        if self.index:
+            t_list.append(f'func (d *Dao) Delete{self.Name}({self.index.name} {self.index.go_type}) (int64, error) {{\n')        
+            t_list.append(f'	{self.name} := model.{self.Name}{{{self.index.Name}: {self.index.name}}}\n')
+            t_list.append(f'	return {self.name}.Delete(d.engine)\n}}\n\n')
+        else:
+            t_list.append(f'func (d *Dao) Delete{self.Name}(ids []uint) (int64, error) {{\n')        
+            t_list.append(f'	sqlStr := "delete from {self.name}s where id in (%s)"\n')
+            t_list.append(f'	idStr := strings.Replace(strings.Trim(fmt.Sprint(ids), "[]"), " ", ", ", -1)\n')
+            t_list.append(f'	sqlStr = fmt.Sprintf(sqlStr, idStr)\n')
+            t_list.append(f'	ret, err := d.engine.Exec(sqlStr)\n')
+            t_list.append(f'	if err != nil {{\n')
+            t_list.append(f'		return -1, err\n')
+            t_list.append(f'	}}\n')
+            t_list.append(f'	n, err := ret.RowsAffected()\n')
+            t_list.append(f'	if err != nil {{\n')
+            t_list.append(f'		return -1, err\n')
+            t_list.append(f'	}}\n')
+            t_list.append(f'	return n, err\n}}\n\n')
         return {t_dir:t_list}
 
     def make_gin_internal_model(self, project_dir):
         t_dir = "w" + os.path.join(project_dir,f"internal/model/{self.name}.go")
         t_list = []
         t_list.append("package model\n\n")
+        t_list.append('import (\n  "database/sql"\n"fmt"\n"strings"\n)\n')
+
         t_list.append(f'type {self.Name} struct {{\n')
-        t_list.append(f'	ID        uint32    `gorm:"primary_key" json:"id"`\n')
-        t_list.append(f'	CreatedAt time.Time `json:"created_at"`\n')
-        t_list.append(f'	UpdateAt  time.Time `json:"update_at"`\n')
-        t_list.append(f'	Name      string    `json:"name"`\n')
-        t_list.append(f'	Describe  string    `gorm:"typetext" json:"desc"`\n')
-        t_list.append(f'	Ouid      string    `json:"ouid"`\n')
+        t_list.append(self.make_column_format("gin_api_model_struct_arg",1))
         t_list.append(f'}}\n')
         t_list.append(f' \n')
-        t_list.append(f'func (t {self.Name}) TableName() string {{\n')
+        t_list.append(f'func (o {self.Name}) TableName() string {{\n')
         t_list.append(f'	return "{self.name}s"\n')
         t_list.append(f'}}\n')
         t_list.append(f' \n')
-        t_list.append(f'func (t {self.Name}) Count(db *sql.DB) (int, error) {{\n')
+        t_list.append(f'func (o {self.Name}) Count(db *sql.DB) (int, error) {{\n')
         t_list.append(f'	var count int\n')
         t_list.append(f'	sqlStr := "select count(id) from {self.name}s "\n')
-        t_list.append(f'	if t.Name != "" {{\n')
-        t_list.append(f'		sqlStr += fmt.Sprintf("where name = `%s`", t.Name)\n')
-        t_list.append(f'	}}\n')
-        t_list.append(f'	if t.Ouid != "" {{\n')
-        t_list.append(f'		if index := strings.Contains(sqlStr, "where"); index {{\n')
-        t_list.append(f'			sqlStr += fmt.Sprintf(" and ouid = `%s`", t.Ouid)\n')
-        t_list.append(f'		}} else {{\n')
-        t_list.append(f'			sqlStr += fmt.Sprintf(" where ouid = `%s`", t.Ouid)\n')
-        t_list.append(f'		}}\n')
-        t_list.append(f'	}}\n')
+        t_list.append(f'	var where bool\n')
+        t_list.append(self.make_column_format("gin_api_model_count_sql_str",1))
         t_list.append(f'	err := db.QueryRow(sqlStr).Scan(&count)\n')
         t_list.append(f'	if err != nil {{\n')
         t_list.append(f'		return 0, err\n')
         t_list.append(f'	}}\n')
         t_list.append(f'	return count, nil\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (t {self.Name}) List(db *sql.DB, pageOffset, pageSize int) ([]*{self.Name}, error) {{\n')
+        t_list.append(f'}}\n\n')
+        t_list.append(f'func (o {self.Name}) List(db *sql.DB, pageOffset, pageSize int) ([]*{self.Name}, error) {{\n')
         t_list.append(f'	var {self.name}s []*{self.Name}\n')
-        t_list.append(f'	sqlStr := "select id, name, ouid, created_at, updated_at from {self.name}s"\n')
-        t_list.append(f'	if t.Name != "" {{\n')
-        t_list.append(f'		sqlStr += fmt.Sprintf(" where name = `%s`", t.Name)\n')
-        t_list.append(f'	}}\n')
-        t_list.append(f'	if t.Ouid != "" {{\n')
-        t_list.append(f'		if index := strings.Contains(sqlStr, "where"); index {{\n')
-        t_list.append(f'			sqlStr += fmt.Sprintf(" and ouid = `%s`", t.Ouid)\n')
-        t_list.append(f'			fmt.Println(index)\n')
-        t_list.append(f'		}} else {{\n')
-        t_list.append(f'			sqlStr += fmt.Sprintf(" where ouid = `%s`", t.Ouid)\n')
-        t_list.append(f'		}}\n')
-        t_list.append(f'	}}\n')
+        t_list.append(f'	sqlStr := "select {self.make_column_format("gin_api_model_select_arg")[:-1]} from {self.name}s"\n')
+        t_list.append(f'	var where bool\n')
+        t_list.append(self.make_column_format("gin_api_model_count_sql_str",1))
         t_list.append(f'	if pageOffset >= 0 && pageSize > 0 {{\n')
         t_list.append(f'		sqlStr += fmt.Sprintf(" limit %d offset %d", pageSize, pageOffset)\n')
         t_list.append(f'	}}\n')
@@ -1075,39 +1171,48 @@ class Table(object):
         t_list.append(f'	}}\n')
         t_list.append(f'	defer rows.Close()\n')
         t_list.append(f'	for rows.Next() {{\n')
-        t_list.append(f'		var tt {self.Name}\n')
-        t_list.append(f'		err := rows.Scan(&tt.ID, &tt.Name, &tt.Ouid, &tt.CreatedAt, &tt.UpdateAt)\n')
+        t_list.append(f'		var {self.name} {self.Name}\n')
+        t_list.append(f'		err := rows.Scan({self.make_column_format("gin_api_model_list_scan")})\n')
         t_list.append(f'		if err != nil {{\n')
         t_list.append(f'			return nil, err\n')
         t_list.append(f'		}}\n')
-        t_list.append(f'		{self.name}s = append({self.name}s, &tt)\n')
+        t_list.append(f'		{self.name}s = append({self.name}s, &{self.name})\n')
         t_list.append(f'	}}\n')
-        t_list.append(f'	return {self.name}s, nil\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (t {self.Name}) Create(db *sql.DB) (int64, error) {{\n')
-        t_list.append(f'	var id int\n')
-        t_list.append(f'	sqlStr := "select id from {self.name}s where name=?"\n')
-        t_list.append(f'	err := db.QueryRow(sqlStr, t.Name).Scan(&id)\n')
-        t_list.append(f'	if id != 0 {{\n')
-        t_list.append(f'		err := fmt.Errorf("名字%s重复", t.Name)\n')
-        t_list.append(f'		return 0, err\n')
+        t_list.append(f'	return {self.name}s, nil\n}}\n\n')
+        t_list.append(f'func (o *{self.Name}) Get(db *sql.DB) (*{self.Name}, error) {{\n')
+        t_list.append(f'	sqlStr := "select {self.make_column_format("gin_api_model_select_arg")[:-1]} from {self.name}s where {self.index.name} = ?"\n')
+        t_list.append(f'	err := db.QueryRow(sqlStr, o.{self.index.Name}).Scan({self.make_column_format("gin_api_model_get_scan")})\n')
+        t_list.append(f'	if err != nil {{\n')
+        t_list.append(f'		return nil, err\n')
         t_list.append(f'	}}\n')
-        t_list.append(f'	sqlStr = "insert into {self.name}s (`name`, `describe`, `ouid`) values (?, ?, ?)"\n')
-        t_list.append(f'	ret, err := db.Exec(sqlStr, t.Name, t.Describe, t.Ouid)\n')
+        t_list.append(f'	return o, nil\n}}\n\n')
+        t_list.append(f'func (o {self.Name}) Create(db *sql.DB) (int64, error) {{\n')
+        t_list.append(self.make_column_format("gin_api_model_create_unique"))
+        if self.index.name == "id":
+            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("gin_api_model_create_sql")[:-1]}) values ({self.make_column_format("gin_api_model_create_sql_?")[:-1]})"\n')
+            t_list.append(f'	ret, err := db.Exec(sqlStr,{self.make_column_format("gin_api_model_create_exec_arg")[:-1]})\n')
+        else:
+            t_list.append(f'	{self.index.name} := uuid.NewV4().String()\n')
+            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("gin_api_model_create_sql")}`{self.index.name}`) values ({self.make_column_format("gin_api_model_create_sql_?")} ?)"\n')
+            t_list.append(f'	ret, err := db.Exec(sqlStr,{self.make_column_format("gin_api_model_create_exec_arg")} {self.index.name})\n')
         t_list.append(f'	if err != nil {{\n')
         t_list.append(f'		return -1, err\n')
         t_list.append(f'	}}\n')
         t_list.append(f'	{self.name}_id, err := ret.LastInsertId()\n')
-        t_list.append(f'	// if err != nil {{\n')
-        t_list.append(f'	// 	return -1, err\n')
-        t_list.append(f'	// }}\n')
         t_list.append(f'	return {self.name}_id, err\n')
-        t_list.append(f'}}\n')
-        t_list.append(f' \n')
-        t_list.append(f'func (t {self.Name}) Delete(db *sql.DB) (int64, error) {{\n')
-        t_list.append(f'	sqlStr := "delete from {self.name}s where id = ?"\n')
-        t_list.append(f'	ret, err := db.Exec(sqlStr, t.ID)\n')
+        t_list.append(f'}}\n\n')
+        t_list.append(f'func (o {self.Name}) Update(db *sql.DB) (int64, error) {{\n')
+        t_list.append(self.make_column_format("gin_api_model_create_unique"))
+        t_list.append(f'	sqlStr := "UPDATE {self.names} SET {self.make_column_format("gin_api_model_update_sql")[:-1]} where {self.index.name} = ?"\n')
+        t_list.append(f'	ret, err := db.Exec(sqlStr,{self.make_column_format("gin_api_model_update_exec_arg")} o.{self.index.Name})\n')
+        t_list.append(f'	if err != nil {{\n		return -1, err\n	}}\n')
+        t_list.append(f'	n, err := ret.RowsAffected()\n')
+        t_list.append(f'	if err != nil {{\n		return -1, err\n	}}\n')
+        t_list.append(f'	return n, err\n')
+        t_list.append(f'}}\n\n')
+        t_list.append(f'func (o {self.Name}) Delete(db *sql.DB) (int64, error) {{\n')
+        t_list.append(f'	sqlStr := "delete from {self.name}s where {self.index.name} = ?"\n')
+        t_list.append(f'	ret, err := db.Exec(sqlStr, o.{self.index.Name})\n')
         t_list.append(f'	if err != nil {{\n')
         t_list.append(f'		return -1, err\n')
         t_list.append(f'	}}\n')

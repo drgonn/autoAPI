@@ -143,6 +143,7 @@ def main(argv):
         pass
     else:
         source_json = source_dir.get(source)
+        # print(source_dir.get(""))
         if source_json is None:
             print('Error: source json 不存在')
         else:

@@ -145,7 +145,7 @@ project_json = {
                 },
                 {
                     "name": "symbol",
-                    "type": "str",
+                    "type": "string",
                     "length": "16",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -169,7 +169,7 @@ project_json = {
                 },
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -181,7 +181,7 @@ project_json = {
                 },
                 {
                     "name": "area",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -192,7 +192,7 @@ project_json = {
                 },
                 {
                     "name": "industry",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -203,7 +203,7 @@ project_json = {
                 },
                 {
                     "name": "fullname",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -214,7 +214,7 @@ project_json = {
                 },
                 {
                     "name": "enname",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -225,7 +225,7 @@ project_json = {
                 },
                 {
                     "name": "market",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -236,7 +236,7 @@ project_json = {
                 },
                 {
                     "name": "exchange",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -247,7 +247,7 @@ project_json = {
                 },
                 {
                     "name": "curr_type",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -258,7 +258,7 @@ project_json = {
                 },
                 {
                     "name": "list_status",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -291,7 +291,7 @@ project_json = {
                 },
                 {
                     "name": "is_hs",
-                    "type": "str",
+                    "type": "string",
                     "length": "8",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -371,7 +371,7 @@ project_json = {
                 },
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -382,7 +382,7 @@ project_json = {
                 },
                 {
                     "name": "market",
-                    "type": "str",
+                    "type": "string",
                     "length": "16",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -392,7 +392,7 @@ project_json = {
                 },
                 {
                     "name": "publisher",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -404,7 +404,7 @@ project_json = {
 
                 {
                     "name": "category",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -424,7 +424,7 @@ project_json = {
                 },
                 {
                     "name": "base_point",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -473,7 +473,7 @@ project_json = {
                     "show": [        #放在api当中显示的参数
                         {
                             "name":"name",
-                            "type": "str",
+                            "type": "string",
                             "mean":"指数名"
                         },
                     ],
@@ -553,7 +553,7 @@ project_json = {
                     "show": [        #放在api当中显示的参数
                         {
                             "name":"name",
-                            "type": "str",
+                            "type": "string",
                             "mean":"股名"
                         },
                     ],
@@ -569,7 +569,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "分组名"
                         },
                     ],
@@ -819,7 +819,7 @@ project_json = {
                 },
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length":"64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -865,7 +865,7 @@ project_json = {
                     "show": [        #放在api当中显示的参数
                         {
                             "name":"name",
-                            "type": "str",
+                            "type": "string",
                             "mean":"股名"
                         },
                         {
@@ -886,7 +886,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "类型名"
                         },
                     ],
@@ -932,7 +932,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数

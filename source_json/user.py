@@ -175,7 +175,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "部门名"
                         },
                     ],
@@ -238,7 +238,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "角色名"
                         },
                     ],
@@ -254,7 +254,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "部门名"
                         },
                     ],
@@ -263,7 +263,7 @@ project_json = {
             "args": [
                 {
                     "name": "uid",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "mean": "UID",
                     "args": [
@@ -283,7 +283,7 @@ project_json = {
                 },
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -296,7 +296,7 @@ project_json = {
                 },
                 {
                     "name": "phone",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -309,7 +309,7 @@ project_json = {
                 },
                 {
                     "name": "email",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -337,7 +337,7 @@ project_json = {
                 },
                 {
                     "name": "company",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -350,7 +350,7 @@ project_json = {
                 },
                 {
                     "name": "address",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -363,7 +363,7 @@ project_json = {
                 },
                 {
                     "name": "url",
-                    "type": "str",
+                    "type": "string",
                     "length": "128",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -376,7 +376,7 @@ project_json = {
                 },
                 {
                     "name": "nickname",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -389,7 +389,7 @@ project_json = {
                 },
                 {
                     "name": "headimgurl",
-                    "type": "str",
+                    "type": "string",
                     "length": "256",
 
                     "post": 0,  # 创建时候必须填写的参数
@@ -432,7 +432,7 @@ project_json = {
                     "show": [  # 放在api当中显示的参数
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "用户名"
                         },
                     ],
@@ -441,7 +441,7 @@ project_json = {
             "args": [
                 {
                     "name": "ip",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 1,  # 创建时候必须填写的参数
@@ -454,7 +454,7 @@ project_json = {
                 },
                 {
                     "name": "user_agent",
-                    "type": "str",
+                    "type": "string",
                     "length": "1024",
 
                     "post": 0,  # 创建时候必须填写的参数

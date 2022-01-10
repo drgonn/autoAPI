@@ -66,1903 +66,1903 @@ project_json = {
         },
     ],                             #
     "databases": [  # 数据库表
-        {
-            "table": "User",
-            "api": False,
-            "zh": "用户",
-            "parents": [
-            ],
-            "args":[
-                {
-                    "name": "uid",
-                    "type": "str",
-                    "length": "64",
-                    "args": [
-                        {
-                            "name": "unique",
-                            "value": "True",
-                        },
-                        {
-                            "name": "index",
-                            "value": "True",
-                        },
-                        {
-                            "name": "nullable",
-                            "value": "False",
-                        },
-                    ],
-                },
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "unique": 1,
-                    "mean": "用户名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "createDate",
-                    "type": "time",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.utcnow",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # User
-        {
-            "table": "Province",
-            "api": 0,
-            "zh": "省",
-            "detail_sons": [
-                "city"
-            ],
-            "crud":['post', 'put', 'delete'],
-            "parents":[
-            ],
-            "args":[
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
+        # {
+        #     "table": "User",
+        #     "api": False,
+        #     "zh": "用户",
+        #     "parents": [
+        #     ],
+        #     "args":[
+        #         {
+        #             "name": "uid",
+        #             "type": "string",
+        #             "length": "64",
+        #             "args": [
+        #                 {
+        #                     "name": "unique",
+        #                     "value": "True",
+        #                 },
+        #                 {
+        #                     "name": "index",
+        #                     "value": "True",
+        #                 },
+        #                 {
+        #                     "name": "nullable",
+        #                     "value": "False",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "unique": 1,
+        #             "mean": "用户名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "createDate",
+        #             "type": "time",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.utcnow",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # User
+        # {
+        #     "table": "Province",
+        #     "api": 0,
+        #     "zh": "省",
+        #     "detail_sons": [
+        #         "city"
+        #     ],
+        #     "crud":['post', 'put', 'delete'],
+        #     "parents":[
+        #     ],
+        #     "args":[
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "unique": 1,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "code",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "unique": 1,
+        #             "mean": "名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "code",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "unique": 1,
-                    "mean": "行政编码",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr":"name",
-        },  # 省
-        {
-            "table": "City",
-            "api": 0,
-            "zh": "市",
-            "crud": ['post', 'put', 'delete'],
-            "detail_sons":[
-                "area"
-            ],
-            "parents":[
-                {
-                    "name": "Province",
-                    "index": "id",
-                    "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "unique": 1,
+        #             "mean": "行政编码",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr":"name",
+        # },  # 省
+        # {
+        #     "table": "City",
+        #     "api": 0,
+        #     "zh": "市",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "detail_sons":[
+        #         "area"
+        #     ],
+        #     "parents":[
+        #         {
+        #             "name": "Province",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "省份id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "省名"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "省份id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "省名"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "名",
-                    "unique": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "code",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "名",
+        #             "unique": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "code",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "unique": 1,
-                    "mean": "行政编码",
-                    "args": [
-                    ],
-                },
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "unique": 1,
+        #             "mean": "行政编码",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr":"name",
-        },  # 市
-        {
-            "table": "Area",
-            "api": 0,
-            "zh": "行政区",
-            "crud": ['post', 'put', 'delete'],
-            "detail_sons":[
-                "bridge"
-            ],
-            "parents":[
-                {
-                    "name": "City",
-                    "index": "id",
-                    "type": "int",
+        #     ],
+        #     "repr":"name",
+        # },  # 市
+        # {
+        #     "table": "Area",
+        #     "api": 0,
+        #     "zh": "行政区",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "detail_sons":[
+        #         "bridge"
+        #     ],
+        #     "parents":[
+        #         {
+        #             "name": "City",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "市id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "市名"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "市id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "市名"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "code",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "code",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "unique": 1,
-                    "mean": "行政编码",
-                    "args": [
-                    ],
-                },
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "unique": 1,
+        #             "mean": "行政编码",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr":"name",
-        },  # area
-        {
-            "table": "Basetype",
-            "api": 0,
-            "zh": "基础类型",
-            "crud": ['post', 'put', 'delete'],
-            "detail_sons":[
-                "buildtype"
-            ],
-            "parents":[
-            ],
-            "args":[
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "color0",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "低色",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "color100",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "高色",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr":"name",
-        },  # 基础类型
-        {
-            "table": "Buildtype",
-            "api": 0,
-            "zh": "建筑种类",
-            "crud": ['post', 'put', 'delete'],
-            "detail_sons":[
-            ],
-            "parents":[
-                {
-                    "name": "Basetype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑种类id",
-                    "tojson": "name",  # 在json字段当中显示的参数
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "基础类型"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr":"name",
-        },  # 建筑种类
-        {
-            "table": "Bridge",
-            "api": 0,
-            "zh": "建筑",
-            "crud": ['post', 'put', 'delete'],
-            "detail_sons":[
-            ],
-            "parents": [
-                {
-                    "name": "Basetype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "基础种类id",
-                    "tojson": "name",  # 在json字段当中显示的参数
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "基础类型"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-                {
-                    "name": "Buildtype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑种类id",
-                    "tojson": "name",  # 在json字段当中显示的参数
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "建筑类型"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "建筑类型id"
-                        },
-                    ],
-                },
-                {
-                    "name": "Province",
-                    "index": "id",
-                    "type": "int",
+        #     ],
+        #     "repr":"name",
+        # },  # area
+        # {
+        #     "table": "Basetype",
+        #     "api": 0,
+        #     "zh": "基础类型",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "detail_sons":[
+        #         "buildtype"
+        #     ],
+        #     "parents":[
+        #     ],
+        #     "args":[
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "color0",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "低色",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "color100",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "高色",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr":"name",
+        # },  # 基础类型
+        # {
+        #     "table": "Buildtype",
+        #     "api": 0,
+        #     "zh": "建筑种类",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "detail_sons":[
+        #     ],
+        #     "parents":[
+        #         {
+        #             "name": "Basetype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑种类id",
+        #             "tojson": "name",  # 在json字段当中显示的参数
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "基础类型"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "名",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr":"name",
+        # },  # 建筑种类
+        # {
+        #     "table": "Bridge",
+        #     "api": 0,
+        #     "zh": "建筑",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "detail_sons":[
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Basetype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "基础种类id",
+        #             "tojson": "name",  # 在json字段当中显示的参数
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "基础类型"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "Buildtype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑种类id",
+        #             "tojson": "name",  # 在json字段当中显示的参数
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "建筑类型"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "建筑类型id"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "Province",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "省份id",
-                    "tojson": "name",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "省名 "
-                        },
-                        {
-                            "name": "code",
-                            "type": "int",
-                            "mean": "建筑类型id"
-                        },
-                    ],
-                },
-                {
-                    "name": "City",
-                    "index": "id",
-                    "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "省份id",
+        #             "tojson": "name",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "省名 "
+        #                 },
+        #                 {
+        #                     "name": "code",
+        #                     "type": "int",
+        #                     "mean": "建筑类型id"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "City",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "市id",
-                    "tojson": "name",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "省名 "
-                        },
-                        {
-                            "name": "code   ",
-                            "type": "int",
-                            "mean": "建筑类型id"
-                        },
-                    ],
-                },
-                {
-                    "name": "Area",
-                    "index": "id",
-                    "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "市id",
+        #             "tojson": "name",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "省名 "
+        #                 },
+        #                 {
+        #                     "name": "code   ",
+        #                     "type": "int",
+        #                     "mean": "建筑类型id"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "Area",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "行政区id",
-                    "tojson": "name",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "省名 "
-                        },
-                        {
-                            "name": "code",
-                            "type": "int",
-                            "mean": "建筑类型id"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "行政区id",
+        #             "tojson": "name",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "省名 "
+        #                 },
+        #                 {
+        #                     "name": "code",
+        #                     "type": "int",
+        #                     "mean": "建筑类型id"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "mean": "名",
-                    "unique": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "safe_score",
-                    "type": "float",
-                    "length": "",
-                    "post": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "mean": "名",
+        #             "unique": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "safe_score",
+        #             "type": "float",
+        #             "length": "",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "安全分数",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "advice",
-                    "type": "text",
-                    "length": "",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
-                    "mean": "管养建议",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "address",
-                    "type": "text",
-                    "length": "",
-                    "post": 1,
+        #             "mean": "安全分数",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "advice",
+        #             "type": "text",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
+        #             "mean": "管养建议",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "address",
+        #             "type": "text",
+        #             "length": "",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
 
-                    "mean": "详细地址",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "about",
-                    "type": "text",
-                    "length": "",
-                    "post": 1,
+        #             "mean": "详细地址",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "length": "",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
 
-                    "mean": "概况",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "about_content",
-                    "type": "text",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
+        #             "mean": "概况",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "about_content",
+        #             "type": "text",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
 
-                    "mean": "概况详细内容",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "monit_about",
-                    "type": "text",
-                    "length": "",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
+        #             "mean": "概况详细内容",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "monit_about",
+        #             "type": "text",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
 
-                    "mean": "监测框架介绍",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "monit_about_content",
-                    "type": "text",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,
-                    "list": 0,
+        #             "mean": "监测框架介绍",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "monit_about_content",
+        #             "type": "text",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,
+        #             "list": 0,
 
-                    "mean": "监测框架介绍详细内容",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "latitude",
-                    "type": "float",
-                    # "length": "128",
-                    "post": 1,
+        #             "mean": "监测框架介绍详细内容",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "latitude",
+        #             "type": "float",
+        #             # "length": "128",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "纬度",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "longitude",
-                    "type": "float",
-                    # "length": "128",
-                    "post": 1,
+        #             "mean": "纬度",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "longitude",
+        #             "type": "float",
+        #             # "length": "128",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "经度",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "update_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "经度",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "update_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "更新时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "更新时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 建筑
-        {
-            "table": "Bridgeimg",
-            "api": 1,
-            "zh": "建筑概览图",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "产品id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "need": 0,
-                    "put": 1,
-                    "listneed": 1,
+        #     ],
+        #     "repr": "name",
+        # },  # 建筑
+        # {
+        #     "table": "Bridgeimg",
+        #     "api": 1,
+        #     "zh": "建筑概览图",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "产品id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "need": 0,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "mean": "图片名",
-                    "args": [
-                    ],
-                },
+        #             "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+        #             "mean": "图片名",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 建筑图片
-        {
-            "table": "Filetype",
-            "api": 1,
-            "zh": "文件类型",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
+        #     ],
+        #     "repr": "name",
+        # },  # 建筑图片
+        # {
+        #     "table": "Filetype",
+        #     "api": 1,
+        #     "zh": "文件类型",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "parents": [
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "文件类型名",
-                    "args": [
-                    ],
-                },
-                # {
-                #     "name": "type",
-                #     "type": "int",
-                #
-                #     "post": 2,  
-                #     "put": 1,
-                #     "list": 0,
-                #
-                #     "mean": "文件的种类：1图片，2excel，3pdf",
-                #     "args": [
-                #     ],
-                # },
-            ],
-            "repr": "name",
-        },  # 文件类型
-        {
-            "table": "File",
-            "api": 0,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "文件",
-            "parents": [
-                {
-                    "name": "Filetype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "文件类型id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "类型名"
-                        },
-                    ]
-                },
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "建筑名"
-                        },
-                    ]
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 2,
-                    "put": 0,
-                    "listneed": 1,
-                    "like": 1,
-                    "mean": "文件名",
-                    "filter": "like",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "file_name",
-                    "type": "str",
-                    "length": "256",
-                    "post": 0,
-                    "put": 0,
-                    "listneed": 1,
-                    "like": 1,
-                    "mean": "文件上传名",
-                    "filter": "like",
-                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "args": [
-                    ],
-                },
-                # {
-                #     "name": "type",
-                #     "type": "int",
-                #     "post": 2,  
-                #     "put": 1,
-                #     "list": 0,
-                #     "mean": "文件类型",
-                #     "filter": "precise",
-                #     "mapping": [
-                #         {'key': 1, 'value': "概览图片"},
-                #         {'key': 2, 'value': "设计图纸"},
-                #         {'key': 3, 'value': "设计文件"},
-                #         {'key': 4, 'value': "施工文件"},
-                #         {'key': 5, 'value': "竣工图纸"},
-                #         {'key': 6, 'value': "验收文件"},
-                #         {'key': 7, 'value': "行政文件"},
-                #         {'key': 8, 'value': "定期检查报告"},
-                #         {'key': 9, 'value': "特殊检查报告"},
-                #         {'key': 10, 'value': "历史维修资料"},
-                #     ],
-                # },
-                {
-                    "name": "page",
-                    "type": "int",
-                    "post": 1,
-                    "put": 1,
-                    "list": 0,
+        #             "mean": "文件类型名",
+        #             "args": [
+        #             ],
+        #         },
+        #         # {
+        #         #     "name": "type",
+        #         #     "type": "int",
+        #         #
+        #         #     "post": 2,  
+        #         #     "put": 1,
+        #         #     "list": 0,
+        #         #
+        #         #     "mean": "文件的种类：1图片，2excel，3pdf",
+        #         #     "args": [
+        #         #     ],
+        #         # },
+        #     ],
+        #     "repr": "name",
+        # },  # 文件类型
+        # {
+        #     "table": "File",
+        #     "api": 0,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "文件",
+        #     "parents": [
+        #         {
+        #             "name": "Filetype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "文件类型id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "类型名"
+        #                 },
+        #             ]
+        #         },
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "建筑名"
+        #                 },
+        #             ]
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 2,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "like": 1,
+        #             "mean": "文件名",
+        #             "filter": "like",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "file_name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "post": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "like": 1,
+        #             "mean": "文件上传名",
+        #             "filter": "like",
+        #             "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+        #             "args": [
+        #             ],
+        #         },
+        #         # {
+        #         #     "name": "type",
+        #         #     "type": "int",
+        #         #     "post": 2,  
+        #         #     "put": 1,
+        #         #     "list": 0,
+        #         #     "mean": "文件类型",
+        #         #     "filter": "precise",
+        #         #     "mapping": [
+        #         #         {'key': 1, 'value': "概览图片"},
+        #         #         {'key': 2, 'value': "设计图纸"},
+        #         #         {'key': 3, 'value': "设计文件"},
+        #         #         {'key': 4, 'value': "施工文件"},
+        #         #         {'key': 5, 'value': "竣工图纸"},
+        #         #         {'key': 6, 'value': "验收文件"},
+        #         #         {'key': 7, 'value': "行政文件"},
+        #         #         {'key': 8, 'value': "定期检查报告"},
+        #         #         {'key': 9, 'value': "特殊检查报告"},
+        #         #         {'key': 10, 'value': "历史维修资料"},
+        #         #     ],
+        #         # },
+        #         {
+        #             "name": "page",
+        #             "type": "int",
+        #             "post": 1,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "分册顺序",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "update_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "分册顺序",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "update_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "更新时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "更新时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 文件
-        {
-            "table": "Productimg",
-            "api": 0,
-            "zh": "产品图片",
-            "parents": [
-                {
-                    "name": "Product",
-                    "index": "id",
-                    "type": "int",
+        #     ],
+        #     "repr": "name",
+        # },  # 文件
+        # {
+        #     "table": "Productimg",
+        #     "api": 0,
+        #     "zh": "产品图片",
+        #     "parents": [
+        #         {
+        #             "name": "Product",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "产品id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "need": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "产品id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "图片名",
-                    "args": [
-                    ],
-                },
+        #             "mean": "图片名",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 产品图片
-        {
-            "table": "Product",
-            "api": 0,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "传感器类型",
-            "detail_sons":[
-                "device"
-            ],
-            "parents": [
-                {
-                    "name": "Monitgroup",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "监控分组id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "分组名"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ]
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
+        #     ],
+        #     "repr": "name",
+        # },  # 产品图片
+        # {
+        #     "table": "Product",
+        #     "api": 0,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "传感器类型",
+        #     "detail_sons":[
+        #         "device"
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Monitgroup",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "监控分组id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "分组名"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ]
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "类型名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "prefix",
-                    "type": "str",
-                    "length": "64",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "mean": "类型名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "prefix",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "编码前缀",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "编码前缀",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "默认自定义可变参数，在创建传感器时可以复用",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 传感器类型
-        {
-            "table": "Device",
-            "api": 0,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "传感器",
-            "detail_sons":[
-                "monitvalue"
-            ],
-            "many":[
-            ],
-            "parents": [
-                {
-                    "name": "Product",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "产品id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "名"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ]
-                },
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "默认自定义可变参数，在创建传感器时可以复用",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 传感器类型
+        # {
+        #     "table": "Device",
+        #     "api": 0,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "传感器",
+        #     "detail_sons":[
+        #         "monitvalue"
+        #     ],
+        #     "many":[
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Product",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "产品id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "名"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ]
+        #         },
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "名"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ]
-                },
-                {
-                    "name": "Dtu",
-                    "index": "id",
-                    "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "名"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ]
+        #         },
+        #         {
+        #             "name": "Dtu",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "DTUid",
-                    "show": [
-                        {
-                            "name": "sn",
-                            "type": "str",
-                            "mean": "DTU序列号"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-                {
-                    "name": "Collect",
-                    "index": "id",
-                    "type": "int",
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "采集仪id",
-                    "show": [
-                        {
-                            "name": "sn",
-                            "type": "str",
-                            "mean": "采集仪序列号"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "sn",
-                    "type": "str",
-                    "length": "64",
-                    "post": 0,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "mean": "编号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "exception",
-                    "type": "bool",
-                    "need": 0,
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "DTUid",
+        #             "show": [
+        #                 {
+        #                     "name": "sn",
+        #                     "type": "string",
+        #                     "mean": "DTU序列号"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "Collect",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "采集仪id",
+        #             "show": [
+        #                 {
+        #                     "name": "sn",
+        #                     "type": "string",
+        #                     "mean": "采集仪序列号"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "sn",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 0,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "mean": "编号",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "exception",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否异常",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "bimid",
-                    "type": "int",
-                    "length": "256",
+        #             "mean": "是否异常",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "bimid",
+        #             "type": "int",
+        #             "length": "256",
 
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "位置BimId",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "latitude",
-                    "type": "float",
-                    "post": 1,
-                    "put": 1,
-                    "list": 0,
+        #             "mean": "位置BimId",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "latitude",
+        #             "type": "float",
+        #             "post": 1,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "纬度",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "longitude",
-                    "type": "float",
-                    "post": 1,
-                    "put": 1,
-                    "list": 0,
+        #             "mean": "纬度",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "longitude",
+        #             "type": "float",
+        #             "post": 1,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "经度",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "fault",
-                    "type": "bool",
-                    "need": 0,
+        #             "mean": "经度",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "fault",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否故障",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "install_time",
-                    "type": "time",
-                    "length": "",
-                    "post": 1,
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "mean": "是否故障",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "install_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "安装时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "update_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "安装时间",
+        #             "sorter": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "update_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "更新时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "mean": "更新时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "自定义可变参数",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 传感器
-        {
-            "table": "Deviceimg",
-            "api": 1,
-            "zh": "传感器图片",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-                {
-                    "name": "Device",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "传感器id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "need": 0,
-                    "put": 1,
-                    "listneed": 1,
+        #             "mean": "自定义可变参数",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 传感器
+        # {
+        #     "table": "Deviceimg",
+        #     "api": 1,
+        #     "zh": "传感器图片",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "parents": [
+        #         {
+        #             "name": "Device",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "传感器id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "need": 0,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "mean": "图片名",
-                    "args": [
-                    ],
-                },
+        #             "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+        #             "mean": "图片名",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 传感器图片
-        {
-            "table": "Dtutype",
-            "api": 1,
-            "zh": "通讯设备类型",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #     ],
+        #     "repr": "name",
+        # },  # 传感器图片
+        # {
+        #     "table": "Dtutype",
+        #     "api": 1,
+        #     "zh": "通讯设备类型",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "parents": [
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "名称",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "名称",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "自定义可变参数",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 通讯设备类型
-        {
-            "table": "Dtu",
-            "api": 1,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "通讯设备",
-            "many":[
-            ],
-            "parents": [
-                {
-                    "name": "Dtutype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "类型id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "类型名"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "sn",
-                    "type": "str",
-                    "length": "64",
+        #             "mean": "自定义可变参数",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 通讯设备类型
+        # {
+        #     "table": "Dtu",
+        #     "api": 1,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "通讯设备",
+        #     "many":[
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Dtutype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "类型id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "类型名"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "sn",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "mean": "编号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "dtu_img",
-                    "type": "str",
-                    "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "mean": "编号",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "dtu_img",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "mean": "图片",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "fault",
-                    "type": "bool",
-                    "need": 0,
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "mean": "图片",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "fault",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否故障",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "install_time",
-                    "type": "time",
-                    "length": "",
-                    "post": 1,
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "mean": "是否故障",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "install_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "安装时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "update_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "安装时间",
+        #             "sorter": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "update_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "更新时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "更新时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "自定义可变参数",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 通讯设备
-        {
-            "table": "Dtuimg",
-            "api": 1,
-            "zh": "通讯设备图片",
-            "parents": [
-                {
-                    "name": "Dtu",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "产品id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "need": 0,
-                    "put": 1,
-                    "listneed": 1,
+        #             "mean": "自定义可变参数",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 通讯设备
+        # {
+        #     "table": "Dtuimg",
+        #     "api": 1,
+        #     "zh": "通讯设备图片",
+        #     "parents": [
+        #         {
+        #             "name": "Dtu",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "产品id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "need": 0,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "mean": "图片名",
-                    "args": [
-                    ],
-                },
+        #             "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+        #             "mean": "图片名",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 通讯设备图片
-        {
-            "table": "Collecttype",
-            "api": 1,
-            "zh": "采集仪类型",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #     ],
+        #     "repr": "name",
+        # },  # 通讯设备图片
+        # {
+        #     "table": "Collecttype",
+        #     "api": 1,
+        #     "zh": "采集仪类型",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "parents": [
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "采集仪类型名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "采集仪类型名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "自定义可变参数",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 采集仪类型
-        {
-            "table": "Collect",
-            "api": 1,
-            "zh": "采集仪",
-            "many": [
-            ],
-            "parents": [
-                {
-                    "name": "Collecttype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "类型id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "类型名"
-                        },
-                        {
-                            "name": "id",
-                            "type": "int",
-                            "mean": "id"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "sn",
-                    "type": "str",
-                    "length": "64",
+        #             "mean": "自定义可变参数",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 采集仪类型
+        # {
+        #     "table": "Collect",
+        #     "api": 1,
+        #     "zh": "采集仪",
+        #     "many": [
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Collecttype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "类型id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "类型名"
+        #                 },
+        #                 {
+        #                     "name": "id",
+        #                     "type": "int",
+        #                     "mean": "id"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "sn",
+        #             "type": "string",
+        #             "length": "64",
 
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "mean": "采集仪编号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "fault",
-                    "type": "bool",
-                    "need": 0,
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "mean": "采集仪编号",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "fault",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否故障",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "install_time",
-                    "type": "time",
-                    "length": "",
-                    "post": 1,
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "mean": "是否故障",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "install_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "安装时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "update_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "安装时间",
+        #             "sorter": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "update_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "更新时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "更新时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-                {
-                    "name": "args",
-                    "type": "JSON",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 0,  # 请求列表可以用来筛选
-                    "list": 0,
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "args",
+        #             "type": "JSON",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 0,  # 请求列表可以用来筛选
+        #             "list": 0,
 
-                    "mean": "自定义可变参数",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "{}",
-                        },
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 采集仪
-        {
-            "table": "Collectimg",
-            "api": 1,
-            "zh": "通讯设备图片",
-            "crud": ['post', 'put', 'delete'],
-            "parents": [
-                {
-                    "name": "Collect",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "采集仪id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "need": 0,
-                    "put": 1,
-                    "listneed": 1,
+        #             "mean": "自定义可变参数",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "{}",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 采集仪
+        # {
+        #     "table": "Collectimg",
+        #     "api": 1,
+        #     "zh": "通讯设备图片",
+        #     "crud": ['post', 'put', 'delete'],
+        #     "parents": [
+        #         {
+        #             "name": "Collect",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "采集仪id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "need": 0,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "mean": "图片名",
-                    "args": [
-                    ],
-                },
+        #             "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+        #             "mean": "图片名",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 采集仪图片
-        {
-            "table": "Devicelog",
-            "api": 1,
-            "zh": "设备日志",
-            "parents": [
-                {
-                    "name": "Device",
-                    "index": "id",
-                    "type": "int",
+        #     ],
+        #     "repr": "name",
+        # },  # 采集仪图片
+        # {
+        #     "table": "Devicelog",
+        #     "api": 1,
+        #     "zh": "设备日志",
+        #     "parents": [
+        #         {
+        #             "name": "Device",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "设备id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "position",
-                    "type": "int",
-                    # "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "设备id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "position",
+        #             "type": "int",
+        #             # "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "设备位置代号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "exception",
-                    "type": "bool",
-                    "need": 0,
+        #             "mean": "设备位置代号",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "exception",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否异常",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "fault",
-                    "type": "bool",
-                    "need": 0,
+        #             "mean": "是否异常",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "fault",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否故障",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "是否故障",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 设备日志
-        {
-            "table": "Monitgroup",
-            "api": 1,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "监测种类",
-            "detail_sons":[
-                "product"
-            ],
-            "parents": [
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #     ],
+        #     "repr": "name",
+        # },  # 设备日志
+        # {
+        #     "table": "Monitgroup",
+        #     "api": 1,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "监测种类",
+        #     "detail_sons":[
+        #         "product"
+        #     ],
+        #     "parents": [
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "监测种类名",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 监测种类
-        {
-            "table": "Excepttrigger",
-            "api": 1,
-            "zh": "监控参数异常条件",
-            "parents": [
-                {
-                    "name": "Monitvalue",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "监测种类名",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 监测种类
+        # {
+        #     "table": "Excepttrigger",
+        #     "api": 1,
+        #     "zh": "监控参数异常条件",
+        #     "parents": [
+        #         {
+        #             "name": "Monitvalue",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "监控类型id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "value",
-                    "type": "float",
-                    # "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "监控类型id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "value",
+        #             "type": "float",
+        #             # "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "监控参数值",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "compare",
-                    "type": "int",
-                    # "length": "64",
+        #             "mean": "监控参数值",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "compare",
+        #             "type": "int",
+        #             # "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "取值执行条件，1:<,2:>,3:=",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "logic",
-                    "type": "int",
-                    # "length": "64",
+        #             "mean": "取值执行条件，1:<,2:>,3:=",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "logic",
+        #             "type": "int",
+        #             # "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "取值判断条件，1: and, 0: or",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 监控异常范围
-        {
-            "table": "Valuelog",
-            "api": 1,
-            "crud": ['post', 'put', 'delete'],
-            "zh": "监控值日志",
-            "parents": [
-                {
-                    "name": "Monitvalue",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "监控值id",
-                },
-                {
-                    "name": "Device",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "设备id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "传感器名"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "value",
-                    "type": "float",
-                    # "length": "64",
+        #             "mean": "取值判断条件，1: and, 0: or",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 监控异常范围
+        # {
+        #     "table": "Valuelog",
+        #     "api": 1,
+        #     "crud": ['post', 'put', 'delete'],
+        #     "zh": "监控值日志",
+        #     "parents": [
+        #         {
+        #             "name": "Monitvalue",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "监控值id",
+        #         },
+        #         {
+        #             "name": "Device",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "设备id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "传感器名"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "value",
+        #             "type": "float",
+        #             # "length": "64",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "监控参数名",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "create_time",
-                    "type": "time",
-                    "length": "",
-                    "need": 0,
+        #             "mean": "监控参数名",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "create_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "need": 0,
                     
-                    "put": 0,
-                    "listneed": 1,
-                    "list": 0,
+        #             "put": 0,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "创建时间",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": "datetime.now",
-                        },
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 监控参数值日志
-        {
-            "table": "Warn",
-            "api": 1,
-            "zh": "预警",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "创建时间",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": "datetime.now",
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 监控参数值日志
+        # {
+        #     "table": "Warn",
+        #     "api": 1,
+        #     "zh": "预警",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-                {
-                    "name": "Device",
-                    "index": "id",
-                    "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #         {
+        #             "name": "Device",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "设备id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "statu",
-                    "type": "bool",
-                    # "length": "64",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "设备id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "statu",
+        #             "type": "bool",
+        #             # "length": "64",
 
-                    "post": 2,  # 
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  # 
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "处理状态，1已处理，0未处理",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
+        #             "mean": "处理状态，1已处理，0未处理",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 预警信息
+        #             "mean": "预警处理结果",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 预警信息
         {
             "table": "SickDesc",
             "api": 1,
@@ -1979,16 +1979,17 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "部位名"
                         },
                     ],
                 },
             ],
             "args": [
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "unique": 1,
                     "post": 2,  
@@ -2017,13 +2018,14 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "病害名"
                         },
                     ],
                 },
             ],
             "args": [
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
                 {
                     "name": "scale",
                     "type": "float",
@@ -2076,7 +2078,7 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "桥梁名"
                         },
                     ],
@@ -2084,20 +2086,19 @@ project_json = {
             ],
             "many":[
                 {"w_model":1, "add_api": 1, "name": "User", "mean": "巡检用户", "prefix":"inspect_"
-                # "show": [{"name": "name", "type": "str", "mean": "分组名"}, ],
+                # "show": [{"name": "name", "type": "string", "mean": "分组名"}, ],
                  },
                 {"w_model":1, "add_api": 1, "name": "User", "mean": "评估用户", "prefix":"assess_"},
                 {"w_model":1, "add_api": 1, "name": "Component", "mean": "部位id", "prefix":""},
             ],
             "args": [
-                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],
-                },
-                {"name": "name","type": "str","length": "256","post": 2, "put": 1,"list": 1,"mean": "标题","args": [],
-                },
-                {"name": "statu","type": "int","length": "64","post": 0,"put": 0,"list": 1,"mean": "处理状态",
-                "mapping": [{'key': 1, 'value': "未开始"},{'key': 2, 'value': "进行中"},{'key': 3, 'value': "巡检完成"},{'key': 4, 'value': "已评分"},{'key': 4, 'value': "已生成报告"},],
-                "args": [{ "name": "default", "value": 0,},],
-                },
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
+                {"name": "name","type": "string","length": "256","post": 2, "put": 1,"list": 1,"mean": "标题","args": [],},
+                {"name": "way","type": "int","length": "64","post": 1,"put": 1,"list": 1,"mean": "巡检方式",
+                "mapping": [{'key': 1, 'value': "人工巡检"},{'key': 2, 'value': "机器巡检"},{'key': 3, 'value': "混合巡检"}],},
+                {"name": "statu","type": "int","length": "64","post": 0,"put": 1,"list": 1,"mean": "处理状态",
+                "mapping": [{'key': 1, 'value': "未开始"},{'key': 2, 'value': "进行中"},{'key': 3, 'value': "巡检完成"},{'key': 4, 'value': "已评分"},{'key': 5, 'value': "已生成报告"},],
+                "args": [{ "name": "default", "value": 0,},],},
                 {"name": "work_type","type": "int","post": 1,  "put": 1,"list": 1,"mean": "巡检任务类型",
                 "mapping": [{'key': 1, 'value': "日常巡检"}, {'key': 2, 'value': "周期巡检"}, {'key': 3, 'value': "专项巡检"}, {'key': 4, 'value': "应急巡检"},],
                 "args": [    {        "name": "default",        "value": 0,    },],
@@ -2120,6 +2121,36 @@ project_json = {
             "repr": "id",
         },  # 巡检任务
         {
+            "table": "InspectWorkImg",
+            "api": 1,
+            "zh": "巡检任务图片",
+            "about": "存储病害图片地址",
+            "url_prefix": "inspect",
+            "crud": ['post', 'put', 'delete'],
+        "parents": [
+            {"name":"InspectWork","index": "id","type": "int","post": 2,  "put": 1,"list": 0, "mean": "巡检任务id",},
+        ],
+            "args": [
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
+                {
+                    "name": "name",
+                    "type": "string",
+                    "length": "256",
+                    "post": 2,
+                    "put": 1,
+                    "list": 1,
+                    "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
+                    "mean": "图片名称",
+                    "args": [
+                    ],
+                },
+                {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "created_at", "type": "time", "length": "", "default": "now",   "mean": "创建时间", },
+                {"post": 0, "put": 0, "list": 0, "sorter": 0, "name": "url",  "type": "string",  "length": "512", "default": None, "mean": "图片地址"},
+
+            ],
+            "repr": "name",
+        },  # 巡检任务图片
+        {
             "table": "Inspect",
             "api": 1,
             "zh": "巡检记录",
@@ -2137,13 +2168,13 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "巡检任务名"
                         },
                     ],
                 },
                 {"name": "Component","index": "id","type": "int","post": 2,  "put": 1,"list": 0,"mean": "构件id",
-                "show": [{"name": "sn","type": "str","mean": "构件名"},],},
+                "show": [{"name": "sn","type": "string","mean": "构件名"},],},
                 {
                     "name": "User",
                     "index": "id",
@@ -2155,7 +2186,7 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "巡检员用户名"
                         },
                     ],
@@ -2219,7 +2250,7 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "巡检记录标题"
                         },
                     ],
@@ -2235,15 +2266,24 @@ project_json = {
                     "show": [
                         {
                             "name": "name",
-                            "type": "str",
+                            "type": "string",
                             "mean": "桥梁名"
                         },
                     ],
                 },
+                {"name": "InspectWork","index": "id","type": "int","post": 0,  "put": 0,"list": 1,"mean": "巡检任务id",
+                "show": [{"name": "name","type": "string","mean": "任务名"},],},
                 {"name": "Component","index": "id","type": "int","post": 0,  "put": 0,"list": 1,"mean": "构件id",
-                "show": [{"name": "sn","type": "str","mean": "构件名"},],},
+                "show": [{"name": "sn","type": "string","mean": "构件名"},],},
+                {"name": "SickDesc","index": "id","type": "int","post": 1,  "put": 1,"list": 1,"mean": "病害描述id",
+                "show": [{"name": "name","type": "string","mean": "病害描述名"},],},
             ],
             "args": [
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
+                {"name": "temperature","type": "float","length": "64","post": 1, "put": 0,"list": 1,"mean": "当天温度","args": [],},
+                {"name": "weather","type": "string","length": "64","post": 1, "put": 0,"list": 1,"mean": "天气","args": [],},
+                {"name": "long","type": "float","length": "64","post": 1, "put": 0,"list": 1,"mean": "经度","args": [],},
+                {"name": "lat","type": "float","length": "64","post": 1, "put": 0,"list": 1,"mean": "纬度","args": [],},
                 {
                     "name": "statu",
                     "type": "bool",
@@ -2323,433 +2363,434 @@ project_json = {
                 },
             ],
             "args": [
+                {"name": "id","type": "int","post": 0,  "put": 0,"list": 0,"like": 1,"sorter": 1,"mean": "主键ID","args": [],},
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "256",
                     "need": 0,
                     "put": 1,
-                    "listneed": 1,
-
+                    "list": 1,
                     "file": 1,  # 表示这是一个可以上传下载的文件：1表示可上传，2表示可下载，3表示可上传下载
-                    "mean": "图片地址",
+                    "mean": "图片名称",
                     "args": [
                     ],
                 },
+                {"post": 0, "put": 0, "list": 0, "sorter": 0, "name": "url",       "type": "string",  "length": "512", "default": None, "mean": "图片地址"},
 
             ],
             "repr": "name",
         },  # 病害图片
-        {
-            "table": "Structure",
-            "api": 1,
-            "zh": "基础设施部位",
-            "parents": [
-                {
-                    "name": "Buildtype",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "基础设施种类id",
-                },
+        # {
+        #     "table": "Structure",
+        #     "api": 1,
+        #     "zh": "基础设施部位",
+        #     "parents": [
+        #         {
+        #             "name": "Buildtype",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "基础设施种类id",
+        #         },
 
-            ],
-            "args": [
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "64",
-                    "unique": 1,
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "名",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 基础设施部位
-        {
-            "table": "ComponentGroup",
-            "api": 1,
-            "zh": "构件分组",
-            "url_prefix": "inspect",
-            "about": "为了能够快速选中位置相近的构件，将在同一个地方的构件进行分组",
-            # "many":[
-            #     {
-            #         "name": "Component",
-            #         "w_model":1,         # 表示用以写model的一方
-            #         "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "64",
+        #             "unique": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "名",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 基础设施部位
+        # {
+        #     "table": "ComponentGroup",
+        #     "api": 1,
+        #     "zh": "构件分组",
+        #     "url_prefix": "inspect",
+        #     "about": "为了能够快速选中位置相近的构件，将在同一个地方的构件进行分组",
+        #     # "many":[
+        #     #     {
+        #     #         "name": "Component",
+        #     #         "w_model":1,         # 表示用以写model的一方
+        #     #         "add_api": 1,       # true时 api 接口当中的put  写上添加对方的ids
 
-            #         "mean": "部位id",
-            #         "show": [
-            #             {
-            #                 "name": "name",
-            #                 "type": "str",
-            #                 "mean": "分组名"
-            #             },
-            #         ],
-            #     },
-            # ],
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,
-                    "put": 1,
-                    "list": 1,
-                    "mean": "建筑",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "建筑名"
-                        },
-                    ],
-                },
-            ],
-            "sons": [
-                {
-                    "name": "Component",
-                    "to_json": 1,   # 需要在to_json当中返回的json
-                    "add": 1,
+        #     #         "mean": "部位id",
+        #     #         "show": [
+        #     #             {
+        #     #                 "name": "name",
+        #     #                 "type": "string",
+        #     #                 "mean": "分组名"
+        #     #             },
+        #     #         ],
+        #     #     },
+        #     # ],
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,
+        #             "put": 1,
+        #             "list": 1,
+        #             "mean": "建筑",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "建筑名"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "sons": [
+        #         {
+        #             "name": "Component",
+        #             "to_json": 1,   # 需要在to_json当中返回的json
+        #             "add": 1,
 
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "建筑名"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "id", "type": "int", "post": 0, "put": 0, "list": 0, "sorter": 1,
-                    "mean": "主键ID",
-                    "args": [],
-                },
-                {
-                    "name": "name",
-                    "type": "str",
-                    "length": "256",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 1,  #
-                    "like": 1,
-                    "sorter": 1,
-                    "mean": "名称",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "modified_on",
-                    "type": "time",
-                    "length": "",
-                    "post": 0,
-                    "put": 0,
-                    "list": 1,
-                    "list": 0,
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "建筑名"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "id", "type": "int", "post": 0, "put": 0, "list": 0, "sorter": 1,
+        #             "mean": "主键ID",
+        #             "args": [],
+        #         },
+        #         {
+        #             "name": "name",
+        #             "type": "string",
+        #             "length": "256",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 1,  #
+        #             "like": 1,
+        #             "sorter": 1,
+        #             "mean": "名称",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "modified_on",
+        #             "type": "time",
+        #             "length": "",
+        #             "post": 0,
+        #             "put": 0,
+        #             "list": 1,
+        #             "list": 0,
 
-                    "mean": "修改时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
-                    "put": 1,
-                    "list": 0,
+        #             "mean": "修改时间",
+        #             "sorter": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "描述",
-                    "args": [
-                    ],
-                },
+        #             "mean": "描述",
+        #             "args": [
+        #             ],
+        #         },
 
-            ],
-            "repr": "name",
-        },  # 构件分组
-        {
-            "table": "Component",
-            "api": 1,
-            "zh": "构件",
-            "many": [
+        #     ],
+        #     "repr": "name",
+        # },  # 构件分组
+        # {
+        #     "table": "Component",
+        #     "api": 1,
+        #     "zh": "构件",
+        #     "many": [
 
-            ],
-            "parents": [
-                {
-                    "name": "Structure",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "部位id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "部位名"
-                        },
-                    ],
-                },
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "建筑名"
-                        },
-                    ],
-                },
-                {
-                    "name": "ComponentGroup",
-                    "index": "id",
-                    "type": "int",
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "构件分组id",
-                    "show": [
-                        {
-                            "name": "name",
-                            "type": "str",
-                            "mean": "构件分组"
-                        },
-                    ],
-                },
-            ],
-            "args": [
-                {
-                    "name": "id",
-                    "type": "int",
-                    "post": 0,  
-                    "put": 0,
-                    "list": 0,
-                    "like": 1,
-                    "sorter": 1,
-                    "mean": "主键ID",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "sn",
-                    "type": "str",
-                    "length": "64",
-                    "post": 1,  
-                    "put": 1,
-                    "list": 0,
-                    "like": 1,
-                    "sorter": 1,
-                    "mean": "构件编号",
-                    "args": [
-                    ],
-                },
-                {
-                    "name": "disea",
-                    "type": "bool",
-                    "need": 0,
+        #     ],
+        #     "parents": [
+        #         {
+        #             "name": "Structure",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "部位id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "部位名"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "建筑名"
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "ComponentGroup",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "构件分组id",
+        #             "show": [
+        #                 {
+        #                     "name": "name",
+        #                     "type": "string",
+        #                     "mean": "构件分组"
+        #                 },
+        #             ],
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "id",
+        #             "type": "int",
+        #             "post": 0,  
+        #             "put": 0,
+        #             "list": 0,
+        #             "like": 1,
+        #             "sorter": 1,
+        #             "mean": "主键ID",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "sn",
+        #             "type": "string",
+        #             "length": "64",
+        #             "post": 1,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "like": 1,
+        #             "sorter": 1,
+        #             "mean": "构件编号",
+        #             "args": [
+        #             ],
+        #         },
+        #         {
+        #             "name": "disea",
+        #             "type": "bool",
+        #             "need": 0,
                     
-                    "put": 1,
-                    "listneed": 1,
+        #             "put": 1,
+        #             "listneed": 1,
 
-                    "mean": "是否有病害",
-                    "args": [
-                        {
-                            "name": "default",
-                            "value": 0,
-                        },
-                    ],
-                },
-                {
-                    "name": "detect_time",
-                    "type": "time",
-                    "length": "",
-                    "post": 1,
-                    "put": 1,
-                    "listneed": 1,
-                    "list": 0,
+        #             "mean": "是否有病害",
+        #             "args": [
+        #                 {
+        #                     "name": "default",
+        #                     "value": 0,
+        #                 },
+        #             ],
+        #         },
+        #         {
+        #             "name": "detect_time",
+        #             "type": "time",
+        #             "length": "",
+        #             "post": 1,
+        #             "put": 1,
+        #             "listneed": 1,
+        #             "list": 0,
 
-                    "mean": "上一次检查时间",
-                    "sorter": 1,
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "name",
-        },  # 构件
-        {
-            "table": "Contact",
-            "api": 1,
-            "zh": "应急联络网",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
+        #             "mean": "上一次检查时间",
+        #             "sorter": 1,
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "name",
+        # },  # 构件
+        # {
+        #     "table": "Contact",
+        #     "api": 1,
+        #     "zh": "应急联络网",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "简介",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 应急联络网
-        {
-            "table": "Plan",
-            "api": 1,
-            "zh": "应急预案模板",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "简介",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 应急联络网
+        # {
+        #     "table": "Plan",
+        #     "api": 1,
+        #     "zh": "应急预案模板",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 应急预案模板
-        {
-            "table": "Material",
-            "api": 1,
-            "crud": [],
-            "zh": "应急物资管理",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "预警处理结果",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 应急预案模板
+        # {
+        #     "table": "Material",
+        #     "api": 1,
+        #     "crud": [],
+        #     "zh": "应急物资管理",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
                     
-                    "put": 1,
-                    "list": 0,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 应急物资管理
-        {
-            "table": "Emergency",
-            "api": 1,
-            "zh": "应急抢险队伍管理",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "预警处理结果",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 应急物资管理
+        # {
+        #     "table": "Emergency",
+        #     "api": 1,
+        #     "zh": "应急抢险队伍管理",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "about",
-                    "type": "text",
-                    "post": 1,
-                    "put": 1,
-                    "list": 0,
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "about",
+        #             "type": "text",
+        #             "post": 1,
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 应急抢险队伍管理
-        {
-            "table": "Emgreport",
-            "api": 1,
-            "zh": "应急报告管理",
-            "parents": [
-                {
-                    "name": "Bridge",
-                    "index": "id",
-                    "type": "int",
+        #             "mean": "预警处理结果",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 应急抢险队伍管理
+        # {
+        #     "table": "Emgreport",
+        #     "api": 1,
+        #     "zh": "应急报告管理",
+        #     "parents": [
+        #         {
+        #             "name": "Bridge",
+        #             "index": "id",
+        #             "type": "int",
 
-                    "post": 2,  
-                    "put": 1,
-                    "list": 0,
-                    "mean": "建筑id",
-                },
-            ],
-            "args": [
-                {
-                    "name": "about",
-                    "type": "text",
+        #             "post": 2,  
+        #             "put": 1,
+        #             "list": 0,
+        #             "mean": "建筑id",
+        #         },
+        #     ],
+        #     "args": [
+        #         {
+        #             "name": "about",
+        #             "type": "text",
 
-                    "post": 0,  
-                    "put": 1,
-                    "list": 0,
+        #             "post": 0,  
+        #             "put": 1,
+        #             "list": 0,
 
-                    "mean": "预警处理结果",
-                    "args": [
-                    ],
-                },
-            ],
-            "repr": "id",
-        },  # 应急报告管理
+        #             "mean": "预警处理结果",
+        #             "args": [
+        #             ],
+        #         },
+        #     ],
+        #     "repr": "id",
+        # },  # 应急报告管理
     ],
     "routes": [
 

@@ -161,7 +161,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,  # 创建时候可以填写的参数
                     "post": 2,  # 创建时候必须填写的参数
@@ -173,7 +173,7 @@ project_json = {
                 },
                 {
                     "name": "type",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -184,7 +184,7 @@ project_json = {
                 },
                 {
                     "name": "length",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 2,  # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -290,7 +290,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数
@@ -302,7 +302,7 @@ project_json = {
                 },
                 {
                     "name": "value",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
 
                     "post": 2,  # 创建时候必须填写的参数

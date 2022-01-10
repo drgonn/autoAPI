@@ -59,7 +59,7 @@ project_json = {
 
                 {
                     "name": "age",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -71,7 +71,7 @@ project_json = {
 
                 {
                     "name": "spot",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -83,7 +83,7 @@ project_json = {
 
                 {
                     "name": "pore",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -95,7 +95,7 @@ project_json = {
 
                 {
                     "name": "skin_type",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -107,7 +107,7 @@ project_json = {
 
                 {
                     "name": "acne",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -119,7 +119,7 @@ project_json = {
 
                 {
                     "name": "features",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -131,7 +131,7 @@ project_json = {
 
                 {
                     "name": "chloasma",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -143,7 +143,7 @@ project_json = {
 
                 {
                     "name": "roughness",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -155,7 +155,7 @@ project_json = {
 
                 {
                     "name": "color",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -167,7 +167,7 @@ project_json = {
 
                 {
                     "name": "disease",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -179,7 +179,7 @@ project_json = {
 
                 {
                     "name": "texture",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -191,7 +191,7 @@ project_json = {
 
                 {
                     "name": "uv_spot",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -203,7 +203,7 @@ project_json = {
 
                 {
                     "name": "moisture",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -215,7 +215,7 @@ project_json = {
 
                 {
                     "name": "wrinkle",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -227,7 +227,7 @@ project_json = {
 
                 {
                     "name": "region",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -239,7 +239,7 @@ project_json = {
 
                 {
                     "name": "blackhead",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -251,7 +251,7 @@ project_json = {
 
                 {
                     "name": "pockmark",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -263,7 +263,7 @@ project_json = {
 
                 {
                     "name": "dark_circl",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -275,7 +275,7 @@ project_json = {
 
                 {
                     "name": "appearance",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,

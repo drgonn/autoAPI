@@ -19,7 +19,7 @@ class Tdb():
             self.empty = 0
             self.ts_interface = "number"
             self.protable_valuetype = "digit"
-        elif t == "str":
+        elif t == "string":
             self.db = "String"
             self.empty = '""'
             self.ts_interface = "string"
@@ -56,7 +56,7 @@ class Tdbgo():
             self.db = "int"
         elif t == "float":
             self.db = 'float32 `gorm:"type:float"`'
-        elif t == "str":
+        elif t == "string":
             self.db = "string"
         elif t == "time":
             self.db = "time.Time"
@@ -75,7 +75,7 @@ class Tdbjson():
             self.db = "int"
         elif t == "float":
             self.db = 'float32'
-        elif t == "str":
+        elif t == "string":
             self.db = "string"
         elif t == "time":
             self.db = "time.Time"
@@ -145,13 +145,12 @@ def name_convert(name: str) -> str:
     is_camel_name = True  # 是否为驼峰式命名
     if re.match(r'[a-z][_a-z]+$', name):
         is_camel_name = False
-    elif re.match(r'[a-zA-Z]+$', name) is None:
+    elif re.match(r'[a-zA-Z0-9]+$', name) is None:
         raise ValueError(f'Value of "name" is invalid: {name}')
     if is_camel_name:  # 驼峰转下划线
-        name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name).lower()
+        name = re.sub('(.)([A-Z]+)', r'\1_\2', name).lower()
     else:  # 下划线转驼峰
-        contents = re.findall('_[a-z]+', name)
-        for content in contents:
-            name = name.replace(content, content[1:].title())
+        name = name.title().replace("_","")
     return name
+
 

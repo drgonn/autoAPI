@@ -10,7 +10,7 @@ from tools import  name_convert
 
 
 class Column(object):
-    def __init__(self, name, type, length, post, put, list, about, sorter, mean, mapping_json):
+    def __init__(self, name, type, length, post, put, list, about, sorter, mean, unique, mapping_json,index):
         self.name = name
         self.type = type
         self.length = length
@@ -20,6 +20,8 @@ class Column(object):
         self.about = about
         self.sorter = sorter
         self.mean = mean
+        self.index = index      # 用来做唯一辨识符的标签，为true时候，get和delete请求不再使用id，而使用它
+        self.unique = unique    # 用来判断该值在哪个范围内唯一，global则是全局唯一
         self.Name = name_convert(name)
         self.mapping = []
         for a in mapping_json or []:
@@ -27,35 +29,42 @@ class Column(object):
                 a.get('key'),
                 a.get('value'),
             )
-            self.mapping.append(m)        
+            self.mapping.append(m)
         self.map_mean = ""
         for m in self.mapping:
             self.map_mean += f", {m.key}{m.value}"
         if type == "int":
             self.db = "Integer"
+            self.go_type = self.type +  (self.length or '')
             self.type_long_lower = "integer"
             self.empty = 0
             self.ts_interface = "number"
             self.protable_valuetype = "digit"
-        elif type == "bigint":
-            self.db = "BIGINT"
+        elif type == "uint":
+            self.db = "Integer"
+            self.go_type = self.type +  (self.length or '')
+            self.type_long_lower = "integer"
             self.empty = 0
             self.ts_interface = "number"
             self.protable_valuetype = "digit"
         elif type == "float":
             self.db = "Float"
+            print(self.name)
+            self.go_type = self.type + (self.length or '')
             self.type_long_lower = "float"
             self.empty = 0
             self.ts_interface = "number"
             self.protable_valuetype = "digit"
-        elif type == "str":
+        elif type == "string":
             self.db = "String"
+            self.go_type = "string"
             self.type_long_lower = "string"
             self.empty = '""'
             self.ts_interface = "string"
             self.protable_valuetype = "text"
         elif type == "time":
             self.db = "DateTime"
+            self.go_type = "time.Time"
             self.type_long_lower = "datetime"
             self.empty = '""'
             self.ts_interface = "Date"
@@ -68,18 +77,21 @@ class Column(object):
             self.protable_valuetype = "date"
         elif type == "bool":
             self.db = "Boolean"
+            self.go_type = "bool"
             self.type_long_lower = "bool"
             self.empty = 'false'
             self.ts_interface = "boolean"
             self.protable_valuetype = "text"
         elif type == "text":
             self.db = "Text"
+            self.go_type = "string"
             self.type_long_lower = "text"
             self.empty = '""'
             self.ts_interface = "string"
             self.protable_valuetype = "text"
         else:
             self.db = type
+            self.go_type = ""
             self.empty = '""'
             self.type_long_lower = type
             self.protable_valuetype = type
@@ -89,9 +101,21 @@ class Column(object):
         t = "    "
         return f"{t*tab_num}{self.name}({self.type}):{self.mean},\n"
 
-    def format_str(self, fm, tab_num):
+    def format_str(self, fm, tab_num=0):
         t = "    "
         s = ""
+
+        def make_go_tag_binding(required):    
+            binding = ""
+            if required == 2:
+                binding += "required,"
+            if self.length and self.type == "string":
+                binding += f'max={int(self.length) -1},'
+            if binding.endswith(","):
+                binding = binding[:-1]
+            if binding:
+                binding = f' binding:"{binding}"'
+            return binding
 
         if fm == "list_commit":
             if self.list:
@@ -124,18 +148,17 @@ class Column(object):
                 s = f"{t*tab_num}{self.name} = request.json.get('{self.name}')\n"
         elif fm == "flask_api_put_equal":
             if self.put:
-                s = f"{t*tab_num}{self.table_lower_name}.{self.name} = {self.name} or {self.table_lower_name}.{self.name}\n"
+                s = f"{t*tab_num}{self.table_name}.{self.name} = {self.name} or {self.table_name}.{self.name}\n"
         elif fm == "flask_model_detail":
             if self.name == "id":
                 s += f"{t}id = db.Column(db.Integer, primary_key=True)\n"
             else:
                 s += f"{t}{self.name} = db.Column(db.{self.db}"
-                if self.length is not None and self.length != '' and self.type == 'str':
+                if self.length is not None and self.length != '' and self.type == 'string':
                     s += f"({self.length})"
                 elif self.name == "created_at" or self.name == "updated_at":
                     s += ", default=datetime.utcnow"
-                s += ")\n"
-                
+                s += ")\n"               
         elif fm == "flask_model_to_json":
             if self.type == 'time':
                 s += f"{t*tab_num}'{self.name}': utc_switch(self.{self.name}),\n"
@@ -145,9 +168,94 @@ class Column(object):
             #     s += f"""{t*tab_num}'{self.name}_url': f"{{static_host}}/{self.name}{self.name}/{{self.id}}/"+self.{self.name} if self.{self.name} else None,\n"""
             #     s += f"""{t*tab_num}'{self.name}': self.{self.name},\n"""
             else:
-                s += f"{t*tab_num}'{self.name}': self.{self.name},\n"
+                s += f"{t*tab_num}'{self.name}': self.{self.name},\n"        
+        # golang gin部分
+        elif fm == "gin_api_service_count_valid":
+            if self.list:
+                binding = make_go_tag_binding(1)
+                s = f'{t*tab_num}{self.Name} {self.go_type} `json:"{self.name}"{binding}`\n'
+        elif fm == "gin_api_create_valid":
+            if self.post:
+                binding = make_go_tag_binding(self.post)
+                s = f'{t*tab_num}{self.Name} {self.go_type} `json:"{self.name}"{binding}`\n'
+        elif fm == "gin_api_update_valid":
+            if self.post:
+                binding = make_go_tag_binding(self.put)
+                s = f'{t*tab_num}{self.Name} {self.go_type} `json:"{self.name}"{binding}`\n'
+        elif fm == "gin_api_service_list_param":
+            if self.list:
+                print(self.list, self.name)
+                s = f'{t*tab_num}param.{self.Name},'
+        elif fm == "gin_api_service_create_param":
+            if self.post:
+                s = f'{t*tab_num}param.{self.Name},'
+        elif fm == "gin_api_service_update_param":
+            if self.put:
+                s = f'{t*tab_num}param.{self.Name},'
+        elif fm == "gin_api_dao_list_args":
+            if self.list:
+                s = f'{t*tab_num}{self.name} {self.go_type},'
+        elif fm == "gin_api_dao_create_args":
+            if self.post:
+                s = f'{t*tab_num}{self.name} {self.go_type},'
+        elif fm == "gin_api_dao_update_args":
+            if self.put:
+                s = f'{t*tab_num}{self.name} {self.go_type},'
+        elif fm == "gin_api_dao_list_model":
+            if self.list:
+                s = f'{t*tab_num}{self.Name}: {self.name},\n'
+        elif fm == "gin_api_dao_create_model":
+            if self.post:
+                s = f'{t*tab_num}{self.Name}: {self.name},\n'
+        elif fm == "gin_api_dao_update_model":
+            if self.put:
+                s = f'{t*tab_num}{self.Name}: {self.name},\n'
+        elif fm == "gin_api_model_struct_arg":
+            s = f'{t*tab_num}{self.Name} {self.go_type} `json:"{self.name}"`\n'
+        elif fm == "gin_api_model_count_sql_str":
+            if self.list:
+                s = f'{t*tab_num}if o.{self.Name} != "" {{\n'
+                s += f'{t*tab_num}if where {{\n'
+                s += f'{t*tab_num}{t}sqlStr += fmt.Sprintf("and {self.name} = \\\"%s\\\" ",o.{self.Name})\n'
+                s += f'{t*tab_num}}} else {{\n'
+                s += f'{t*tab_num}{t}sqlStr += fmt.Sprintf("where {self.name} = \\\"%s\\\" ",o.{self.Name})\n'
+                s += f'{t*tab_num}{t}where = true \n'
+                s += f'{t*tab_num}{t}}}\n'
+                s += f'{t*tab_num}}}\n'
+        elif fm == "gin_api_model_select_arg":
+            s = f' `{self.name}`,'
+        elif fm == "gin_api_model_create_sql":
+            if self.post:
+                s = f' `{self.name}`,'
+        elif fm == "gin_api_model_update_sql":
+            if self.put:
+                s = f' `{self.name}` = ?,'
+        elif fm == "gin_api_model_create_sql_?":
+            if self.post:
+                s = ' ?,'
+        elif fm == "gin_api_model_create_exec_arg":
+            if self.post:
+                s = f' o.{self.Name},'        
+        elif fm == "gin_api_model_update_exec_arg":
+            if self.put:
+                s = f' o.{self.Name},'        
+        elif fm == "gin_api_model_create_unique":
+            if self.unique == "global":
+                s = 'var id int\n'
+                s += f'sqlStr := "select id from {self.table_names} where {self.name}=? "\n'
+                s += f'err := db.QueryRow(sqlStr, o.{self.Name}).Scan(&id)\n'
+                s += f'if id != 0 {{\n'
+                s += f'	err := fmt.Errorf("参数%s重复", o.{self.Name})\n'
+                s += f'	return 0, err\n'
+                s += f'}}\n'
+        elif fm == "gin_api_model_list_scan":
+            s = f'&{self.table_name}.{self.Name}, '
+        elif fm == "gin_api_model_get_scan":
+            s = f'&o.{self.Name}, '
+        elif fm == "gin_api_router_count":
+            if self.list:
+                s = f'{t*tab_num}{self.Name}: param.{self.Name},\n'
         return s
-
 
     # 判断column的时间单位，根据情况添加
     def handle_time_str(self, name):

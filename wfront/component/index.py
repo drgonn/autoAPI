@@ -543,7 +543,7 @@ def w_component_index(root,ojson):
 								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
-							if type == "str":
+							if type == "string":
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 							elif type == "int":
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")
@@ -648,7 +648,7 @@ def w_component_index(root,ojson):
 								w.write(f"""            <Select.Option value={{{cor['key']}}}>{cor['value']}</Select.Option>\n""")
 							w.write(f"""            </Select>\n""")
 						else:
-							if type == "str":
+							if type == "string":
 								w.write(f"""            <Input placeholder="请输入{arg.get('mean')}" />\n""")
 							elif type == "int":
 								w.write(f"""            <InputNumber  defaultValue={{0}}  />\n""")

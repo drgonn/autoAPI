@@ -75,7 +75,7 @@ project_json = {
                 {
                     "name": "password_hash",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "need": 0,      # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,   # 修改时可以修改的参数
@@ -85,7 +85,7 @@ project_json = {
                 },
                 {
                     "name": "username",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -97,7 +97,7 @@ project_json = {
                 {
                     "name": "phone",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
@@ -108,7 +108,7 @@ project_json = {
                 {
                     "name": "email",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -129,7 +129,7 @@ project_json = {
                 {
                     "name": "company",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -140,7 +140,7 @@ project_json = {
                 {
                     "name": "address",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -151,7 +151,7 @@ project_json = {
                 {
                     "name": "url",
                     "length": "128",
-                    "type": "str",
+                    "type": "string",
                     "post": 1,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 1,  # 修改时可以修改的参数
@@ -162,7 +162,7 @@ project_json = {
                 {
                     "name": "openid",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "need": 0,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
@@ -173,7 +173,7 @@ project_json = {
                 {
                     "name": "unionid",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "need": 0,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
@@ -184,7 +184,7 @@ project_json = {
                 {
                     "name": "nickname",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "need": 0,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
@@ -195,7 +195,7 @@ project_json = {
                 {
                     "name": "headimgurl",
                     "length": "64",
-                    "type": "str",
+                    "type": "string",
                     "need": 0,  # 创建时候可以填写的参数
                       # 创建时候必须填写的参数
                     "putneed": 0,  # 修改时可以修改的参数
@@ -313,7 +313,7 @@ project_json = {
                 },
                 {
                     "name": "key",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "mean": "app key",
                     "args": [
@@ -334,7 +334,7 @@ project_json = {
                 },
                 {
                     "name": "secret",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "mean": "app secret",
                     "args": [
@@ -351,7 +351,7 @@ project_json = {
                 },
                 {
                     "name": "about",
-                    "type": "str",
+                    "type": "string",
                     "length": "128",
                     "post": 1,
                     "putneed": 1,
@@ -401,7 +401,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 0,
@@ -412,7 +412,7 @@ project_json = {
                 },
                 {
                     "name": "url",
-                    "type": "str",
+                    "type": "string",
                     "length": "128",
 
                     "putneed": 1,
@@ -423,7 +423,7 @@ project_json = {
                 },
                 {
                     "name": "about",
-                    "type": "str",
+                    "type": "string",
                     "length": "128",
                     "post": 1,
                     "putneed": 1,
@@ -582,7 +582,7 @@ project_json = {
             "args": [
                 {
                     "name": "name",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 1,
@@ -593,7 +593,7 @@ project_json = {
                 },
                 {
                     "name": "gid",
-                    "type": "str",
+                    "type": "string",
                     "length": "64",
                     "post": 1,
                     "putneed": 0,
@@ -634,7 +634,7 @@ project_json = {
                 },
                 {
                     "name": "about",
-                    "type": "str",
+                    "type": "string",
                     "length": "128",
                     "post": 1,
                     "putneed": 1,
