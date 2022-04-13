@@ -1,24 +1,24 @@
 import os
 import re
-s=[
-['ts_code','str','TS股票代码'],
-['trade_date','str','交易日期'],
-['close','float','当日收盘价'],
-['turnover_rate','float','换手率（%）'],
-['turnover_rate_f','float','换手率（自由流通股）'],
-['volume_ratio','float','量比'],
-['pe','float','市盈率（总市值/净利润，亏损的PE为空）'],
-['pe_ttm','float','市盈率（TTM，亏损的PE为空）'],
-['pb','float','市净率（总市值/净资产）'],
-['ps','float','市销率'],
-['ps_ttm','float','市销率（TTM）'],
-['dv_ratio','float','股息率（%）'],
-['dv_ttm','float','股息率（TTM）（%）'],
-['total_share','float','总股本（万股）'],
-['float_share','float','流通股本（万股）'],
-['free_share','float','自由流通股本（万）'],
-['total_mv','float','总市值（万元）'],
-['circ_mv','float','流通市值（万元）'],
+s = [
+    ['ts_code', 'str', 'TS股票代码'],
+    ['trade_date', 'str', '交易日期'],
+    ['close', 'float', '当日收盘价'],
+    ['turnover_rate', 'float', '换手率（%）'],
+    ['turnover_rate_f', 'float', '换手率（自由流通股）'],
+    ['volume_ratio', 'float', '量比'],
+    ['pe', 'float', '市盈率（总市值/净利润，亏损的PE为空）'],
+    ['pe_ttm', 'float', '市盈率（TTM，亏损的PE为空）'],
+    ['pb', 'float', '市净率（总市值/净资产）'],
+    ['ps', 'float', '市销率'],
+    ['ps_ttm', 'float', '市销率（TTM）'],
+    ['dv_ratio', 'float', '股息率（%）'],
+    ['dv_ttm', 'float', '股息率（TTM）（%）'],
+    ['total_share', 'float', '总股本（万股）'],
+    ['float_share', 'float', '流通股本（万股）'],
+    ['free_share', 'float', '自由流通股本（万）'],
+    ['total_mv', 'float', '总市值（万元）'],
+    ['circ_mv', 'float', '流通市值（万元）'],
 ]
 
 # for i in s:
@@ -44,12 +44,12 @@ user = f.group(1)
 
 file = f"/mnt/c/Users/{user}/rong/project/autoAPI/work/stock/front/config/defaultSettings.ts"
 to_file = f"/mnt/c/Users/{user}/rong/project/autoAPI/wfront/config/"
-os.makedirs(to_file,exist_ok=True)
+os.makedirs(to_file, exist_ok=True)
 
-name = "defaultSettings"   #生成的文件名
+name = "defaultSettings"  # 生成的文件名
 
-f = open(file,'r')
-w = open(to_file+f'{name}.py','w+')
+f = open(file, 'r')
+w = open(to_file+f'{name}.py', 'w+')
 
 
 w.write(f"import os\n")
@@ -70,16 +70,18 @@ w.write(f"\t\tcomponents = route['components']\n")
 w.write(f"\t\tfor component in components:\n")
 w.write(f"\t\t\tcomponent_name = component['table']\n")
 w.write(f"\t\t\tmodule = component['module']\n")
-w.write(f"\t\t\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}'),exist_ok=True)\n")
-w.write(f"\t\t\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}/data.d ts')\n")
+w.write(
+    f"\t\t\tos.makedirs(os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}'),exist_ok=True)\n")
+w.write(
+    f"\t\t\tinitdir = os.path.join(root,f'{{appname}}/front/src/pages/{{path}}/{{component_name.lower()}}_{{module}}/data.d ts')\n")
 w.write(f"\t\t\tw = open(initdir,'w+')\n")
 w.write(f"")
 w.write(f"")
 
 for i in f:
     print(i)
-    i = i.replace("{","{{")
-    i = i.replace("}","}}")
+    i = i.replace("{", "{{")
+    i = i.replace("}", "}}")
     i = i[:-1]
     print(i)
     w.write(f'''\t\t\tw.write(f"""{i}\\n""")\n''')

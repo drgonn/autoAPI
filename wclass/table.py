@@ -4,9 +4,12 @@ from tools import name_convert
 from wclass.column import Column
 import json
 import random
+import re
+import datetime
+import time
+from wclass.global_args import Global
 
-
-tab = "    "
+tab = Global.TAB
 
 
 # 单表
@@ -26,6 +29,11 @@ class Table(object):
         self.parents = []
         self.sons = []
         self.index = None
+
+        now = datetime.datetime.now() - datetime.timedelta(days=1)
+        self.now = time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time()))
+        self.now_date = now.strftime('%Y/%m/%d')
+
         for a in arg_json:
             column = Column(
                 a.get('name'),
@@ -40,6 +48,8 @@ class Table(object):
                 a.get('unique'),
                 a.get('mapping'),
                 a.get('index'),
+                a.get('not_null'),
+                a.get("default")
             )
             column.table_zh_name = table_zh
             column.table_Name = self.Name
@@ -64,7 +74,6 @@ class Table(object):
             p.table_name = self.name
             p.table_names = self.names
             self.parents.append(p)
-        
         for many in many_json or []:
             m = Many(
                 many.get("name"),
@@ -84,6 +93,7 @@ class Table(object):
                 son.get("add"),
             )
             self.sons.append(s)
+
 
     # 生成url地址
     def format_table_str(self, format):
@@ -456,95 +466,6 @@ class Table(object):
         api_list_list.append(f"\n")
 
 
-        # if table.get('detail_sons') is not None:
-        #     api_list_list.append(f"@api.route('/{self.name}/list/detail', methods=['GET'])\n")
-        #     api_list_list.append(f"def list_detail_{self.name}():\n")
-        #     api_list_list.append(f"{tab}print(request.args)\n")
-        #     api_list_list.append(f"{tab}sorter = request.args.get('sorter')\n")
-        #     api_list_list.append(f"{tab}page = int(request.args.get('current', 1))\n")
-        #     api_list_list.append(f"{tab}pageSize = int(request.args.get('pageSize', current_app.config['PER_PAGE']))\n")
-        #     api_list_list.append(f"{tab}pageSize = 20 if pageSize < 10 else pageSize\n")
-
-        #     if table.get('userfilter'):
-        #         api_list_list.append(f"\n{tab}if is_admin():\n")
-        #         if table.get('appfilter'):
-        #             api_list_list.append(f"{tab}{tab}total_{self.names} = {self.Name}.query.filter_by(app_id=g.app.id)\n")
-        #         else:
-        #             api_list_list.append(f"{tab}{tab}total_{self.names} = {self.Name}.query\n")
-        #         api_list_list.append(f"{tab}else:\n")
-        #         api_list_list.append(f"{tab}{tab}total_{self.names} = g.current_user.{self.names}\n")
-        #     else:
-        #         if table.get('appfilter'):
-        #             api_list_list.append(f"{tab}total_{self.names} = {self.Name}.query.filter_by(app_id=g.app.id)\n")
-        #         else:
-        #             api_list_list.append(f"{tab}total_{self.names} = {self.Name}.query\n")
-
-        #     if self.many:
-        #         for many in self.may:
-        #             many.Name = many.Name
-        #             many.name = many.Name.lower()
-        #             api_list_list.append(f"\n{tab}{many.name}_id = request.args.get('{many.name}_id')\n")
-        #             api_list_list.append(f"{tab}if {many.name}_id is not None:\n")
-        #             api_list_list.append(f"{tab}{tab}{many.name} = {many.Name}.query.filter_by(id={many.name}_id).first()\n")
-        #             api_list_list.append(f"{tab}{tab}if {many.name} is None:\n")
-        #             api_list_list.append(
-        #                 f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':f'{many.name}:{{{many.name}_id}}不存在'}})\n""")
-        #             api_list_list.append(f"{tab}{tab}else:\n")
-
-        #             api_list_list.append(f"{tab}{tab}{tab}total_{self.names} = {many.name}.{self.name}s\n\n")
-        #     for parent in self.parents:
-        #         parent.Name = parent.get('name')
-        #         parent.name = parent.Name.lower()
-        #         if parent.post:
-        #             index = parent.index
-        #             argname = f"{parent.name}_{parent.index}"
-        #             api_list_list.append(f"\n{tab}{argname} = request.args.get('{argname}')\n")
-        #             api_list_list.append(f"{tab}if {argname} is not None:\n")
-        #             api_list_list.append(f"{tab}{tab}{parent.name} = {parent.Name}.query.filter_by({index}={argname}).first()\n")
-        #             api_list_list.append(f"{tab}{tab}if {parent.name} is None:\n")
-        #             api_list_list.append(f"""{tab}{tab}{tab}return jsonify({{'success':False,'error_code':-1,'errmsg':'{argname}不存在'}})\n""")
-        #             api_list_list.append(
-        #                 f"{tab}{tab}else:\n{tab}{tab}{tab}total_{self.names} = total_{self.names}.filter_by({parent.name}_id={parent.name}.id)\n")
-
-        #     for column in self.columns:
-        #         filter = column.get('filter')
-        #         # print(self.name,filter,column,table)
-        #         if filter:
-        #             argname = column.name
-        #             api_list_list.append(f"{tab}{argname} = request.args.get('{argname}')\n")
-        #             api_list_list.append(f"{tab}if {argname} is not None:\n")
-        #             if filter == "like":
-        #                 api_list_list.append(
-        #                     f"{tab}{tab}total_{self.names} = total_{self.names}.filter({self.Name}.{argname}.ilike(f'%{{{argname}}}%'))\n\n")
-        #             elif filter == "precise":
-        #                 api_list_list.append(f"{tab}{tab}total_{self.names} = total_{self.names}.filter_by({argname}={argname})\n\n")
-        #     api_list_list.append(f"{tab}if sorter:\n")
-        #     api_list_list.append(f"{tab}{tab}sorter = json.loads(sorter)\n")
-
-        #     for column in self.columns:
-        #         if column.sorter:
-        #             argname = column.name
-        #             api_list_list.append(f"{tab}{tab}if sorter.get('{argname}') == 'ascend':\n")
-        #             api_list_list.append(f"{tab}{tab}{tab}total_{self.names} = total_{self.names}.order_by({self.Name}.{argname}.asc())\n")
-        #             api_list_list.append(f"{tab}{tab}elif sorter.get('{argname}') == 'descend':\n")
-        #             api_list_list.append(f"{tab}{tab}{tab}total_{self.names} = total_{self.names}.order_by({self.Name}.{argname}.desc())\n")
-        #     api_list_list.append(f"{tab}{tab}pass\n")
-        #     api_list_list.append(f"{tab}totalcount = total_{self.names}.with_entities(func.count({self.Name}.id)).scalar()\n")
-        #     api_list_list.append(f"{tab}page = math.ceil(totalcount/pageSize) if  math.ceil(totalcount/pageSize) < page else page\n")
-        #     api_list_list.append(f"{tab}pagination = total_{self.names}.paginate(page, per_page = pageSize, error_out = False)\n")
-        #     api_list_list.append(f"{tab}{self.names} = pagination.items\n")
-        #     api_list_list.append(f"""\n{tab}return jsonify({{
-        #                 'success':True,
-        #                 'error_code':0,
-        #                 'total':totalcount,
-        #                 "pageSize" : pageSize,
-        #                 "current" : page,
-        #                 "pagecount": pagination.pages,
-        #                 'data':[{self.name}.to_detail() for {self.name} in {self.names}]
-        #                 }})""")
-        #     api_list_list.append(f"\n")
-        #     api_list_list.append(f"\n")
-
         api_list_list[2:0] = commit_list_list
 
         return api_list_list
@@ -559,7 +480,7 @@ class Table(object):
         api_put_list = self.make_api_put_list()
         api_delete_list = self.make_api_delete_list()
         api_list_list = self.make_api_list_list()
-        apidir = "w" + os.path.join(appdir, f'apiv1/{self.name}.py')
+        apidir =  os.path.join(appdir, f'src/app/apiv1/{self.name}.py')
 
         # 加入导入包
         target_str_list += import_list
@@ -571,14 +492,16 @@ class Table(object):
 
         return {apidir:target_str_list}
 
+
+# 生成yapi测试文件
     def write_test_yapi(self,project_dir):
         r = []
         crud = [
-                ("创建", "POST", '', False),
-                ("列表", "GET", '/list', '$.data.records[-1].id'),
-                ("单个获取", "GET", '/<id>', False),
-                ("修改", "PUT", '/<id>', False),
-                ("删除", "DELETE", '', False),
+                ("创建", "POST", ''),
+                ("列表", "GET", '/list'),
+                ("单个获取", "GET", '/<id>'),
+                ("修改", "PUT", '/<id>'),
+                ("删除", "DELETE", ''),
                 ]
         if self.api_need:
             gp = {}
@@ -586,18 +509,12 @@ class Table(object):
             gp['name'] = self.zh_name
             gp['desc'] = self.zh_name
             gp['list'] = []            
-            write_addr = "w" + os.path.join(project_dir, f'test/yapi/{self.name}.json')
+            write_addr =  os.path.join(project_dir, f'test/yapi/{self.name}.json')
             son_list=[]
-            for typezh, method, p, argaddr in crud:
+            for typezh, method, p in crud:
                 prefix = "/"+self.url_prefix if self.url_prefix else ""
                 path = f"{prefix}/{self.name}"
-                req_query_list = [
-                {
-                    "required": "1",
-                    "_id": "6052fca844868a00946ae536",
-                    "name": "token",
-                    "desc": ""
-                }]
+                req_query_list = []
             
                 pjson = {"type":"object",
                         "title":"empty object",
@@ -606,14 +523,90 @@ class Table(object):
                             },
                         "required":[]
                         }
+                getjson = {"type": "object",
+                            "title": "empty object",
+                            "properties":
+                                {Global.RETURNBOOLNAME:
+                                    {"type": "boolean",
+                                    "description": "成功状态",
+                                    "mock": {"mock": "true"}
+                                    },
+                                Global.RETURNINTNAME:
+                                    {"type": "integer",
+                                        "description": "错误码",
+                                        "mock": {"mock": 0}
+                                        },
+                                Global.RETURNSTRNAME:
+                                    {"type": "integer",
+                                        "description": "错误信息",
+                                        },
+                                "record":
+                                    {"type": "object",
+                                    "properties": {
+                                        "id": {"type": "integer", "description": "id"},
+                                    },
+                                    "required": ["id"]}
+                                },
+                            "required":[Global.RETURNBOOLNAME, Global.RETURNINTNAME, "record"]
+                            }
+                return_json = {"type": "object",
+                        "title": "empty object",
+                        "properties":
+                            {
+                                Global.RETURNBOOLNAME:
+                                    {"type": "boolean",
+                                    "description": "成功状态",
+                                    "mock": {"mock": "true"}
+                                    },
+                                Global.RETURNINTNAME:
+                                    {"type": "integer",
+                                        "description": "错误码",
+                                        "mock": {"mock": 0}
+                                        },
+                                Global.RETURNSTRNAME:
+                                    {"type": "integer",
+                                        "description": "错误信息",
+                                        },
+
+                        },
+                        "required": [Global.RETURNBOOLNAME, Global.RETURNINTNAME]
+                        }
                 listjson = {"type": "object",
                     "title": "empty object",
                     "properties":
-                        {"success":
+                        {Global.RETURNBOOLNAME:
                             {"type": "boolean",
-                            "description": "返回成功",
+                            "description": "成功状态",
                             "mock": {"mock": "true"}
                             },
+                        Global.RETURNINTNAME:
+                            {"type": "integer",
+                                "description": "错误码",
+                                "mock": {"mock": 0}
+                                },
+                        Global.RETURNSTRNAME:
+                            {"type": "string",
+                                "description": "错误信息",
+                                },
+                        Global.RETURNLISTPERNAME:
+                            {"type": "integer",
+                                "description": "分页条数",
+                                "mock": {"mock": 20}
+                                },
+                        Global.RETURNLISTCURRENTNAME:
+                            {"type": "integer",
+                                "description": "当前页数",
+                                "mock": {"mock": 1}
+                                },
+                        Global.RETURNLISTSIZENAME:
+                            {"type": "integer",
+                                "description": "当页数据条数",
+                                "mock": {"mock": 5}
+                                },
+                        Global.RETURNLISTTOTALNAME:
+                            {"type": "integer",
+                                "description": "数据总条数",
+                                },
                         "data":
                             {"type": "array",
                             "items":
@@ -624,53 +617,18 @@ class Table(object):
                                     "required": ["id"]},
                             "description": "数据列表"}
                         },
-                    "required":["success", "data"]
+                    "required":[Global.RETURNBOOLNAME, Global.RETURNINTNAME, "data"]
                     }
-                getjson = {"type": "object",
-                            "title": "empty object",
-                            "properties":
-                                {"success":
-                                    {"type": "boolean",
-                                    "description": "返回成功",
-                                    "mock": {"mock": "true"}
-                                    },
-                                "record":
-                                    {"type": "object",
-                                    "properties": {
-                                        "id": {"type": "integer", "description": "id"},
-                                    },
-                                    "required": ["id"]}
-                                },
-                            "required":["success", "record"]
-                            }
-                sjson = {"type": "object",
-                        "title": "empty object",
-                        "properties":
-                            {
-                                "success":
-                                    {"type": "boolean",
-                                    "description": "返回成功",
-                                    "mock": {"mock": "true"}
-                                    },
-                                "error_code":
-                                    {"type": "integer",
-                                        "description": "错误码",
-                                        "mock": {"mock": 0}
-                                        },
-
-                        },
-                        "required": ["success", "error_code"]
-                        }
                 if typezh == "创建":
                     for column in self.columns:
                         if column.post:
                             pjson["properties"][column.name] = {
-                                "type":column.type_long_lower,
+                                "type":column.yapi_format,
                                 "description":f"{self.zh_name}{column.mean}{column.map_mean}",
                                 "mock":{"mock":str(column.random_arg())}}
                             if column.post == 2:
                                 pjson["required"].append(column.name)
-                    rstr = json.dumps(sjson)
+                    return_str = json.dumps(return_json)
 
                     for parent in self.parents:
                         if parent.post and parent.Name != 'User':
@@ -681,18 +639,20 @@ class Table(object):
                     pjson["properties"]['pageSize'] = {"type":"integer","description":"单页条数"}
                     for column in self.columns:
                         if column.post:
-                            getjson["properties"]['record']["properties"][column.name]= {"type": column.type_long_lower, "description": self.zh_name+column.mean + column.map_mean}
+                            getjson["properties"]['record']["properties"][column.name]= {"type": column.yapi_format, "description": self.zh_name+column.mean + column.map_mean}
                             getjson["properties"]['record']["required"].append(column.name)
-                    getjson["properties"]['record']["required"].append("token")
-                    rstr = json.dumps(getjson)
+                    # getjson["properties"]['record']["required"].append("token")
+                    return_str = json.dumps(getjson)
                 elif typezh == "列表":
                     sorter = {}
                     pjson["properties"]['current'] = {"type": "integer", "description": "访问页"}
                     pjson["properties"]['pageSize'] = {"type": "integer", "description": "单页条数"}
-                    pjson["properties"]['token'] = {"type":"string","description":"token"}
+                    req_query_list.append({"required":"0","name":"per_page","desc":"分页条数"})
+                    req_query_list.append({"required":"0","name":"current","desc":"当前页数"})
+                    # pjson["properties"]['token'] = {"type":"string","description":"token"}
                     for column in self.columns:
                         if column.post:
-                            listjson["properties"]['data']['items']["properties"][column.name] = {"type": column.type_long_lower,"description": self.zh_name + column.mean + column.map_mean}
+                            listjson["properties"]['data']['items']["properties"][column.name] = {"type": column.yapi_format,"description": self.zh_name + column.mean + column.map_mean}
                             listjson["properties"]['data']['items']["required"].append(column.name)
                         if column.list:
                             req_query_list.append({"required":"0","name":column.name,"desc":column.mean + column.map_mean + (column.about or '')})
@@ -700,17 +660,16 @@ class Table(object):
                         req_query_list.append({"required":"0","name":f"{m.prefix}{m.name}_id"})
                         
                             
-                    rstr = json.dumps(listjson)
-                    
+                    return_str = json.dumps(listjson)             
                 elif typezh == "修改":
-                    rstr = json.dumps(sjson)
+                    return_str = json.dumps(return_json)
                     # for column in self.columns:
                     #     if column.put:
                     #         pjson[column.name] = column.random_arg()
                     for column in self.columns:
                         if column.put:
                             pjson["properties"][column.name] = {
-                                "type": column.type_long_lower, 
+                                "type": column.yapi_format, 
                                 "description": column.mean+ column.map_mean,
                                 "mock":{"mock":str(column.random_arg())}}
                                 
@@ -726,14 +685,14 @@ class Table(object):
                             "description": f"要更新的{m.mean}主键ID数组",
                             "mock":{"mock":str(random.randint(0, 9))}}
                 elif typezh == "删除":
-                    rstr = json.dumps(sjson)
+                    return_str = json.dumps(return_json)
                     pjson["properties"]["ids"] = {"type": "array", "description": "要删除的id数组","items":{"type":"integer"}}
                 pjsonstr = json.dumps(pjson)
                 if p == '/<id>':
                     path += '/{id}'
                 else:
                     path += p
-                single_api = self.single_str(self.zh_name, typezh,  path, method, pjsonstr, rstr,req_query_list)
+                single_api = self.single_str(self.zh_name, typezh,  path, method, pjsonstr, return_str,req_query_list)
                 gp["list"].append(single_api)
             r.append(gp)
             son_list.append(gp)
@@ -748,7 +707,7 @@ class Table(object):
                 "params": []
             },
             "edit_uid": 0,
-            "status": "done",
+            "status": "undone",
             "type": "static",
             "req_body_is_json_schema": True,
             "res_body_is_json_schema": True,
@@ -767,6 +726,14 @@ class Table(object):
                     "_id": "5fa39b1d6935300090607d7a",
                     "name": "Content-Type",
                     "value": "application/json"
+                },
+                {
+                    "required": "1",
+                    "_id": "62187d4fd1fc1e00112c333d",
+                    "name": "Authorization",
+                    "value": "Bearer {token}",
+                    "example": "",
+                    "desc": "用户token"
                 }
             ],
             "req_body_type": "json",
@@ -800,7 +767,7 @@ class Table(object):
         import_list.append('\n\n')
 
         target_str_list=[]
-        model_dir = "w"+os.path.join(project_dir,f'src/models/{self.Name}.py')
+        model_dir = os.path.join(project_dir,f'src/models/{self.Name}.py')
 
         # 加入导入包
         target_str_list += import_list
@@ -901,6 +868,7 @@ class Table(object):
         # w.close()
         return {model_dir:target_str_list}
 
+# 生成gin文件
     def make_go_gin(self,project_dir):        
         return {
             **self.make_gin_internal_routers(project_dir),
@@ -910,6 +878,7 @@ class Table(object):
         }
 
     def make_gin_internal_routers(self, project_dir):
+        t_dir =  os.path.join(project_dir,f"internal/routers/api/v1/{self.name}.go")
         def make_valid_str():
             s = 'response := app.NewResponse(c)\n'
             s += 'valid, errs := app.BindAndValid(c, &param)\n'
@@ -920,7 +889,6 @@ class Table(object):
             s += '    return\n}\n'
             s += '    svc := service.New(c.Request.Context())\n'
             return s
-        t_dir = "w" + os.path.join(project_dir,f"internal/routers/api/v1/{self.name}.go")
         t_list = []
         t_list.append("package v1\n")
         t_list.append(f"type {self.Name} struct{{}}\n")
@@ -1052,7 +1020,7 @@ class Table(object):
         return {t_dir:t_list}
     
     def make_gin_internal_service(self, project_dir):
-        t_dir = "w" + os.path.join(project_dir,f"internal/service/{self.name}.go")
+        t_dir =  os.path.join(project_dir,f"internal/service/{self.name}.go")
         t_list = []
         t_list.append("package service\n\n")
         t_list.append(f'type Count{self.Name}Request struct {{\n')
@@ -1088,7 +1056,7 @@ class Table(object):
         return {t_dir:t_list}
 
     def make_gin_internal_dao(self, project_dir):
-        t_dir = "w" + os.path.join(project_dir,f"internal/dao/{self.name}.go")
+        t_dir =  os.path.join(project_dir,f"internal/dao/{self.name}.go")
         t_list = []
         t_list.append("package dao\n\n")
         t_list.append(f'func (d *Dao) Count{self.Name}({self.make_column_format("gin_api_dao_list_args")}) (int, error) {{\n')
@@ -1133,7 +1101,7 @@ class Table(object):
         return {t_dir:t_list}
 
     def make_gin_internal_model(self, project_dir):
-        t_dir = "w" + os.path.join(project_dir,f"internal/model/{self.name}.go")
+        t_dir =  os.path.join(project_dir,f"internal/model/{self.name}.go")
         t_list = []
         t_list.append("package model\n\n")
         t_list.append('import (\n  "database/sql"\n"fmt"\n"strings"\n)\n')
@@ -1189,11 +1157,11 @@ class Table(object):
         t_list.append(f'func (o {self.Name}) Create(db *sql.DB) (int64, error) {{\n')
         t_list.append(self.make_column_format("gin_api_model_create_unique"))
         if self.index.name == "id":
-            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("gin_api_model_create_sql")[:-1]}) values ({self.make_column_format("gin_api_model_create_sql_?")[:-1]})"\n')
+            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("sql_create_col_name")[:-1]}) values ({self.make_column_format("gin_api_model_create_sql_?")[:-1]})"\n')
             t_list.append(f'	ret, err := db.Exec(sqlStr,{self.make_column_format("gin_api_model_create_exec_arg")[:-1]})\n')
         else:
             t_list.append(f'	{self.index.name} := uuid.NewV4().String()\n')
-            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("gin_api_model_create_sql")}`{self.index.name}`) values ({self.make_column_format("gin_api_model_create_sql_?")} ?)"\n')
+            t_list.append(f'	sqlStr := "insert into {self.name}s ({self.make_column_format("sql_create_col_name")}`{self.index.name}`) values ({self.make_column_format("gin_api_model_create_sql_?")} ?)"\n')
             t_list.append(f'	ret, err := db.Exec(sqlStr,{self.make_column_format("gin_api_model_create_exec_arg")} {self.index.name})\n')
         t_list.append(f'	if err != nil {{\n')
         t_list.append(f'		return -1, err\n')
@@ -1226,7 +1194,439 @@ class Table(object):
 
 
 
-    
+# 生成go_dapr的后端文件
+    def make_go_gin_dapr(self,project_dir):        
+        return {
+            **self.make_gin_dapr_internal_database_migrations_up(project_dir),
+            **self.make_gin_dapr_internal_database_migrations_down(project_dir),
+            **self.make_gin_dapr_internal_http_controllers(project_dir),
+            **self.make_gin_dapr_internal_repo(project_dir),
+            **self.make_gin_dapr_internal_forms(project_dir),
+        }
+
+    def make_gin_dapr_internal_database_migrations_up(self, project_dir):
+        file_path =  os.path.join(project_dir,f"internal/database/migrations/00000_{self.names}.up.sql")
+        f_list = []
+        f_list.append(f"/* {self.zh_name} */\n")
+        f_list.append(f"CREATE TABLE IF NOT EXISTS `{self.names}`  (\n")
+        f_list.append(self.make_column_format("go_gin_dapr_mysql_sql_create_args", 1))
+        f_list.append(self.make_column_format("go_gin_dapr_mysql_sql_create_bind", 1))
+        f_list[-1] =re.sub(",\n$","\n",f_list[-1])
+        f_list.append(f") CHARACTER SET = utf8mb4;\n")
+        return {file_path:f_list}
+ 
+    def make_gin_dapr_internal_database_migrations_down(self, project_dir):
+        file_path =  os.path.join(project_dir,f"internal/database/migrations/00000_{self.names}.down.sql")
+        f_list = []
+        f_list.append(f"DROP TABLE IF EXISTS `{self.names}`;")
+        return {file_path:f_list}
+
+    def make_gin_dapr_internal_http_wire(self):
+        f_list = []
+        f_list.append(f"// @title		init{self.Name}Controller\n")
+        f_list.append(f"// @description	初始化{self.zh_name}控制器\n")
+        f_list.append(f"// @author		rong	{self.now_date}\n")
+        f_list.append(f"// @return 	    {self.Name}Controller {self.zh_name}控制器\n")
+        f_list.append(f"//         	    error 错误，无错误为成功\n")
+        f_list.append(f"func init{self.Name}Controller(mysqlcfg *database.DaprMysqlConfig) (*controllers.{self.Name}Controller, error) {{\n")
+        f_list.append(f"	wire.Build(controllers.{self.Name}ControllerProviderSet, repo.{self.Name}RepoProviderSet, database.DaprMysqlProviderSet)\n")
+        f_list.append(f"	return nil, nil\n")
+        f_list.append(f"}}\n\n")
+        return f_list
+  
+    def make_gin_dapr_internal_http_server(self):
+        f_list = []
+        f_list.append(f"    // {self.name} {self.zh_name}router\n")
+        f_list.append(f"    {self.name}, err := init{self.Name}Controller(global.DaprConfig.Mysql)\n")
+        f_list.append(f"    if err != nil {{\n        return err\n    }}\n")
+        f_list.append(f'    {self.name}Router := r.Group("/{self.names}")\n')
+        f_list.append(f'    {self.name}Router.POST("", {self.name}.Create)\n')
+        f_list.append(f'    {self.name}Router.PUT("/:{self.index.name}", {self.name}.Update)\n')
+        f_list.append(f'    {self.name}Router.GET("/:{self.index.name}", {self.name}.Get)\n')
+        f_list.append(f'    {self.name}Router.GET("", {self.name}.List)\n')
+        f_list.append(f'    {self.name}Router.DELETE("", {self.name}.Delete)\n\n')
+
+        return f_list
+
+    def make_gin_dapr_internal_http_controllers(self, project_dir):
+        file_path =  os.path.join(project_dir,f"internal/http/controllers/{self.name}.go")
+        f_list = []
+        f_list.append(f'// @Title  {self.name}.go\n')
+        f_list.append(f'// @Description  {self.zh_name}控制器定义以及初始化\n')
+        f_list.append(f'// @Author	rong	{self.now_date}\n')
+        f_list.append(f'// @Update\n')
+        f_list.append(f'package controllers\n\n')
+        f_list.append(f'import (\n')
+        f_list.append(f'	"net/http"\n')
+        f_list.append(f'	"strconv"\n\n')
+        f_list.append(f'	"{self.app_name}/internal/forms"\n')
+        f_list.append(f'	"{self.app_name}/internal/repo"\n')
+        f_list.append(f'	"{self.app_name}/internal/response"\n')
+        f_list.append(f'	\n')
+        f_list.append(f'	"github.com/gin-gonic/gin"\n')
+        f_list.append(f'	"github.com/google/wire"\n')
+        f_list.append(f')\n\n')
+        f_list.append(f'// {self.Name}Controller {self.zh_name}控制器\n')
+        f_list.append(f'type {self.Name}Controller struct {{\n')
+        f_list.append(f'	repo repo.I{self.Name}Repo\n')
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// I{self.Name}Controller {self.zh_name}控制器接口\n')
+        f_list.append(f'type I{self.Name}Controller interface{{}}\n')
+        f_list.append(f'\n')
+        f_list.append(f'var {self.Name}ControllerProviderSet = wire.NewSet(New{self.Name}Controller, wire.Bind(new(I{self.Name}Controller), new(*{self.Name}Controller)))\n\n')
+        f_list.append(f'// @title	New{self.Name}Controller\n')
+        f_list.append(f'// @description	初始化{self.zh_name}控制器\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	repo interface {self.zh_name}接口类\n')
+        f_list.append(f'// @return  *{self.Name}Controller interface {self.zh_name}类\n')
+        f_list.append(f'func New{self.Name}Controller(repo repo.I{self.Name}Repo) *{self.Name}Controller {{\n')
+        f_list.append(f'	return &{self.Name}Controller{{\n')
+        f_list.append(f'		repo: repo,\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'}}\n\n')
+
+        f_list.append(f'// @title	Create\n')
+        f_list.append(f'// @description	创建{self.zh_name}\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	form forms.{self.Name}CreateForm 创建{self.zh_name}表单参数\n')
+        f_list.append(f'// @return  无\n')
+        f_list.append(f'func (ctl *{self.Name}Controller) Create(c *gin.Context) {{\n')
+        f_list.append(f'	// 验证并绑定post提交的json数据到forms.{self.Name}CreateForm结构体实例form当中，验证错误则返回参数信息错误\n')
+        f_list.append(f'	var form forms.{self.Name}CreateForm\n')
+        f_list.append(f'	err := c.ShouldBindJSON(&form)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.ParamBindError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    //将post提交的数据绑定的结构体传递到repo当中，对数据库进行新增操作\n')
+        f_list.append(f'	err = ctl.repo.Create(form)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.CreateError, err.Error()))\n')
+        f_list.append(f'		return\n	}}\n\n')
+        f_list.append(f'    //接口返回创建成功json信息\n')
+        f_list.append(f'	c.JSON(http.StatusOK, response.ResponseSuccess())\n}}\n\n')
+
+        f_list.append(f'// @title	Update\n')
+        f_list.append(f'// @description	修改{self.zh_name}\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	form forms.{self.Name}UpdateForm 修改{self.zh_name}表单参数\n')
+        f_list.append(f'//          id int 要修改的{self.zh_name}ID\n')
+        f_list.append(f'// @return  无\n')
+        f_list.append(f'func (ctl *{self.Name}Controller) Update(c *gin.Context) {{\n')
+        f_list.append(f'	var err error\n')
+        f_list.append(f'\n    // 获取url当中的参数，参数为空或类型不对返回非法请求错误\n')
+        if self.index.db == "Integer":
+            f_list.append(f'	idStr := c.Param("{self.index.name}")\n')
+            f_list.append(f'	id, err := strconv.Atoi(idStr)\n')
+            f_list.append(f'	if err != nil {{\n')
+        elif self.index.type == "string":
+            f_list.append(f'	id := c.Param("{self.index.name}")\n')
+            f_list.append(f'	if len(id) <= 0 {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponse(response.InvalidRequest))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 验证并绑定put提交的json数据到forms.{self.Name}UpdateForm结构体实例form当中，验证错误则返回参数信息错误\n')
+        f_list.append(f'	var form forms.{self.Name}UpdateForm\n')
+        f_list.append(f'	err = c.ShouldBindJSON(&form)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.ParamBindError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 将put提交的数据绑定的结构体传递到repo当中，对数据库进行修改操作\n')
+        f_list.append(f'	err = ctl.repo.Update(id, form)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.UpdateError, err.Error()))\n')
+        f_list.append(f'		return\n	}}\n\n')
+        f_list.append(f'    // 接口返回修改成功json信息\n')
+        f_list.append(f'	c.JSON(http.StatusOK, response.ResponseSuccess())\n}}\n\n')
+
+        f_list.append(f'// @title	Get\n')
+        f_list.append(f'// @description	获取某个{self.zh_name}\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	id int 要修改的{self.zh_name}ID\n')
+        f_list.append(f'// @return  无\n')
+        f_list.append(f'func (ctl *{self.Name}Controller) Get(c *gin.Context) {{\n')
+        f_list.append(f'	var err error\n')
+        f_list.append(f'\n    // 获取url当中的参数，参数为空或类型不对返回非法请求错误\n')
+        if self.index.db == "Integer":
+            f_list.append(f'	idStr := c.Param("{self.index.name}")\n')
+            f_list.append(f'	id, err := strconv.Atoi(idStr)\n')
+            f_list.append(f'	if err != nil {{\n')
+        elif self.index.type == "string":
+            f_list.append(f'	id := c.Param("{self.index.name}")\n')
+            f_list.append(f'	if len(id) <= 0 {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponse(response.InvalidRequest))\n')
+        f_list.append(f'		return\n    }}\n\n')
+        f_list.append(f'\n    // 将url当中获取的{self.index.name}传给repo，作为唯一标识去数据库查找一条数据，并返回{self.zh_name}的详情结构体\n')
+        f_list.append(f'	{self.name}, err := ctl.repo.Get(id)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.GetError, err.Error()))\n')
+        f_list.append(f'		return\n	}}\n')
+        f_list.append(f'\n    // 接口返回成功json信息和{self.zh_name}详情\n')
+        f_list.append(f'	c.JSON(http.StatusOK, response.NewResponseData(response.Success, {self.name}))\n}}\n\n')
+
+        f_list.append(f'// @title	List\n')
+        f_list.append(f'// @description	获取{self.zh_name}列表\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	query forms.{self.Name} 分页请求参数表单\n')
+        f_list.append(f'// @return  无\n')
+        f_list.append(f'func (ctl *{self.Name}Controller) List(c *gin.Context) {{\n')
+        f_list.append(f'	// 验证并绑定url当中的查询参数到forms.{self.Name}Query结构体实例query当中，验证错误则返回参数信息错误\n')
+        f_list.append(f'	var query forms.{self.Name}Query\n')
+        f_list.append(f'	err := c.ShouldBindQuery(&query)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.ParamBindError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 每页数据条数未提交默认为20条\n')
+        f_list.append(f'	if query.PerPage < 1 {{\n')
+        f_list.append(f'		query.PerPage = 20\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 当前页未提交默认为第一页\n')
+        f_list.append(f'	if query.Current < 1 {{\n')   
+        f_list.append(f'		query.Current = 1\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 将分页查询数据提交到repo中到数据库找到对应的数据列表和总数据条数\n')
+        f_list.append(f'	total, {self.names}, err := ctl.repo.List(query)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.GetError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 将取得的分页数据数组，数据总条数，当页数据条数，请求分页数据插入到标准json输出结构体中\n')
+        f_list.append(f'	size := len({self.names})\n')
+        f_list.append(f'	res := response.NewResponseData(response.Success, {self.names})\n')
+        f_list.append(f'	res.Total = &total\n')
+        f_list.append(f'	res.Current = query.Current\n')
+        f_list.append(f'	res.PerPage = query.PerPage\n')
+        f_list.append(f'	res.Size = &size\n\n')
+        f_list.append(f'    //接口返回成功信息和{self.zh_name}分页列表\n')
+        f_list.append(f'	c.JSON(http.StatusOK, res)\n}}\n')
+
+        f_list.append(f'// @title	Delete\n')
+        f_list.append(f'// @description	批量删除{self.zh_name}\n')
+        f_list.append(f'// @author	rong	{self.now_date}\n')
+        f_list.append(f'// @param	form forms.DeleteIds 要删除的{self.zh_name}ID列表表单\n')
+        f_list.append(f'// @return  无\n')
+        f_list.append(f'func (ctl *{self.Name}Controller) Delete(c *gin.Context) {{\n')
+        f_list.append(f'	// 验证并绑定提交的json数据到DeleteIds结构体实例当中，为一个名为ids的需要删除的Id列表，验证错误则返回参数信息错误\n')
+        f_list.append(f'	var form forms.DeleteIds\n')
+        f_list.append(f'	err := c.ShouldBindJSON(&form)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.ParamBindError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    //将要删除的id切片传给repo去进行批量删除\n')
+        f_list.append(f'	err = ctl.repo.Delete(form.Ids)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		c.JSON(http.StatusOK, response.NewResponseMessage(response.DeleteError, err.Error()))\n')
+        f_list.append(f'		return\n')
+        f_list.append(f'	}}\n\n')
+        f_list.append(f'    //接口返回删除成功信息\n')
+        f_list.append(f'	c.JSON(http.StatusOK, response.ResponseSuccess())\n')
+        f_list.append(f'}}\n')
+
+        return {file_path:f_list}
+
+    def make_gin_dapr_internal_repo(self, project_dir):
+        file_path =  os.path.join(project_dir,f"internal/repo/{self.name}.go")
+        f_list = []
+        
+        f_list.append(f'// @Title  {self.name}.go\n')
+        f_list.append(f'// @Description  {self.zh_name}初始化\n')
+        f_list.append(f'// @Autor: rong	{self.now_date}\n')
+        f_list.append(f'// @Update:\n')
+        f_list.append(f'package repo\n\n')
+        f_list.append(f'import (\n')
+        f_list.append(f'	"encoding/json"\n')
+        f_list.append(f'	"errors"\n')
+        f_list.append(f'	"fmt"\n')
+        f_list.append(f'	"strings"\n')
+        f_list.append(f'	"time"\n\n')
+        f_list.append(f'	"{self.app_name}/internal/{Global.GODAPRDBPACKAGE}"\n')
+        f_list.append(f'	"{self.app_name}/internal/forms"\n')
+        f_list.append(f'	\n')
+        f_list.append(f'	"dev.azure.com/netkit/unknown/gokit.git/logger"\n')
+        f_list.append(f'	"github.com/google/wire"\n')
+        f_list.append(f')\n\n')
+        f_list.append(f'// {self.Name}Repo {self.zh_name}Repo\n')
+        f_list.append(f'type {self.Name}Repo struct {{\n')
+        f_list.append(f'	db {Global.GODAPRDBPACKAGE}.IDaprMysqlClient\n')
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// I{self.Name}Repo {self.zh_name}Repo公开接口\n')
+        f_list.append(f'type I{self.Name}Repo interface {{\n')
+        f_list.append(f'	Create(form forms.{self.Name}CreateForm) error\n')
+        f_list.append(f'	Update(id int, form forms.{self.Name}UpdateForm) error\n')
+        f_list.append(f'	Get(id int) (*{self.Name}, error)\n')
+        f_list.append(f'	List(query forms.{self.Name}Query) (int, []{self.Name}, error)\n')
+        f_list.append(f'	Delete(ids []uint) error\n')
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// {self.Name}RepoProviderSet {self.zh_name}IRepo公开接口与Repo绑定关系\n')
+        f_list.append(f'var {self.Name}RepoProviderSet = wire.NewSet(New{self.Name}Repo, wire.Bind(new(I{self.Name}Repo), new(*{self.Name}Repo)))\n\n')
+        f_list.append(f'func New{self.Name}Repo(db {Global.GODAPRDBPACKAGE}.IDaprMysqlClient) *{self.Name}Repo {{\n')
+        f_list.append(f'	return &{self.Name}Repo{{\n')
+        f_list.append(f'		db: db,\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// {self.Name} {self.zh_name}结构\n')
+        f_list.append(f'type {self.Name} struct {{\n')
+        f_list.append(self.make_column_format("gin_api_model_struct_arg", 1))
+        f_list.append(f'}}\n\n')
+
+        f_list.append(f'// @title: Create\n')
+        f_list.append(f'// @description: 插入{self.zh_name}表一条数据\n')
+        f_list.append(f'// @author: rong {self.now_date}\n')
+        f_list.append(f'// @param: from froms.{self.Name}CreateForm {self.zh_name}创建表单\n')
+        f_list.append(f'// @return err error 错误或者无错误就是成功\n')
+        f_list.append(f'func (r *{self.Name}Repo) Create(form forms.{self.Name}CreateForm) error {{\n')
+        f_list.append(self.make_column_format("go_gin_dapr_repo_create_marshal", 1))
+        f_list.append(f'\n    // 将form内数据插入{self.Name}表中 \n')
+        f_list.append(f'	sqlStr := fmt.Sprintf("INSERT INTO `{self.names}` ({self.make_column_format("sql_create_col_name")[:-1]}) VALUES ({self.make_column_format("go_sql_create_format_percent")[:-1]})", {self.make_column_format("go_form_sql_create_format")[:-2]})\n')
+        f_list.append(f'	logger.Debug("sql string: ", sqlStr)\n')
+        f_list.append(f'	if _, err := r.db.Exec(sqlStr); err != nil {{\n')
+        f_list.append(f'		logger.Error(err)\n')
+        f_list.append(f'		return err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'	return nil\n}}\n\n')
+       
+        f_list.append(f'// @title: Update\n')
+        f_list.append(f'// @description: 修改{self.zh_name}表一条数据\n')
+        f_list.append(f'// @author: rong {self.now_date}\n')
+        f_list.append(f'// @param: id int {self.zh_name}ID\n')
+        f_list.append(f'//         from froms.{self.Name}UpdateForm {self.zh_name}修改表单\n')
+        f_list.append(f'// @return err error 错误或者无错误就是成功\n')
+        f_list.append(f'func (r *{self.Name}Repo) Update(id int, form forms.{self.Name}UpdateForm) error {{\n')
+        f_list.append(f'    // 声明build用来组合sql sting\n')
+        f_list.append(f'	var build strings.Builder\n')
+        f_list.append(f'	build.WriteString("UPDATE `{self.names}` SET ")\n\n')
+        f_list.append(f'    // 声明sqlvals用来添加要更新的key = value\n')
+        f_list.append(f'	var sqlvals []string\n\n')
+        f_list.append(self.make_column_format("go_gin_dapr_repo_create_marshal", 1))
+        f_list.append(self.make_column_format("go_gin_dapr_repo_update_sql", 1))
+        f_list.append(f'\n    // 判断是否有需要修改的数据，如果没有，返回更新参数错误\n')
+        f_list.append(f'    if len(sqlvals) == 0 {{\n')
+        f_list.append(f'    	return errors.New(ErrorNoUpdateArgs)\n	}}\n')
+        f_list.append(f'\n    // 将sqlvals用逗号合并，然后build合成sql对数据库进更新\n')
+        f_list.append(f'    build.WriteString(strings.Join(sqlvals, ","))\n')
+        f_list.append(f'    build.WriteString(fmt.Sprintf(" WHERE `id` =  %d", id))\n')
+        f_list.append(f'    logger.Debug("sql string: ", build.String())\n')
+        f_list.append(f'	if _, err := r.db.Exec(build.String()); err != nil {{\n')
+        f_list.append(f'		logger.Error(err)\n')
+        f_list.append(f'		return err\n	}}\n')
+        f_list.append(f'	return nil\n}}\n\n')
+
+        f_list.append(f'// @title: Get\n')
+        f_list.append(f'// @description: 获取{self.zh_name}表一条数据\n')
+        f_list.append(f'// @author: rong {self.now_date}\n')
+        f_list.append(f'// @param: id int 要查询的{self.zh_name}Id\n')
+        f_list.append(f'// @return *{self.Name} {self.zh_name}详情结构体\n')
+        f_list.append(f'//         err error 错误或者无错误就是成功\n')
+        f_list.append(f'func (r *{self.Name}Repo) Get(id int) (*{self.Name}, error) {{\n')
+        f_list.append(f'    // 声明resp用来存查询获得的数据\n')
+        f_list.append(f'	var resp []{self.Name}\n')
+        f_list.append(f'\n    // 使用{self.zh_name}{self.index.Name}查询数据\n')
+        f_list.append(f'	sqlStr := fmt.Sprintf("SELECT * FROM `{self.names}` WHERE id = %d", id)\n')
+        f_list.append(f'    out, err := r.db.Query(sqlStr)\n')
+        f_list.append(f'    if err != nil {{\n    	return nil, err\n	}}\n')
+        f_list.append(f'\n    // 解析查询返回的数据\n')
+        f_list.append(f'    err = json.Unmarshal(out.Data, &resp)\n')
+        f_list.append(f'    if err != nil {{\n')
+        f_list.append(f'    	return nil, err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 如果返回的数据少于1条，说明没有找到，返回没找到错误\n')
+        f_list.append(f'    if len(resp) < 1 {{\n')
+        f_list.append(f'    	return nil, errors.New(ErrorNotFound)\n')
+        f_list.append(f'	}}\n')
+        f_list.append(self.make_column_format("go_gin_dapr_repo_get_unmarshal", 1))
+        f_list.append(f'    return &resp[0], nil\n}}\n\n')
+
+        f_list.append(f'// @title: List\n')
+        f_list.append(f'// @description: 获取{self.zh_name}列表\n')
+        f_list.append(f'// @author: rong {self.now_date}\n')
+        f_list.append(f'// @param: query forms.{self.Name}Query 请求{self.zh_name}分页表单\n')
+        f_list.append(f'// @return int 列表数据总条数\n')
+        f_list.append(f'//          []{self.Name} {self.zh_name}详细信息切片\n')
+        f_list.append(f'//          err error 错误或者无错误就是成功\n')
+        f_list.append(f'func (r *{self.Name}Repo) List(query forms.{self.Name}Query) (count int, {self.names} []{self.Name}, err error) {{\n')
+        f_list.append(f'    // 声明resp用来存查询获得的数据\n')
+        f_list.append(f'	var resp []{self.Name}\n')
+        f_list.append(f'	where := ""\n')
+        f_list.append(self.make_column_format("go_gin_dapr_repo_list_sql_like", 1))
+        f_list.append(f'\n    // 查询总数据条数并解析出值count\n')
+        f_list.append(f'	countSql := fmt.Sprintf("SELECT count(id) AS count FROM {self.names}%s", where)\n')
+        f_list.append(f'	out, err := r.db.Query(countSql)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		logger.Error(err)\n')
+        f_list.append(f'		return 0, nil, err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'	count, err = UnmarshalCount(out.Data)\n')
+        f_list.append(f'	if count <= 0 {{\n')
+        f_list.append(f'		return 0, {self.names}, nil\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 判断要获取的数据起始序号，如果它大于总数据条数，说明没有符合的数据分段，直接返回空切片\n')
+        f_list.append(f'	offset := (query.Current - 1) * query.PerPage\n')
+        f_list.append(f'	if offset >= count {{\n')
+        f_list.append(f'	    return count, {self.names}, nil\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 查询分页数据并解析到{self.Name}切片当中\n')
+        f_list.append(f'	sqlstr := fmt.Sprintf("SELECT * FROM `{self.names}` %s LIMIT %d, %d", where, offset, query.PerPage)\n')
+        f_list.append(f'	out, err = r.db.Query(sqlstr)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		return 0, nil, err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'	err = json.Unmarshal(out.Data, &resp)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		return 0, nil, err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'\n    // 循环{self.Name}切片resp，将json字段解析为json数据更新到新的{self.Name}切片{self.names}当中，并返回该新切片\n')
+        f_list.append(f'	for _, {self.name} := range resp {{\n')
+        f_list.append(self.make_column_format("go_gin_dapr_repo_list_sql_unmarshal_json", 1))
+        f_list.append(f'	}}\n\n')
+        f_list.append(f'	return count, {self.names}, nil\n')
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// @title: Delete\n')
+        f_list.append(f'// @description: 批量删除{self.zh_name}\n')
+        f_list.append(f'// @author: rong {self.now_date}\n')
+        f_list.append(f'// @param: ids []uint {self.zh_name}ID切片\n')
+        f_list.append(f'// @return err error 错误或者无错误就是成功\n')
+        f_list.append(f'func (r *{self.Name}Repo) Delete(ids []uint) error {{\n')
+        f_list.append(f'    // 将数字切片ids []uint转化为[]string,里面的数字都变为string类型\n')
+        f_list.append(f'	idsStrList := ArrayUint2Str(ids)\n')
+        f_list.append(f'\n    // 用逗号合并id切片为一条字符串偏于sql中执行\n')
+        f_list.append(f'	idsStr := strings.Join(idsStrList, ",")\n')
+        f_list.append(f'\n    // sql执行删除操作,删掉包含在id列表里面的行\n')
+        f_list.append(f'	sqlstr := fmt.Sprintf("DELETE FROM `{self.names}` WHERE `id` IN (%s)", idsStr)\n')
+        f_list.append(f'	_, err := r.db.Exec(sqlstr)\n')
+        f_list.append(f'	if err != nil {{\n')
+        f_list.append(f'		return err\n')
+        f_list.append(f'	}}\n')
+        f_list.append(f'	return nil\n')
+        f_list.append(f'}}\n\n')
 
 
+        return {file_path:f_list}
 
+    def make_gin_dapr_internal_forms(self, project_dir):
+        file_path =  os.path.join(project_dir,f"internal/forms/{self.name}.go")
+        f_list = []
+
+        f_list.append(f'// @Title  {self.name}.go\n')
+        f_list.append(f'// @Description  {self.zh_name}表单\n')
+        f_list.append(f'// @Autor: rong	{self.now_date}\n')
+        f_list.append(f'// @Update:\n')
+        f_list.append(f'package forms\n\n')
+        f_list.append(f'// {self.Name}CreateForm {self.zh_name}创建表单\n')
+        f_list.append(f'type {self.Name}CreateForm struct {{\n')
+        f_list.append(self.make_column_format("gin_api_create_valid", 1))
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// {self.Name}UpdateForm {self.zh_name}修改表单\n')
+        f_list.append(f'type {self.Name}UpdateForm struct {{\n')
+        f_list.append(self.make_column_format("gin_api_update_valid", 1))
+        f_list.append(f'}}\n\n')
+        f_list.append(f'// {self.Name}Query 请求{self.zh_name}分页表单\n')
+        f_list.append(f'type {self.Name}Query struct {{\n')
+        f_list.append(self.make_column_format("gin_api_query_list_valid", 1))
+        f_list.append(f'	PerPage int `form:"per_page"`\n')
+        f_list.append(f'	Current int `form:"current"`\n')
+        f_list.append(f'}}\n\n')
+
+        return {file_path:f_list}

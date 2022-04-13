@@ -1,18 +1,21 @@
 import os
 """写入flask-admin"""
-def write_admin(root,ojson):
+
+
+def write_admin(root, ojson):
     appname = ojson.get('app')
 
-    initdir = os.path.join(root,f'{appname}/src/app/admin/__init__.py')
-    w = open(initdir,'w+')
+    initdir = os.path.join(root, f'{appname}/src/app/admin/__init__.py')
+    w = open(initdir, 'w+')
     w.write(admininit)
     for table in ojson.get('databases'):
-        w.write(f"admin.add_view(ModelView({table.get('table')}, db.session))\n")
+        w.write(
+            f"admin.add_view(ModelView({table.get('table')}, db.session))\n")
 
     w.close()
 
-    initdir = os.path.join(root,f'{appname}/src/app/admin/views.py')
-    w = open(initdir,'w+')
+    initdir = os.path.join(root, f'{appname}/src/app/admin/views.py')
+    w = open(initdir, 'w+')
     w.write(views)
     w.close()
 

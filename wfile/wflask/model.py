@@ -1,6 +1,6 @@
 import os
 from tools import Tdb
-from tools import make_tree,name_convert
+from tools import name_convert
 
 
 def write_models(root, ojson):

@@ -135,6 +135,5 @@ class Son(object):
         self.name = name_convert(name)
         self.names = self.name + "s"
 
-    # def make_mean(self,tabs):
 
 

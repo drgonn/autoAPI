@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import getopt
+import json
 
 from source_json import pay, app, stock, bridge, oee, order
 from source_json import user as user1
@@ -25,15 +26,39 @@ from wclass.wclass import Project
 
 
 # ojson = order.temp_json
+"""将要生成的代码模块化，可以选择生成代码模块"""
 module_dir = {
-    'flask': w_flask,
+    # 'flask': w_flask,
     'doc': w_docs,
     'postman': write_postman,
     'yapi': write_yapi,
-    # 'ant': w_front,  编写前端的接口，暂时注释
+    # 'ant': w_front,  #编写前端的接口，暂时注释
 
 }
 default_modules = ['flask', 'go', 'postman', 'doc', 'ant', 'yapi']
+
+pjson = pay.project_json  # 执行支付系统
+appjson = app.project_json  # 执行应用
+bri = bridge.project_json
+stock = stock.project_json
+oee = oee.project_json
+user1 = user1.project_json
+order = order.project_json
+
+source_dir = {
+    "bridge": bri,
+    "stock": stock,
+    "oee": oee,
+    "user": user1,
+    "order": order,
+    "pay": pjson,
+}
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+print(basedir)
+f = re.match("/mnt/c/Users/(\w*)/", basedir)
+# user = f.group(1)
+# run(bri,path=f"/mnt/c/Users/{user}/Documents/mynut")
 
 
 def run(ojson, path=False, modules=default_modules):
@@ -45,67 +70,41 @@ def run(ojson, path=False, modules=default_modules):
     """
     if not path:
         root = os.path.abspath(os.path.dirname(__file__))
+        new_root = os.path.join(root, 'projects')
         root = os.path.join(root, 'work')
-        new_root = os.path.join(root, 'new_work')
     else:
         root = path
-    # root = "/mnt/c/Users/dron/OneDrive/work/"
-    # res = dict_to_object(ojson)
-    # print(res.database[0].table)
     app = ojson.get('app')
     blues = ojson.get('blues')
 
-    make_tree(root, app, blues)  # 建立文件夹
+    # make_tree(root, app, blues)  # 建立文件夹
 
-    write_model_doc_plant(root, ojson)
+    # write_model_doc_plant(root, ojson)
 
-    write_test(root, ojson)
-    write_xmind(root, ojson)
+    # write_test(root, ojson)
+    # write_xmind(root, ojson)
 
-    godir = os.path.join(root, f'{app}/go/src')
-    make_gomodels(godir, ojson)
-    write_goapi_init(root, ojson)
-    write_goapis(root, ojson)
+    # godir = os.path.join(root, f'{app}/go/src')
+    # make_gomodels(godir, ojson)
+    # write_goapi_init(root, ojson)
+    # write_goapis(root, ojson)
 
-    for w in modules:
-        m = module_dir.get(w)
-        if m:
-            m(root, ojson)
+    # for w in modules:
+    #     m = module_dir.get(w)
+    #     if m:
+    #         m(root, ojson)
 
     # 全新class 写入方法,以后全在这里了
     make_tree(new_root, app, blues)  # 建立文件夹
     p = Project(new_root, ojson)
     p.run()
 
+# try:
+#     sql_start(ojson)
+# except:
+#     print("沒有安裝pysql，不自动创建数据库，想要创建数据库请填入正确数据库信息并安装pysql")
 
-try:
-    sql_start(ojson)
-except:
-    print("沒有安裝pysql，不自动创建数据库，想要创建数据库请填入正确数据库信息并安装pysql")
 
-
-pjson = pay.project_json  # 执行支付系统
-appjson = app.project_json  # 执行应用
-bri = bridge.project_json
-stock = stock.project_json
-oee = oee.project_json
-user1 = user1.project_json
-order = order.project_json
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-print(basedir)
-f = re.match("/mnt/c/Users/(\w*)/", basedir)
-# user = f.group(1)
-# run(bri,path=f"/mnt/c/Users/{user}/Documents/mynut")
-
-source_dir = {
-    "bridge": bri,
-    "stock": stock,
-    "oee": oee,
-    "user": user1,
-    "order": order,
-    "pay": pjson,
-}
 
 
 def main(argv):
@@ -120,7 +119,7 @@ def main(argv):
         print('   or: test_arg.py --source=<source> --module=<module>')
         sys.exit(2)
 
-    # 处理 返回值options是以元组为元素的列表。
+    # 获取外部参数
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             print('test_arg.py -s <source> -m <module>')
@@ -143,11 +142,14 @@ def main(argv):
         pass
     else:
         source_json = source_dir.get(source)
-        # print(source_dir.get(""))
+        if not source_json:
+            with open(f"source_json/{source}.json", encoding='utf-8') as ff:
+                source_json = json.load(ff)
+
         if source_json is None:
             print('Error: source json 不存在')
         else:
-            run(source_dir.get(source), path, args)
+            run(source_json, path, args)
 
 
 if __name__ == "__main__":

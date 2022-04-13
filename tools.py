@@ -3,7 +3,7 @@ import re
 
 
 class Tdb():
-    def __init__(self,t):
+    def __init__(self, t):
         if t == "int":
             self.db = "Integer"
             self.empty = 0
@@ -50,8 +50,9 @@ class Tdb():
             self.protable_valuetype = t
             self.ts_interface = t
 
+
 class Tdbgo():
-    def __init__(self,t):
+    def __init__(self, t):
         if t == "int":
             self.db = "int"
         elif t == "float":
@@ -69,8 +70,9 @@ class Tdbgo():
         else:
             self.db = None
 
+
 class Tdbjson():
-    def __init__(self,t):
+    def __init__(self, t):
         if t == "int":
             self.db = "int"
         elif t == "float":
@@ -88,10 +90,11 @@ class Tdbjson():
         else:
             self.db = None
 
+
 def mkdir(path):
-    path=path.strip()
-    path=path.rstrip("\\")
-    isExists=os.path.exists(path)
+    path = path.strip()
+    path = path.rstrip("\\")
+    isExists = os.path.exists(path)
     if not isExists:
         os.makedirs(path)
         return True
@@ -99,37 +102,46 @@ def mkdir(path):
         return False
 
 
-
-
-
-
-def make_tree(root,app,blues):             #建立所有文件夹
-    path = os.path.join(root,app)
+def make_tree(root, app, blues):
+    """创建所有文件夹，创建目录"""
+    path = os.path.join(root, app)
     mkdir(path)
-    mkdir(os.path.join(path,'doc'))
-    mkdir(os.path.join(path,'test'))
-    mkdir(os.path.join(path,'test/postman_json'))
-    mkdir(os.path.join(path,'test/yapi'))
-    mkdir(os.path.join(path,'src'))
-    mkdir(os.path.join(path,'src/app'))
-    mkdir(os.path.join(path,'src/models'))
-    mkdir(os.path.join(path,'src/statics'))
-    mkdir(os.path.join(path,'src/app/admin'))
-    mkdir(os.path.join(path,'src/app/tools'))
-    mkdir(os.path.join(path,'src/app'))
-    mkdir(os.path.join(path,'go'))
-    mkdir(os.path.join(path,'go/src'))
-    mkdir(os.path.join(path,'go/bin'))
-    mkdir(os.path.join(path,'go/pkg'))
-    os.makedirs(os.path.join(path,'src/app/tasks'), exist_ok=True)
-    app_path = os.path.join(path,'src/app')
+    mkdir(os.path.join(path, 'doc'))
+    mkdir(os.path.join(path, 'test'))
+    mkdir(os.path.join(path, 'test/postman_json'))
+    mkdir(os.path.join(path, 'test/yapi'))
+    mkdir(os.path.join(path, 'flask/src'))
+    mkdir(os.path.join(path, 'flask/src/app'))
+    mkdir(os.path.join(path, 'flask/src/models'))
+    mkdir(os.path.join(path, 'flask/src/statics'))
+    mkdir(os.path.join(path, 'flask/src/app/apiv1'))
+    mkdir(os.path.join(path, 'flask/src/app/admin'))
+    mkdir(os.path.join(path, 'flask/src/app/tools'))
+    mkdir(os.path.join(path, 'flask/src/app'))
+
+    mkdir(os.path.join(path, 'go_gin/internal/routers/api/v1'))
+    mkdir(os.path.join(path, 'go_gin/internal/service'))
+    mkdir(os.path.join(path, 'go_gin/internal/dao'))
+    mkdir(os.path.join(path, 'go_gin/internal/model'))
+    mkdir(os.path.join(path, 'go_gin/src'))
+    mkdir(os.path.join(path, 'go_gin/bin'))
+    mkdir(os.path.join(path, 'go_gin/pkg'))
+
+    # 写入go-dapr模式的文件
+    mkdir(os.path.join(path, 'go_dapr/internal/database/migrations'))
+    mkdir(os.path.join(path, 'go_dapr/internal/http'))
+    mkdir(os.path.join(path, 'go_dapr/internal/http/controllers'))
+    mkdir(os.path.join(path, 'go_dapr/internal/repo'))
+    mkdir(os.path.join(path, 'go_dapr/internal/forms'))
+
+    os.makedirs(os.path.join(path, 'src/app/tasks'), exist_ok=True)
+    app_path = os.path.join(path, 'src/app')
 
     for b in blues:
-        mkdir(os.path.join(app_path,b.get('name')))
+        mkdir(os.path.join(app_path, b.get('name')))
 
 
-
-def replace_file(file,source,target):
+def replace_file(file, source, target):
     f = open(file, 'r')
     alllines = f.readlines()
     f.close()
@@ -150,7 +162,5 @@ def name_convert(name: str) -> str:
     if is_camel_name:  # 驼峰转下划线
         name = re.sub('(.)([A-Z]+)', r'\1_\2', name).lower()
     else:  # 下划线转驼峰
-        name = name.title().replace("_","")
+        name = name.title().replace("_", "")
     return name
-
-

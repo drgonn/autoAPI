@@ -1,0 +1,66 @@
+{
+    "app": "nec-api",
+    "dataname": "nec-api",
+    "datapassword": "781117",
+    "host": "http://frp.sealan.tech:20222",
+    "testhost": "frp.sealan.tech",
+    "testport": "20221",
+    "testprotocol": "http",
+    "blues": [
+    ],
+    "configs": [
+    ],
+    "packages": [
+    ],
+    "databases": [
+        {"api": 1, "table": "Resource", "zh": "资源", "url_prefix": "", "about": "",
+        "parents": [],
+        "many":[],
+        "args": [
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "id",         "type": "uint",  "length": "", "not_null": true,    "mean": "主键ID"},
+            {"post": 2, "put": 0, "list": 2, "sorter": 1, "name": "name",       "type": "string",  "length": "256", "default": null,  "mean": "名称", "unique": "global"},
+            {"post": 1, "put": 1, "list": 0, "sorter": 0, "name": "description",   "type": "text", "length": "", "default": null,    "mean": "描述"},
+            {"post": 1, "put": 1, "list": 0, "sorter": 0, "name": "action",     "type": "json", "length": "", "default": null,    "mean": "对应的权限"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "updatedat", "type": "datetime", "length": "", "default": "updated_at",   "mean": "更新时间"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "createdat", "type": "datetime", "length": "", "default": "created_at",   "mean": "创建时间"}
+        ],
+        "repr": "id"
+        },  
+        {"api": 1, "table": "Role", "zh": "角色", "url_prefix": "", "about": "", "parents": [], "many":[],
+        "args": [
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "id",         "type": "uint",  "length": "", "not_null": true,    "mean": "主键ID"},
+            {"post": 2, "put": 1, "list": 2, "sorter": 1, "name": "name",       "type": "string",  "length": "256", "default": null,  "mean": "名称", "unique": "global"},
+            {"post": 1, "put": 1, "list": 0, "sorter": 0, "name": "description",   "type": "text", "length": "", "default": null,    "mean": "描述"},
+            {"post": 1, "put": 1, "list": 0, "sorter": 0, "name": "permission",     "type": "json", "length": "", "default": null,    "mean": "权限"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "updatedat", "type": "datetime", "length": "", "default": "updated_at",   "mean": "更新时间"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "createdat", "type": "datetime", "length": "", "default": "created_at",   "mean": "创建时间"}
+        ],
+        "repr": "id"
+        },
+        {"api": 1, "table": "User", "zh": "用户", "url_prefix": "", "about": "", "parents": [], "many":[],
+        "args": [
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "id",         "type": "uint",  "length": "", "default": null,    "mean": "主键ID"},
+            {"post": 1, "put": 0, "list": 0, "sorter": 0, "name": "uid",       "type": "string",  "length": "256", "default": null, "mean": "UID", "unique": "global", "index": 1},
+            {"post": 1, "put": 1, "list": 0, "sorter": 0, "name": "permission",     "type": "json", "length": "", "default": null,    "mean": "权限"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "updatedat", "type": "datetime", "length": "", "default": "updated_at",   "mean": "更新时间"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "createdat", "type": "datetime", "length": "", "default": "created_at",   "mean": "创建时间"}
+        ],
+        "repr": "id"
+        }
+    ],   
+    "routes": [
+        {
+            "path": "args",  
+            "name": "演示接口",
+            "icon": "",  
+            "components": [
+            ]
+        },
+        {
+            "path": "abc", 
+            "name": "全部演示接口",
+            "icon": "",  
+            "components": "all"
+        }
+    ]
+}
