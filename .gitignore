@@ -11,6 +11,7 @@ src/app/static/
 bridge/
 go/
 work/
+projects/
 doc/
 test/
 node_modules/
