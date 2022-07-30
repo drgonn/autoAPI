@@ -5,7 +5,7 @@ import json
 
 from allobject.project import Project
 from allobject.api import ResetApiInterface
-from allobject.arg import Arg, data_arg, status_out_args, list_arg, page_query_args, page_return_args
+from allobject.arg import ApiArg, data_arg, status_out_args, list_arg, page_query_args, page_return_args
 from allobject.data_type import DataType
 from allobject.column import Column
 
@@ -48,7 +48,7 @@ def json2project(appName, projects_dir):
         delete_arg = []             # 提交参数
         delete_args = []            # 提交参数
         
-        table_index_name=table_json.get("index")
+        table_index_name=table_json.get("index") or "id"
         
         # 将表内的所有参数生成对象
         for arg_json in table_json.get("args"):
@@ -69,36 +69,33 @@ def json2project(appName, projects_dir):
             #     arg_json.get("default")
             # )
             get_args.append(
-                Arg(
+                ApiArg(
                     zh_name=arg_json.get("zh"),
                     name=arg_json.get('name'),
                     type=arg_json.get('type'),
                     about= arg_json.get('about'),
-                    unique=arg_json.get('unique'),
                     default=arg_json.get("default"),
                     required=True
                 )
             )
             if arg_json.get("post"):
                 create_input_args.append(
-                    Arg(
+                    ApiArg(
                         zh_name=arg_json.get("zh"),
                         name=arg_json.get('name'),
                         type=arg_json.get('type'),
                         about= arg_json.get('about'),
-                        unique=arg_json.get('unique'),
                         default=arg_json.get("default"),
                         required=True if arg_json.get("post") == 2 else False
                     )
                 )
             if arg_json.get("put"):
                 update_input_args.append(
-                    Arg(
+                    ApiArg(
                         zh_name=arg_json.get("zh"),
                         name=arg_json.get('name'),
                         type=arg_json.get('type'),
                         about= arg_json.get('about'),
-                        unique=arg_json.get('unique'),
                         default=arg_json.get("default"),
                         required=True if arg_json.get("put") == 2 else False
                     )
@@ -106,28 +103,26 @@ def json2project(appName, projects_dir):
 
             if arg_json.get("list"):
                 list_input_args.append(
-                    Arg(
+                    ApiArg(
                         zh_name=arg_json.get("zh"),
                         name=arg_json.get('name'),
                         type=arg_json.get('type'),
                         about= arg_json.get('about'),
-                        unique=arg_json.get('unique'),
                         default=arg_json.get("default"),
                         required=False
                     )
                 )
             if arg_json.get("name") == table_index_name:
-                index_arg = Arg(
+                index_arg = ApiArg(
                         zh_name=arg_json.get("zh"),
                         name=arg_json.get('name'),
                         type=arg_json.get('type'),
                         about= arg_json.get('about'),
-                        unique=arg_json.get('unique'),
                         default=arg_json.get("default"),
                         required=True
                     )
         if index_arg == None:
-            print("表缺少索引")     
+            os.abort("eror 表缺少索引")
 
         curds = table_json.get("curds") or ["c", "u", "r", "d", "rs", "ds"]
         for curd in curds:

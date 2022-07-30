@@ -6,7 +6,7 @@ import re
 
 from allobject.project import Project
 from allobject.api import ResetApiInterface
-from allobject.arg import Arg, data_arg, status_out_args, list_arg, page_query_args, page_return_args
+from allobject.arg import ApiArg, data_arg, status_out_args, list_arg, page_query_args, page_return_args
 from allobject.data_type import DataType
 from allobject.column import Column
 from allobject.table import MysqlTable

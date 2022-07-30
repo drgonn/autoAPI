@@ -66,7 +66,7 @@ def to_md(p):
                 ["参数", "含义", "类型", "必须", "说明"],
             ]
             for arg in api.path_args:
-                table_list.append([arg.name, arg.zh_name, arg.type.db, arg.zh_required, arg.about])
+                table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
             make_table(md, table_list)
 
 
@@ -76,7 +76,7 @@ def to_md(p):
                 ["参数", "含义", "类型", "必须", "说明"],
             ]
             for arg in api.input_args:
-                table_list.append([arg.name, arg.zh_name, arg.type.db, arg.zh_required, arg.about])
+                table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
             make_table(md, table_list)
 
 
@@ -85,7 +85,7 @@ def to_md(p):
             ["参数", "含义", "类型", "必须", "说明"],
         ]
         for arg in api.out_args:
-            table_list.append([arg.name, arg.zh_name, arg.type.db, arg.zh_required, arg.about])
+            table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
         make_table(md, table_list)
 
 

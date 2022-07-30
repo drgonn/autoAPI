@@ -1,0 +1,237 @@
+{
+    "app": "hikv",
+    "dataname": "nauth",
+    "zh": "摄像头模块",
+    "datapassword": "668899",
+    "host": "http://frp.sealan.tech:20222",
+    "testhost": "frp.sealan.tech",
+    "testport": "20221",
+    "testprotocol": "http",
+    "blues": [
+    ],
+    "configs": [
+    ],
+    "blue_path":"/api/hikv",
+    "databases": [
+        {"api": 1, "name": "app", "zh": "应用", "path_prefix": "", "about": "", "index": "aid", "curds":["c","u","r","d","rs"],
+        "parents": [],
+        "many":[],
+        "args": [
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "id",         "type": "uint",  "length": "", "not_null": true,    "zh": "主键ID"},
+            {"post": 2, "put": 1, "list": 2, "sorter": 1, "name": "name",       "type": "string",  "length": "256", "default": null, "not_null": true, "zh": "名称", "unique": "global"},
+            {"post": 0, "put": 0, "list": 1, "sorter": 1, "name": "aid",       "type": "string", "length": "256", "default": null,"not_null": true,  "zh": "唯一索引id", "unique": "global"},
+            {"post": 2, "put": 1, "list": 0, "sorter": 0, "name": "describe",    "type": "string", "length": "256", "default": null,"not_null": true,    "zh": "描述"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "updated_at", "type": "datetime", "length": "", "default": "updatedat",   "zh": "更新时间"},
+            {"post": 0, "put": 0, "list": 0, "sorter": 1, "name": "created_at", "type": "datetime", "length": "", "default": "createdat",   "zh": "创建时间"}
+        ]
+        },
+        {
+      "name": "hikv",
+      "zh": "摄像头",
+      "index": "serial","curds":["c","u","r","d","rs"],
+      "args": [
+        {
+          "name": "id",
+          "type": "int",
+          "zh": "主键ID",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "zh": "名称",
+          "post": 2,
+          "put": 1,
+          "list": 0
+        },
+        {
+          "name": "describe",
+          "type": "string",
+          "zh": "描述",
+          "post": 1,
+          "put": 1,
+          "list": 0
+        },
+        {
+          "name": "serial",
+          "type": "string",
+          "zh": "摄像头序列号，就是摄像头生产出来的号码",
+          "post": 2,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "app_key",
+          "type": "string",
+          "zh": "摄像头所属账号的appKey",
+          "post": 2,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "app_secret",
+          "type": "string",
+          "zh": "摄像头所属账号的appSecret",
+          "post": 2,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "validate_code",
+          "type": "string",
+          "zh": "摄像头绑定验证码",
+          "post": 2,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "zh": "更新时间",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "zh": "创建时间",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        }
+      ]
+    },
+        {
+      "name": "captime",
+      "zh": "定时任务表", "curds":["c","u","r","d","rs"],
+      "args": [
+        {
+          "name": "id",
+          "type": "int(10) unsigned",
+          "zh": "主键ID",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "describe",
+          "type": "varchar(255)",
+          "zh": "描述",
+          "post": 1,
+          "put": 1,
+          "list": 0
+        },
+        {
+          "name": "serial",
+          "type": "varchar(255)",
+          "zh": "摄像头序列号",
+          "post": 2,
+          "put": 1,
+          "list": 1
+        },
+        {
+          "name": "cap_at",
+          "type": "varchar(255)",
+          "zh": "定时拍照时间",
+          "post": 2,
+          "put": 1,
+          "list": 0
+        },
+        {
+          "name": "type",
+          "type": "int(11)",
+          "zh": "任务类型",
+          "about": "1=固定时间抓拍，2=按时间间隔抓拍。改类型不用提交修改，自动根据cap_at参数是否有冒号判断类型",
+          "post": 0,
+          "put": 0,
+          "list": 1
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "zh": "创建时间",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "zh": "更新时间",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        }
+      ]
+    },
+      {
+      "name": "capimg",
+      "zh": "抓拍图片表", "curds":["d","rs"],
+      "args": [
+        {
+          "name": "id",
+          "type": "int(10) unsigned",
+          "zh": "主键ID",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "url",
+          "type": "varchar(255)",
+          "zh": "图片地址",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "serial",
+          "type": "varchar(255)",
+          "zh": "摄像头序列号",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "zh": "创建时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "zh": "更新时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        }
+      ]
+    }     
+    ],
+    "routes": [
+        {
+            "path": "args",  
+            "name": "演示接口",
+            "icon": "",
+            "components": [
+            ]
+        },
+        {
+            "path": "abc", 
+            "name": "全部演示接口",
+            "icon": "",  
+            "components": "all"
+        }
+    ]
+}

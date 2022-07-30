@@ -16,6 +16,7 @@ def to_json_file(p):
             "name": col.name,
             "type": col.type.name,
             "zh": col.zh_name,
+            "about": col.about,
             "post": 0,
             "put": 0,
             "list": 0,

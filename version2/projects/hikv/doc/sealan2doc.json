@@ -1,0 +1,124 @@
+{
+  "databases": [
+    {
+      "name": "captime",
+      "zh": "定时任务表",
+      "args": [
+        {
+          "name": "id",
+          "type": "int(10) unsigned",
+          "zh": "主键ID",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "describe",
+          "type": "varchar(255)",
+          "zh": "描述",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "serial",
+          "type": "varchar(255)",
+          "zh": "摄像头序列号",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "cap_at",
+          "type": "varchar(255)",
+          "zh": "定时拍照时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "type",
+          "type": "int(11)",
+          "zh": "任务类型",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "zh": "创建时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "zh": "更新时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        }
+      ]
+    },
+    {
+      "name": "capimg",
+      "zh": "抓拍图片表",
+      "args": [
+        {
+          "name": "id",
+          "type": "int(10) unsigned",
+          "zh": "主键ID",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "url",
+          "type": "varchar(255)",
+          "zh": "图片地址",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "serial",
+          "type": "varchar(255)",
+          "zh": "摄像头序列号",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "zh": "创建时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        },
+        {
+          "name": "updated_at",
+          "type": "datetime",
+          "zh": "更新时间",
+          "about": "",
+          "post": 0,
+          "put": 0,
+          "list": 0
+        }
+      ]
+    }
+  ]
+}
