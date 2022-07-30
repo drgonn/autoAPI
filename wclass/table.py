@@ -1,20 +1,22 @@
-import os
-from wclass.parent import Parent, Many, Son
-from tools import name_convert
-from wclass.column import Column
+import datetime
 import json
+import os
 import random
 import re
-import datetime
 import time
+
+from tools import name_convert
+
+from wclass.column import Column
 from wclass.global_args import Global
+from wclass.parent import Many, Parent, Son
 
 tab = Global.TAB
 
 
 # 单表
 class Table(object):
-    def __init__(self, table_class, api_need, table_zh, table_about, url_prefix, repr, arg_json, parent_json, many_json, sons_json):
+    def __init__(self, table_class, api_need, table_zh, table_about, url_prefix, index, repr, arg_json, parent_json, many_json, sons_json):
         self.Name = table_class
         self.api_need = api_need
         self.zh_name = table_zh
@@ -28,7 +30,7 @@ class Table(object):
         self.many = []
         self.parents = []
         self.sons = []
-        self.index = None
+        self.index_name = index or "id"  #表的索引名，表的该列作为索引参数，同时接口查询时候会以该参数作为url中的id
 
         now = datetime.datetime.now() - datetime.timedelta(days=1)
         self.now = time.strftime('%Y/%m/%d %H:%M:%S',time.localtime(time.time()))
@@ -44,7 +46,7 @@ class Table(object):
                 a.get('list'),
                 a.get('about'),
                 a.get('sorter'),
-                a.get('mean'),
+                a.get('zh'),
                 a.get('unique'),
                 a.get('mapping'),
                 a.get('index'),
@@ -67,7 +69,7 @@ class Table(object):
                 parnet.get("post"),
                 parnet.get("put"),
                 parnet.get("list"),
-                parnet.get("mean"),
+                parnet.get("zh"),
                 parnet.get("show"),
             )
             p.table_Name = self.Name
@@ -79,7 +81,7 @@ class Table(object):
                 many.get("name"),
                 many.get("w_model"),
                 many.get("add_api"),
-                many.get("mean"),
+                many.get("zh"),
                 many.get("prefix"),
             )
             m.table_Name = self.Name
@@ -205,7 +207,7 @@ class Table(object):
         #         must = "，非必填"
         #         if parent.post ==2:
         #             must = "，必填"
-                # commit_post_list.insert(2, f"{tab*2}{parent.name}_{parent.index} (int, {parent.commit_need_str}): {parent.mean}{must}\n")
+                # commit_post_list.insert(2, f"{tab*2}{parent.name}_{parent.index} (int, {parent.commit_need_str}): {parent.zh}{must}\n")
 
         api_post_list.append(f"\n{tab}{self.name} = {self.Name}(\n")
         api_post_list.append(self.make_column_format("flask_api_post_equal", 2))
@@ -624,7 +626,7 @@ class Table(object):
                         if column.post:
                             pjson["properties"][column.name] = {
                                 "type":column.yapi_format,
-                                "description":f"{self.zh_name}{column.mean}{column.map_mean}",
+                                "description":f"{self.zh_name}{column.zh}{column.map_mean}",
                                 "mock":{"mock":str(column.random_arg())}}
                             if column.post == 2:
                                 pjson["required"].append(column.name)
@@ -632,14 +634,14 @@ class Table(object):
 
                     for parent in self.parents:
                         if parent.post and parent.Name != 'User':
-                            pjson["properties"][parent.name+"_id"] = {"type":"integer","description":parent.mean,
+                            pjson["properties"][parent.name+"_id"] = {"type":"integer","description":parent.zh,
                                 "mock":{"mock":str(random.randint(0, 9))}}
                 elif typezh == "单个获取":
                     pjson["properties"]['current'] = {"type":"integer","description":"访问页"}
                     pjson["properties"]['pageSize'] = {"type":"integer","description":"单页条数"}
                     for column in self.columns:
                         if column.post:
-                            getjson["properties"]['record']["properties"][column.name]= {"type": column.yapi_format, "description": self.zh_name+column.mean + column.map_mean}
+                            getjson["properties"]['record']["properties"][column.name]= {"type": column.yapi_format, "description": self.zh_name+column.zh + column.map_mean}
                             getjson["properties"]['record']["required"].append(column.name)
                     # getjson["properties"]['record']["required"].append("token")
                     return_str = json.dumps(getjson)
@@ -652,10 +654,10 @@ class Table(object):
                     # pjson["properties"]['token'] = {"type":"string","description":"token"}
                     for column in self.columns:
                         if column.post:
-                            listjson["properties"]['data']['items']["properties"][column.name] = {"type": column.yapi_format,"description": self.zh_name + column.mean + column.map_mean}
+                            listjson["properties"]['data']['items']["properties"][column.name] = {"type": column.yapi_format,"description": self.zh_name + column.zh + column.map_mean}
                             listjson["properties"]['data']['items']["required"].append(column.name)
                         if column.list:
-                            req_query_list.append({"required":"0","name":column.name,"desc":column.mean + column.map_mean + (column.about or '')})
+                            req_query_list.append({"required":"0","name":column.name,"desc":column.zh + column.map_mean + (column.about or '')})
                     for m in self.many:
                         req_query_list.append({"required":"0","name":f"{m.prefix}{m.name}_id"})
                         
@@ -670,19 +672,19 @@ class Table(object):
                         if column.put:
                             pjson["properties"][column.name] = {
                                 "type": column.yapi_format, 
-                                "description": column.mean+ column.map_mean,
+                                "description": column.zh+ column.map_mean,
                                 "mock":{"mock":str(column.random_arg())}}
                                 
                     for parent in self.parents:
                         if parent.put and parent.Name != 'User':
                             pjson["properties"][parent.name+"_id"] = {
                                 "type": "integer", 
-                                "description": parent.mean,
+                                "description": parent.zh,
                                 "mock":{"mock":str(random.randint(0, 9))}}
                     for m in self.many:
                         pjson["properties"][m.name + "_ids"] = {
                             "type": "array", 
-                            "description": f"要更新的{m.mean}主键ID数组",
+                            "description": f"要更新的{m.zh}主键ID数组",
                             "mock":{"mock":str(random.randint(0, 9))}}
                 elif typezh == "删除":
                     return_str = json.dumps(return_json)
@@ -801,7 +803,7 @@ class Table(object):
         #         length = column.get('length')
         #         if self.name == "id":
         #             continue
-        #         class_commit_list.insert(-1, f"{tab*2}{self.name}: {self.mean}\n")
+        #         class_commit_list.insert(-1, f"{tab*2}{self.name}: {self.zh}\n")
         #         if column.get('args'):
         #             for arg in column.get('args'):
         #                 self.name = arg.get('self.name')

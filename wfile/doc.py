@@ -11,7 +11,7 @@ def out_detail(tableclass,ojson):
             outdir['id']=f'{zh}ID'
             for column in table.get('args'):
                 argname = column.get('name')
-                argmean = column.get('mean')
+                argmean = column.get('zh')
                 outdir[f"{argname}"]=f"{argmean}"
             if table.get('detail_sons') is not None:
                 for son in table.get('detail_sons'):
@@ -56,7 +56,7 @@ def write_docs(root,ojson):
         # d.write(outstr)
         for column in table.get('args'):
             argname = column.get('name')
-            argmean = column.get('mean')
+            argmean = column.get('zh')
             d.write(f"\t\t'{argname}':'{argmean}',\n")
         for parent in table.get('parents'):           # 显示父表中的值
             parentname = parent.get('name')
@@ -64,7 +64,7 @@ def write_docs(root,ojson):
             if show is not None:
                 for sho in show:
                     s_name = sho['name']
-                    d.write(f"\t\t'{parentname.lower()}_{s_name}' : '{sho['mean']}',\n")
+                    d.write(f"\t\t'{parentname.lower()}_{s_name}' : '{sho['zh']}',\n")
 
         if table.get('detail_sons') is not None:
             for son in table.get('detail_sons'):
@@ -82,7 +82,7 @@ def write_docs(root,ojson):
         for column in table.get('args'):
             if column.get('post'):
                 argname = column.get('name')
-                argmean = column.get('mean')
+                argmean = column.get('zh')
                 if column.get('mapping'):
                     argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
@@ -90,7 +90,7 @@ def write_docs(root,ojson):
                 d.write(f"|{argname}|{argtype}|{postmust}|{argmean}|\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            pmean = parent.get('mean')
+            pmean = parent.get('zh')
             ptype = parent.get('type')
             postmust = '是' if parent.get('post') == 2 else '否'
             parenttablename = parentname.lower()
@@ -118,14 +118,14 @@ def write_docs(root,ojson):
         for column in table.get('args'):
             if column.get('putneed'):
                 argname = column.get('name')
-                argmean = column.get('mean')
+                argmean = column.get('zh')
                 if column.get('mapping'):
                     argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
                 d.write(f"|{argname}|{argtype}|否|{argmean}|\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            pmean = parent.get('mean')
+            pmean = parent.get('zh')
             ptype = parent.get('type')
             parenttablename = parentname.lower()
             argname = f"{parenttablename}_{parent.get('index')}"
@@ -168,7 +168,7 @@ def write_docs(root,ojson):
                 if column.get('type') in ['float']:
                     continue
                 argname = column.get('name')
-                argmean = column.get('mean')
+                argmean = column.get('zh')
                 if column.get('mapping'):
                     argmean += ": "+','.join([f"{cor['key']}:{cor['value']}" for cor in column.get('mapping')])
                 argtype = column.get('type')
@@ -179,7 +179,7 @@ def write_docs(root,ojson):
                    d.write(f"|{argname}|{argtype}|{alistmust}|{argmean}|\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            pmean = parent.get('mean')
+            pmean = parent.get('zh')
             ptype = parent.get('type')
             plistmust = '是' if parent.get('listmust') else '否'
             parenttablename = parentname.lower()
@@ -194,7 +194,7 @@ def write_docs(root,ojson):
         d.write(f"\t\t\t'id':'{zh}ID',\n")
         for column in table.get('args'):
             argname = column.get('name')
-            argmean = column.get('mean')
+            argmean = column.get('zh')
             d.write(f"\t\t\t'{argname}':'{argmean}',\n")
         d.write("\t\t},\n\t\t...\n\t]\n\t}\n}\n```\n")
 

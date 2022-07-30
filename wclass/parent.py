@@ -7,13 +7,13 @@ from tools import  name_convert
 
 
 class Parent(object):
-    def __init__(self, name, index, post, put, list,  mean, show):
+    def __init__(self, name, index, post, put, list,  zh, show):
         self.Name = name
         self.index = index
         self.post = post
         self.put = put
         self.list = list
-        self.mean = mean
+        self.zh = zh
         self.show = show
 
         self.name = name_convert(name)
@@ -27,13 +27,13 @@ class Parent(object):
         s = ""
         if fm == "list_commit":
             if self.list:
-                s = f"{t*tab_num}{self.name}_id (int optional): {self.mean}主键ID\n"
+                s = f"{t*tab_num}{self.name}_id (int optional): {self.zh}主键ID\n"
         elif fm == "return_commit":
-            s = f"{t*tab_num}{self.name} ({self.type} optional): {self.mean}\n"        
+            s = f"{t*tab_num}{self.name} ({self.type} optional): {self.zh}\n"        
         elif fm == "post_commit":
             if self.post:
                 commit_need_str = "require" if self.post == 2 else "optional"
-                s = f"{t*tab_num}{self.name}_id (int, {commit_need_str}): {self.mean}主键ID\n"
+                s = f"{t*tab_num}{self.name}_id (int, {commit_need_str}): {self.zh}主键ID\n"
         elif fm == "commit_table":
             s += f"{t*tab_num}{self.name}_id: 父表{self.names}的ID\n"
             s += f"{t*tab_num}{self.name}: 父表{self.names}对象\n"
@@ -67,11 +67,11 @@ class Parent(object):
 
 
 class Many(object):
-    def __init__(self, name,  w_model, add_api,  mean, prefix):
+    def __init__(self, name,  w_model, add_api,  zh, prefix):
         self.Name = name
         self.w_model = w_model
         self.add_api = add_api
-        self.mean = mean
+        self.zh = zh
         self.prefix = prefix
 
         self.name = name_convert(name)

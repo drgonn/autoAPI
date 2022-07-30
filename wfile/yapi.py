@@ -121,7 +121,7 @@ def write_yapi(root, ojson):
                     for column in table.get('args'):
                         if column.get('post'):
                             argname = column.get('name')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             argtype = column.get('type')
                             ytype = Tdb(argtype).db.lower()
                             pjson["properties"][argname] = {"type":ytype,"description":f"{zh}{argmean}"}
@@ -133,7 +133,7 @@ def write_yapi(root, ojson):
                         if column.get('post') and column.get('name') != 'User':
                             argname = column.get('name').lower() + "_id"
                             argtype = column.get('type')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             pjson["properties"][argname] = {"type":"integer","description":argmean}
 
                 elif typezh == "单个获取":
@@ -142,7 +142,7 @@ def write_yapi(root, ojson):
                     for column in table.get('args'):
                         if column.get('post'):
                             argname = column.get('name')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             argtype = column.get('type')
                             ytype = Tdb(argtype).db.lower()
                             getjson["properties"]['record']["properties"][argname]= {"type": ytype, "description": zh+argmean}
@@ -159,7 +159,7 @@ def write_yapi(root, ojson):
                     for column in table.get('args'):
                         if column.get('post'):
                             argname = column.get('name')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             argtype = column.get('type')
                             ytype = Tdb(argtype).db.lower()
                             listjson["properties"]['data']['items']["properties"][argname] = {"type": ytype,"description": zh + argmean}
@@ -177,7 +177,7 @@ def write_yapi(root, ojson):
                     for column in table.get('args'):
                         if column.get('post'):
                             argname = column.get('name')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             argtype = column.get('type')
                             ytype = Tdb(argtype).db.lower()
                             pjson["properties"][argname] = {"type": ytype, "description": argmean}
@@ -185,7 +185,7 @@ def write_yapi(root, ojson):
                         if column.get('post') and column.get('name') != 'User':
                             argname = column.get('name').lower() + "_id"
                             argtype = column.get('type')
-                            argmean = column.get('mean')
+                            argmean = column.get('zh')
                             pjson["properties"][argname] = {"type": "integer", "description": argmean}
 
                 elif typezh == "删除":

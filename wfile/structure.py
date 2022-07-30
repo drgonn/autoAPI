@@ -43,7 +43,7 @@ def write_model_doc_plant(root,ojson):
         w.write(f"Class {tableclass} {{\n")
         w.write(f"\t--{zh}--\n")
         for arg in table.get('args'):
-            w.write(f"\t{arg.get('name')}-{arg.get('type')}-{arg.get('mean')}\n")
+            w.write(f"\t{arg.get('name')}-{arg.get('type')}-{arg.get('zh')}\n")
 
         w.write(f"}}\n")
         # if table.get("many"):

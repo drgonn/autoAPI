@@ -12,16 +12,16 @@ from wclass.global_args import Global
 
 
 class Column(object):
-    def __init__(self, name, type, length, post, put, list, about, sorter, mean, unique, mapping_json, index, sql_not_null, default):
+    def __init__(self, name, type, length, post, put, list, about, sorter, zh, unique, mapping_json, index, sql_not_null, default):
         self.name = name
         self.type = type
         self.length = length
         self.post = post    # 0不用提交，1，可选提交，2必须提交
         self.put = put      # 0不用提交，1，可选提交，2必须提交
         self.list = list    # 0不用提交，1，严格等于查找，2模糊查找
-        self.about = about
+        self.about = about or ""
         self.sorter = sorter
-        self.mean = mean 
+        self.zh = zh 
         self.index = index      # 用来做唯一辨识符的标签，为true时候，get和delete请求不再使用id，而使用它
         self.unique = unique    # 用来判断该值在哪个范围内唯一，global则是全局唯一
         self.not_null = sql_not_null
@@ -217,19 +217,19 @@ class Column(object):
             if self.list:
                 pipei = ",支持精确匹配" if self.list == 1 else "，支持模糊匹配"
                 sorter = ",支持排序" if self.sorter else ""
-                s = f"{t*tab_num}{self.name} ({self.type} optional): {self.mean}{pipei}{sorter}{self.map_mean}\n"
+                s = f"{t*tab_num}{self.name} ({self.type} optional): {self.zh}{pipei}{sorter}{self.map_mean}\n"
         elif fm == "post_commit":
             if self.post:
                 commit_need_str = "require" if self.post == 2 else "optional"
-                s = f"{t*tab_num}{self.name} ({self.type}, {commit_need_str}): {self.mean}{self.map_mean}\n"
+                s = f"{t*tab_num}{self.name} ({self.type}, {commit_need_str}): {self.zh}{self.map_mean}\n"
         elif fm == "put_commit":
             if self.put:
                 commit_need_str = "require" if self.put == 2 else "optional"
-                s = f"{t*tab_num}{self.name} ({self.type}, {commit_need_str}): {self.mean}{self.map_mean}\n"
+                s = f"{t*tab_num}{self.name} ({self.type}, {commit_need_str}): {self.zh}{self.map_mean}\n"
         elif fm == "return_commit":
-            s = f"{t*tab_num}{self.name} ({self.type} optional): {self.mean}{self.map_mean}\n"
+            s = f"{t*tab_num}{self.name} ({self.type} optional): {self.zh}{self.map_mean}\n"
         elif fm == "commit_table":
-            s = f"{t*tab_num}{self.name}: {self.mean}\n"
+            s = f"{t*tab_num}{self.name}: {self.zh}\n"
         elif fm == "flask_api_post_request":
             if self.post:
                 s = f"{t*tab_num}{self.name} = request.json.get('{self.name}')\n"
@@ -374,7 +374,7 @@ class Column(object):
             if self.default == "updated_at":
                 default = " DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
 
-            s = f'{tab*tab_num}`{self.name}` {self.sql_type}{length}{self.sql_null}{auto_increment}{default} COMMENT \'{self.mean}\',\n'
+            s = f'{tab*tab_num}`{self.name}` {self.sql_type}{length}{self.sql_null}{auto_increment}{default} COMMENT \'{self.zh}\',\n'
         elif fm == "go_gin_dapr_mysql_sql_create_bind":
             s = "" 
             if self.name == "id":

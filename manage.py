@@ -4,8 +4,6 @@ import sys
 import getopt
 import json
 
-from source_json import pay, app, stock, bridge, oee, order
-from source_json import user as user1
 from tools import make_tree
 
 from wfile.goapi import write_goapis, write_goapi_init
@@ -19,8 +17,6 @@ from wtest import write_test
 from wfile.doc import write_docs as w_docs
 from wfile.sql import sql_start
 
-from wfront import w_front
-from wfile.wflask import w_flask
 
 from wclass.wclass import Project
 
@@ -37,22 +33,7 @@ module_dir = {
 }
 default_modules = ['flask', 'go', 'postman', 'doc', 'ant', 'yapi']
 
-pjson = pay.project_json  # 执行支付系统
-appjson = app.project_json  # 执行应用
-bri = bridge.project_json
-stock = stock.project_json
-oee = oee.project_json
-user1 = user1.project_json
-order = order.project_json
 
-source_dir = {
-    "bridge": bri,
-    "stock": stock,
-    "oee": oee,
-    "user": user1,
-    "order": order,
-    "pay": pjson,
-}
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print(basedir)
@@ -77,27 +58,10 @@ def run(ojson, path=False, modules=default_modules):
     app = ojson.get('app')
     blues = ojson.get('blues')
 
-    # make_tree(root, app, blues)  # 建立文件夹
-
-    # write_model_doc_plant(root, ojson)
-
-    # write_test(root, ojson)
-    # write_xmind(root, ojson)
-
-    # godir = os.path.join(root, f'{app}/go/src')
-    # make_gomodels(godir, ojson)
-    # write_goapi_init(root, ojson)
-    # write_goapis(root, ojson)
-
-    # for w in modules:
-    #     m = module_dir.get(w)
-    #     if m:
-    #         m(root, ojson)
-
-    # 全新class 写入方法,以后全在这里了
+    print("xxxxxxxxxxx")
     make_tree(new_root, app, blues)  # 建立文件夹
-    p = Project(new_root, ojson)
-    p.run()
+
+
 
 # try:
 #     sql_start(ojson)
@@ -108,48 +72,54 @@ def run(ojson, path=False, modules=default_modules):
 
 
 def main(argv):
-    source = ""
+    """提取arg参数"""
+    project = ""
     module = ""
     target_dir = ""
+    data_type = "json"
     try:
         opts, args = getopt.getopt(
-            argv, "hs:m:d:", ["help", "source=", "module=", "target_dir="])
+            argv, "hp:m:d:t:", ["help", "project=", "module=", "target_dir=", "data_type="])
     except getopt.GetoptError:
-        print('Error: test_arg.py -s <source> -m <module>')
-        print('   or: test_arg.py --source=<source> --module=<module>')
+        print('Error: test_arg.py -p <project> -m <module>')
+        print('   or: test_arg.py --project=<project> --module=<module>')
         sys.exit(2)
 
     # 获取外部参数
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('test_arg.py -s <source> -m <module>')
-            print('or: test_arg.py --source=<source> --module=<module>')
+            print('test_arg.py -p <project> -m <module>')
+            print('or: test_arg.py --project=<project> --module=<module>')
             sys.exit()
-        elif opt in ("-s", "--source"):
-            source = arg
+        elif opt in ("-p", "--project"):
+            project = arg
         elif opt in ("-m", "--module"):
             module = arg
         elif opt in ("-d", "--target_dir"):
-            print("opt", opts)
             target_dir = arg
-    print('source为：', source)
-    print('module为：', args)
+        elif opt in ("-t", "--data_type"):
+            data_type = arg
+    print('project为：', project)
+    print('module为：', module)
     print('target_dir为：', target_dir)
+    print('源数据转化类型为：', data_type)
 
-    path = False if target_dir == '' else target_dir
-    args = args or default_modules
-    if source == "all":
-        pass
-    else:
-        source_json = source_dir.get(source)
-        if not source_json:
-            with open(f"source_json/{source}.json", encoding='utf-8') as ff:
-                source_json = json.load(ff)
 
-        if source_json is None:
-            print('Error: source json 不存在')
-        else:
-            run(source_json, path, args)
+    root = os.path.join(os.path.abspath(os.path.dirname(__file__)), "projects")
+    make_tree(root, project)  # 建立文件夹
+    # project为app名nauth，data_type为数据转换类型
+    p = Project(project, data_type)
+    p.run()
+
+    # path = False if target_dir == '' else target_dir
+    # args = args or default_modules
+    # with open(f"project_json/{project}.json", encoding='utf-8') as ff:
+    #     project_json = json.load(ff)
+
+    # if project_json is None:
+    #     print('Error: project json 不存在')
+    # else:
+    #     run(project_json, path, args)
 
 
 if __name__ == "__main__":

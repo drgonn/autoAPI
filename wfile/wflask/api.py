@@ -90,7 +90,7 @@ from sqlalchemy import func
         for column in table.get('args'):
             if column.get('post') or column.get("file"):
                 argname = column.get('name')
-                argmean = column.get('mean')
+                argmean = column.get('zh')
                 api_post_list.append(f"{tab}{argname} = request.json.get('{argname}')\n")
                 commit_post_list.insert(2, f"{tab*2}{argname}: {argmean}\n")
             if column.get('postmust'):
@@ -98,7 +98,7 @@ from sqlalchemy import func
                 api_post_list.append(f"{tab}{tab}return jsonify({{'success': False, 'error_code': -123, 'errmsg': '缺少必填参数：{argname}'}})\n")
         for parent in table.get('parents'):
             parentname = parent.get('name')
-            parentmean = parent.get('mean')
+            parentmean = parent.get('zh')
             parenttablename = parentname.lower()
             if parent.get('name') == 'User':
                 api_post_list.append(f"{tab}{parenttablename} = g.current_user\n ")

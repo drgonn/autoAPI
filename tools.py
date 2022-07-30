@@ -102,8 +102,8 @@ def mkdir(path):
         return False
 
 
-def make_tree(root, app, blues):
-    """创建所有文件夹，创建目录"""
+def make_tree(root, app, blues=[]):
+    print("""创建所有文件夹，创建目录""")
     path = os.path.join(root, app)
     mkdir(path)
     mkdir(os.path.join(path, 'doc'))
@@ -128,7 +128,9 @@ def make_tree(root, app, blues):
     mkdir(os.path.join(path, 'go_gin/pkg'))
 
     # 写入go-dapr模式的文件
+    mkdir(os.path.join(path, 'go_dapr/internal/database'))
     mkdir(os.path.join(path, 'go_dapr/internal/database/migrations'))
+    print("migrate", os.path.join(path, 'go_dapr/internal/database/migrations'))
     mkdir(os.path.join(path, 'go_dapr/internal/http'))
     mkdir(os.path.join(path, 'go_dapr/internal/http/controllers'))
     mkdir(os.path.join(path, 'go_dapr/internal/repo'))

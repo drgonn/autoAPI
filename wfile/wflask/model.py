@@ -72,15 +72,15 @@ def write_models(root, ojson):
         try:
             for column in table.get('args'):
                 name = column.get('name')
-                mean = column.get('mean')
+                zh = column.get('zh')
                 tp = column.get('type')
                 dbtype = Tdb(tp).db
                 length = column.get('length')
                 if name == "id":
                     continue
                 class_list.append(f"{tab}{name} = db.Column(db.{dbtype}")
-                class_commit_list.insert(-1, f"{tab*2}{name}: {mean}\n")
-                class_tojson_commit_list.insert(-1,f'{tab*3}{name}: {mean}\n')
+                class_commit_list.insert(-1, f"{tab*2}{name}: {zh}\n")
+                class_tojson_commit_list.insert(-1,f'{tab*3}{name}: {zh}\n')
                 if length is not None and length != '' and tp == 'str':
                     class_list.append(f"({length})")
                 if column.get('args'):
