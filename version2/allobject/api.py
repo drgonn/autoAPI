@@ -18,6 +18,7 @@ class ResetApiInterface(object):
         self.input_args = []
         self.out_args = []
 
+    
         if curd == "c":
             self.zh_name = f"创建{self.zh_table_name}"
             self.METHOD = "POST"

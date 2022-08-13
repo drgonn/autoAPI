@@ -220,18 +220,5 @@
     }     
     ],
     "routes": [
-        {
-            "path": "args",  
-            "name": "演示接口",
-            "icon": "",
-            "components": [
-            ]
-        },
-        {
-            "path": "abc", 
-            "name": "全部演示接口",
-            "icon": "",  
-            "components": "all"
-        }
     ]
 }

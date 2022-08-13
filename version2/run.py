@@ -1,6 +1,7 @@
 import os
 import sys
 import getopt
+from .generatep.apimd2p import apimdload
 
 from generatep.json2p import json2project
 from generatep.mysqlmd2p import mysql_md2project_tables
@@ -19,12 +20,18 @@ def work(project, root_dir):
 
 def md_work(project, root_dir):
     """"处理工作"""
-    # 将doc文件生成总对象p
+    # 将mysql.md文件生成总对象p
     p = mysql_md2project_tables(project, root_dir)
+    # 将sealan_doc.md的文件内容补充到对象p当中
+    # 未完成...
+    # p = apimdload(p)
+
     p.reload()
 
+    # 将p对象生成文件sealan2doc.json
     to_json_file(p)
 
+    # 生成go_dapr项目的相关文件
     write_go_dapr(p)
 
 
@@ -33,7 +40,7 @@ def md_work(project, root_dir):
 def main(argv):
     """提取arg参数,将命令参数传递给处理函数"""
     project = ""
-    module = ""
+    module = "json"
     target_dir = ""
     data_type = "json"
     try:
@@ -69,13 +76,21 @@ def main(argv):
     print('项目目录位置是：', root_dir)
     print('\n')
 
-    # 床底命令参数给具体工作
-    if module == "md":          # 从md文件生成对象
+    # 传递命令参数给具体工作
+    if module == "mysql":          # 从md文件生成对象
         md_work(project, root_dir)
     # elif module == "mysqlmd2sql":          # 使用mysql.md文件生成sql的文件
     #     md_work(project, root_dir)
-    else:
+    elif module == "json":
         work(project, root_dir)
+
+    else:
+        print("没有传递正确的mode，请传递如下参数：")
+        print("-m json  生成顺序：app.json -> project -> sealan_doc.md")
+        print("-m mysql 生成顺序：mysql.md -> project -> sealan2doc.json")
+        print("-m sealan_doc 生成顺序：sealan_doc.md -> project -> sealan2doc.json")
+        # print("               api.md -> project -> sealan2doc.json")
+        print("")
 
 
     # make_tree(root, project)  # 建立文件夹

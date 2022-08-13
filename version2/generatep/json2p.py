@@ -52,22 +52,6 @@ def json2project(appName, projects_dir):
         
         # 将表内的所有参数生成对象
         for arg_json in table_json.get("args"):
-            # column_class = Column(
-            #     arg_json.get('name'),
-            #     arg_json.get('type'),
-            #     arg_json.get('length'),
-            #     arg_json.get('post'),
-            #     arg_json.get('put'),
-            #     arg_json.get('list'),
-            #     arg_json.get('about'),
-            #     arg_json.get('sorter'),
-            #     arg_json.get('zh'),
-            #     arg_json.get('unique'),
-            #     arg_json.get('mapping'),
-            #     arg_json.get('index'),
-            #     arg_json.get('not_null'),
-            #     arg_json.get("default")
-            # )
             get_args.append(
                 ApiArg(
                     zh_name=arg_json.get("zh"),

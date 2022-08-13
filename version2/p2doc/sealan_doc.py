@@ -1,13 +1,36 @@
-"""生成思连的文档 markdown格式"""
+"""使用p对象生成思连的文档 markdown格式"""
 import os
+from xml.dom.minidom import Element
+
+
+def align_table(table):
+    """将二维table中的数据调到一样长度，好让数据生成表格时候一样长"""
+    maxMap = {}
+    for r in table:
+        for i, element in enumerate(r):
+            if not maxMap.get(i):
+                maxMap[i] = len(element)
+            elif len(element) > maxMap[i]:
+                maxMap[i] = len(element)
+
+    for r in table:
+        for i, element in enumerate(r):
+            spaces = maxMap[i] - len(element) 
+            if spaces > 0:
+                r[i] += " "*spaces
+
+
+
+
 
 
 def make_table(md, table_list):
     """
-    生成一张表格
+    生成一张表格,还必须是格式对齐的
     table_list: 表结构二维数组,如[[1,2],[3,4]]
     merge_case: 需要合并的单元格
     """
+    align_table(table_list)
     columns = len(table_list[0])
     md.write("| "+" | ".join(table_list[0])+" |\n")
     md.write("|----"*columns + "----|\n")
@@ -63,29 +86,29 @@ def to_md(p):
         if api.path_args:
             md.write("**路径参数说明**\n\n")
             table_list = [
-                ["参数", "含义", "类型", "必须", "说明"],
+                ["参数", "类型", "必须", "含义", "说明"],
             ]
             for arg in api.path_args:
-                table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
+                table_list.append([arg.name, arg.type.doc_type, arg.zh_required, arg.zh_name, arg.about])
             make_table(md, table_list)
 
 
         if api.input_args:
             md.write("**请求参数说明**\n\n")
             table_list = [
-                ["参数", "含义", "类型", "必须", "说明"],
+                ["参数", "类型", "必须", "含义", "说明"],
             ]
             for arg in api.input_args:
-                table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
+                table_list.append([arg.name, arg.type.doc_type, arg.zh_required, arg.zh_name, arg.about])
             make_table(md, table_list)
 
 
         md.write("**返回参数说明**\n\n")
         table_list = [
-            ["参数", "含义", "类型", "必须", "说明"],
+                ["参数", "类型", "必须", "含义", "说明"],
         ]
         for arg in api.out_args:
-            table_list.append([arg.name, arg.zh_name, arg.type.doc_type, arg.zh_required, arg.about])
+            table_list.append([arg.name, arg.type.doc_type, arg.zh_required, arg.zh_name, arg.about])
         make_table(md, table_list)
 
 

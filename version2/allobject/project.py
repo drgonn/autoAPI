@@ -11,6 +11,8 @@ class Project(object):
 
         self.doc_dir = os.path.join(app_root_dir, "doc")
 
+        self.apis = []   # 对象的所有访问接口
+
 
 
     def reload(self):
